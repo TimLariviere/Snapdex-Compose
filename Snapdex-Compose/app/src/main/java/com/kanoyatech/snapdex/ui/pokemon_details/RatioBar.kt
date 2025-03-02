@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,6 +29,9 @@ import com.kanoyatech.snapdex.domain.Percentage
 import com.kanoyatech.snapdex.domain.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Poppins
+import com.kanoyatech.snapdex.theme.components.MaterialText
+import com.kanoyatech.snapdex.theme.snapdexDarkBlue
+import com.kanoyatech.snapdex.theme.snapdexLightRed
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 
@@ -46,7 +50,7 @@ fun RatioBar(
                     .height(8.dp)
                     .weight(ratio.toFloat())
                     .clip(RoundedCornerShape(topStart = 49.dp, bottomStart = 49.dp))
-                    .background(Color(0xFF2551C3))
+                    .background(snapdexDarkBlue)
             )
 
             Box(
@@ -54,7 +58,7 @@ fun RatioBar(
                     .height(8.dp)
                     .weight(1f - ratio.toFloat())
                     .clip(RoundedCornerShape(topEnd = 49.dp, bottomEnd = 49.dp))
-                    .background(Color(0xFFFF7596))
+                    .background(snapdexLightRed)
             )
         }
 
@@ -83,12 +87,9 @@ private fun Label(
                 .size(12.dp)
         )
 
-        Text(
+        MaterialText(
             text = value.formatted(),
-            fontFamily = Poppins,
-            fontWeight = FontWeight.Medium,
-            fontSize = 12.sp,
-            color = Color(0xFF444444)
+            style = MaterialTheme.typography.labelMedium
         )
     }
 }

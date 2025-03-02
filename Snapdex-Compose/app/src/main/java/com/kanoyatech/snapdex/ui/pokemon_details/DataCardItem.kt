@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,6 +27,8 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.Poppins
 import com.kanoyatech.snapdex.domain.kg
+import com.kanoyatech.snapdex.theme.components.MaterialText
+import com.kanoyatech.snapdex.theme.snapdexLightGray
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 @Composable
@@ -46,18 +49,16 @@ fun DataCardItem(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = Color(0xFF5B5B5B),
+                tint = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
                     .size(16.dp)
             )
 
-            Text(
+            MaterialText(
                 text = name.uppercase(),
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Medium,
+                style = MaterialTheme.typography.titleSmall,
                 fontSize = 12.sp,
-
-                color = Color(0xFF5B5B5B)
+                color = MaterialTheme.colorScheme.secondary
             )
         }
 
@@ -66,8 +67,8 @@ fun DataCardItem(
                 .fillMaxWidth()
                 .border(
                     width = 1.dp,
-                    color = Color(0xFFE1E1E1),
-                    shape = RoundedCornerShape(15)
+                    color = snapdexLightGray,
+                    shape = RoundedCornerShape(15.dp)
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -90,7 +91,9 @@ private fun DataCardItemPreview() {
         DataCardItem(
             icon = Icons.Weight,
             name = stringResource(id = R.string.weight),
-            value = 100.0.kg.formatted()
+            value = 100.0.kg.formatted(),
+            modifier = Modifier
+                .padding(10.dp)
         )
     }
 }

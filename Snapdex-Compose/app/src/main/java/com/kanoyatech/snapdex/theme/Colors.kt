@@ -6,9 +6,17 @@ import androidx.compose.ui.graphics.Color
 
 val snapdexDarkGray = Color(0xFF555555)
 val snapdexDarkGray2 = Color(0xFF2e2e2e)
-val snapdexBlack = Color(0xFF000000)
 val snapdexWhite = Color(0xFFFFFFFF)
 val snapdexGreen = Color(0xFF63BC5A)
+
+val snapdexLightGray = Color(0xFFE5E5E5)
+val snapdexGray = Color(0xFF4D4D4D)
+val snapdexGray2 = Color(0xFFF2F2F2)
+val snapdexGray3 = Color(0xFF666666)
+val snapdexBlack = Color(0xFF000000)
+val snapdexDarkBlue = Color(0xFF2551C3)
+val snapdexLightRed = Color(0xFFFF7596)
+val snapdexRed = Color(0xFFFD525C)
 
 data object TypeColor {
     val Normal = Color(0xFF919AA2)
@@ -32,7 +40,9 @@ data object TypeColor {
 }
 
 val LightColors = lightColorScheme(
-    primary = snapdexBlack,
+    primary = snapdexGray,
+    secondary = snapdexGray3,
+    onSurface = snapdexGray2,
     onSurfaceVariant = snapdexWhite
 )
 

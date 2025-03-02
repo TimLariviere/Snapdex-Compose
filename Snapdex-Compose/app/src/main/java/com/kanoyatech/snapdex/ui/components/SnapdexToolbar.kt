@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
+import com.kanoyatech.snapdex.theme.snapdexRed
 
 @Composable
 fun SnapdexToolbar(
@@ -55,7 +56,7 @@ fun SnapdexToolbar(
                     tint = if (!isFavorite) {
                         MaterialTheme.colorScheme.onSurfaceVariant
                     } else {
-                        Color(0xFFFD525C)
+                        snapdexRed
                     },
                     modifier = Modifier
                         .size(38.dp)

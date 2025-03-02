@@ -3,6 +3,7 @@
 package com.kanoyatech.snapdex.ui.pokemon_details
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -41,6 +42,8 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.Poppins
 import com.kanoyatech.snapdex.theme.components.GifImage
+import com.kanoyatech.snapdex.theme.components.MaterialHorizontalDivider
+import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.PokemonUi
 import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
@@ -79,7 +82,6 @@ private fun PokemonDetailsScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .systemBarsPadding()
             ) {
                 Header(
                     pokemonUi = pokemonUi,
@@ -91,12 +93,11 @@ private fun PokemonDetailsScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .padding(top = 24.dp, bottom = 24.dp)
                         .padding(horizontal = 16.dp, vertical = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     Details(pokemonUi = pokemonUi)
-                    HorizontalDivider(color = Color(0xFFF2F2F2))
+                    MaterialHorizontalDivider()
                     InfoCards(pokemonUi = pokemonUi)
                     Weaknesses(pokemonUi = pokemonUi)
                 }
@@ -116,19 +117,20 @@ private fun Header(
             imageId = pokemonUi.bigImage,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .size(width = 275.dp, height = 200.dp)
+                .fillMaxWidth()
+                .height(250.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text(
+        MaterialText(
             text = stringResource(id = pokemonUi.name),
-            style = MaterialTheme.typography.displayLarge
+            style = MaterialTheme.typography.headlineMedium
         )
-        Text(
+        MaterialText(
             text = stringResource(R.string.pokemon_number, pokemonUi.id),
-            style = MaterialTheme.typography.displayMedium,
-            color = Color(0xFF444444)
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }
@@ -150,12 +152,8 @@ fun Details(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text(
-            text = stringResource(id = pokemonUi.description),
-            fontFamily = Poppins,
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.sp,
-            color = Color(0xFF444444)
+        MaterialText(
+            text = stringResource(id = pokemonUi.description)
         )
     }
 }
@@ -210,14 +208,12 @@ private fun InfoCards(
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
+            MaterialText(
                 text = stringResource(id = R.string.gender).uppercase(),
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Medium,
-                fontSize = 12.sp,
-                color = Color(0xFF5B5B5B),
+                style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -239,11 +235,9 @@ private fun Weaknesses(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text(
+        MaterialText(
             text = stringResource(id = R.string.weaknesses),
-            fontFamily = Poppins,
-            fontWeight = FontWeight.Medium,
-            fontSize = 18.sp
+            style = MaterialTheme.typography.titleMedium
         )
 
         FlowRow(
@@ -259,6 +253,11 @@ private fun Weaknesses(
                     modifier = Modifier
                         .weight(1f)
                 )
+            }
+
+            // Add an empty box to avoid last type taking all the row
+            if (pokemonUi.weakness.count() % 2 == 1) {
+                Box(modifier = Modifier.weight(1f))
             }
         }
     }

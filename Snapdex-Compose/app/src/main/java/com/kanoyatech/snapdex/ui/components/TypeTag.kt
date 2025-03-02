@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,13 +19,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.domain.Type
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.Poppins
+import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
@@ -36,7 +33,7 @@ fun TypeTag(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(67))
+            .clip(RoundedCornerShape(67.dp))
             .background(elementUi.color)
             .padding(horizontal = 14.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -60,18 +57,16 @@ fun TypeTag(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Text(
+        MaterialText(
             text = stringResource(id = elementUi.name),
-            fontFamily = Poppins,
-            fontWeight = FontWeight.Medium,
-            fontSize = 14.sp
+            style = MaterialTheme.typography.labelLarge
         )
     }
 }
 
 @Preview
 @Composable
-private fun ElementViewPreview() {
+private fun TypeViewPreview() {
     AppTheme {
         TypeTag(
             elementUi = TypeUi.fromType(Type.FIRE)

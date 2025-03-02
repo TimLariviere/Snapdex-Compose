@@ -21,5 +21,5 @@ fun Length.formatted(): String {
 @Composable
 fun Percentage.formatted(): String {
     val locale = LocalConfiguration.current.getLocale()
-    return String.format(locale, "%.1f%%", this.toFloat())
+    return String.format(locale, "%.1f%%", this.toFloat() * 100.0)
 }
