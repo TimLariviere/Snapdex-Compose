@@ -141,39 +141,40 @@ private fun PokemonDetailsScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp)
                     .padding(paddingValues)
                     .systemBarsPadding()
             ) {
-                DetailView(pokemonUi = pokemonUi)
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                HorizontalDivider(
-                    color = Color(0xFFF2F2F2)
+                Header(
+                    pokemonUi = pokemonUi,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
-
-                InfoCards(pokemonUi = pokemonUi)
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Weaknesses(pokemonUi = pokemonUi)
-
-                Spacer(modifier = Modifier.height(24.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(top = 24.dp, bottom = 24.dp)
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(24.dp)
+                ) {
+                    Details(pokemonUi = pokemonUi)
+                    HorizontalDivider(color = Color(0xFFF2F2F2))
+                    InfoCards(pokemonUi = pokemonUi)
+                    Weaknesses(pokemonUi = pokemonUi)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun DetailView(
+private fun Header(
     pokemonUi: PokemonUi,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier
+        .fillMaxWidth()) {
         GifImage(
             imageId = pokemonUi.imageId,
             modifier = Modifier
@@ -192,9 +193,15 @@ private fun DetailView(
             style = MaterialTheme.typography.displayMedium,
             color = Color(0xFF444444)
         )
+    }
+}
 
-        Spacer(modifier = Modifier.height(24.dp))
-
+@Composable
+fun Details(
+    pokemonUi: PokemonUi,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -213,7 +220,6 @@ private fun DetailView(
             fontSize = 14.sp,
             color = Color(0xFF444444)
         )
-
     }
 }
 
