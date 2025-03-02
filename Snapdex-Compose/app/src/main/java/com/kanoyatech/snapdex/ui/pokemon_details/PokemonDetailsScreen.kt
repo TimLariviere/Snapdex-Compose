@@ -2,8 +2,6 @@
 
 package com.kanoyatech.snapdex.ui.pokemon_details
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -30,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,77 +36,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.Poppins
 import com.kanoyatech.snapdex.theme.components.GifImage
+import com.kanoyatech.snapdex.ui.PokemonUi
 import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
-import com.kanoyatech.snapdex.utils.Kg
-import com.kanoyatech.snapdex.utils.Meters
-import com.kanoyatech.snapdex.utils.Percentage
-import com.kanoyatech.snapdex.utils.kg
-import com.kanoyatech.snapdex.utils.meters
-import com.kanoyatech.snapdex.utils.percent
-
-data class PokemonUi(
-    val id: Int,
-    @StringRes val name: Int,
-    @StringRes val description: Int,
-    @DrawableRes val imageId: Int,
-    val elements: List<ElementUi>,
-    val weaknesses: List<ElementUi>,
-    val weight: Kg,
-    val height: Meters,
-    @StringRes val category: Int,
-    @StringRes val abilities: Int,
-    val maleToFemaleRatio: Percentage
-) {
-    companion object {
-        val Venusaur = PokemonUi(
-            id = 3,
-            name = R.string.pokemon_003_name,
-            description = R.string.pokemon_003_description,
-            imageId = R.drawable.pokemon_003,
-            elements = listOf(
-                ElementUi.Grass,
-                ElementUi.Poison
-            ),
-            weaknesses = listOf(
-                ElementUi.Fire,
-                ElementUi.Psychic,
-                ElementUi.Flying,
-                ElementUi.Ice
-            ),
-            weight = 100.0.kg,
-            height = 2.0.meters,
-            category = R.string.category_seed,
-            abilities = R.string.abilities_overgrow,
-            maleToFemaleRatio = 87.5.percent
-        )
-
-        val Charizard = PokemonUi(
-            id = 6,
-            name = R.string.pokemon_006_name,
-            description = R.string.pokemon_006_description,
-            imageId = R.drawable.pokemon_006,
-            elements = listOf(
-                ElementUi.Fire,
-                ElementUi.Flying
-            ),
-            weaknesses = listOf(
-                ElementUi.Water,
-                ElementUi.Electric,
-                ElementUi.Rock
-            ),
-            weight = 90.5.kg,
-            height = 1.7.meters,
-            category = R.string.category_flame,
-            abilities = R.string.abilities_blaze,
-            maleToFemaleRatio = 87.5.percent
-        )
-    }
-}
+import com.kanoyatech.snapdex.ui.components.TypeTag
 
 @Composable
 fun PokemonDetailsScreenRoot(
@@ -135,8 +72,8 @@ private fun PokemonDetailsScreen(
             )
         }
     ) { paddingValues ->
-        ElementBackground(
-            element = pokemonUi.elements.first()
+        TypeBackground(
+            type = pokemonUi.type.first()
         ) {
             Column(
                 modifier = Modifier
@@ -176,7 +113,7 @@ private fun Header(
     Column(modifier = modifier
         .fillMaxWidth()) {
         GifImage(
-            imageId = pokemonUi.imageId,
+            imageId = pokemonUi.bigImage,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .size(width = 275.dp, height = 200.dp)
@@ -206,8 +143,8 @@ fun Details(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            pokemonUi.elements.forEach { element ->
-                ElementTag(element)
+            pokemonUi.type.forEach { type ->
+                TypeTag(type)
             }
         }
 
@@ -316,8 +253,8 @@ private fun Weaknesses(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            pokemonUi.weaknesses.forEach { weakness ->
-                ElementTag(
+            pokemonUi.weakness.forEach { weakness ->
+                TypeTag(
                     elementUi = weakness,
                     modifier = Modifier
                         .weight(1f)
@@ -330,9 +267,10 @@ private fun Weaknesses(
 @Preview
 @Composable
 private fun PokemonDetailsScreenPreview() {
+    val context = LocalContext.current
      AppTheme {
         PokemonDetailsScreen(
-            pokemonUi = PokemonUi.Charizard
+            pokemonUi = PokemonUi.fromPokemon(context, Pokemon.Charizard)
         )
     }
 }

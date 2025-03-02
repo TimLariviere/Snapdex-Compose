@@ -10,7 +10,7 @@ val snapdexBlack = Color(0xFF000000)
 val snapdexWhite = Color(0xFFFFFFFF)
 val snapdexGreen = Color(0xFF63BC5A)
 
-data object ElementColor {
+data object TypeColor {
     val Normal = Color(0xFF919AA2)
     val Fire = Color(0xFFFF9D55)
     val Water = Color(0xFF5090D6)

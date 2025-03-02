@@ -1,7 +1,5 @@
 package com.kanoyatech.snapdex.ui.pokemon_details
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,112 +18,13 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.Type
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.ElementColor
-
-data class ElementUi(
-    @StringRes val name: Int,
-    val color: Color,
-    @DrawableRes val imageId: Int
-) {
-    companion object {
-        val Normal = ElementUi(
-            name = R.string.element_normal,
-            color = ElementColor.Normal,
-            imageId = R.drawable.normal
-        )
-        val Fire = ElementUi(
-            name = R.string.element_fire,
-            color = ElementColor.Fire,
-            imageId = R.drawable.fire
-        )
-        val Water = ElementUi(
-            name = R.string.element_water,
-            ElementColor.Water,
-            imageId = R.drawable.water
-        )
-        val Grass = ElementUi(
-            name = R.string.element_grass,
-            color = ElementColor.Grass,
-            imageId = R.drawable.grass
-        )
-        val Electric = ElementUi(
-            name = R.string.element_electric,
-            color = ElementColor.Electric,
-            imageId = R.drawable.electric
-        )
-        val Ice = ElementUi(
-            name = R.string.element_ice,
-            color = ElementColor.Ice,
-            imageId = R.drawable.ice
-        )
-        val Fighting = ElementUi(
-            name = R.string.element_fighting,
-            color = ElementColor.Fighting,
-            imageId = R.drawable.fighting
-        )
-        val Poison = ElementUi(
-            name = R.string.element_poison,
-            color = ElementColor.Poison,
-            imageId = R.drawable.poison
-        )
-        val Ground = ElementUi(
-            name = R.string.element_ground,
-            color = ElementColor.Ground,
-            imageId = R.drawable.ground
-        )
-        val Flying = ElementUi(
-            name = R.string.element_flying,
-            color = ElementColor.Flying,
-            imageId = R.drawable.flying
-        )
-        val Psychic = ElementUi(
-            name = R.string.element_psychic,
-            color = ElementColor.Psychic,
-            imageId = R.drawable.psychic
-        )
-        val Bug = ElementUi(
-            name = R.string.element_bug,
-            color = ElementColor.Bug,
-            imageId = R.drawable.bug
-        )
-        val Rock = ElementUi(
-            name = R.string.element_rock,
-            color = ElementColor.Rock,
-            imageId = R.drawable.rock
-        )
-        val Ghost = ElementUi(
-            name = R.string.element_ghost,
-            color = ElementColor.Ghost,
-            imageId = R.drawable.ghost
-        )
-        val Dragon = ElementUi(
-            name = R.string.element_dragon,
-            color = ElementColor.Dragon,
-            imageId = R.drawable.dragon
-        )
-        val Dark = ElementUi(
-            name = R.string.element_dark,
-            color = ElementColor.Dark,
-            imageId = R.drawable.dark
-        )
-        val Steel = ElementUi(
-            name = R.string.element_steel,
-            color = ElementColor.Steel,
-            imageId = R.drawable.steel
-        )
-        val Fairy = ElementUi(
-            name = R.string.element_fairy,
-            color = ElementColor.Fairy,
-            imageId = R.drawable.fairy
-        )
-    }
-}
+import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
-fun ElementBackground(
-    element: ElementUi,
+fun TypeBackground(
+    type: TypeUi,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
@@ -134,7 +33,7 @@ fun ElementBackground(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        val painter = painterResource(id = element.imageId)
+        val painter = painterResource(id = type.image)
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
@@ -145,8 +44,8 @@ fun ElementBackground(
             drawCircle(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        element.color,
-                        element.color.copy(alpha = 0.5f)
+                        type.color,
+                        type.color.copy(alpha = 0.5f)
                     ),
                     start = Offset.Zero,
                     end = Offset(x = radius * 1.2f, y = radius * 1.2f)
@@ -213,8 +112,8 @@ fun ElementBackground(
 @Composable
 private fun ElementBackgroundGrassPreview() {
     AppTheme {
-        ElementBackground(
-            element = ElementUi.Grass
+        TypeBackground(
+            type = TypeUi.fromType(Type.GRASS)
         ) {
 
         }
@@ -225,8 +124,8 @@ private fun ElementBackgroundGrassPreview() {
 @Composable
 private fun ElementBackgroundFirePreview() {
     AppTheme {
-        ElementBackground(
-            element = ElementUi.Fire
+        TypeBackground(
+            type = TypeUi.fromType(Type.FIRE)
         ) {
 
         }

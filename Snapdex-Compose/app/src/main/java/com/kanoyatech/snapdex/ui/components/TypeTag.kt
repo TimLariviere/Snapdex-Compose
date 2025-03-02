@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.ui.pokemon_details
+package com.kanoyatech.snapdex.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,12 +24,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kanoyatech.snapdex.domain.Type
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Poppins
+import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
-fun ElementTag(
-    elementUi: ElementUi,
+fun TypeTag(
+    elementUi: TypeUi,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -48,7 +50,7 @@ fun ElementTag(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = elementUi.imageId),
+                imageVector = ImageVector.vectorResource(id = elementUi.image),
                 contentDescription = null,
                 tint = elementUi.color,
                 modifier = Modifier
@@ -71,8 +73,8 @@ fun ElementTag(
 @Composable
 private fun ElementViewPreview() {
     AppTheme {
-        ElementTag(
-            elementUi = ElementUi.Fire
+        TypeTag(
+            elementUi = TypeUi.fromType(Type.FIRE)
         )
     }
 }

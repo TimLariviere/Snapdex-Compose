@@ -16,87 +16,87 @@ data object Icons {
 
     val Category: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.category)
+        get() = ImageVector.vectorResource(id = R.drawable.icon_category)
 
     val Height: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.height)
+        get() = ImageVector.vectorResource(id = R.drawable.icon_height)
 
     val Pokeball: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.pokeball)
+        get() = ImageVector.vectorResource(id = R.drawable.icon_pokeball)
 
     val Weight: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.weight)
+        get() = ImageVector.vectorResource(id = R.drawable.icon_weight)
 }
 
 data object ElementIcon {
     val Bug: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.bug)
+        get() = ImageVector.vectorResource(id = R.drawable.type_bug)
 
     val Dark: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.dark)
+        get() = ImageVector.vectorResource(id = R.drawable.type_dark)
 
     val Dragon: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.dragon)
+        get() = ImageVector.vectorResource(id = R.drawable.type_dragon)
 
     val Electric: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.electric)
+        get() = ImageVector.vectorResource(id = R.drawable.type_electric)
 
     val Fairy: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.fairy)
+        get() = ImageVector.vectorResource(id = R.drawable.type_fairy)
 
     val Fighting: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.fighting)
+        get() = ImageVector.vectorResource(id = R.drawable.type_fighting)
 
     val Fire: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.fire)
+        get() = ImageVector.vectorResource(id = R.drawable.type_fire)
 
     val Ghost: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.ghost)
+        get() = ImageVector.vectorResource(id = R.drawable.type_ghost)
 
     val Grass: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.grass)
+        get() = ImageVector.vectorResource(id = R.drawable.type_grass)
 
     val Ground: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.ground)
+        get() = ImageVector.vectorResource(id = R.drawable.type_ground)
 
     val Ice: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.ice)
+        get() = ImageVector.vectorResource(id = R.drawable.type_ice)
 
     val Normal: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.normal)
+        get() = ImageVector.vectorResource(id = R.drawable.type_normal)
 
     val Poison: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.poison)
+        get() = ImageVector.vectorResource(id = R.drawable.type_poison)
 
     val Psychic: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.psychic)
+        get() = ImageVector.vectorResource(id = R.drawable.type_psychic)
 
     val Rock: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.rock)
+        get() = ImageVector.vectorResource(id = R.drawable.type_rock)
 
     val Steel: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.steel)
+        get() = ImageVector.vectorResource(id = R.drawable.type_steel)
 
     val Water: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.water)
+        get() = ImageVector.vectorResource(id = R.drawable.type_water)
 }

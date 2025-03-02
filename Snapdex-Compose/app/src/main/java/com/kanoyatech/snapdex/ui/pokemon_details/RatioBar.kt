@@ -24,12 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.Percentage
+import com.kanoyatech.snapdex.domain.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Poppins
 import com.kanoyatech.snapdex.ui.utils.formatted
-import com.kanoyatech.snapdex.utils.Percentage
-import com.kanoyatech.snapdex.utils.percent
-import com.kanoyatech.snapdex.utils.toFloat
 
 
 @Composable
@@ -60,9 +59,9 @@ fun RatioBar(
         }
 
         Row {
-            Label(R.drawable.male, ratio)
+            Label(R.drawable.icon_male, ratio)
             Spacer(modifier = Modifier.weight(1f))
-            Label(R.drawable.female, 100.0.percent - ratio)
+            Label(R.drawable.icon_female, 100.0.percent - ratio)
         }
     }
 }

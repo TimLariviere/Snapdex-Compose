@@ -2,24 +2,24 @@ package com.kanoyatech.snapdex.ui.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
-import com.kanoyatech.snapdex.utils.Kg
-import com.kanoyatech.snapdex.utils.Meters
-import com.kanoyatech.snapdex.utils.Percentage
+import com.kanoyatech.snapdex.domain.Weight
+import com.kanoyatech.snapdex.domain.Length
+import com.kanoyatech.snapdex.domain.Percentage
 
 @Composable
-fun Kg.formatted(): String {
+fun Weight.formatted(): String {
     val locale = LocalConfiguration.current.getLocale()
-    return String.format(locale, "%.1f kg", this.value)
+    return String.format(locale, "%.1f kg", this.toKgDouble())
 }
 
 @Composable
-fun Meters.formatted(): String {
+fun Length.formatted(): String {
     val locale = LocalConfiguration.current.getLocale()
-    return String.format(locale, "%.1f m", this.value)
+    return String.format(locale, "%.1f m", this.toMeters())
 }
 
 @Composable
 fun Percentage.formatted(): String {
     val locale = LocalConfiguration.current.getLocale()
-    return String.format(locale, "%.1f%%", this.value)
+    return String.format(locale, "%.1f%%", this.toFloat())
 }
