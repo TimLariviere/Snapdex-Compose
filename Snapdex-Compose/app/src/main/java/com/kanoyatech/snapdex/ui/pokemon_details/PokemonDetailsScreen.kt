@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalLayoutApi::class)
+@file:OptIn(ExperimentalLayoutApi::class, ExperimentalLayoutApi::class)
 
 package com.kanoyatech.snapdex.ui.pokemon_details
 
@@ -13,14 +13,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,22 +24,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.Evolution
 import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.Poppins
 import com.kanoyatech.snapdex.theme.components.GifImage
 import com.kanoyatech.snapdex.theme.components.MaterialHorizontalDivider
 import com.kanoyatech.snapdex.theme.components.MaterialText
+import com.kanoyatech.snapdex.ui.EvolutionUi
 import com.kanoyatech.snapdex.ui.PokemonUi
 import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
@@ -63,6 +56,8 @@ private fun PokemonDetailsScreen(
     var isFavorite by remember {
         mutableStateOf(false)
     }
+
+    val evolutions = EvolutionUi.fromEvolution(Evolution.find(pokemonUi.id))
 
     Scaffold(
         topBar = {
@@ -98,8 +93,9 @@ private fun PokemonDetailsScreen(
                 ) {
                     Details(pokemonUi = pokemonUi)
                     MaterialHorizontalDivider()
-                    InfoCards(pokemonUi = pokemonUi)
+                    DataCards(pokemonUi = pokemonUi)
                     Weaknesses(pokemonUi = pokemonUi)
+                    EvolutionTree2(evolutions = evolutions)
                 }
             }
         }
@@ -159,7 +155,7 @@ fun Details(
 }
 
 @Composable
-private fun InfoCards(
+private fun DataCards(
     pokemonUi: PokemonUi,
     modifier: Modifier = Modifier
 ) {
@@ -263,13 +259,30 @@ private fun Weaknesses(
     }
 }
 
+@Composable
+fun EvolutionTree2(
+    evolutions: EvolutionUi,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        MaterialText(
+            text = stringResource(R.string.evolutions),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        EvolutionTree(evolutionUi = evolutions)
+    }
+}
+
 @Preview
 @Composable
 private fun PokemonDetailsScreenPreview() {
-    val context = LocalContext.current
      AppTheme {
         PokemonDetailsScreen(
-            pokemonUi = PokemonUi.fromPokemon(context, Pokemon.Charizard)
+            pokemonUi = PokemonUi.fromPokemon(Pokemon.find(6))
         )
     }
 }

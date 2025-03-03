@@ -1,8 +1,9 @@
 package com.kanoyatech.snapdex.ui
 
-import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Abilities
 import com.kanoyatech.snapdex.domain.Category
@@ -28,7 +29,9 @@ data class PokemonUi(
     val maleToFemaleRatio: Percentage
 ) {
     companion object {
-        fun fromPokemon(context: Context, pokemon: Pokemon): PokemonUi {
+        @Composable
+        fun fromPokemon(pokemon: Pokemon): PokemonUi {
+            val context = LocalContext.current
             return PokemonUi(
                 id = pokemon.id,
                 name = PokemonResourceProvider.getPokemonNameResourceId(context, pokemon.id),

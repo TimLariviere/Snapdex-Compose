@@ -19,8 +19,6 @@ class MainActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val context = LocalContext.current
-
             AppTheme {
                 Surface(
                     modifier = Modifier
@@ -28,7 +26,7 @@ class MainActivity: ComponentActivity() {
                         .background(MaterialTheme.colorScheme.background)
                 ) {
                     PokemonDetailsScreenRoot(
-                        pokemonUi = PokemonUi.fromPokemon(context, Pokemon.Charmeleon)
+                        pokemonUi = PokemonUi.fromPokemon(Pokemon.find(4))
                     )
                 }
             }

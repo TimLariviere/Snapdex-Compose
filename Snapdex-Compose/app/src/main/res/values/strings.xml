@@ -40,4 +40,6 @@
     <string name="category_flame">Flame</string>
     <string name="abilities_blaze">Blaze</string>
     <string name="category_lizard">Lizard</string>
+    <string name="evolutions">Evolutions</string>
+    <string name="level_x">Level %d</string>
 </resources>
