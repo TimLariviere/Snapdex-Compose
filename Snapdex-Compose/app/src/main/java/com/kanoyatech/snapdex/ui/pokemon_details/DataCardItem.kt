@@ -11,24 +11,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.Poppins
 import com.kanoyatech.snapdex.domain.kg
 import com.kanoyatech.snapdex.theme.components.MaterialText
-import com.kanoyatech.snapdex.theme.snapdexLightGray
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 @Composable
@@ -49,7 +45,7 @@ fun DataCardItem(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.secondary,
+                tint = DataCardItemColors.iconColor,
                 modifier = Modifier
                     .size(16.dp)
             )
@@ -58,7 +54,7 @@ fun DataCardItem(
                 text = name.uppercase(),
                 style = MaterialTheme.typography.titleSmall,
                 fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.secondary
+                color = DataCardItemColors.titleColor
             )
         }
 
@@ -67,16 +63,14 @@ fun DataCardItem(
                 .fillMaxWidth()
                 .border(
                     width = 1.dp,
-                    color = snapdexLightGray,
+                    color = DataCardItemColors.boxColor,
                     shape = RoundedCornerShape(15.dp)
                 ),
             contentAlignment = Alignment.Center
         ) {
-            Text(
+            MaterialText(
                 text = value,
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Medium,
-                fontSize = 18.sp,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .padding(8.dp)
             )
@@ -84,7 +78,13 @@ fun DataCardItem(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+object DataCardItemColors {
+    val iconColor: Color @Composable get() = MaterialTheme.colorScheme.secondary
+    val titleColor: Color @Composable get() = MaterialTheme.colorScheme.secondary
+    val boxColor: Color @Composable get() = MaterialTheme.colorScheme.surface
+}
+
+@Preview(showBackground = true)
 @Composable
 private fun DataCardItemPreview() {
     AppTheme {

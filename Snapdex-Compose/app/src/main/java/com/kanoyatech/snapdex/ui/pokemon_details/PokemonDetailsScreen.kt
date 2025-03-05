@@ -110,7 +110,7 @@ private fun Header(
     Column(modifier = modifier
         .fillMaxWidth()) {
         GifImage(
-            imageId = pokemonUi.bigImage,
+            imageId = pokemonUi.largeImage,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()

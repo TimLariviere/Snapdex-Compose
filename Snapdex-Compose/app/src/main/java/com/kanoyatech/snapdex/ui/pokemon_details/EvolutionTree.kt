@@ -1,5 +1,6 @@
 package com.kanoyatech.snapdex.ui.pokemon_details
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,8 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,11 +42,10 @@ import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.Poppins
 import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.theme.snapdexDarkBlue2
-import com.kanoyatech.snapdex.theme.snapdexLightGray
-import com.kanoyatech.snapdex.theme.snapdexRed
 import com.kanoyatech.snapdex.theme.snapdexWhite
 import com.kanoyatech.snapdex.ui.EvolutionUi
 import com.kanoyatech.snapdex.ui.PokemonUi
+import com.kanoyatech.snapdex.ui.components.BrushIcon
 
 @Composable
 fun EvolutionTree(
@@ -49,13 +53,14 @@ fun EvolutionTree(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .border(
                 width = 1.dp,
-                color = snapdexLightGray,
+                color = EvolutionTreeColors.borderColor,
                 shape = RoundedCornerShape(15.dp)
-            ),
+            )
+            .padding(horizontal = 16.dp, vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -79,7 +84,7 @@ fun PokemonRow(
             .fillMaxWidth()
             .border(
                 width = 1.dp,
-                color = snapdexLightGray,
+                color = EvolutionTreeColors.borderColor,
                 shape = RoundedCornerShape(90.dp)
             )
             .height(74.dp),
@@ -93,12 +98,25 @@ fun PokemonRow(
                 .background(typeUi.color),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(typeUi.image),
+            BrushIcon(
+                imageVector = ImageVector.vectorResource(id = typeUi.image),
                 contentDescription = null,
-                tint = snapdexWhite,
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        snapdexWhite,
+                        snapdexWhite.copy(alpha = 0.1f)
+                    )
+                ),
                 modifier = Modifier
                     .size(65.dp)
+            )
+
+            Image(
+                bitmap = ImageBitmap.imageResource(pokemonUi.smallImage),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset(y = (-4).dp)
             )
         }
 
@@ -150,6 +168,10 @@ fun LevelRow(
             color = snapdexDarkBlue2
         )
     }
+}
+
+object EvolutionTreeColors {
+    val borderColor: Color @Composable get() = MaterialTheme.colorScheme.surface
 }
 
 @Preview(showBackground = true)

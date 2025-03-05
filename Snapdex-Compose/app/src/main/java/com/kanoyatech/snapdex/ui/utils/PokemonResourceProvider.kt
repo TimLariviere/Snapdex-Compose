@@ -12,8 +12,12 @@ object PokemonResourceProvider {
         return getResourceId(context, "string", id, "description")
     }
 
-    fun getPokemonBigImageId(context: Context, id: PokemonId): Int {
-        return getResourceId(context, "drawable", id, "big")
+    fun getPokemonLargeImageId(context: Context, id: PokemonId): Int {
+        return getResourceId(context, "drawable", id, "large")
+    }
+
+    fun getPokemonMediumImageId(context: Context, id: PokemonId): Int {
+        return getResourceId(context, "drawable", id, "medium")
     }
 
     fun getPokemonSmallImageId(context: Context, id: PokemonId): Int {

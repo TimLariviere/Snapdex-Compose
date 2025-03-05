@@ -43,6 +43,7 @@ data object TypeColor {
 val LightColors = lightColorScheme(
     primary = snapdexGray,
     secondary = snapdexGray3,
+    surface = snapdexLightGray,
     onSurface = snapdexGray2,
     onSurfaceVariant = snapdexWhite
 )
