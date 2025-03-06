@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.ui.pokemon_details
+package com.kanoyatech.snapdex.ui.pokemon_details.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background

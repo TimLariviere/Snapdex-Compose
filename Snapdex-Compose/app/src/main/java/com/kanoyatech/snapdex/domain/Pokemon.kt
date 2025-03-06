@@ -5,8 +5,8 @@ typealias Level = Int
 
 data class Pokemon(
     val id: PokemonId,
-    val type: List<Type>,
-    val weakness: List<Type>,
+    val types: List<Type>,
+    val weaknesses: List<Type>,
     val weight: Weight,
     val height: Length,
     val category: Category,
@@ -15,12 +15,66 @@ data class Pokemon(
 ) {
     companion object {
         private val all = mapOf(
+            Pair(1, Pokemon(
+                id = 1,
+                types = listOf(
+                    Type.GRASS,
+                    Type.POISON
+                ),
+                weaknesses = listOf(
+                    Type.FIRE,
+                    Type.ICE,
+                    Type.FLYING,
+                    Type.PSYCHIC
+                ),
+                weight = 6.9.kg,
+                height = 0.7.m,
+                category = Category.SEED,
+                abilities = Abilities.OVERGROW,
+                maleToFemaleRatio = 87.5.percent
+            )),
+            Pair(2, Pokemon(
+                id = 2,
+                types = listOf(
+                    Type.GRASS,
+                    Type.POISON
+                ),
+                weaknesses = listOf(
+                    Type.FIRE,
+                    Type.ICE,
+                    Type.FLYING,
+                    Type.PSYCHIC
+                ),
+                weight = 13.0.kg,
+                height = 1.0.m,
+                category = Category.SEED,
+                abilities = Abilities.OVERGROW,
+                maleToFemaleRatio = 87.5.percent
+            )),
+            Pair(3, Pokemon(
+                id = 3,
+                types = listOf(
+                    Type.GRASS,
+                    Type.POISON
+                ),
+                weaknesses = listOf(
+                    Type.FIRE,
+                    Type.ICE,
+                    Type.FLYING,
+                    Type.PSYCHIC
+                ),
+                weight = 100.0.kg,
+                height = 2.0.m,
+                category = Category.SEED,
+                abilities = Abilities.OVERGROW,
+                maleToFemaleRatio = 87.5.percent
+            )),
             Pair(4, Pokemon(
                 id = 4,
-                type = listOf(
+                types = listOf(
                     Type.FIRE
                 ),
-                weakness = listOf(
+                weaknesses = listOf(
                     Type.WATER,
                     Type.GROUND,
                     Type.ROCK
@@ -33,10 +87,10 @@ data class Pokemon(
             )),
             Pair(5, Pokemon(
                 id = 5,
-                type = listOf(
+                types = listOf(
                     Type.FIRE
                 ),
-                weakness = listOf(
+                weaknesses = listOf(
                     Type.WATER,
                     Type.GROUND,
                     Type.ROCK
@@ -49,11 +103,11 @@ data class Pokemon(
             )),
             Pair(6, Pokemon(
                 id = 6,
-                type = listOf(
+                types = listOf(
                     Type.FIRE,
                     Type.FLYING
                 ),
-                weakness = listOf(
+                weaknesses = listOf(
                     Type.WATER,
                     Type.GROUND,
                     Type.ROCK
@@ -68,6 +122,10 @@ data class Pokemon(
 
         fun find(id: PokemonId): Pokemon {
             return all[id]!!
+        }
+
+        fun tryFind(id: PokemonId): Pokemon? {
+            return all[id]
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.ui.pokemon_details
+package com.kanoyatech.snapdex.ui.pokemon_details.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

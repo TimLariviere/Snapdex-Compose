@@ -18,11 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,101 +25,152 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Evolution
+import com.kanoyatech.snapdex.domain.Length
+import com.kanoyatech.snapdex.domain.Percentage
 import com.kanoyatech.snapdex.domain.Pokemon
+import com.kanoyatech.snapdex.domain.PokemonId
+import com.kanoyatech.snapdex.domain.Weight
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.components.GifImage
 import com.kanoyatech.snapdex.theme.components.MaterialHorizontalDivider
 import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.EvolutionUi
-import com.kanoyatech.snapdex.ui.PokemonUi
+import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
 import com.kanoyatech.snapdex.ui.components.TypeTag
+import com.kanoyatech.snapdex.ui.mappers.abilitiesStr
+import com.kanoyatech.snapdex.ui.mappers.categoryStr
+import com.kanoyatech.snapdex.ui.pokemon_details.components.DataCardItem
+import com.kanoyatech.snapdex.ui.pokemon_details.components.EvolutionTree
+import com.kanoyatech.snapdex.ui.pokemon_details.components.RatioBar
+import com.kanoyatech.snapdex.ui.pokemon_details.components.TypeBackground
+import com.kanoyatech.snapdex.ui.mappers.description
+import com.kanoyatech.snapdex.ui.mappers.largeImageId
+import com.kanoyatech.snapdex.ui.mappers.name
+import com.kanoyatech.snapdex.ui.pokedex.PokedexAction
 
 @Composable
 fun PokemonDetailsScreenRoot(
-    pokemonUi: PokemonUi
+    viewModel: PokemonDetailsViewModel,
+    onBackClick: () -> Unit,
+    onPokemonClick: (PokemonId) -> Unit
 ) {
-    PokemonDetailsScreen(pokemonUi)
+    PokemonDetailsScreen(
+        state = viewModel.state,
+        onAction = { action ->
+            when (action) {
+                PokemonDetailsAction.OnBackClick -> onBackClick()
+                is PokemonDetailsAction.OnPokemonClick -> onPokemonClick(action.pokemonId)
+                else -> Unit
+            }
+
+            viewModel.onAction(action)
+        }
+    )
 }
 
 @Composable
 private fun PokemonDetailsScreen(
-    pokemonUi: PokemonUi
+    state: PokemonDetailsState,
+    onAction: (PokemonDetailsAction) -> Unit
 ) {
-    var isFavorite by remember {
-        mutableStateOf(false)
-    }
-
-    val evolutions = EvolutionUi.fromEvolution(Evolution.find(pokemonUi.id))
+    val types = state.pokemon.types.map { TypeUi.fromType(it) }
+    val weaknesses = state.pokemon.weaknesses.map { TypeUi.fromType(it) }
+    val evolution = EvolutionUi.fromEvolution(state.evolution)
 
     Scaffold(
         topBar = {
             SnapdexToolbar(
-                isFavorite = isFavorite,
-                onBackClick = {},
+                isFavorite = state.isFavorite,
+                onBackClick = {
+                    onAction(PokemonDetailsAction.OnBackClick)
+                },
                 onFavoriteClick = {
-                    isFavorite = !isFavorite
+                    onAction(PokemonDetailsAction.OnFavoriteToggleClick)
                 }
             )
         }
     ) { paddingValues ->
-        TypeBackground(
-            type = pokemonUi.type.first()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp)
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                Header(
-                    pokemonUi = pokemonUi,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                )
+            Header(
+                id = state.pokemon.id,
+                name = state.pokemon.name,
+                image = state.pokemon.largeImageId,
+                type = types.first()
+            )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 24.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
-                    Details(pokemonUi = pokemonUi)
-                    MaterialHorizontalDivider()
-                    DataCards(pokemonUi = pokemonUi)
-                    Weaknesses(pokemonUi = pokemonUi)
-                    EvolutionTree2(evolutions = evolutions)
-                }
-            }
+            DescriptionSection(
+                description = state.pokemon.description,
+                types = types
+            )
+
+            MaterialHorizontalDivider()
+
+            DataCardsSection(
+                weight = state.pokemon.weight,
+                height = state.pokemon.height,
+                category = state.pokemon.categoryStr,
+                abilities = state.pokemon.abilitiesStr,
+                maleToFemaleRatio = state.pokemon.maleToFemaleRatio
+            )
+
+            WeaknessesSection(
+                weaknesses = weaknesses
+            )
+
+            EvolutionSection(
+                evolution = evolution,
+                onAction = onAction
+            )
         }
     }
 }
 
 @Composable
 private fun Header(
-    pokemonUi: PokemonUi,
-    modifier: Modifier = Modifier
+    id: PokemonId,
+    name: String,
+    image: Int,
+    type: TypeUi
 ) {
-    Column(modifier = modifier
-        .fillMaxWidth()) {
-        GifImage(
-            imageId = pokemonUi.largeImage,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .height(250.dp)
-        )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(250.dp)
+        ) {
+            TypeBackground(
+                type = type
+            )
+
+            GifImage(
+                imageId = image,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
         MaterialText(
-            text = stringResource(id = pokemonUi.name),
+            text = name,
             style = MaterialTheme.typography.headlineMedium
         )
         MaterialText(
-            text = stringResource(R.string.pokemon_number, pokemonUi.id),
+            text = stringResource(R.string.pokemon_number, id),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.primary
         )
@@ -132,16 +178,16 @@ private fun Header(
 }
 
 @Composable
-fun Details(
-    pokemonUi: PokemonUi,
-    modifier: Modifier = Modifier
+fun DescriptionSection(
+    description: String,
+    types: List<TypeUi>
 ) {
-    Column(modifier = modifier) {
+    Column {
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            pokemonUi.type.forEach { type ->
+            types.forEach { type ->
                 TypeTag(type)
             }
         }
@@ -149,15 +195,18 @@ fun Details(
         Spacer(modifier = Modifier.height(24.dp))
 
         MaterialText(
-            text = stringResource(id = pokemonUi.description)
+            text = description
         )
     }
 }
 
 @Composable
-private fun DataCards(
-    pokemonUi: PokemonUi,
-    modifier: Modifier = Modifier
+private fun DataCardsSection(
+    weight: Weight,
+    height: Length,
+    category: String,
+    abilities: String,
+    maleToFemaleRatio: Percentage
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -168,16 +217,16 @@ private fun DataCards(
             DataCardItem(
                 icon = Icons.Weight,
                 name = stringResource(id = R.string.weight),
-                value = pokemonUi.weight.formatted(),
-                modifier = modifier
+                value = weight.formatted(),
+                modifier = Modifier
                     .weight(1f)
             )
 
             DataCardItem(
                 icon = Icons.Height,
                 name = stringResource(id = R.string.height),
-                value = pokemonUi.height.formatted(),
-                modifier = modifier
+                value = height.formatted(),
+                modifier = Modifier
                     .weight(1f)
             )
         }
@@ -188,16 +237,16 @@ private fun DataCards(
             DataCardItem(
                 icon = Icons.Category,
                 name = stringResource(id = R.string.category),
-                value = stringResource(id = pokemonUi.category),
-                modifier = modifier
+                value = category,
+                modifier = Modifier
                     .weight(1f)
             )
 
             DataCardItem(
                 icon = Icons.Pokeball,
                 name = stringResource(id = R.string.abilities),
-                value = stringResource(id = pokemonUi.abilities),
-                modifier = modifier
+                value = abilities,
+                modifier = Modifier
                     .weight(1f)
             )
         }
@@ -216,15 +265,15 @@ private fun DataCards(
             )
 
             RatioBar(
-                ratio = pokemonUi.maleToFemaleRatio
+                ratio = maleToFemaleRatio
             )
         }
     }
 }
 
 @Composable
-private fun Weaknesses(
-    pokemonUi: PokemonUi
+private fun WeaknessesSection(
+    weaknesses: List<TypeUi>
 ) {
     Column(
         modifier = Modifier
@@ -243,7 +292,7 @@ private fun Weaknesses(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            pokemonUi.weakness.forEach { weakness ->
+            weaknesses.forEach { weakness ->
                 TypeTag(
                     elementUi = weakness,
                     modifier = Modifier
@@ -252,7 +301,7 @@ private fun Weaknesses(
             }
 
             // Add an empty box to avoid last type taking all the row
-            if (pokemonUi.weakness.count() % 2 == 1) {
+            if (weaknesses.count() % 2 == 1) {
                 Box(modifier = Modifier.weight(1f))
             }
         }
@@ -260,12 +309,11 @@ private fun Weaknesses(
 }
 
 @Composable
-fun EvolutionTree2(
-    evolutions: EvolutionUi,
-    modifier: Modifier = Modifier
+fun EvolutionSection(
+    evolution: EvolutionUi,
+    onAction: (PokemonDetailsAction) -> Unit
 ) {
     Column(
-        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         MaterialText(
@@ -273,7 +321,12 @@ fun EvolutionTree2(
             style = MaterialTheme.typography.titleMedium
         )
 
-        EvolutionTree(evolutionUi = evolutions)
+        EvolutionTree(
+            evolutionUi = evolution,
+            onPokemonClick = { pokemonId ->
+                onAction(PokemonDetailsAction.OnPokemonClick(pokemonId))
+            }
+        )
     }
 }
 
@@ -282,7 +335,12 @@ fun EvolutionTree2(
 private fun PokemonDetailsScreenPreview() {
      AppTheme {
         PokemonDetailsScreen(
-            pokemonUi = PokemonUi.fromPokemon(Pokemon.find(6))
+            state = PokemonDetailsState(
+                pokemon = Pokemon.find(4),
+                evolution = Evolution.find(4),
+                isFavorite = false
+            ),
+            onAction = {}
         )
     }
 }

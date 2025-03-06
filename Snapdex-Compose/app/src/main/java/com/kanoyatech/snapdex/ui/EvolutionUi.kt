@@ -6,17 +6,16 @@ import com.kanoyatech.snapdex.domain.Level
 import com.kanoyatech.snapdex.domain.Pokemon
 
 data class EvolutionUi(
-    val startingPokemon: PokemonUi,
-    val evolutions: Map<Level, PokemonUi>
+    val startingPokemon: Pokemon,
+    val evolutions: Map<Level, Pokemon>
 ) {
     companion object {
         @Composable
         fun fromEvolution(evolution: Evolution): EvolutionUi {
             return EvolutionUi(
-                startingPokemon = PokemonUi.fromPokemon(Pokemon.find(evolution.startingPokemon)),
+                startingPokemon = Pokemon.find(evolution.startingPokemon),
                 evolutions = evolution.evolutions.mapValues { (_, pokemonId) ->
-                    val pokemon = Pokemon.find(pokemonId)
-                    PokemonUi.fromPokemon(pokemon)
+                    Pokemon.find(pokemonId)
                 }
             )
         }

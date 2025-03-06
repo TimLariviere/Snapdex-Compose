@@ -1,8 +1,9 @@
-package com.kanoyatech.snapdex.ui.pokemon_details
+package com.kanoyatech.snapdex.ui.pokemon_details.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,8 @@ import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Evolution
 import com.kanoyatech.snapdex.domain.Level
+import com.kanoyatech.snapdex.domain.Pokemon
+import com.kanoyatech.snapdex.domain.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.Poppins
@@ -44,12 +47,15 @@ import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.theme.snapdexDarkBlue2
 import com.kanoyatech.snapdex.theme.snapdexWhite
 import com.kanoyatech.snapdex.ui.EvolutionUi
-import com.kanoyatech.snapdex.ui.PokemonUi
+import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.components.BrushIcon
+import com.kanoyatech.snapdex.ui.mappers.name
+import com.kanoyatech.snapdex.ui.mappers.smallImageId
 
 @Composable
 fun EvolutionTree(
     evolutionUi: EvolutionUi,
+    onPokemonClick: (PokemonId) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -64,20 +70,33 @@ fun EvolutionTree(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        PokemonRow(evolutionUi.startingPokemon)
+        PokemonRow(
+            pokemon = evolutionUi.startingPokemon,
+            modifier = Modifier
+                .clickable {
+                    onPokemonClick(evolutionUi.startingPokemon.id)
+                }
+        )
+
         evolutionUi.evolutions.forEach { (level, pokemon) ->
             LevelRow(level)
-            PokemonRow(pokemon)
+            PokemonRow(
+                pokemon = pokemon,
+                modifier = Modifier
+                    .clickable {
+                        onPokemonClick(pokemon.id)
+                    }
+            )
         }
     }
 }
 
 @Composable
 fun PokemonRow(
-    pokemonUi: PokemonUi,
+    pokemon: Pokemon,
     modifier: Modifier = Modifier
 ) {
-    val typeUi = pokemonUi.type.first()
+    val typeUi = TypeUi.fromType(pokemon.types.first())
 
     Row(
         modifier = modifier
@@ -91,7 +110,7 @@ fun PokemonRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxHeight()
                 .width(95.dp)
                 .clip(RoundedCornerShape(90.dp))
@@ -112,7 +131,7 @@ fun PokemonRow(
             )
 
             Image(
-                bitmap = ImageBitmap.imageResource(pokemonUi.smallImage),
+                bitmap = ImageBitmap.imageResource(pokemon.smallImageId),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
@@ -128,7 +147,7 @@ fun PokemonRow(
                 .padding(end = 10.dp)
         ) {
             Text(
-                text = stringResource(pokemonUi.name),
+                text = pokemon.name,
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
@@ -136,7 +155,7 @@ fun PokemonRow(
             )
 
             Text(
-                text = stringResource(R.string.pokemon_number, pokemonUi.id),
+                text = stringResource(R.string.pokemon_number, pokemon.id),
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Medium,
                 fontSize = 12.sp,
@@ -179,7 +198,8 @@ object EvolutionTreeColors {
 private fun EvolutionTreePreview() {
     AppTheme {
         EvolutionTree(
-            evolutionUi = EvolutionUi.fromEvolution(Evolution.find(4))
+            evolutionUi = EvolutionUi.fromEvolution(Evolution.find(4)),
+            onPokemonClick = {}
         )
     }
 }

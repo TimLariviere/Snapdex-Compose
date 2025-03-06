@@ -7,6 +7,13 @@ data class Evolution(
     companion object {
         val all = listOf(
             Evolution(
+                startingPokemon = 1,
+                evolutions = mapOf(
+                    Pair(16, 2),
+                    Pair(36, 3)
+                )
+            ),
+            Evolution(
                 startingPokemon = 4,
                 evolutions = mapOf(
                     Pair(16, 5),

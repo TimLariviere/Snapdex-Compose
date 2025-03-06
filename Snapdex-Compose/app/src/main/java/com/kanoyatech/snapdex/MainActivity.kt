@@ -8,11 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import com.kanoyatech.snapdex.domain.Pokemon
+import androidx.navigation.compose.rememberNavController
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.ui.pokemon_details.PokemonDetailsScreenRoot
-import com.kanoyatech.snapdex.ui.PokemonUi
 
 class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +22,9 @@ class MainActivity: ComponentActivity() {
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    PokemonDetailsScreenRoot(
-                        pokemonUi = PokemonUi.fromPokemon(Pokemon.find(4))
+                    val navHostController = rememberNavController()
+                    NavigationRoot(
+                        navController = navHostController
                     )
                 }
             }
