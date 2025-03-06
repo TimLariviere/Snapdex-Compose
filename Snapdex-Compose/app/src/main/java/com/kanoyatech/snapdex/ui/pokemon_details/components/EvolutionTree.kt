@@ -50,7 +50,7 @@ import com.kanoyatech.snapdex.ui.EvolutionUi
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.components.BrushIcon
 import com.kanoyatech.snapdex.ui.mappers.name
-import com.kanoyatech.snapdex.ui.mappers.smallImageId
+import com.kanoyatech.snapdex.ui.mappers.mediumImageId
 
 @Composable
 fun EvolutionTree(
@@ -131,7 +131,7 @@ fun PokemonRow(
             )
 
             Image(
-                bitmap = ImageBitmap.imageResource(pokemon.smallImageId),
+                bitmap = ImageBitmap.imageResource(pokemon.mediumImageId),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()

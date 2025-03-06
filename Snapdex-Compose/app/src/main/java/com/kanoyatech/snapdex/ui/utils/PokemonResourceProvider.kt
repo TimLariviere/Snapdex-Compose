@@ -20,10 +20,6 @@ object PokemonResourceProvider {
         return getResourceId(context, "drawable", id, "medium")
     }
 
-    fun getPokemonSmallImageId(context: Context, id: PokemonId): Int {
-        return getResourceId(context, "drawable", id, "small")
-    }
-
     // We are dynamically generating resource names, so we have no other choices
     @SuppressLint("DiscouragedApi")
     private fun getResourceId(

@@ -38,12 +38,6 @@ val Pokemon.mediumImageId: Int @Composable @DrawableRes get() =
         this.id
     )
 
-val Pokemon.smallImageId: Int @Composable @DrawableRes get() =
-    PokemonResourceProvider.getPokemonSmallImageId(
-        LocalContext.current,
-        this.id
-    )
-
 val Pokemon.categoryStr: String @Composable get() =
     stringResource(id =
         when(category) {

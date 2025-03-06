@@ -8,15 +8,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -32,8 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
@@ -48,11 +43,7 @@ import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.domain.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.components.MaterialText
-import com.kanoyatech.snapdex.theme.snapdexBlack
-import com.kanoyatech.snapdex.theme.snapdexDarkBlue
-import com.kanoyatech.snapdex.theme.snapdexWhite
 import com.kanoyatech.snapdex.ui.TypeUi
-import com.kanoyatech.snapdex.ui.components.BrushIcon
 import com.kanoyatech.snapdex.ui.mappers.mediumImageId
 import com.kanoyatech.snapdex.ui.mappers.name
 import com.kanoyatech.snapdex.ui.pokedex.components.SmallTypeBadge
@@ -215,16 +206,13 @@ fun PokemonItem(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
+            Image(
+                bitmap = ImageBitmap.imageResource(id = pokemon.mediumImageId),
+                contentDescription = pokemon.name,
                 modifier = Modifier
+                    .fillMaxWidth()
                     .weight(1f)
-            ) {
-
-                Image(
-                    bitmap = ImageBitmap.imageResource(id = pokemon.mediumImageId),
-                    contentDescription = pokemon.name
-                )
-            }
+            )
 
             MaterialText(
                 text = stringResource(id = R.string.pokemon_number, pokemon.id)
