@@ -24,14 +24,13 @@ val dataModule = module {
             .build()
     }
 
-    single {
-        get<SnapdexDatabase>().pokemonDao
-    }
+    single { get<SnapdexDatabase>().pokemonDao }
+    single { get<SnapdexDatabase>().evolutionChainDao }
 
     singleOf(::RoomDataSource).bind<DataSource>()
 }
 
 val uiModule = module {
     viewModelOf(::PokedexViewModel)
-    viewModel { parameters -> PokemonDetailsViewModel(parameters.get()) }
+    viewModel { parameters -> PokemonDetailsViewModel(get(), parameters.get()) }
 }

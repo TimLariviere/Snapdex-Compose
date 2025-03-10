@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "684e6d80404dd3af6c091bf2ca5c77f5",
+    "identityHash": "6b7ebcbf9fda88394b13bb5c86354bb2",
     "entities": [
       {
         "tableName": "Abilities",
@@ -26,11 +26,11 @@
       },
       {
         "tableName": "AbilityTranslations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`abilityTranslationId` INTEGER NOT NULL, `abilityId` INTEGER NOT NULL, `language` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`abilityTranslationId`), FOREIGN KEY(`abilityId`) REFERENCES `Abilities`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `abilityId` INTEGER NOT NULL, `language` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`abilityId`) REFERENCES `Abilities`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "abilityTranslationId",
-            "columnName": "abilityTranslationId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -56,7 +56,7 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "abilityTranslationId"
+            "id"
           ]
         },
         "indices": [],
@@ -96,11 +96,11 @@
       },
       {
         "tableName": "CategoryTranslations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryTranslationId` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, `language` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`categoryTranslationId`), FOREIGN KEY(`categoryId`) REFERENCES `Categories`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, `language` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`categoryId`) REFERENCES `Categories`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "categoryTranslationId",
-            "columnName": "categoryTranslationId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -126,7 +126,7 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "categoryTranslationId"
+            "id"
           ]
         },
         "indices": [],
@@ -219,11 +219,11 @@
       },
       {
         "tableName": "PokemonTranslations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pokemonTranslationId` INTEGER NOT NULL, `pokemonId` INTEGER NOT NULL, `language` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`pokemonTranslationId`), FOREIGN KEY(`pokemonId`) REFERENCES `Pokemons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `pokemonId` INTEGER NOT NULL, `language` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`pokemonId`) REFERENCES `Pokemons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "pokemonTranslationId",
-            "columnName": "pokemonTranslationId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -255,7 +255,7 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "pokemonTranslationId"
+            "id"
           ]
         },
         "indices": [],
@@ -275,11 +275,11 @@
       },
       {
         "tableName": "PokemonTypes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pokemonTypeId` INTEGER NOT NULL, `pokemonId` INTEGER NOT NULL, `type` INTEGER NOT NULL, PRIMARY KEY(`pokemonTypeId`), FOREIGN KEY(`pokemonId`) REFERENCES `Pokemons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `pokemonId` INTEGER NOT NULL, `type` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`pokemonId`) REFERENCES `Pokemons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "pokemonTypeId",
-            "columnName": "pokemonTypeId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -299,7 +299,7 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "pokemonTypeId"
+            "id"
           ]
         },
         "indices": [],
@@ -318,12 +318,56 @@
         ]
       },
       {
-        "tableName": "PokemonWeaknesses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pokemonWeaknessId` INTEGER NOT NULL, `pokemonId` INTEGER NOT NULL, `type` INTEGER NOT NULL, PRIMARY KEY(`pokemonWeaknessId`), FOREIGN KEY(`pokemonId`) REFERENCES `Pokemons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "tableName": "EvolutionChains",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `startingPokemonId` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`startingPokemonId`) REFERENCES `Pokemons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "pokemonWeaknessId",
-            "columnName": "pokemonWeaknessId",
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startingPokemonId",
+            "columnName": "startingPokemonId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Pokemons",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "startingPokemonId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "EvolutionChainLinks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `evolutionChainId` INTEGER NOT NULL, `pokemonId` INTEGER NOT NULL, `minLevel` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`evolutionChainId`) REFERENCES `EvolutionChains`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`pokemonId`) REFERENCES `Pokemons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "evolutionChainId",
+            "columnName": "evolutionChainId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -334,8 +378,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "type",
-            "columnName": "type",
+            "fieldPath": "minLevel",
+            "columnName": "minLevel",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -343,11 +387,22 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "pokemonWeaknessId"
+            "id"
           ]
         },
         "indices": [],
         "foreignKeys": [
+          {
+            "table": "EvolutionChains",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "evolutionChainId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
           {
             "table": "Pokemons",
             "onDelete": "NO ACTION",
@@ -365,7 +420,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '684e6d80404dd3af6c091bf2ca5c77f5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6b7ebcbf9fda88394b13bb5c86354bb2')"
     ]
   }
 }

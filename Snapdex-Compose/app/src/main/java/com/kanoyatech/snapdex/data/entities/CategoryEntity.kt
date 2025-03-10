@@ -20,7 +20,7 @@ data class CategoryEntity(
     ]
 )
 data class CategoryTranslationEntity(
-    @PrimaryKey val categoryTranslationId: Int,
+    @PrimaryKey val id: Int,
     val categoryId: Int,
     val language: String,
     val name: String

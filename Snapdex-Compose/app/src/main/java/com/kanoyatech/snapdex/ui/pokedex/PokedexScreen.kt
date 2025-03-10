@@ -184,7 +184,7 @@ private fun PokedexScreen(
                     modifier = Modifier
                         .padding(paddingValues)
                 ) {
-                    items(state.pokemons) { pokemon ->
+                    items(state.pokemons, key = { it.id }) { pokemon ->
                         PokemonItem(
                             pokemon = pokemon,
                             modifier = Modifier

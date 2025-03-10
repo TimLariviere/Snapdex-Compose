@@ -20,7 +20,7 @@ data class AbilityEntity(
     ]
 )
 data class AbilityTranslationEntity(
-    @PrimaryKey val abilityTranslationId: Int,
+    @PrimaryKey val id: Int,
     val abilityId: Int,
     val language: String,
     val name: String

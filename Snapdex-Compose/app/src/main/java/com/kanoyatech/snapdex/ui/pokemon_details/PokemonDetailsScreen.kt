@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -29,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.domain.Evolution
+import com.kanoyatech.snapdex.domain.EvolutionChain
 import com.kanoyatech.snapdex.domain.units.Length
 import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.Pokemon
@@ -46,8 +44,6 @@ import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.components.GifImage
 import com.kanoyatech.snapdex.theme.components.MaterialHorizontalDivider
 import com.kanoyatech.snapdex.theme.components.MaterialText
-import com.kanoyatech.snapdex.ui.State
-//import com.kanoyatech.snapdex.ui.EvolutionUi
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
@@ -57,6 +53,7 @@ import com.kanoyatech.snapdex.ui.pokemon_details.components.DataCardItem
 import com.kanoyatech.snapdex.ui.pokemon_details.components.RatioBar
 import com.kanoyatech.snapdex.ui.pokemon_details.components.TypeBackground
 import com.kanoyatech.snapdex.ui.mappers.largeImageId
+import com.kanoyatech.snapdex.ui.pokemon_details.components.EvolutionChainView
 import com.kanoyatech.snapdex.ui.utils.getLocale
 
 @Composable
@@ -105,7 +102,7 @@ private fun PokemonDetailsScreen(
         }
     ) { paddingValues ->
         if (state.pokemon == null) {
-
+            CircularProgressIndicator()
         }
         else {
             val types = state.pokemon.types.map { TypeUi.fromType(it) }
@@ -116,6 +113,7 @@ private fun PokemonDetailsScreen(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp)
+                    .padding(bottom = 24.dp)
                     .padding(paddingValues),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
@@ -145,10 +143,14 @@ private fun PokemonDetailsScreen(
                     weaknesses = weaknesses
                 )
 
-                //EvolutionSection(
-                //    evolution = evolution,
-                //    onAction = onAction
-                //)
+                if (state.evolutionChain == null) {
+                    Box {}
+                } else {
+                    EvolutionChainSection(
+                        evolutionChain = state.evolutionChain,
+                        onAction = onAction
+                    )
+                }
             }
         }
     }
@@ -327,27 +329,27 @@ private fun WeaknessesSection(
     }
 }
 
-//@Composable
-//fun EvolutionSection(
-//    evolution: EvolutionUi,
-//    onAction: (PokemonDetailsAction) -> Unit
-//) {
-//    Column(
-//        verticalArrangement = Arrangement.spacedBy(8.dp)
-//    ) {
-//        MaterialText(
-//            text = stringResource(R.string.evolutions),
-//            style = MaterialTheme.typography.titleMedium
-//        )
-//
-//        EvolutionTree(
-//            evolutionUi = evolution,
-//            onPokemonClick = { pokemonId ->
-//                onAction(PokemonDetailsAction.OnPokemonClick(pokemonId))
-//            }
-//        )
-//    }
-//}
+@Composable
+fun EvolutionChainSection(
+    evolutionChain: EvolutionChain,
+    onAction: (PokemonDetailsAction) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        MaterialText(
+            text = stringResource(R.string.evolutions),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        EvolutionChainView(
+            evolutionChain = evolutionChain,
+            onPokemonClick = { pokemonId ->
+                onAction(PokemonDetailsAction.OnPokemonClick(pokemonId))
+            }
+        )
+    }
+}
 
 @Preview
 @Composable
@@ -368,12 +370,61 @@ private fun PokemonDetailsScreenPreview() {
         maleToFemaleRatio = 87.5.percent
     )
 
+    val evolutionChain = EvolutionChain(
+        startingPokemon = Pokemon(
+            id = 6,
+            name = "Charizard",
+            description = "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade.",
+            types = listOf(
+                PokemonType.FIRE,
+                PokemonType.FLYING
+            ),
+            weaknesses = emptyList(),
+            weight = 120.0.kg,
+            height = 1.70.m,
+            category = PokemonCategory(id = 0, name = "Lizard"),
+            ability = PokemonAbility(id = 0, name = "Blaze"),
+            maleToFemaleRatio = 87.5.percent
+        ),
+        evolutions = mapOf(
+            Pair(16, Pokemon(
+                id = 6,
+                name = "Charizard",
+                description = "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade.",
+                types = listOf(
+                    PokemonType.FIRE,
+                    PokemonType.FLYING
+                ),
+                weaknesses = emptyList(),
+                weight = 120.0.kg,
+                height = 1.70.m,
+                category = PokemonCategory(id = 0, name = "Lizard"),
+                ability = PokemonAbility(id = 0, name = "Blaze"),
+                maleToFemaleRatio = 87.5.percent
+            )),
+            Pair(32, Pokemon(
+                id = 6,
+                name = "Charizard",
+                description = "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade.",
+                types = listOf(
+                    PokemonType.FIRE,
+                    PokemonType.FLYING
+                ),
+                weaknesses = emptyList(),
+                weight = 120.0.kg,
+                height = 1.70.m,
+                category = PokemonCategory(id = 0, name = "Lizard"),
+                ability = PokemonAbility(id = 0, name = "Blaze"),
+                maleToFemaleRatio = 87.5.percent
+            ))
+        )
+    )
+
     AppTheme {
         PokemonDetailsScreen(
             state = PokemonDetailsState(
-                pokemonId = 4,
                 pokemon = pokemon,
-                evolution = Evolution.find(4),
+                evolutionChain = evolutionChain,
                 isFavorite = false
             ),
             onAction = {}

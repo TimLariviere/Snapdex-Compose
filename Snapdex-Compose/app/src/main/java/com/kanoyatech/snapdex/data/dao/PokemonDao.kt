@@ -11,7 +11,6 @@ import com.kanoyatech.snapdex.data.entities.CategoryTranslationEntity
 import com.kanoyatech.snapdex.data.entities.PokemonEntity
 import com.kanoyatech.snapdex.data.entities.PokemonTranslationEntity
 import com.kanoyatech.snapdex.data.entities.PokemonTypeEntity
-import com.kanoyatech.snapdex.data.entities.PokemonWeaknessEntity
 
 @Dao
 interface PokemonDao {
@@ -41,13 +40,6 @@ class PokemonWithRelations {
         entity = PokemonTypeEntity::class
     )
     lateinit var types: List<PokemonTypeEntity>
-
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "pokemonId",
-        entity = PokemonWeaknessEntity::class
-    )
-    lateinit var weaknesses: List<PokemonWeaknessEntity>
 
     @Relation(
         entity = AbilityEntity::class,

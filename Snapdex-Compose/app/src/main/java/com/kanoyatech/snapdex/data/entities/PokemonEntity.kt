@@ -39,7 +39,7 @@ data class PokemonEntity(
     ]
 )
 data class PokemonTranslationEntity(
-    @PrimaryKey val pokemonTranslationId: Int,
+    @PrimaryKey val id: Int,
     val pokemonId: Int,
     val language: String,
     val name: String,
@@ -57,23 +57,7 @@ data class PokemonTranslationEntity(
     ]
 )
 data class PokemonTypeEntity(
-    @PrimaryKey val pokemonTypeId: Int,
-    val pokemonId: Int,
-    val type: Int
-)
-
-@Entity(
-    tableName = "PokemonWeaknesses",
-    foreignKeys = [
-        ForeignKey(
-            entity = PokemonEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["pokemonId"]
-        )
-    ]
-)
-data class PokemonWeaknessEntity(
-    @PrimaryKey val pokemonWeaknessId: Int,
+    @PrimaryKey val id: Int,
     val pokemonId: Int,
     val type: Int
 )

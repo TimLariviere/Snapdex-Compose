@@ -4,11 +4,11 @@ import com.kanoyatech.snapdex.data.dao.AbilityWithTranslation
 import com.kanoyatech.snapdex.data.dao.CategoryWithTranslation
 import com.kanoyatech.snapdex.data.dao.PokemonWithRelations
 import com.kanoyatech.snapdex.data.entities.PokemonTypeEntity
-import com.kanoyatech.snapdex.data.entities.PokemonWeaknessEntity
 import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.domain.PokemonAbility
 import com.kanoyatech.snapdex.domain.PokemonCategory
 import com.kanoyatech.snapdex.domain.PokemonType
+import com.kanoyatech.snapdex.domain.PokemonWeaknessCalculator
 import com.kanoyatech.snapdex.domain.units.Length
 import com.kanoyatech.snapdex.domain.units.Weight
 import com.kanoyatech.snapdex.domain.units.percent
@@ -16,12 +16,13 @@ import java.util.Locale
 
 fun PokemonWithRelations.toPokemon(locale: Locale): Pokemon {
     val translation = this.translations.find { it.language == locale.language }
+    val types = this.types.map { it.toPokemonType() }
     return Pokemon(
         id = this.pokemon.id,
         name = translation?.name ?: "NO_TRANSLATION",
         description = translation?.description ?: "NO_TRANSLATION",
-        types = this.types.map { it.toPokemonType() },
-        weaknesses = this.weaknesses.map { it.toPokemonType() },
+        types = types,
+        weaknesses = PokemonWeaknessCalculator.calculateWeaknesses(types),
         weight = Weight.fromHectogram(this.pokemon.weight),
         height = Length.fromDecimeter(this.pokemon.height),
         category = this.category.toPokemonCategory(locale),
@@ -74,9 +75,5 @@ private fun toPokemonType(type: Int): PokemonType {
 }
 
 fun PokemonTypeEntity.toPokemonType(): PokemonType {
-    return toPokemonType(this.type)
-}
-
-fun PokemonWeaknessEntity.toPokemonType(): PokemonType {
     return toPokemonType(this.type)
 }
