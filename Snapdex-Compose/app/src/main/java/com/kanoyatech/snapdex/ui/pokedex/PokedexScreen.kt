@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,11 +28,13 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -45,14 +49,20 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.mappers.mediumImageId
-import com.kanoyatech.snapdex.ui.mappers.name
 import com.kanoyatech.snapdex.ui.pokedex.components.SmallTypeBadge
+import com.kanoyatech.snapdex.ui.utils.getLocale
 
 @Composable
 fun PokedexScreenRoot(
     viewModel: PokedexViewModel,
     onPokemonClick: (PokemonId) -> Unit
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        val locale = context.getLocale()
+        viewModel.setLocale(locale)
+    }
+
     PokedexScreen(
         state = viewModel.state,
         onAction = { action ->
@@ -150,32 +160,38 @@ private fun PokedexScreen(
             }
         }
     ) { paddingValues ->
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(20.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .padding(paddingValues)
-        ) {
-            items(151) { index ->
-                val pokemonId: PokemonId = index + 1
-                val pokemon = Pokemon.tryFind(pokemonId)
-
-                if (pokemon != null) {
-                    PokemonItem(
-                        pokemon = pokemon,
+        when (state.state) {
+            State.LOADING ->
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                ) {
+                    CircularProgressIndicator(
                         modifier = Modifier
-                            .clickable {
-                                onAction(PokedexAction.OnPokemonClick(pokemonId))
-                            }
-                    )
-                } else {
-                    UnknownItem(
-                        id = pokemonId
+                            .size(64.dp)
                     )
                 }
-            }
+            State.IDLE ->
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    contentPadding = PaddingValues(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier
+                        .padding(paddingValues)
+                ) {
+                    items(state.pokemons) { pokemon ->
+                        PokemonItem(
+                            pokemon = pokemon,
+                            modifier = Modifier
+                                .clickable {
+                                    onAction(PokedexAction.OnPokemonClick(pokemon.id))
+                                }
+                        )
+                    }
+                }
         }
     }
 }

@@ -2,9 +2,9 @@ package com.kanoyatech.snapdex.ui.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
-import com.kanoyatech.snapdex.domain.Weight
-import com.kanoyatech.snapdex.domain.Length
-import com.kanoyatech.snapdex.domain.Percentage
+import com.kanoyatech.snapdex.domain.units.Weight
+import com.kanoyatech.snapdex.domain.units.Length
+import com.kanoyatech.snapdex.domain.units.Percentage
 
 @Composable
 fun Weight.formatted(): String {

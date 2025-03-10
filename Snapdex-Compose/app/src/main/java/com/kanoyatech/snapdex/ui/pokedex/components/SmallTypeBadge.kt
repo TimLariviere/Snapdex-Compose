@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.domain.Type
+import com.kanoyatech.snapdex.domain.PokemonType
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.snapdexWhite
 import com.kanoyatech.snapdex.ui.TypeUi
@@ -47,10 +47,10 @@ private fun SmallTypeBadgePreview() {
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            SmallTypeBadge(TypeUi.fromType(Type.FIRE))
-            SmallTypeBadge(TypeUi.fromType(Type.WATER))
-            SmallTypeBadge(TypeUi.fromType(Type.ROCK))
-            SmallTypeBadge(TypeUi.fromType(Type.GRASS))
+            SmallTypeBadge(TypeUi.fromType(PokemonType.FIRE))
+            SmallTypeBadge(TypeUi.fromType(PokemonType.WATER))
+            SmallTypeBadge(TypeUi.fromType(PokemonType.ROCK))
+            SmallTypeBadge(TypeUi.fromType(PokemonType.GRASS))
         }
     }
 }

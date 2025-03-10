@@ -1,3 +1,4 @@
+import androidx.room.gradle.RoomExtension
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
@@ -5,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -56,6 +59,10 @@ android {
     }
 }
 
+extensions.configure<RoomExtension> {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
@@ -77,6 +84,13 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
+
+    // Room
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    "ksp"(libs.room.compiler)
+    compileOnly(libs.room.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
 
     // Test
     testImplementation(libs.junit)

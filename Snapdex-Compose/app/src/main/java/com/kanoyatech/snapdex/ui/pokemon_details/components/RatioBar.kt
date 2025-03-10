@@ -22,8 +22,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.domain.Percentage
-import com.kanoyatech.snapdex.domain.percent
+import com.kanoyatech.snapdex.domain.units.Percentage
+import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.theme.snapdexDarkBlue

@@ -23,7 +23,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.domain.Type
+import com.kanoyatech.snapdex.domain.PokemonType
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.TypeUi
@@ -74,7 +74,7 @@ fun TypeTag(
 private fun TypeViewPreview() {
     AppTheme {
         TypeTag(
-            elementUi = TypeUi.fromType(Type.FIRE)
+            elementUi = TypeUi.fromType(PokemonType.FIRE)
         )
     }
 }

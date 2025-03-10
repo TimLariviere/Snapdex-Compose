@@ -25,31 +25,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Evolution
-import com.kanoyatech.snapdex.domain.Length
-import com.kanoyatech.snapdex.domain.Percentage
+import com.kanoyatech.snapdex.domain.units.Length
+import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.Pokemon
+import com.kanoyatech.snapdex.domain.PokemonAbility
+import com.kanoyatech.snapdex.domain.PokemonCategory
 import com.kanoyatech.snapdex.domain.PokemonId
-import com.kanoyatech.snapdex.domain.Weight
+import com.kanoyatech.snapdex.domain.PokemonType
+import com.kanoyatech.snapdex.domain.units.Weight
+import com.kanoyatech.snapdex.domain.units.kg
+import com.kanoyatech.snapdex.domain.units.m
+import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.components.GifImage
 import com.kanoyatech.snapdex.theme.components.MaterialHorizontalDivider
 import com.kanoyatech.snapdex.theme.components.MaterialText
-import com.kanoyatech.snapdex.ui.EvolutionUi
+//import com.kanoyatech.snapdex.ui.EvolutionUi
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
 import com.kanoyatech.snapdex.ui.components.TypeTag
-import com.kanoyatech.snapdex.ui.mappers.abilitiesStr
-import com.kanoyatech.snapdex.ui.mappers.categoryStr
 import com.kanoyatech.snapdex.ui.pokemon_details.components.DataCardItem
-import com.kanoyatech.snapdex.ui.pokemon_details.components.EvolutionTree
+//import com.kanoyatech.snapdex.ui.pokemon_details.components.EvolutionTree
 import com.kanoyatech.snapdex.ui.pokemon_details.components.RatioBar
 import com.kanoyatech.snapdex.ui.pokemon_details.components.TypeBackground
-import com.kanoyatech.snapdex.ui.mappers.description
 import com.kanoyatech.snapdex.ui.mappers.largeImageId
-import com.kanoyatech.snapdex.ui.mappers.name
-import com.kanoyatech.snapdex.ui.pokedex.PokedexAction
 
 @Composable
 fun PokemonDetailsScreenRoot(
@@ -78,7 +79,7 @@ private fun PokemonDetailsScreen(
 ) {
     val types = state.pokemon.types.map { TypeUi.fromType(it) }
     val weaknesses = state.pokemon.weaknesses.map { TypeUi.fromType(it) }
-    val evolution = EvolutionUi.fromEvolution(state.evolution)
+    //val evolution = EvolutionUi.fromEvolution(state.evolution)
 
     Scaffold(
         topBar = {
@@ -118,8 +119,8 @@ private fun PokemonDetailsScreen(
             DataCardsSection(
                 weight = state.pokemon.weight,
                 height = state.pokemon.height,
-                category = state.pokemon.categoryStr,
-                abilities = state.pokemon.abilitiesStr,
+                category = state.pokemon.category,
+                ability = state.pokemon.ability,
                 maleToFemaleRatio = state.pokemon.maleToFemaleRatio
             )
 
@@ -127,10 +128,10 @@ private fun PokemonDetailsScreen(
                 weaknesses = weaknesses
             )
 
-            EvolutionSection(
-                evolution = evolution,
-                onAction = onAction
-            )
+            //EvolutionSection(
+            //    evolution = evolution,
+            //    onAction = onAction
+            //)
         }
     }
 }
@@ -204,8 +205,8 @@ fun DescriptionSection(
 private fun DataCardsSection(
     weight: Weight,
     height: Length,
-    category: String,
-    abilities: String,
+    category: PokemonCategory,
+    ability: PokemonAbility,
     maleToFemaleRatio: Percentage
 ) {
     Column(
@@ -237,7 +238,7 @@ private fun DataCardsSection(
             DataCardItem(
                 icon = Icons.Category,
                 name = stringResource(id = R.string.category),
-                value = category,
+                value = category.name,
                 modifier = Modifier
                     .weight(1f)
             )
@@ -245,7 +246,7 @@ private fun DataCardsSection(
             DataCardItem(
                 icon = Icons.Pokeball,
                 name = stringResource(id = R.string.abilities),
-                value = abilities,
+                value = ability.name,
                 modifier = Modifier
                     .weight(1f)
             )
@@ -308,35 +309,51 @@ private fun WeaknessesSection(
     }
 }
 
-@Composable
-fun EvolutionSection(
-    evolution: EvolutionUi,
-    onAction: (PokemonDetailsAction) -> Unit
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        MaterialText(
-            text = stringResource(R.string.evolutions),
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        EvolutionTree(
-            evolutionUi = evolution,
-            onPokemonClick = { pokemonId ->
-                onAction(PokemonDetailsAction.OnPokemonClick(pokemonId))
-            }
-        )
-    }
-}
+//@Composable
+//fun EvolutionSection(
+//    evolution: EvolutionUi,
+//    onAction: (PokemonDetailsAction) -> Unit
+//) {
+//    Column(
+//        verticalArrangement = Arrangement.spacedBy(8.dp)
+//    ) {
+//        MaterialText(
+//            text = stringResource(R.string.evolutions),
+//            style = MaterialTheme.typography.titleMedium
+//        )
+//
+//        EvolutionTree(
+//            evolutionUi = evolution,
+//            onPokemonClick = { pokemonId ->
+//                onAction(PokemonDetailsAction.OnPokemonClick(pokemonId))
+//            }
+//        )
+//    }
+//}
 
 @Preview
 @Composable
 private fun PokemonDetailsScreenPreview() {
-     AppTheme {
+    val pokemon = Pokemon(
+        id = 6,
+        name = "Charizard",
+        description = "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade.",
+        types = listOf(
+            PokemonType.FIRE,
+            PokemonType.FLYING
+        ),
+        weaknesses = emptyList(),
+        weight = 120.0.kg,
+        height = 1.70.m,
+        category = PokemonCategory(id = 0, name = "Lizard"),
+        ability = PokemonAbility(id = 0, name = "Blaze"),
+        maleToFemaleRatio = 87.5.percent
+    )
+
+    AppTheme {
         PokemonDetailsScreen(
             state = PokemonDetailsState(
-                pokemon = Pokemon.find(4),
+                pokemon = pokemon,
                 evolution = Evolution.find(4),
                 isFavorite = false
             ),

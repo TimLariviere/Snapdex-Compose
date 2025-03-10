@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.domain.Type
+import com.kanoyatech.snapdex.domain.PokemonType
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.components.BrushIcon
@@ -161,7 +161,7 @@ fun TypeBackground(
 private fun ElementBackgroundGrassPreview() {
     AppTheme {
         TypeBackground(
-            type = TypeUi.fromType(Type.GRASS)
+            type = TypeUi.fromType(PokemonType.GRASS)
         )
     }
 }
@@ -171,7 +171,7 @@ private fun ElementBackgroundGrassPreview() {
 private fun ElementBackgroundFirePreview() {
     AppTheme {
         TypeBackground(
-            type = TypeUi.fromType(Type.FIRE)
+            type = TypeUi.fromType(PokemonType.FIRE)
         )
     }
 }

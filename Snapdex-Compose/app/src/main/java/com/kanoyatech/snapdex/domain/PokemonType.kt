@@ -1,6 +1,6 @@
 package com.kanoyatech.snapdex.domain
 
-enum class Type {
+enum class PokemonType {
     BUG,
     DARK,
     DRAGON,

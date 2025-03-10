@@ -21,69 +21,75 @@ let db = new SQLiteConnection(dbFile)
 
 db.Execute("""
 CREATE TABLE Categories(
-    Id INTEGER PRIMARY KEY
+    id INTEGER PRIMARY KEY NOT NULL
 );
 """)
 
 db.Execute("""
 CREATE TABLE Abilities(
-    Id INTEGER PRIMARY KEY
+    id INTEGER PRIMARY KEY NOT NULL
 );
 """)
 
 db.Execute("""
 CREATE TABLE Pokemons(
-    Id INTEGER PRIMARY KEY NOT NULL,
-    Weight REAL NOT NULL,
-    Height REAL NOT NULL,
-    Category INTEGER NOT NULL,
-    Ability INTEGER NOT NULL,
-    FOREIGN KEY(Category) REFERENCES Categories(Id),
-    FOREIGN KEY(Ability) REFERENCES Abilities(Id)
+    id INTEGER PRIMARY KEY NOT NULL,
+    weight REAL NOT NULL,
+    height REAL NOT NULL,
+    categoryId INTEGER NOT NULL,
+    abilityId INTEGER NOT NULL,
+    maleToFemaleRatio REAL,
+    FOREIGN KEY(categoryId) REFERENCES Categories(id),
+    FOREIGN KEY(abilityId) REFERENCES Abilities(id)
 );
 """)
 
 db.Execute("""
 CREATE TABLE PokemonTypes(
-    PokemonId INTEGER NOT NULL,
-    Type INTEGER NOT NULL,
-    FOREIGN KEY(PokemonId) REFERENCES Pokemons(Id)
+    pokemonTypeId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    pokemonId INTEGER NOT NULL,
+    type INTEGER NOT NULL,
+    FOREIGN KEY(pokemonId) REFERENCES Pokemons(id)
 );
 """)
 
 db.Execute("""
 CREATE TABLE PokemonWeaknesses(
-    PokemonId INTEGER NOT NULL,
-    Type INTEGER NOT NULL,
-    FOREIGN KEY(PokemonId) REFERENCES Pokemons(Id)
+    pokemonWeaknessId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    pokemonId INTEGER NOT NULL,
+    type INTEGER NOT NULL,
+    FOREIGN KEY(pokemonId) REFERENCES Pokemons(id)
 );
 """)
 
 db.Execute("""
 CREATE TABLE CategoryTranslations(
-    CategoryId INTEGER NOT NULL,
-    Language TEXT NOT NULL,
-    Name TEXT NOT NULL,
-    FOREIGN KEY(CategoryId) REFERENCES Categories(Id)
+    categoryTranslationId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    categoryId INTEGER NOT NULL,
+    language TEXT NOT NULL,
+    name TEXT NOT NULL,
+    FOREIGN KEY(categoryId) REFERENCES Categories(id)
 );
 """)
 
 db.Execute("""
 CREATE TABLE AbilityTranslations(
-    AbilityId INTEGER NOT NULL,
-    Language TEXT NOT NULL,
-    Name TEXT NOT NULL,
-    FOREIGN KEY(AbilityId) REFERENCES Abilities(Id)
+    abilityTranslationId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    abilityId INTEGER NOT NULL,
+    language TEXT NOT NULL,
+    name TEXT NOT NULL,
+    FOREIGN KEY(abilityId) REFERENCES Abilities(id)
 );
 """)
 
 db.Execute("""
 CREATE TABLE PokemonTranslations(
-    PokemonId INTEGER NOT NULL,
-    Language TEXT NOT NULL,
-    Name TEXT NOT NULL,
-    Description TEXT NOT NULL,
-    FOREIGN KEY(PokemonId) REFERENCES Pokemons(Id)
+    pokemonTranslationId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    pokemonId INTEGER NOT NULL,
+    language TEXT NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY(pokemonId) REFERENCES Pokemons(id)
 );
 """)
 
@@ -164,8 +170,8 @@ task {
                 else
                     let id = abilities.Count + 1
                     abilities.Add(abilityName, id)
-                    db.Execute("INSERT INTO Abilities(Id) VALUES(?)", id) |> ignore
-                    db.Execute("INSERT INTO AbilityTranslations(AbilityId, Language, Name) VALUES(?, ?, ?)", id, "en", abilityName) |> ignore
+                    db.Execute("INSERT INTO Abilities(id) VALUES(?)", id) |> ignore
+                    db.Execute("INSERT INTO AbilityTranslations(abilityId, language, name) VALUES(?, ?, ?)", id, "en", abilityName) |> ignore
                     id
                     
             let categoryName = data.abilities.Head.ability.name
@@ -175,18 +181,18 @@ task {
                 else
                     let id = categories.Count + 1
                     categories.Add(categoryName, id)
-                    db.Execute("INSERT INTO Categories(Id) VALUES(?)", id) |> ignore
-                    db.Execute("INSERT INTO CategoryTranslations(CategoryId, Language, Name) VALUES(?, ?, ?)", id, "en", categoryName) |> ignore
+                    db.Execute("INSERT INTO Categories(id) VALUES(?)", id) |> ignore
+                    db.Execute("INSERT INTO CategoryTranslations(categoryId, language, name) VALUES(?, ?, ?)", id, "en", categoryName) |> ignore
                     id
                     
             let html = Pokedex.Load($"https://ph.portal-pokemon.com/play/pokedex/{number:D4}")
             let name = html.Html.CssSelect(".pokemon-slider__main-name").Head.InnerText()
             let description = html.Html.CssSelect(".pokemon-story__body span").Head.InnerText()
                     
-            db.Execute("INSERT INTO Pokemons(Id, Weight, Height, Category, Ability) VALUES(?, ?, ?, ?, ?)", data.id, data.weight, data.height, categoryId, abilityId) |> ignore
-            db.Execute("INSERT INTO PokemonTypes(PokemonId, Type) VALUES(?, ?)", data.id, 0) |> ignore
-            db.Execute("INSERT INTO PokemonWeaknesses(PokemonId, Type) VALUES(?, ?)", data.id, 0) |> ignore
-            db.Execute("INSERT INTO PokemonTranslations(PokemonId, Language, Name, Description) VALUES(?, ?, ?, ?)", data.id, "en", name, description) |> ignore
+            db.Execute("INSERT INTO Pokemons(id, weight, height, categoryId, abilityId, maleToFemaleRatio) VALUES(?, ?, ?, ?, ?, ?)", data.id, data.weight, data.height, categoryId, abilityId, 0.875) |> ignore
+            db.Execute("INSERT INTO PokemonTypes(pokemonId, type) VALUES(?, ?)", data.id, 0) |> ignore
+            db.Execute("INSERT INTO PokemonWeaknesses(pokemonId, type) VALUES(?, ?)", data.id, 0) |> ignore
+            db.Execute("INSERT INTO PokemonTranslations(pokemonId, language, name, description) VALUES(?, ?, ?, ?)", data.id, "en", name, description) |> ignore
             
             printfn $"Pokemon %d{number}: %s{name}"
             

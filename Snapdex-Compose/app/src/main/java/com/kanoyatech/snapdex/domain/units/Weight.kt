@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.domain
+package com.kanoyatech.snapdex.domain.units
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable

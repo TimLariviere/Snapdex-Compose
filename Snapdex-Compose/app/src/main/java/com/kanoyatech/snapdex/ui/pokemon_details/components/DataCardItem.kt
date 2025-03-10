@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.domain.kg
+import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.utils.formatted
 
