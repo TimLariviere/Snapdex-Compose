@@ -13,12 +13,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +46,7 @@ import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.components.GifImage
 import com.kanoyatech.snapdex.theme.components.MaterialHorizontalDivider
 import com.kanoyatech.snapdex.theme.components.MaterialText
+import com.kanoyatech.snapdex.ui.State
 //import com.kanoyatech.snapdex.ui.EvolutionUi
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
@@ -51,6 +57,7 @@ import com.kanoyatech.snapdex.ui.pokemon_details.components.DataCardItem
 import com.kanoyatech.snapdex.ui.pokemon_details.components.RatioBar
 import com.kanoyatech.snapdex.ui.pokemon_details.components.TypeBackground
 import com.kanoyatech.snapdex.ui.mappers.largeImageId
+import com.kanoyatech.snapdex.ui.utils.getLocale
 
 @Composable
 fun PokemonDetailsScreenRoot(
@@ -58,6 +65,11 @@ fun PokemonDetailsScreenRoot(
     onBackClick: () -> Unit,
     onPokemonClick: (PokemonId) -> Unit
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        viewModel.setLocale(context.getLocale())
+    }
+
     PokemonDetailsScreen(
         state = viewModel.state,
         onAction = { action ->
@@ -77,8 +89,6 @@ private fun PokemonDetailsScreen(
     state: PokemonDetailsState,
     onAction: (PokemonDetailsAction) -> Unit
 ) {
-    val types = state.pokemon.types.map { TypeUi.fromType(it) }
-    val weaknesses = state.pokemon.weaknesses.map { TypeUi.fromType(it) }
     //val evolution = EvolutionUi.fromEvolution(state.evolution)
 
     Scaffold(
@@ -94,44 +104,52 @@ private fun PokemonDetailsScreen(
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            Header(
-                id = state.pokemon.id,
-                name = state.pokemon.name,
-                image = state.pokemon.largeImageId,
-                type = types.first()
-            )
+        if (state.pokemon == null) {
 
-            DescriptionSection(
-                description = state.pokemon.description,
-                types = types
-            )
+        }
+        else {
+            val types = state.pokemon.types.map { TypeUi.fromType(it) }
+            val weaknesses = state.pokemon.weaknesses.map { TypeUi.fromType(it) }
 
-            MaterialHorizontalDivider()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp)
+                    .padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                Header(
+                    id = state.pokemon.id,
+                    name = state.pokemon.name,
+                    image = state.pokemon.largeImageId,
+                    type = types.first()
+                )
 
-            DataCardsSection(
-                weight = state.pokemon.weight,
-                height = state.pokemon.height,
-                category = state.pokemon.category,
-                ability = state.pokemon.ability,
-                maleToFemaleRatio = state.pokemon.maleToFemaleRatio
-            )
+                DescriptionSection(
+                    description = state.pokemon.description,
+                    types = types
+                )
 
-            WeaknessesSection(
-                weaknesses = weaknesses
-            )
+                MaterialHorizontalDivider()
 
-            //EvolutionSection(
-            //    evolution = evolution,
-            //    onAction = onAction
-            //)
+                DataCardsSection(
+                    weight = state.pokemon.weight,
+                    height = state.pokemon.height,
+                    category = state.pokemon.category,
+                    ability = state.pokemon.ability,
+                    maleToFemaleRatio = state.pokemon.maleToFemaleRatio
+                )
+
+                WeaknessesSection(
+                    weaknesses = weaknesses
+                )
+
+                //EvolutionSection(
+                //    evolution = evolution,
+                //    onAction = onAction
+                //)
+            }
         }
     }
 }
@@ -353,6 +371,7 @@ private fun PokemonDetailsScreenPreview() {
     AppTheme {
         PokemonDetailsScreen(
             state = PokemonDetailsState(
+                pokemonId = 4,
                 pokemon = pokemon,
                 evolution = Evolution.find(4),
                 isFavorite = false

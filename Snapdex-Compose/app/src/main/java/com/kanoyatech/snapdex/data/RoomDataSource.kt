@@ -10,8 +10,12 @@ class RoomDataSource(
     private val pokemonDao: PokemonDao
 ): DataSource {
     override suspend fun getAll(locale: Locale): List<Pokemon> {
-        return pokemonDao.getPokemonsWithRelations(locale.language).map {
-            it.toPokemon()
+        return pokemonDao.getAll().map {
+            it.toPokemon(locale)
         }
+    }
+
+    override suspend fun getBy(id: Int, locale: Locale): Pokemon? {
+        return pokemonDao.getBy(id = id)?.toPokemon(locale)
     }
 }

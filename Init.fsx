@@ -38,7 +38,7 @@ CREATE TABLE Pokemons(
     height REAL NOT NULL,
     categoryId INTEGER NOT NULL,
     abilityId INTEGER NOT NULL,
-    maleToFemaleRatio REAL,
+    maleToFemaleRatio REAL NOT NULL,
     FOREIGN KEY(categoryId) REFERENCES Categories(id),
     FOREIGN KEY(abilityId) REFERENCES Abilities(id)
 );

@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.MainActivity
+import com.kanoyatech.snapdex.ui.State
 import kotlinx.coroutines.launch
 import java.util.Locale
 

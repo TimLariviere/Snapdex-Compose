@@ -1,11 +1,7 @@
 package com.kanoyatech.snapdex.ui.pokedex
 
 import com.kanoyatech.snapdex.domain.Pokemon
-
-enum class State {
-    LOADING,
-    IDLE
-}
+import com.kanoyatech.snapdex.ui.State
 
 data class PokedexState(
     val state: State = State.LOADING,

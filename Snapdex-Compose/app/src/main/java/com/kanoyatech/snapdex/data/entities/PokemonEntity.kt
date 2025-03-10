@@ -1,9 +1,24 @@
 package com.kanoyatech.snapdex.data.entities
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity("Pokemons")
+@Entity(
+    tableName = "Pokemons",
+    foreignKeys = [
+        ForeignKey(
+            entity = AbilityEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["abilityId"]
+        ),
+        ForeignKey(
+            entity = CategoryEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["categoryId"]
+        )
+    ]
+)
 data class PokemonEntity(
     @PrimaryKey val id: Int,
     val weight: Double,
@@ -13,7 +28,16 @@ data class PokemonEntity(
     val maleToFemaleRatio: Double
 )
 
-@Entity("PokemonTranslations")
+@Entity(
+    tableName = "PokemonTranslations",
+    foreignKeys = [
+        ForeignKey(
+            entity = PokemonEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["pokemonId"]
+        )
+    ]
+)
 data class PokemonTranslationEntity(
     @PrimaryKey val pokemonTranslationId: Int,
     val pokemonId: Int,
@@ -22,14 +46,32 @@ data class PokemonTranslationEntity(
     val description: String
 )
 
-@Entity("PokemonTypes")
+@Entity(
+    tableName = "PokemonTypes",
+    foreignKeys = [
+        ForeignKey(
+            entity = PokemonEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["pokemonId"]
+        )
+    ]
+)
 data class PokemonTypeEntity(
     @PrimaryKey val pokemonTypeId: Int,
     val pokemonId: Int,
     val type: Int
 )
 
-@Entity("PokemonWeaknesses")
+@Entity(
+    tableName = "PokemonWeaknesses",
+    foreignKeys = [
+        ForeignKey(
+            entity = PokemonEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["pokemonId"]
+        )
+    ]
+)
 data class PokemonWeaknessEntity(
     @PrimaryKey val pokemonWeaknessId: Int,
     val pokemonId: Int,
