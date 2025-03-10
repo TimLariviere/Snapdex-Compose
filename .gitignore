@@ -1,3 +1,6 @@
 .idea/
-
 .DS_Store
+
+*.db
+Snapdex-Compose/app/src/main/assets/*.db
+Snapdex-Compose/app/src/main/res/drawable/pokemon*.*
