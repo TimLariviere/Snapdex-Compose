@@ -148,6 +148,27 @@ let copyDatabase () =
     File.Copy(dbFile, path, true)
     File.Delete(dbFile)
     
+let typeToInt(typ: string) =
+    match typ with
+    | "bug" -> 0
+    | "dark" -> 1
+    | "dragon" -> 2
+    | "electric" -> 3
+    | "fairy" -> 4
+    | "fighting" -> 5
+    | "fire" -> 6
+    | "flying" -> 7
+    | "ghost" -> 8
+    | "grass" -> 9
+    | "ground" -> 10
+    | "ice" -> 11
+    | "normal" -> 12
+    | "poison" -> 13
+    | "psychic" -> 14
+    | "rock" -> 15
+    | "steel" -> 16
+    | "water" -> 17
+    
 task {
     try
         let abilities = Dictionary<string, int>()
@@ -163,7 +184,11 @@ task {
             let! content = response.Content.ReadAsStringAsync()
             let data = System.Text.Json.JsonSerializer.Deserialize<PokemonData>(content)
             
-            let abilityName = data.abilities.Head.ability.name
+            let html = Pokedex.Load($"https://ph.portal-pokemon.com/play/pokedex/{number:D4}")
+            let name = html.Html.CssSelect(".pokemon-slider__main-name").Head.InnerText()
+            let description = html.Html.CssSelect(".pokemon-story__body span").Head.InnerText()
+            
+            let abilityName = html.Html.CssSelect(".pokemon-info__abilities .pokemon-info__value").Head.InnerText()
             let abilityId =
                 if abilities.ContainsKey(abilityName) then
                     abilities[abilityName]
@@ -174,7 +199,8 @@ task {
                     db.Execute("INSERT INTO AbilityTranslations(abilityId, language, name) VALUES(?, ?, ?)", id, "en", abilityName) |> ignore
                     id
                     
-            let categoryName = data.abilities.Head.ability.name
+            let categoryName = html.Html.CssSelect(".pokemon-info__category .pokemon-info__value").Head.InnerText()
+            let categoryName = categoryName.Replace(" Pokémon", "")
             let categoryId =
                 if categories.ContainsKey(categoryName) then
                     categories[categoryName]
@@ -185,13 +211,18 @@ task {
                     db.Execute("INSERT INTO CategoryTranslations(categoryId, language, name) VALUES(?, ?, ?)", id, "en", categoryName) |> ignore
                     id
                     
-            let html = Pokedex.Load($"https://ph.portal-pokemon.com/play/pokedex/{number:D4}")
-            let name = html.Html.CssSelect(".pokemon-slider__main-name").Head.InnerText()
-            let description = html.Html.CssSelect(".pokemon-story__body span").Head.InnerText()
-                    
             db.Execute("INSERT INTO Pokemons(id, weight, height, categoryId, abilityId, maleToFemaleRatio) VALUES(?, ?, ?, ?, ?, ?)", data.id, data.weight, data.height, categoryId, abilityId, 0.875) |> ignore
-            db.Execute("INSERT INTO PokemonTypes(pokemonId, type) VALUES(?, ?)", data.id, 0) |> ignore
-            db.Execute("INSERT INTO PokemonWeaknesses(pokemonId, type) VALUES(?, ?)", data.id, 0) |> ignore
+            
+            for t in data.types do
+                let typeId = typeToInt t.type_.name
+                db.Execute("INSERT INTO PokemonTypes(pokemonId, type) VALUES(?, ?)", data.id, typeId) |> ignore
+                
+            let weaknesses = html.Html.CssSelect(".pokemon-weakness__items .pokemon-weakness__btn")
+            for w in weaknesses do
+                let text = w.InnerText().ToLower()
+                let typeId = typeToInt text
+                db.Execute("INSERT INTO PokemonWeaknesses(pokemonId, type) VALUES(?, ?)", data.id, typeId) |> ignore
+                
             db.Execute("INSERT INTO PokemonTranslations(pokemonId, language, name, description) VALUES(?, ?, ?, ?)", data.id, "en", name, description) |> ignore
             
             printfn $"Pokemon %d{number}: %s{name}"
@@ -204,5 +235,5 @@ task {
         
         printfn "Done"
     with ex ->
-        printfn $"Error: %s{ex.Message}"
+        printfn $"Error: %s{ex.ToString()}"
 }

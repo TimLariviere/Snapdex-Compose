@@ -7,10 +7,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.kanoyatech.snapdex.domain.PokemonId
 import com.kanoyatech.snapdex.ui.pokedex.PokedexScreenRoot
-import com.kanoyatech.snapdex.ui.pokedex.PokedexViewModel
 import com.kanoyatech.snapdex.ui.pokemon_details.PokemonDetailsScreenRoot
 import com.kanoyatech.snapdex.ui.pokemon_details.PokemonDetailsViewModel
 import kotlinx.serialization.Serializable
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Serializable
 object PokedexRoute
@@ -28,7 +29,6 @@ fun NavigationRoot(
     ) {
         composable<PokedexRoute> {
             PokedexScreenRoot(
-                viewModel = PokedexViewModel(),
                 onPokemonClick = { pokemonId ->
                     navController.navigate(PokemonDetailsRoute(pokemonId = pokemonId))
                 }
@@ -37,8 +37,9 @@ fun NavigationRoot(
 
         composable<PokemonDetailsRoute> { backStackEntry ->
             val route: PokemonDetailsRoute = backStackEntry.toRoute()
+            val viewModel: PokemonDetailsViewModel = koinViewModel { parametersOf(route.pokemonId) }
             PokemonDetailsScreenRoot(
-                viewModel = PokemonDetailsViewModel(pokemonId = route.pokemonId),
+                viewModel = viewModel,
                 onBackClick = {
                     navController.popBackStack()
                 },

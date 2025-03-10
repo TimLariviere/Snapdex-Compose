@@ -6,8 +6,12 @@ import androidx.compose.runtime.Stable
 @Immutable
 @JvmInline
 value class Length(private val value: Double) {
-    fun toMeters(): Double {
-        return this.value / 1000.0
+    fun toMeters(): Double { return this.value / 1000.0 }
+
+    companion object {
+        fun fromDecimeter(value: Double): Length {
+            return (value / 10.0).m
+        }
     }
 }
 

@@ -52,10 +52,11 @@ import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.mappers.mediumImageId
 import com.kanoyatech.snapdex.ui.pokedex.components.SmallTypeBadge
 import com.kanoyatech.snapdex.ui.utils.getLocale
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PokedexScreenRoot(
-    viewModel: PokedexViewModel,
+    viewModel: PokedexViewModel = koinViewModel(),
     onPokemonClick: (PokemonId) -> Unit
 ) {
     val context = LocalContext.current

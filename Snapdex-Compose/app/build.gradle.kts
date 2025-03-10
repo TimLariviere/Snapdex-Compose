@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.bundles.koin.compose)
+
     // Compose
     implementation(libs.bundles.compose)
     debugImplementation(libs.androidx.compose.ui.tooling.preview)
