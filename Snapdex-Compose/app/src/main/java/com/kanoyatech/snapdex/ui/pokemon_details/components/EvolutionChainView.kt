@@ -54,7 +54,7 @@ import com.kanoyatech.snapdex.theme.snapdexDarkBlue2
 import com.kanoyatech.snapdex.theme.snapdexWhite
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.components.BrushIcon
-import com.kanoyatech.snapdex.ui.mappers.mediumImageId
+import com.kanoyatech.snapdex.ui.utils.mediumImageId
 
 @Composable
 fun EvolutionChainView(

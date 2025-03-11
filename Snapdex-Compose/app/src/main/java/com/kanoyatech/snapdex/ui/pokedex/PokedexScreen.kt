@@ -49,7 +49,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.State
 import com.kanoyatech.snapdex.ui.TypeUi
-import com.kanoyatech.snapdex.ui.mappers.mediumImageId
+import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.pokedex.components.SmallTypeBadge
 import com.kanoyatech.snapdex.ui.utils.getLocale
 import org.koin.androidx.compose.koinViewModel

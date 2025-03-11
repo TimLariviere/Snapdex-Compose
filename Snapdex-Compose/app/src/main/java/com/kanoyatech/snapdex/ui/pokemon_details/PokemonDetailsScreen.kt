@@ -49,10 +49,9 @@ import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
 import com.kanoyatech.snapdex.ui.components.TypeTag
 import com.kanoyatech.snapdex.ui.pokemon_details.components.DataCardItem
-//import com.kanoyatech.snapdex.ui.pokemon_details.components.EvolutionTree
 import com.kanoyatech.snapdex.ui.pokemon_details.components.RatioBar
 import com.kanoyatech.snapdex.ui.pokemon_details.components.TypeBackground
-import com.kanoyatech.snapdex.ui.mappers.largeImageId
+import com.kanoyatech.snapdex.ui.utils.largeImageId
 import com.kanoyatech.snapdex.ui.pokemon_details.components.EvolutionChainView
 import com.kanoyatech.snapdex.ui.utils.getLocale
 
