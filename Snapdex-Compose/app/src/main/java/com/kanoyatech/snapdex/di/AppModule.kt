@@ -6,11 +6,12 @@ import com.google.firebase.auth.auth
 import com.kanoyatech.snapdex.data.RoomDataSource
 import com.kanoyatech.snapdex.data.SnapdexDatabase
 import com.kanoyatech.snapdex.domain.DataSource
-import com.kanoyatech.snapdex.ui.login.LoginViewModel
-import com.kanoyatech.snapdex.ui.pokedex.PokedexViewModel
-import com.kanoyatech.snapdex.ui.pokemon_details.PokemonDetailsViewModel
-import com.kanoyatech.snapdex.ui.profile.ProfileViewModel
-import com.kanoyatech.snapdex.ui.register.RegisterViewModel
+import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
+import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
+import com.kanoyatech.snapdex.ui.main.pokemon_details.PokemonDetailsViewModel
+import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
+import com.kanoyatech.snapdex.ui.auth.register.RegisterViewModel
+import com.kanoyatech.snapdex.ui.main.stats.StatsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -40,6 +41,7 @@ val uiModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::PokedexViewModel)
     viewModelOf(::ProfileViewModel)
+    viewModelOf(::StatsViewModel)
     viewModel { parameters -> PokemonDetailsViewModel(get(), parameters.get()) }
 }
 

@@ -3,9 +3,7 @@ package com.kanoyatech.snapdex.theme.designsystem
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,8 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Poppins
-import com.kanoyatech.snapdex.theme.snapdexGray100
-import com.kanoyatech.snapdex.theme.snapdexGray400
 
 @Composable
 fun PrimaryButton(
@@ -29,12 +25,6 @@ fun PrimaryButton(
         onClick = onClick,
         enabled = enabled,
         shape = RoundedCornerShape(50.dp),
-        colors = ButtonDefaults.buttonColors().copy(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContainerColor = snapdexGray100,
-            disabledContentColor = snapdexGray400
-        ),
         modifier = modifier
             .height(58.dp)
     ) {
@@ -61,7 +51,7 @@ private fun PrimaryButtonEnabledPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PrimaryButtonDisabledPreview() {
     AppTheme {

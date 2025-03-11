@@ -26,37 +26,31 @@ val Typography = Typography(
     headlineMedium = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Medium,
-        fontSize = 32.sp,
-        color = snapdexBlack
+        fontSize = 32.sp
     ),
     titleMedium = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Medium,
-        fontSize = 18.sp,
-        color = snapdexBlack
+        fontSize = 18.sp
     ),
     titleSmall = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        color = snapdexBlack
+        fontSize = 16.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        color = snapdexGray
+        fontSize = 14.sp
     ),
     labelLarge = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        color = snapdexBlack
+        fontSize = 14.sp
     ),
     labelMedium = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
-        color = snapdexGray3
+        fontSize = 12.sp
     )
 )

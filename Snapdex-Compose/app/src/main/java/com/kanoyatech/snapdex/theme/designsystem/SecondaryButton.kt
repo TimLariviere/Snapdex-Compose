@@ -10,14 +10,13 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Poppins
-import com.kanoyatech.snapdex.theme.snapdexGray100
-import com.kanoyatech.snapdex.theme.snapdexGray400
 
 @Composable
 fun SecondaryButton(
@@ -31,13 +30,12 @@ fun SecondaryButton(
         enabled = enabled,
         shape = RoundedCornerShape(50.dp),
         colors = ButtonDefaults.outlinedButtonColors().copy(
-            contentColor = MaterialTheme.colorScheme.primary,
-            disabledContainerColor = snapdexGray100,
-            disabledContentColor = snapdexGray400
+            disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+            disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
         ),
         border = BorderStroke(
-            width = if (enabled) 2.dp else 0.dp,
-            color = MaterialTheme.colorScheme.primary
+            width = 2.dp,
+            color = if (enabled) MaterialTheme.colorScheme.primary else Color.Transparent
         ),
         modifier = modifier
             .height(58.dp)
@@ -65,7 +63,7 @@ private fun SecondaryButtonEnabledPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SecondaryButtonDisabledPreview() {
     AppTheme {

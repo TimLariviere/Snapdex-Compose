@@ -4,21 +4,15 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-val snapdexDarkGray2 = Color(0xFF2e2e2e)
+// Validated colors
 val snapdexWhite = Color(0xFFFFFFFF)
-
-val snapdexLightGray = Color(0xFFE5E5E5)
-val snapdexGray = Color(0xFF4D4D4D)
-val snapdexGray2 = Color(0xFFF2F2F2)
-val snapdexGray3 = Color(0xFF666666)
 val snapdexBlack = Color(0xFF000000)
-val snapdexDarkBlue2 = Color(0xFF173EA5)
-val snapdexDarkBlue = Color(0xFF2551C3)
-val snapdexLightRed = Color(0xFFFF7596)
-val snapdexRed = Color(0xFFFD525C)
-
-val snapdexGray100 = Color(0xFFE6E6E6)
+val snapdexBlue400 = Color(0xFF2551C3)
+val snapdexBlue700 = Color(0xFF173EA5)
+val snapdexRed200 = Color(0xFFFF7596)
+val snapdexGray200 = Color(0xFFCCCCCC)
 val snapdexGray400 = Color(0xFF999999)
+val snapdexGray700 = Color(0xFF4D4D4D)
 
 data object TypeColor {
     val Normal = Color(0xFF919AA2)
@@ -42,15 +36,14 @@ data object TypeColor {
 }
 
 val LightColors = lightColorScheme(
-    primary = snapdexDarkBlue2, // default button color
+    primary = snapdexBlue700, // default button color
     onPrimary = snapdexWhite, // default button text color
-    secondary = snapdexGray3,
-    surface = snapdexLightGray,
-    onSurface = snapdexGray2,
-    onSurfaceVariant = snapdexGray400,
-    onBackground = snapdexGray // default text color
+    background = snapdexWhite, // default page color
+    onBackground = snapdexGray700, // default text color,
+    surface = snapdexWhite, // default unchecked toggle thumb
+    surfaceVariant = snapdexGray200, // default unchecked toggle track
+    onSurface = snapdexGray700, // default disabled button container (12% alpha), disabled label text (38% alpha)
+    onSurfaceVariant = snapdexGray400 // default placeholder
 )
 
-val DarkColors = darkColorScheme(
-    primary = snapdexDarkGray2
-)
+val DarkColors = darkColorScheme()
