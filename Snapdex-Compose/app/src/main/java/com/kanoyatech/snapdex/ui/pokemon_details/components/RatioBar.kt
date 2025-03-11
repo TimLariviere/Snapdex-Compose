@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,6 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.theme.snapdexDarkBlue
 import com.kanoyatech.snapdex.theme.snapdexLightRed
 import com.kanoyatech.snapdex.ui.utils.formatted
@@ -83,7 +83,7 @@ private fun Label(
                 .size(12.dp)
         )
 
-        MaterialText(
+        Text(
             text = value.formatted(),
             style = MaterialTheme.typography.labelMedium,
             color = RatioBarColors.labelColor

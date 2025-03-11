@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -41,13 +42,12 @@ import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.components.GifImage
-import com.kanoyatech.snapdex.theme.components.MaterialHorizontalDivider
-import com.kanoyatech.snapdex.theme.components.MaterialText
+import com.kanoyatech.snapdex.theme.designsystem.GifImage
+import com.kanoyatech.snapdex.theme.designsystem.MaterialHorizontalDivider
 import com.kanoyatech.snapdex.ui.TypeUi
-import com.kanoyatech.snapdex.ui.components.SnapdexToolbar
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
-import com.kanoyatech.snapdex.ui.components.TypeTag
+import com.kanoyatech.snapdex.ui.pokemon_details.components.TypeTag
 import com.kanoyatech.snapdex.ui.pokemon_details.components.DataCardItem
 import com.kanoyatech.snapdex.ui.pokemon_details.components.RatioBar
 import com.kanoyatech.snapdex.ui.pokemon_details.components.TypeBackground
@@ -185,11 +185,11 @@ private fun Header(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        MaterialText(
+        Text(
             text = name,
             style = MaterialTheme.typography.headlineMedium
         )
-        MaterialText(
+        Text(
             text = stringResource(R.string.pokemon_number, id),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.primary
@@ -214,7 +214,7 @@ fun DescriptionSection(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        MaterialText(
+        Text(
             text = description
         )
     }
@@ -276,7 +276,7 @@ private fun DataCardsSection(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            MaterialText(
+            Text(
                 text = stringResource(id = R.string.gender).uppercase(),
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center,
@@ -300,7 +300,7 @@ private fun WeaknessesSection(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        MaterialText(
+        Text(
             text = stringResource(id = R.string.weaknesses),
             style = MaterialTheme.typography.titleMedium
         )
@@ -336,7 +336,7 @@ fun EvolutionChainSection(
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        MaterialText(
+        Text(
             text = stringResource(R.string.evolutions),
             style = MaterialTheme.typography.titleMedium
         )

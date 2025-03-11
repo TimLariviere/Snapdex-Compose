@@ -49,11 +49,10 @@ import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.Poppins
-import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.theme.snapdexDarkBlue2
 import com.kanoyatech.snapdex.theme.snapdexWhite
 import com.kanoyatech.snapdex.ui.TypeUi
-import com.kanoyatech.snapdex.ui.components.BrushIcon
+import com.kanoyatech.snapdex.theme.designsystem.BrushIcon
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 
 @Composable
@@ -186,7 +185,7 @@ fun LevelRow(
             tint = snapdexDarkBlue2
         )
 
-        MaterialText(
+        Text(
             text = stringResource(R.string.level_x, level),
             color = snapdexDarkBlue2
         )

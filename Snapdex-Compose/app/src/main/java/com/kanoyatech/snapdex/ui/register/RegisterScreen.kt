@@ -8,19 +8,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicSecureTextField
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.ui.components.PrimaryButton
+import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
@@ -63,25 +64,32 @@ private fun RegisterScreen(
                 .padding(horizontal = 16.dp, vertical = 24.dp)
                 .padding(paddingValues)
         ) {
-            BasicTextField(
-                state = state.email,
+            Text(
+                text = "Register",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(32.dp)
-                    .background(color = MaterialTheme.colorScheme.surface)
             )
 
-            BasicSecureTextField(
-                state = state.password,
-                textObfuscationMode = if (state.isPasswordVisible) {
-                    TextObfuscationMode.Visible
-                } else {
-                    TextObfuscationMode.RevealLastTyped
-                },
+            Spacer(modifier = Modifier.weight(1f))
+
+            SnapdexTextField(
+                state = state.email,
+                hint = "E-mail",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(32.dp)
-                    .background(color = MaterialTheme.colorScheme.surface)
+            )
+
+            SnapdexPasswordField(
+                state = state.password,
+                isPasswordVisible = state.isPasswordVisible,
+                onTogglePasswordVisibility = {
+                    onAction(RegisterAction.OnTogglePasswordVisibility)
+                },
+                hint = "Password",
+                modifier = Modifier
+                    .fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.weight(1f))

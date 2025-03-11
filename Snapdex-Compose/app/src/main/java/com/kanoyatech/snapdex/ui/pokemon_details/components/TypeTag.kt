@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.ui.components
+package com.kanoyatech.snapdex.ui.pokemon_details.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.domain.PokemonType
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
@@ -59,7 +59,7 @@ fun TypeTag(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        MaterialText(
+        Text(
             text = stringResource(id = elementUi.name),
             style = MaterialTheme.typography.labelLarge,
             textAlign = TextAlign.Center,

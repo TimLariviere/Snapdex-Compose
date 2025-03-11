@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +25,6 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.domain.units.kg
-import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 @Composable
@@ -50,7 +50,7 @@ fun DataCardItem(
                     .size(16.dp)
             )
 
-            MaterialText(
+            Text(
                 text = name.uppercase(),
                 style = MaterialTheme.typography.titleSmall,
                 fontSize = 12.sp,
@@ -68,7 +68,7 @@ fun DataCardItem(
                 ),
             contentAlignment = Alignment.Center
         ) {
-            MaterialText(
+            Text(
                 text = value,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier

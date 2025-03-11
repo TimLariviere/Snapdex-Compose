@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,7 +47,6 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.domain.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.components.MaterialText
 import com.kanoyatech.snapdex.ui.State
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
@@ -87,7 +87,7 @@ private fun PokedexScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    MaterialText(
+                    Text(
                         text = stringResource(id = R.string.pokedex),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
@@ -114,7 +114,7 @@ private fun PokedexScreen(
                         )
                     },
                     label = {
-                        MaterialText(
+                        Text(
                             text = stringResource(id = R.string.pokedex)
                         )
                     }
@@ -134,7 +134,7 @@ private fun PokedexScreen(
                         )
                     },
                     label = {
-                        MaterialText(
+                        Text(
                             text = stringResource(id = R.string.statistics)
                         )
                     }
@@ -154,7 +154,7 @@ private fun PokedexScreen(
                         )
                     },
                     label = {
-                        MaterialText(
+                        Text(
                             text = stringResource(id = R.string.profile)
                         )
                     }
@@ -232,7 +232,7 @@ fun PokemonItem(
                     .weight(1f)
             )
 
-            MaterialText(
+            Text(
                 text = stringResource(id = R.string.pokemon_number, pokemon.id)
             )
         }
@@ -262,13 +262,13 @@ fun UnknownItem(
             modifier = Modifier
                 .weight(1f)
         ) {
-            MaterialText(
+            Text(
                 text = "?",
                 fontSize = 32.sp
             )
         }
 
-        MaterialText(
+        Text(
             text = stringResource(id = R.string.pokemon_number, id)
         )
     }

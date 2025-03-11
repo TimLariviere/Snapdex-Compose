@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.domain.PokemonType
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.ui.TypeUi
-import com.kanoyatech.snapdex.ui.components.BrushIcon
+import com.kanoyatech.snapdex.theme.designsystem.BrushIcon
 
 @Composable
 fun TypeBackground(

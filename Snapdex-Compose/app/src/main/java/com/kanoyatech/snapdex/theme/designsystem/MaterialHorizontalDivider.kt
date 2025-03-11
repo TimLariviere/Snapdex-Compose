@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.theme.components
+package com.kanoyatech.snapdex.theme.designsystem
 
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
