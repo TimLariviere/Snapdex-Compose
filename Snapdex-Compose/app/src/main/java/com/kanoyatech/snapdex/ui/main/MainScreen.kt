@@ -56,7 +56,11 @@ fun MainScreen(
                         text = stringResource(id = R.string.pokedex),
                         selected = currentDestination?.route == PokedexTabRoute::class.qualifiedName,
                     ) {
-                        navController.navigate(PokedexTabRoute)
+                        navController.navigate(PokedexTabRoute) {
+                            popUpTo(PokedexTabRoute) {
+                                inclusive = true
+                            }
+                        }
                     }
 
                     TabItem(
@@ -64,7 +68,11 @@ fun MainScreen(
                         text = stringResource(id = R.string.statistics),
                         selected = currentDestination?.route == StatsTabRoute::class.qualifiedName,
                     ) {
-                        navController.navigate(StatsTabRoute)
+                        navController.navigate(StatsTabRoute) {
+                            popUpTo(PokedexTabRoute) {
+                                inclusive = true
+                            }
+                        }
                     }
 
                     TabItem(
@@ -72,7 +80,11 @@ fun MainScreen(
                         text = stringResource(id = R.string.profile),
                         selected = currentDestination?.route == ProfileTabRoute::class.qualifiedName,
                     ) {
-                        navController.navigate(ProfileTabRoute)
+                        navController.navigate(ProfileTabRoute) {
+                            popUpTo(PokedexTabRoute) {
+                                inclusive = true
+                            }
+                        }
                     }
                 }
             }
