@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,7 +44,6 @@ import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
-import com.kanoyatech.snapdex.theme.designsystem.MaterialHorizontalDivider
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
@@ -128,7 +128,7 @@ private fun PokemonDetailsScreen(
                     types = types
                 )
 
-                MaterialHorizontalDivider()
+                HorizontalDivider()
 
                 DataCardsSection(
                     weight = state.pokemon.weight,

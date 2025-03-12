@@ -43,7 +43,8 @@ val LightColors = lightColorScheme(
     surface = snapdexWhite, // default unchecked toggle thumb
     surfaceVariant = snapdexGray200, // default unchecked toggle track
     onSurface = snapdexGray700, // default disabled button container (12% alpha), disabled label text (38% alpha)
-    onSurfaceVariant = snapdexGray400 // default placeholder
+    onSurfaceVariant = snapdexGray400, // default placeholder
+    outlineVariant = snapdexGray200 // default horizontal divider
 )
 
 val DarkColors = darkColorScheme()

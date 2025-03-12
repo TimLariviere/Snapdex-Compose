@@ -64,7 +64,7 @@ fun SnapdexToolbar(
     )
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF63BC5A)
+@Preview(showBackground = true)
 @Composable
 private fun SnapdexToolbarScreenPreview1() {
      AppTheme {
@@ -76,7 +76,7 @@ private fun SnapdexToolbarScreenPreview1() {
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF63BC5A)
+@Preview(showBackground = true)
 @Composable
 private fun SnapdexToolbarScreenPreview2() {
     AppTheme {
