@@ -43,6 +43,7 @@ import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
+import com.kanoyatech.snapdex.theme.customColorScheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexToolbar
@@ -85,8 +86,6 @@ private fun PokemonDetailsScreen(
     state: PokemonDetailsState,
     onAction: (PokemonDetailsAction) -> Unit
 ) {
-    //val evolution = EvolutionUi.fromEvolution(state.evolution)
-
     Scaffold(
         topBar = {
             SnapdexToolbar(
@@ -187,12 +186,12 @@ private fun Header(
 
         Text(
             text = name,
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.displayLarge,
+            color = MaterialTheme.customColorScheme.displayLargeColor
         )
         Text(
             text = stringResource(R.string.pokemon_number, id),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.primary
+            style = MaterialTheme.typography.titleSmall
         )
     }
 }

@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,7 +44,7 @@ fun DataCardItem(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = DataCardItemColors.iconColor,
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .size(16.dp)
             )
@@ -53,8 +52,7 @@ fun DataCardItem(
             Text(
                 text = name.uppercase(),
                 style = MaterialTheme.typography.titleSmall,
-                fontSize = 12.sp,
-                color = DataCardItemColors.titleColor
+                fontSize = 12.sp
             )
         }
 
@@ -63,7 +61,7 @@ fun DataCardItem(
                 .fillMaxWidth()
                 .border(
                     width = 1.dp,
-                    color = DataCardItemColors.boxColor,
+                    color = MaterialTheme.colorScheme.outlineVariant,
                     shape = RoundedCornerShape(15.dp)
                 ),
             contentAlignment = Alignment.Center
@@ -76,12 +74,6 @@ fun DataCardItem(
             )
         }
     }
-}
-
-object DataCardItemColors {
-    val iconColor: Color @Composable get() = MaterialTheme.colorScheme.secondary
-    val titleColor: Color @Composable get() = MaterialTheme.colorScheme.secondary
-    val boxColor: Color @Composable get() = MaterialTheme.colorScheme.surface
 }
 
 @Preview(showBackground = true)

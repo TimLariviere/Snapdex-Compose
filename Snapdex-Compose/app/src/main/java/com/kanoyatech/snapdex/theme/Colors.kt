@@ -1,8 +1,18 @@
 package com.kanoyatech.snapdex.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+
+@Immutable
+data class CustomColorScheme(
+    val displayLargeColor: Color,
+    val labelLargeColor: Color
+)
 
 // Validated colors
 val snapdexWhite = Color(0xFFFFFFFF)
@@ -47,4 +57,20 @@ val LightColors = lightColorScheme(
     outlineVariant = snapdexGray200 // default horizontal divider
 )
 
+val LightCustomColors = CustomColorScheme(
+    displayLargeColor = snapdexBlack,
+    labelLargeColor = snapdexBlack
+)
+
 val DarkColors = darkColorScheme()
+
+val DarkCustomColors = CustomColorScheme(
+    displayLargeColor = snapdexBlack,
+    labelLargeColor = snapdexBlack
+)
+
+val LocalCustomColors = staticCompositionLocalOf { LightCustomColors }
+
+val MaterialTheme.customColorScheme: CustomColorScheme
+    @Composable
+    get() = LocalCustomColors.current

@@ -65,7 +65,7 @@ fun EvolutionChainView(
             .fillMaxWidth()
             .border(
                 width = 1.dp,
-                color = EvolutionTreeColors.borderColor,
+                color = MaterialTheme.colorScheme.outlineVariant,
                 shape = RoundedCornerShape(15.dp)
             )
             .padding(horizontal = 16.dp, vertical = 24.dp),
@@ -105,7 +105,7 @@ fun PokemonRow(
             .fillMaxWidth()
             .border(
                 width = 1.dp,
-                color = EvolutionTreeColors.borderColor,
+                color = MaterialTheme.colorScheme.outlineVariant,
                 shape = RoundedCornerShape(90.dp)
             )
             .height(74.dp),
@@ -160,8 +160,7 @@ fun PokemonRow(
                 text = stringResource(R.string.pokemon_number, pokemon.id),
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Medium,
-                fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.primary
+                fontSize = 12.sp
             )
         }
     }
@@ -189,10 +188,6 @@ fun LevelRow(
             color = MaterialTheme.colorScheme.primary
         )
     }
-}
-
-object EvolutionTreeColors {
-    val borderColor: Color @Composable get() = MaterialTheme.colorScheme.surface
 }
 
 @Preview(showBackground = true)
