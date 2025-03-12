@@ -9,9 +9,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.kanoyatech.snapdex.theme.AppTheme
+import org.koin.android.ext.android.inject
 
 class MainActivity: ComponentActivity() {
+    private val auth: FirebaseAuth by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,7 +28,8 @@ class MainActivity: ComponentActivity() {
                 ) {
                     val navHostController = rememberNavController()
                     RootNavigation(
-                        navController = navHostController
+                        navController = navHostController,
+                        isLoggedIn = auth.currentUser != null
                     )
                 }
             }

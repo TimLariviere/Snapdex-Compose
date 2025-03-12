@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -13,6 +14,7 @@ data object Icons {
     val ArrowBack = Icons.AutoMirrored.Default.KeyboardArrowLeft
     val Favorite = Icons.Default.Favorite
     val FavoriteBorder = Icons.Default.FavoriteBorder
+    val Search = Icons.Filled.Search
 
     val Category: ImageVector
         @Composable

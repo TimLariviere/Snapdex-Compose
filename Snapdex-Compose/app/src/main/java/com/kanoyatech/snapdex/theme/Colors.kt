@@ -10,8 +10,10 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 data class CustomColorScheme(
-    val displayLargeColor: Color,
-    val labelLargeColor: Color
+    val displayLarge: Color,
+    val titleMedium: Color,
+    val titleSmall: Color,
+    val labelLarge: Color
 )
 
 // Validated colors
@@ -49,7 +51,7 @@ val LightColors = lightColorScheme(
     primary = snapdexBlue700, // default button color
     onPrimary = snapdexWhite, // default button text color
     background = snapdexWhite, // default page color
-    onBackground = snapdexGray700, // default text color,
+    onBackground = snapdexGray700, // default text color
     surface = snapdexWhite, // default unchecked toggle thumb
     surfaceVariant = snapdexGray200, // default unchecked toggle track
     onSurface = snapdexGray700, // default disabled button container (12% alpha), disabled label text (38% alpha)
@@ -58,15 +60,19 @@ val LightColors = lightColorScheme(
 )
 
 val LightCustomColors = CustomColorScheme(
-    displayLargeColor = snapdexBlack,
-    labelLargeColor = snapdexBlack
+    displayLarge = snapdexBlack,
+    titleMedium = snapdexBlack,
+    titleSmall = snapdexBlack,
+    labelLarge = snapdexBlack
 )
 
 val DarkColors = darkColorScheme()
 
 val DarkCustomColors = CustomColorScheme(
-    displayLargeColor = snapdexBlack,
-    labelLargeColor = snapdexBlack
+    displayLarge = snapdexBlack,
+    titleMedium = snapdexBlack,
+    titleSmall = snapdexBlack,
+    labelLarge = snapdexBlack
 )
 
 val LocalCustomColors = staticCompositionLocalOf { LightCustomColors }

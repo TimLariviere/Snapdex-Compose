@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.ui.main.pokemon_details.components
+package com.kanoyatech.snapdex.ui.main.pokemon_detail.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -63,7 +63,7 @@ fun TypeTag(
         Text(
             text = stringResource(id = elementUi.name),
             style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.customColorScheme.labelLargeColor,
+            color = MaterialTheme.customColorScheme.labelLarge,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .defaultMinSize(minWidth = 40.dp)

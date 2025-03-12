@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalLayoutApi::class, ExperimentalLayoutApi::class)
 
-package com.kanoyatech.snapdex.ui.main.pokemon_details
+package com.kanoyatech.snapdex.ui.main.pokemon_detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,17 +48,17 @@ import com.kanoyatech.snapdex.theme.designsystem.GifImage
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
-import com.kanoyatech.snapdex.ui.main.pokemon_details.components.TypeTag
-import com.kanoyatech.snapdex.ui.main.pokemon_details.components.DataCardItem
-import com.kanoyatech.snapdex.ui.main.pokemon_details.components.RatioBar
-import com.kanoyatech.snapdex.ui.main.pokemon_details.components.TypeBackground
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.TypeTag
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.DataCardItem
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.RatioBar
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.TypeBackground
 import com.kanoyatech.snapdex.ui.utils.largeImageId
-import com.kanoyatech.snapdex.ui.main.pokemon_details.components.EvolutionChainView
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.EvolutionChainView
 import com.kanoyatech.snapdex.ui.utils.getLocale
 
 @Composable
-fun PokemonDetailsScreenRoot(
-    viewModel: PokemonDetailsViewModel,
+fun PokemonDetailScreenRoot(
+    viewModel: PokemonDetailViewModel,
     onBackClick: () -> Unit,
     onPokemonClick: (PokemonId) -> Unit
 ) {
@@ -67,12 +67,12 @@ fun PokemonDetailsScreenRoot(
         viewModel.setLocale(context.getLocale())
     }
 
-    PokemonDetailsScreen(
+    PokemonDetailScreen(
         state = viewModel.state,
         onAction = { action ->
             when (action) {
-                PokemonDetailsAction.OnBackClick -> onBackClick()
-                is PokemonDetailsAction.OnPokemonClick -> onPokemonClick(action.pokemonId)
+                PokemonDetailAction.OnBackClick -> onBackClick()
+                is PokemonDetailAction.OnPokemonClick -> onPokemonClick(action.pokemonId)
                 else -> Unit
             }
 
@@ -82,19 +82,19 @@ fun PokemonDetailsScreenRoot(
 }
 
 @Composable
-private fun PokemonDetailsScreen(
-    state: PokemonDetailsState,
-    onAction: (PokemonDetailsAction) -> Unit
+private fun PokemonDetailScreen(
+    state: PokemonDetailState,
+    onAction: (PokemonDetailAction) -> Unit
 ) {
     Scaffold(
         topBar = {
             SnapdexToolbar(
                 isFavorite = state.isFavorite,
                 onBackClick = {
-                    onAction(PokemonDetailsAction.OnBackClick)
+                    onAction(PokemonDetailAction.OnBackClick)
                 },
                 onFavoriteClick = {
-                    onAction(PokemonDetailsAction.OnFavoriteToggleClick)
+                    onAction(PokemonDetailAction.OnFavoriteToggleClick)
                 }
             )
         }
@@ -187,7 +187,7 @@ private fun Header(
         Text(
             text = name,
             style = MaterialTheme.typography.displayLarge,
-            color = MaterialTheme.customColorScheme.displayLargeColor
+            color = MaterialTheme.customColorScheme.displayLarge
         )
         Text(
             text = stringResource(R.string.pokemon_number, id),
@@ -301,7 +301,8 @@ private fun WeaknessesSection(
     ) {
         Text(
             text = stringResource(id = R.string.weaknesses),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.customColorScheme.titleMedium
         )
 
         FlowRow(
@@ -330,20 +331,21 @@ private fun WeaknessesSection(
 @Composable
 fun EvolutionChainSection(
     evolutionChain: EvolutionChain,
-    onAction: (PokemonDetailsAction) -> Unit
+    onAction: (PokemonDetailAction) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = stringResource(R.string.evolutions),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.customColorScheme.titleMedium
         )
 
         EvolutionChainView(
             evolutionChain = evolutionChain,
             onPokemonClick = { pokemonId ->
-                onAction(PokemonDetailsAction.OnPokemonClick(pokemonId))
+                onAction(PokemonDetailAction.OnPokemonClick(pokemonId))
             }
         )
     }
@@ -419,8 +421,8 @@ private fun PokemonDetailsScreenPreview() {
     )
 
     AppTheme {
-        PokemonDetailsScreen(
-            state = PokemonDetailsState(
+        PokemonDetailScreen(
+            state = PokemonDetailState(
                 pokemon = pokemon,
                 evolutionChain = evolutionChain,
                 isFavorite = false

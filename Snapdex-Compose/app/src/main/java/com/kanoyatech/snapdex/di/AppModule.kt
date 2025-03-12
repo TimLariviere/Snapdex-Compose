@@ -8,7 +8,7 @@ import com.kanoyatech.snapdex.data.SnapdexDatabase
 import com.kanoyatech.snapdex.domain.DataSource
 import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
-import com.kanoyatech.snapdex.ui.main.pokemon_details.PokemonDetailsViewModel
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailViewModel
 import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
 import com.kanoyatech.snapdex.ui.auth.register.RegisterViewModel
 import com.kanoyatech.snapdex.ui.main.stats.StatsViewModel
@@ -42,7 +42,7 @@ val uiModule = module {
     viewModelOf(::PokedexViewModel)
     viewModelOf(::ProfileViewModel)
     viewModelOf(::StatsViewModel)
-    viewModel { parameters -> PokemonDetailsViewModel(get(), parameters.get()) }
+    viewModel { parameters -> PokemonDetailViewModel(get(), parameters.get()) }
 }
 
 val authModule = module {

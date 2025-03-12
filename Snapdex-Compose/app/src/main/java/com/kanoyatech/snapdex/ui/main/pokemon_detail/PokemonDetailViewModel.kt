@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.ui.main.pokemon_details
+package com.kanoyatech.snapdex.ui.main.pokemon_detail
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -11,11 +11,11 @@ import com.kanoyatech.snapdex.domain.PokemonId
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-class PokemonDetailsViewModel(
+class PokemonDetailViewModel(
     private val dataSource: DataSource,
     private val pokemonId: PokemonId
 ): ViewModel() {
-    var state by mutableStateOf(PokemonDetailsState())
+    var state by mutableStateOf(PokemonDetailState())
         private set
 
     init {
@@ -30,9 +30,9 @@ class PokemonDetailsViewModel(
         }
     }
 
-    fun onAction(action: PokemonDetailsAction) {
+    fun onAction(action: PokemonDetailAction) {
         when (action) {
-            PokemonDetailsAction.OnFavoriteToggleClick ->
+            PokemonDetailAction.OnFavoriteToggleClick ->
                 state = state.copy(isFavorite = !state.isFavorite)
             else -> Unit
         }

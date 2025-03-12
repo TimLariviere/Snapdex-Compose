@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.ui.main.pokemon_details.components
+package com.kanoyatech.snapdex.ui.main.pokemon_detail.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,16 +25,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.EvolutionChain
 import com.kanoyatech.snapdex.domain.Level
@@ -48,7 +45,7 @@ import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.Poppins
+import com.kanoyatech.snapdex.theme.customColorScheme
 import com.kanoyatech.snapdex.theme.snapdexWhite
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.theme.designsystem.BrushIcon
@@ -150,17 +147,13 @@ fun PokemonRow(
         ) {
             Text(
                 text = pokemon.name,
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Medium,
-                fontSize = 16.sp,
-                color = Color(0xFF1A1A1A)
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.customColorScheme.titleSmall
             )
 
             Text(
                 text = stringResource(R.string.pokemon_number, pokemon.id),
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Medium,
-                fontSize = 12.sp
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }

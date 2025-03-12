@@ -1,7 +1,6 @@
 package com.kanoyatech.snapdex
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,8 +9,8 @@ import androidx.navigation.toRoute
 import com.kanoyatech.snapdex.domain.PokemonId
 import com.kanoyatech.snapdex.ui.auth.login.LoginScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexScreenRoot
-import com.kanoyatech.snapdex.ui.main.pokemon_details.PokemonDetailsScreenRoot
-import com.kanoyatech.snapdex.ui.main.pokemon_details.PokemonDetailsViewModel
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailScreenRoot
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailViewModel
 import com.kanoyatech.snapdex.ui.main.profile.ProfileScreenRoot
 import com.kanoyatech.snapdex.ui.auth.register.RegisterScreenRoot
 import com.kanoyatech.snapdex.ui.main.MainScreen
@@ -26,11 +25,12 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun RootNavigation(
-    navController: NavHostController
+    navController: NavHostController,
+    isLoggedIn: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = LoginRoute
+        startDestination = if (isLoggedIn) MainRoute else LoginRoute
     ) {
         composable<LoginRoute> {
             LoginScreenRoot(
@@ -113,8 +113,8 @@ fun TabsNavigation(
 
         composable<PokemonDetailsRoute> { backStackEntry ->
             val route: PokemonDetailsRoute = backStackEntry.toRoute()
-            val viewModel: PokemonDetailsViewModel = koinViewModel { parametersOf(route.pokemonId) }
-            PokemonDetailsScreenRoot(
+            val viewModel: PokemonDetailViewModel = koinViewModel { parametersOf(route.pokemonId) }
+            PokemonDetailScreenRoot(
                 viewModel = viewModel,
                 onBackClick = {
                     navController.popBackStack()

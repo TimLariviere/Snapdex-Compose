@@ -1,5 +1,6 @@
 package com.kanoyatech.snapdex.ui.main.pokedex
 
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -24,9 +26,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +44,8 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.domain.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexSearchField
+import com.kanoyatech.snapdex.theme.snapdexRed200
 import com.kanoyatech.snapdex.ui.State
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
@@ -86,14 +96,54 @@ private fun PokedexScreen(
                         .size(64.dp)
                 )
             }
-        State.IDLE ->
+        State.IDLE -> PokemonGrid(
+            paddingValues = paddingValues,
+            state = state,
+            onAction = onAction
+        )
+    }
+}
+
+@Composable
+fun PokemonGrid(
+    paddingValues: PaddingValues,
+    state: PokedexState,
+    onAction: (PokedexAction) -> Unit
+) {
+    Box {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xFFD8E6F8),
+                            Color(0xFFA9CEFC)
+                        )
+                    )
+                )
+        )
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(top = 24.dp)
+        ) {
+            SnapdexSearchField(
+                state = state.searchText,
+                hint = stringResource(id = R.string.search_hint),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+            )
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
-                contentPadding = PaddingValues(20.dp),
+                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
-                    .padding(paddingValues)
+                    .weight(1f)
             ) {
                 items(state.pokemons, key = { it.id }) { pokemon ->
                     PokemonItem(
@@ -105,6 +155,7 @@ private fun PokedexScreen(
                     )
                 }
             }
+        }
     }
 }
 
@@ -120,7 +171,7 @@ fun PokemonItem(
             .fillMaxSize()
             .height(120.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.40f))
             .padding(8.dp)
     ) {
         Column(
@@ -143,7 +194,8 @@ fun PokemonItem(
             )
 
             Text(
-                text = stringResource(id = R.string.pokemon_number, pokemon.id)
+                text = stringResource(id = R.string.pokemon_number, pokemon.id),
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }
@@ -190,7 +242,9 @@ private fun PokedexScreenPreview() {
     AppTheme {
         PokedexScreen(
             paddingValues = PaddingValues(0.dp),
-            state = PokedexState(),
+            state = PokedexState(
+                state = State.IDLE
+            ),
             onAction = {}
         )
     }
