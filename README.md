@@ -2,6 +2,12 @@
 
 Snapdex is a multi-framework mobile application that serves as a **Pokédex-style app**, allowing users to take pictures or record sounds of Pokémon in the wild, upload them to a server, and view 3D/AR visualizations. This project is designed to serve both as a **learning experience** and a **professional showcase** of mobile development skills.
 
+<img src="images/screen1.png" height="500" />
+<img src="images/screen2.png" height="500" />
+
+_Work in progress, not the final design_  
+_Based on the original Figma design by Junior Savaria: [Pokédex / Pokémon App](https://www.figma.com/community/file/1202971127473077147)_
+
 ## 🚀 Why Snapdex?
 
 ### 🎯 Personal Goals
