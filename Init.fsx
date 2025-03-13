@@ -1,5 +1,4 @@
 #r "nuget: sqlite-net-pcl, 1.9.172"
-#r "nuget: FSharp.Data, 6.4.1"
 
 open System.Collections.Generic
 open System.IO
@@ -7,9 +6,6 @@ open System.Net
 open System.Net.Http
 open System.Text.Json.Serialization
 open SQLite
-open FSharp.Data
-
-type Pokedex = HtmlProvider<"https://www.pokemon.com/us/pokedex/venusaur">
 
 // Create a new SQLite database
 let dbFile = "snapdex.db"
@@ -197,6 +193,7 @@ let typeToInt(typ: string) =
     | "rock" -> 15
     | "steel" -> 16
     | "water" -> 17
+    | _ -> 0
     
     
 let abilities = ResizeArray<int>()
