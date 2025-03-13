@@ -43,11 +43,6 @@ class LoginViewModel(
                 val user = result.user!!
 
                 dataSource.createUser(user.uid, name = user.displayName ?: "NO_NAME")
-                dataSource.addPokemonToUser(userId = user.uid, 1)
-                dataSource.addPokemonToUser(userId = user.uid, 2)
-                dataSource.addPokemonToUser(userId = user.uid, 1)
-                dataSource.addPokemonToUser(userId = user.uid, 6)
-                dataSource.addPokemonToUser(userId = user.uid, 150)
 
                 eventChannel.send(LoginEvent.LoginSuccessful)
             } catch (e: Exception) {

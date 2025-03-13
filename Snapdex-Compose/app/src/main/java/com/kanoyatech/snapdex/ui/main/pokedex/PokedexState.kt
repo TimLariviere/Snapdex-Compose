@@ -8,5 +8,6 @@ data class PokedexState(
     val isCameraGranted: Boolean = false,
     val state: State = State.LOADING,
     val searchText: TextFieldState = TextFieldState(),
-    val pokemons: List<Pokemon> = emptyList()
+    val pokemons: List<Pokemon> = emptyList(),
+    val lastCaught: String = ""
 )

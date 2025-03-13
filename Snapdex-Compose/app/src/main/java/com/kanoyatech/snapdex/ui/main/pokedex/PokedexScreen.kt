@@ -39,9 +39,9 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.domain.PokemonId
@@ -52,7 +52,6 @@ import com.kanoyatech.snapdex.ui.State
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SmallTypeBadge
-import com.kanoyatech.snapdex.ui.utils.getLocale
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -63,8 +62,7 @@ fun PokedexScreenRoot(
 ) {
     val context = LocalContext.current
     LaunchedEffect(true) {
-        val locale = context.getLocale()
-        viewModel.setLocale(locale)
+        viewModel.init(context)
     }
 
     PokedexScreen(
@@ -135,6 +133,13 @@ fun PokemonGrid(
                 .padding(paddingValues)
                 .padding(top = 24.dp)
         ) {
+            Text(
+                text = "Last caught: ${state.lastCaught}",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+
             SnapdexSearchField(
                 state = state.searchText,
                 hint = stringResource(id = R.string.search_hint),
@@ -257,7 +262,9 @@ fun TakePictureButton(
 
     val cameraLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { image ->
-            onAction(PokedexAction.OnPokemonCatch)
+            if (image != null) {
+                onAction(PokedexAction.OnPhotoTake(image))
+            }
         }
 
     val permissionLauncher =

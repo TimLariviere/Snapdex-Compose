@@ -99,6 +99,10 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
 
+    // Tensorflow Lite
+    implementation(libs.tensorflow.lite)
+    implementation(libs.tensorflow.lite.support)
+
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

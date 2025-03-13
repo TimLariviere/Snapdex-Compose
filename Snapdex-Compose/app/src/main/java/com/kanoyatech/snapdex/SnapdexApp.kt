@@ -3,6 +3,7 @@ package com.kanoyatech.snapdex
 import android.app.Application
 import com.kanoyatech.snapdex.di.authModule
 import com.kanoyatech.snapdex.di.dataModule
+import com.kanoyatech.snapdex.di.servicesModule
 import com.kanoyatech.snapdex.di.uiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -18,7 +19,8 @@ class SnapdexApp: Application() {
             modules(
                 dataModule,
                 uiModule,
-                authModule
+                authModule,
+                servicesModule
             )
         }
     }
