@@ -56,7 +56,7 @@ Snapdex is designed to **showcase advanced mobile development techniques** acros
 ## 🏗️ Frameworks Used
 Snapdex will be implemented using the following frameworks:
 - **SwiftUI** (iOS)
-- **Jetpack Compose / Compose Multiplatform** (Android & Cross-platform)
+- **Jetpack Compose** (Android)
 - **Flutter** (Cross-platform)
 
 ## 📌 Roadmap
