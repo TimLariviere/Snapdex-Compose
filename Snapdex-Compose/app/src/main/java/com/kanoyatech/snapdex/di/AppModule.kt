@@ -32,6 +32,8 @@ val dataModule = module {
 
     single { get<SnapdexDatabase>().pokemonDao }
     single { get<SnapdexDatabase>().evolutionChainDao }
+    single { get<SnapdexDatabase>().userDao }
+    single { get<SnapdexDatabase>().userPokemonDao }
 
     singleOf(::RoomDataSource).bind<DataSource>()
 }

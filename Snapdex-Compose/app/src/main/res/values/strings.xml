@@ -3,6 +3,7 @@
     <string name="hello_world">Hello world</string>
     <string name="go_back">Go back</string>
     <string name="pokemon_number">Nº%04d</string>
+    <string name="pokemon_number_alt">%04d</string>
     <string name="type_normal">Normal</string>
     <string name="type_fire">Fire</string>
     <string name="type_water">Water</string>

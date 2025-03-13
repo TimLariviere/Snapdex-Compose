@@ -1,9 +1,7 @@
 package com.kanoyatech.snapdex.ui.main.pokedex
 
-import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,36 +14,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.domain.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
+import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexSearchField
-import com.kanoyatech.snapdex.theme.snapdexRed200
 import com.kanoyatech.snapdex.ui.State
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
@@ -71,6 +65,7 @@ fun PokedexScreenRoot(
         onAction = { action ->
             when (action) {
                 is PokedexAction.OnPokemonClick -> onPokemonClick(action.pokemonId)
+                else -> Unit
             }
 
             viewModel.onAction(action)
@@ -145,16 +140,39 @@ fun PokemonGrid(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                items(state.pokemons, key = { it.id }) { pokemon ->
-                    PokemonItem(
-                        pokemon = pokemon,
-                        modifier = Modifier
-                            .clickable {
-                                onAction(PokedexAction.OnPokemonClick(pokemon.id))
-                            }
-                    )
+                items(151) { index ->
+                    val pokemonId = index + 1
+                    val pokemon = state.pokemons.find { it.id == pokemonId }
+                    if (pokemon == null) {
+                        UnknownItem(pokemonId)
+                    } else {
+                        PokemonItem(
+                            pokemon = pokemon,
+                            modifier = Modifier
+                                .clickable {
+                                    onAction(PokedexAction.OnPokemonClick(pokemon.id))
+                                }
+                        )
+                    }
                 }
             }
+        }
+
+        FloatingActionButton(
+            onClick = {
+                onAction(PokedexAction.OnPokemonCatch)
+            },
+            shape = CircleShape,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 16.dp, bottom = 24.dp + paddingValues.calculateBottomPadding())
+        ) {
+            Icon(
+                imageVector = Icons.Pokeball,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(32.dp)
+            )
         }
     }
 }
@@ -194,7 +212,7 @@ fun PokemonItem(
             )
 
             Text(
-                text = stringResource(id = R.string.pokemon_number, pokemon.id),
+                text = stringResource(id = R.string.pokemon_number_alt, pokemon.id),
                 style = MaterialTheme.typography.labelMedium
             )
         }
@@ -206,32 +224,18 @@ fun UnknownItem(
     id: PokemonId,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .height(120.dp)
             .clip(RoundedCornerShape(12.dp))
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.onSurface,
-                shape = RoundedCornerShape(12.dp)
-            )
-            .padding(8.dp)
+            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.40f))
+            .padding(8.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .weight(1f)
-        ) {
-            Text(
-                text = "?",
-                fontSize = 32.sp
-            )
-        }
-
         Text(
-            text = stringResource(id = R.string.pokemon_number, id)
+            text = stringResource(id = R.string.pokemon_number_alt, id),
+            style = MaterialTheme.typography.labelMedium
         )
     }
 }

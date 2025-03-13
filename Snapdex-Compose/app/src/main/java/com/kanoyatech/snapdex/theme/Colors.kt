@@ -50,12 +50,15 @@ data object TypeColor {
 val LightColors = lightColorScheme(
     primary = snapdexBlue700, // default button color
     onPrimary = snapdexWhite, // default button text color
+    primaryContainer = snapdexBlue700, // default floating action button background
+    onSecondaryContainer = snapdexWhite, // default active tab icon
+    secondaryContainer = snapdexBlue700, // default active tab background
     background = snapdexWhite, // default page color
     onBackground = snapdexGray700, // default text color
     surface = snapdexWhite, // default unchecked toggle thumb
     surfaceVariant = snapdexGray200, // default unchecked toggle track
-    onSurface = snapdexGray700, // default disabled button container (12% alpha), disabled label text (38% alpha)
-    onSurfaceVariant = snapdexGray400, // default placeholder
+    onSurface = snapdexGray700, // default disabled button container (12% alpha), disabled label text (38% alpha), active tab label
+    onSurfaceVariant = snapdexGray400, // default placeholder, inactive tab label/icon
     outlineVariant = snapdexGray200 // default horizontal divider
 )
 

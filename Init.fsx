@@ -103,6 +103,23 @@ CREATE TABLE EvolutionChainLinks(
 );
 """)
 
+db.Execute("""
+CREATE TABLE Users(
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL
+)
+""")
+
+db.Execute("""
+CREATE TABLE UserPokemons(
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    userId TEXT NOT NULL,
+    pokemonId INTEGER NOT NULL,
+    FOREIGN KEY(userId) REFERENCES Users(id),
+    FOREIGN KEY(pokemonId) REFERENCES Pokemons(id)
+)
+""")
+
 // Pull data from Internet
 let allowedLanguages = [ "en"; "fr" ]
 

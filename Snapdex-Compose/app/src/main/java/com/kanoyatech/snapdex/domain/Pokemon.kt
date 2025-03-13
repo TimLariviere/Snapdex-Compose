@@ -4,6 +4,7 @@ import com.kanoyatech.snapdex.domain.units.Length
 import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.units.Weight
 
+typealias UserId = String
 typealias PokemonId = Int
 typealias Level = Int
 

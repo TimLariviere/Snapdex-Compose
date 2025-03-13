@@ -2,6 +2,7 @@ package com.kanoyatech.snapdex.theme
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
@@ -15,6 +16,7 @@ data object Icons {
     val Favorite = Icons.Default.Favorite
     val FavoriteBorder = Icons.Default.FavoriteBorder
     val Search = Icons.Filled.Search
+    val Profile = Icons.Filled.AccountCircle
 
     val Category: ImageVector
         @Composable
@@ -31,6 +33,10 @@ data object Icons {
     val Pokeball: ImageVector
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.icon_pokeball)
+
+    val Statistics: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_statistics)
 
     val Weight: ImageVector
         @Composable
