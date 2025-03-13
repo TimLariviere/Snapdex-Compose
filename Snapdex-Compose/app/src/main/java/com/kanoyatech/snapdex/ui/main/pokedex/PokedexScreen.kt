@@ -1,5 +1,12 @@
 package com.kanoyatech.snapdex.ui.main.pokedex
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.util.Log
+import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +41,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.domain.PokemonId
@@ -105,6 +113,8 @@ fun PokemonGrid(
     state: PokedexState,
     onAction: (PokedexAction) -> Unit
 ) {
+
+
     Box {
         Box(
             modifier = Modifier
@@ -158,22 +168,13 @@ fun PokemonGrid(
             }
         }
 
-        FloatingActionButton(
-            onClick = {
-                onAction(PokedexAction.OnPokemonCatch)
-            },
-            shape = CircleShape,
+        TakePictureButton(
+            state = state,
+            onAction = onAction,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(end = 16.dp, bottom = 24.dp + paddingValues.calculateBottomPadding())
-        ) {
-            Icon(
-                imageVector = Icons.Pokeball,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(32.dp)
-            )
-        }
+        )
     }
 }
 
@@ -236,6 +237,64 @@ fun UnknownItem(
         Text(
             text = stringResource(id = R.string.pokemon_number_alt, id),
             style = MaterialTheme.typography.labelMedium
+        )
+    }
+}
+
+@Composable
+fun TakePictureButton(
+    state: PokedexState,
+    onAction: (PokedexAction) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val activity = LocalActivity.current
+
+    // On first composition, check if we already have the camera permission granted
+    LaunchedEffect(true) {
+        val isGranted = activity?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        onAction(PokedexAction.IsCameraGrantedChange(isGranted))
+    }
+
+    val cameraLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { image ->
+            onAction(PokedexAction.OnPokemonCatch)
+        }
+
+    val permissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            onAction(PokedexAction.IsCameraGrantedChange(isGranted))
+
+            // If the user just gave us the permission, immediately take a picture
+            if (isGranted) {
+                cameraLauncher.launch()
+            }
+        }
+
+    FloatingActionButton(
+        onClick = {
+            when {
+                !(activity?.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) ?: false) -> {
+                    Log.i("TakePictureButton", "Camera permission is not granted yet. Asking permission")
+                    permissionLauncher.launch(Manifest.permission.CAMERA)
+                }
+                !state.isCameraGranted -> {
+                    Log.i("TakePictureButton", "Camera permission is denied")
+                    // Display error message
+                }
+                else -> {
+                    Log.i("TakePictureButton", "Camera permission is granted. Taking picture")
+                    cameraLauncher.launch()
+                }
+            }
+        },
+        shape = CircleShape,
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = Icons.Pokeball,
+            contentDescription = null,
+            modifier = Modifier
+                .size(32.dp)
         )
     }
 }
