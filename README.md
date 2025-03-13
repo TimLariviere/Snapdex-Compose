@@ -72,6 +72,3 @@ Snapdex will be implemented using the following frameworks:
 
 ## 🤝 Contributing
 As this project is primarily for **learning and portfolio purposes**, external contributions are not expected at the moment. However, feedback, suggestions, and discussions are always welcome!
-
-## 📜 License
-This project is released under the **MIT License**.
