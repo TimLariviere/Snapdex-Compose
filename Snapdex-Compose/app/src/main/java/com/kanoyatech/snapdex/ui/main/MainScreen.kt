@@ -35,9 +35,9 @@ fun MainScreen(
     Scaffold { paddingValues ->
         val adjustedPaddingValues = PaddingValues(
             start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-            top = paddingValues.calculateTopPadding() - 16.dp, // Not sure why Scaffold has a top padding that is too large
+            top = (paddingValues.calculateTopPadding() - 16.dp).coerceAtLeast(0.dp), // Not sure why Scaffold has a top padding that is too large
             end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-            bottom = paddingValues.calculateBottomPadding() + 44.dp
+            bottom = paddingValues.calculateBottomPadding() + 48.dp
         )
 
         Box(
@@ -91,7 +91,7 @@ fun MainScreen(
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = paddingValues.calculateBottomPadding() + 4.dp)
+                    .padding(bottom = paddingValues.calculateBottomPadding() + 8.dp)
             )
         }
     }

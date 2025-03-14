@@ -129,7 +129,6 @@ fun PokemonGrid(
         )
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(24.dp),
             modifier = Modifier
                 .padding(
                     start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
@@ -150,11 +149,12 @@ fun PokemonGrid(
                 hint = stringResource(id = R.string.search_hint),
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp)
             )
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
-                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 96.dp),
+                contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 72.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
@@ -183,7 +183,7 @@ fun PokemonGrid(
             onAction = onAction,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = paddingValues.calculateBottomPadding() + 24.dp)
+                .padding(end = 16.dp, bottom = paddingValues.calculateBottomPadding() + 16.dp)
         )
     }
 }
