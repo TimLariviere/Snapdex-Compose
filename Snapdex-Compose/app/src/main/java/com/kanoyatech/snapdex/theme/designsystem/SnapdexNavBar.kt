@@ -1,5 +1,9 @@
 package com.kanoyatech.snapdex.theme.designsystem
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,74 +30,73 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.snapdexGray700
-import com.kanoyatech.snapdex.theme.snapdexRed200
 
 @Composable
-fun SnapdexNavBar(modifier: Modifier = Modifier) {
+fun SnapdexNavBar(
+    tabs: Array<TabItem>,
+    shouldShowNavBar: () -> Boolean,
+    modifier: Modifier = Modifier
+) {
     val selectedTab = remember { mutableIntStateOf(0) }
+    val startWeight: Float by animateFloatAsState(selectedTab.intValue.toFloat(), label = "startWeight")
+    val endWeight: Float by animateFloatAsState((tabs.size - 1).toFloat() - selectedTab.intValue, label = "startWeight")
 
-    val startWeight = selectedTab.intValue.toFloat()
-    val endWeight = 2f - selectedTab.intValue
-
-    Box(
-        modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .width(IntrinsicSize.Min)
-            .clip(RoundedCornerShape(32.dp))
-            .background(snapdexGray700)
+    AnimatedVisibility(
+        modifier = modifier,
+        visible = shouldShowNavBar(),
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it })
     ) {
-        Row(
+        Box(
             modifier = Modifier
-                .fillMaxHeight()
-                .padding(horizontal = 4.dp, vertical = 4.dp)
+                .height(IntrinsicSize.Min)
+                .width(IntrinsicSize.Min)
+                .clip(RoundedCornerShape(32.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.6f))
         ) {
-            if (startWeight > 0.0f) {
-                Spacer(modifier = Modifier.weight(startWeight))
-            }
-
-            Box(
+            Row(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(1f)
-                    .clip(RoundedCornerShape(32.dp))
-                    .background(snapdexRed200)
-            )
+                    .padding(horizontal = 4.dp, vertical = 4.dp)
+            ) {
+                if (startWeight > 0.0f) {
+                    Spacer(modifier = Modifier.weight(startWeight))
+                }
 
-            if (endWeight > 0.0f) {
-                Spacer(modifier = Modifier.weight(endWeight))
-            }
-        }
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                        .clip(RoundedCornerShape(32.dp))
+                        .background(MaterialTheme.colorScheme.primary)
+                )
 
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            TabItem(
-                imageVector = Icons.Pokeball,
-                selected = selectedTab.intValue == 0
-            ) {
-                selectedTab.intValue = 0
+                if (endWeight > 0.0f) {
+                    Spacer(modifier = Modifier.weight(endWeight))
+                }
             }
-            TabItem(
-                imageVector = Icons.Statistics,
-                selected = selectedTab.intValue == 1
+
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                selectedTab.intValue = 1
-            }
-            TabItem(
-                imageVector = Icons.Profile,
-                selected = selectedTab.intValue == 2
-            ) {
-                selectedTab.intValue = 2
+                tabs.forEachIndexed { index, tab ->
+                    SnapdexTabItem(
+                        imageVector = tab.imageVector,
+                        selected = index == selectedTab.intValue
+                    ) {
+                        selectedTab.intValue = index
+                        tab.onClick()
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun TabItem(
+private fun SnapdexTabItem(
     imageVector: ImageVector,
     selected: Boolean,
     modifier: Modifier = Modifier,
@@ -110,10 +114,31 @@ fun TabItem(
     )
 }
 
+data class TabItem(
+    val imageVector: ImageVector,
+    val onClick: () -> Unit
+)
+
 @Preview
 @Composable
 private fun SnapdexNavBarPreview() {
     AppTheme {
-        SnapdexNavBar()
+        SnapdexNavBar(
+            tabs = arrayOf(
+                TabItem(
+                    imageVector = Icons.Pokeball,
+                    onClick = {}
+                ),
+                TabItem(
+                    imageVector = Icons.Statistics,
+                    onClick = {}
+                ),
+                TabItem(
+                    imageVector = Icons.Profile,
+                    onClick = {}
+                )
+            ),
+            shouldShowNavBar = { true }
+        )
     }
 }

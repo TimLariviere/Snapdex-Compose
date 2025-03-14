@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +43,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Pokemon
@@ -111,8 +114,6 @@ fun PokemonGrid(
     state: PokedexState,
     onAction: (PokedexAction) -> Unit
 ) {
-
-
     Box {
         Box(
             modifier = Modifier
@@ -130,8 +131,12 @@ fun PokemonGrid(
         Column(
             verticalArrangement = Arrangement.spacedBy(24.dp),
             modifier = Modifier
-                .padding(paddingValues)
-                .padding(top = 24.dp)
+                .padding(
+                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    top = paddingValues.calculateTopPadding(),
+                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+                )
+                .padding(top = 8.dp)
         ) {
             Text(
                 text = "Last caught: ${state.lastCaught}",
@@ -149,7 +154,7 @@ fun PokemonGrid(
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
-                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 24.dp),
+                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 96.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
@@ -178,7 +183,7 @@ fun PokemonGrid(
             onAction = onAction,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 24.dp + paddingValues.calculateBottomPadding())
+                .padding(end = 16.dp, bottom = paddingValues.calculateBottomPadding() + 24.dp)
         )
     }
 }

@@ -57,9 +57,10 @@ val LightColors = lightColorScheme(
     onBackground = snapdexGray700, // default text color
     surface = snapdexWhite, // default unchecked toggle thumb
     surfaceVariant = snapdexGray200, // default unchecked toggle track
+    surfaceContainer = snapdexGray700, // default navigation bar background
     onSurface = snapdexGray700, // default disabled button container (12% alpha), disabled label text (38% alpha), active tab label
     onSurfaceVariant = snapdexGray400, // default placeholder, inactive tab label/icon
-    outlineVariant = snapdexGray200 // default horizontal divider
+    outlineVariant = snapdexGray200, // default horizontal divider
 )
 
 val LightCustomColors = CustomColorScheme(
