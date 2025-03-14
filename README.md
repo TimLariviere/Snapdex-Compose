@@ -56,6 +56,7 @@ Snapdex is designed to **showcase advanced mobile development techniques** acros
 - **Images:** [Pokemon Database](https://pokemondb.net/sprites)
 - **Sprites:** [3D Pokémon Models](https://projectpokemon.org/home/docs/spriteindex_148/3d-models-generation-1-pok%C3%A9mon-r90/)
 - **Data:** [PokeApi.co](https://pokeapi.co/)
+- **Pokemon Tensorflow Lite Model:** [the-dagger/Pokidex on GitHub](https://github.com/the-dagger/Pokidex/blob/master/app/src/main/assets/pokedex_91.tflite)
 
 ## 🏗️ Frameworks Used
 Snapdex will be implemented using the following frameworks:

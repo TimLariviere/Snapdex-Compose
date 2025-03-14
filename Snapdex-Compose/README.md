@@ -10,6 +10,7 @@ Snapdex is a **Pokédex-inspired app** built with **Jetpack Compose**, showcasin
 - **Dependency Injection:** Koin
 - **Images:** Coil (caching, GIF support)
 - **JSON:** Kotlinx Serialization
+- **Pokemon Classifier:** Tensorflow Lite
 
 ## ✨ Features
 - **Modern UI/UX** with Material3 and Compose animations

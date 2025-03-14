@@ -24,15 +24,18 @@ class PokemonClassifier {
 
         interpreter.run(inputBuffer, outputArray)
         val floatArray = outputArray[0]
-        val pokemonIds = floatArray.indices
+        val pokemonIds =
+            floatArray.indices
+                .sortedByDescending { floatArray[it] }
+                .take(5)
+                .filter { floatArray[it] > 0.002 }
 
-        pokemonIds.forEach {
-            val percentage = floatArray[it] * 100.0
-            val p = if (percentage > 5.0) percentage else 0.0
-            Log.i("Found", "Pokemon #${it} = ${p}%")
+        pokemonIds.forEachIndexed { index, id ->
+            val percentage = floatArray[id] * 100.0
+            Log.i("Found", "Top ${index + 1} - Pokemon #${id} = ${percentage}%")
         }
 
-        val pokemonId = pokemonIds.maxByOrNull { floatArray[it] }
+        val pokemonId = pokemonIds.firstOrNull()
 
         return if (pokemonId != null) pokemonId + 1 else null
     }
