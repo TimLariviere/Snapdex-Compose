@@ -51,6 +51,7 @@ import com.kanoyatech.snapdex.domain.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexSearchField
+import com.kanoyatech.snapdex.theme.designsystem.search.SearchView
 import com.kanoyatech.snapdex.ui.State
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
@@ -142,14 +143,17 @@ fun PokemonGrid(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             )
 
-            SnapdexSearchField(
-                state = state.searchText,
+            SearchView(
+                state = state.searchState,
                 hint = stringResource(id = R.string.search_hint),
+                onRemoveFilterClick = { type ->
+                    onAction(PokedexAction.RemoveFilterClick(type))
+                },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)
             )
 
             LazyVerticalGrid(

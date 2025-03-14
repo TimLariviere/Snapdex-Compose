@@ -41,6 +41,13 @@ class PokedexViewModel(
     fun onAction(action: PokedexAction) {
         when (action) {
             is PokedexAction.OnPhotoTake -> recognizePokemon(action.bitmap)
+            is PokedexAction.RemoveFilterClick -> {
+                state = state.copy(
+                    searchState = state.searchState.copy(
+                        filter = state.searchState.filter.filter { it != action.type }
+                    )
+                )
+            }
             else -> Unit
         }
     }
