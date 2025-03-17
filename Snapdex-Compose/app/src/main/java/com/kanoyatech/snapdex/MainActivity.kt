@@ -8,16 +8,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.kanoyatech.snapdex.theme.AppTheme
 import org.koin.android.ext.android.inject
 
 class MainActivity: ComponentActivity() {
-    private val auth: FirebaseAuth by inject()
+    private val viewModel: MainViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                viewModel.state.isLoading
+            }
+        }
 
         setContent {
             AppTheme {
@@ -26,12 +32,14 @@ class MainActivity: ComponentActivity() {
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    val navHostController = rememberNavController()
-                    RootNavigation(
-                        navController = navHostController,
-                        hasSeenIntro = false,
-                        isLoggedIn = false //auth.currentUser != null
-                    )
+                    if (!viewModel.state.isLoading) {
+                        val navHostController = rememberNavController()
+                        RootNavigation(
+                            navController = navHostController,
+                            hasSeenIntro = viewModel.state.hasSeenIntro,
+                            isLoggedIn = viewModel.state.isLoggedIn
+                        )
+                    }
                 }
             }
         }

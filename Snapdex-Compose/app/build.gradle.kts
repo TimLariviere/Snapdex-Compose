@@ -88,6 +88,12 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
 
+    // DataStore
+    implementation(libs.datastore.preferences)
+
+    // Splashscreen
+    implementation(libs.androidx.core.splashscreen)
+
     // Room
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)

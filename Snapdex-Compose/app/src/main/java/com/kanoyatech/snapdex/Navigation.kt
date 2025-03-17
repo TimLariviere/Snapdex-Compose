@@ -42,7 +42,7 @@ fun RootNavigation(
         navController = navController,
         startDestination = when {
             isLoggedIn -> MainRoute
-            hasSeenIntro -> LoginRoute
+            hasSeenIntro -> AuthNavRoute
             else -> IntroRoute
         }
     ) {

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -29,16 +30,43 @@ import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
+import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun IntroScreenRoot(
+    viewModel: IntroViewModel = koinViewModel(),
     onContinueClick: () -> Unit
 ) {
-    val pageCount = 3
-    val pagerState = rememberPagerState { pageCount }
     val animationScope = rememberCoroutineScope()
-    val isLastPage = pagerState.currentPage == pageCount - 1
+    val pagerState = rememberPagerState(initialPage = viewModel.state.currentPage) { IntroState.TOTAL_PAGE_COUNT }
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            IntroEvent.PreferencesUpdated -> onContinueClick()
+            is IntroEvent.PageChanged -> {
+                animationScope.launch {
+                    pagerState.animateScrollToPage(event.page)
+                }
+            }
+        }
+    }
+
+    IntroScreen(
+        pagerState = pagerState,
+        state = viewModel.state,
+        onAction = viewModel::onAction
+    )
+}
+
+@Composable
+fun IntroScreen(
+    pagerState: PagerState,
+    state: IntroState,
+    onAction: (IntroAction) -> Unit,
+) {
+    val isLastPage = state.currentPage == IntroState.TOTAL_PAGE_COUNT - 1
 
     Column(
         verticalArrangement = Arrangement.spacedBy(36.dp)
@@ -92,8 +120,8 @@ fun IntroScreenRoot(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
         ) {
-            repeat(pageCount) { iteration ->
-                val color = if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+            repeat(IntroState.TOTAL_PAGE_COUNT) { iteration ->
+                val color = if (state.currentPage == iteration) Color.DarkGray else Color.LightGray
                 Box(
                     modifier = Modifier
                         .clip(CircleShape)
@@ -110,13 +138,7 @@ fun IntroScreenRoot(
                 stringResource(id = R.string.gotta_snapem_all)
             },
             onClick = {
-                if (!isLastPage) {
-                    animationScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    }
-                } else {
-                    onContinueClick()
-                }
+                onAction(IntroAction.OnNextClick)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,8 +152,10 @@ fun IntroScreenRoot(
 @Composable
 private fun IntroScreenPreview() {
     AppTheme {
-        IntroScreenRoot(
-            onContinueClick = {}
+        IntroScreen(
+            pagerState = PagerState { 3 },
+            state = IntroState(),
+            onAction = {}
         )
     }
 }
