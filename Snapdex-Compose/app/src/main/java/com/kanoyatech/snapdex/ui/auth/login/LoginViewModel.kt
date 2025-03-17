@@ -26,6 +26,9 @@ class LoginViewModel(
 
     fun onAction(action: LoginAction) {
         when (action) {
+            LoginAction.OnTogglePasswordVisibility -> {
+                state = state.copy(isPasswordVisible = !state.isPasswordVisible)
+            }
             LoginAction.OnLoginClick -> login()
             else -> Unit
         }

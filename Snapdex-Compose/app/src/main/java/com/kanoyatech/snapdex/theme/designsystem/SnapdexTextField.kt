@@ -6,7 +6,6 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,117 +38,88 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SnapdexTextField(
     state: TextFieldState,
-    hint: String,
     modifier: Modifier = Modifier,
+    hint: String = "",
     startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
-    error: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    additionalInfo: String? = null
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     var isFocused by remember {
         mutableStateOf(false)
     }
 
-    Column(
+    BasicTextField(
+        state = state,
+        textStyle = LocalTextStyle.current.copy(
+            color = MaterialTheme.colorScheme.onSurface
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType
+        ),
+        lineLimits = TextFieldLineLimits.SingleLine,
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         modifier = modifier
-    ) {
-        //Row(
-        //    modifier = Modifier
-        //        .fillMaxWidth(),
-        //    horizontalArrangement = Arrangement.SpaceBetween,
-        //    verticalAlignment = Alignment.CenterVertically
-        //) {
-        //    if (error != null) {
-        //        Text(
-        //            text = error,
-        //            color = MaterialTheme.colorScheme.error,
-        //            fontSize = 12.sp
-        //        )
-        //    } else if (additionalInfo != null) {
-        //        Text(
-        //            text = additionalInfo,
-        //            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        //            fontSize = 12.sp
-        //        )
-        //    }
-        //}
-        //
-        //Spacer(modifier = Modifier.height(4.dp))
-
-        BasicTextField(
-            state = state,
-            textStyle = LocalTextStyle.current.copy(
-                color = MaterialTheme.colorScheme.onSurface
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType
-            ),
-            lineLimits = TextFieldLineLimits.SingleLine,
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-            modifier = Modifier
-                .clip(RoundedCornerShape(5.dp))
-                .background(Color.Transparent)
-                .border(
-                    width = 1.dp,
-                    color = if (isFocused) {
-                        MaterialTheme.colorScheme.onSurface
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
-                    shape = RoundedCornerShape(5.dp)
-                )
-                .padding(12.dp)
-                .onFocusChanged {
-                    isFocused = it.isFocused
+            .clip(RoundedCornerShape(5.dp))
+            .background(Color.Transparent)
+            .border(
+                width = 1.dp,
+                color = if (isFocused) {
+                    MaterialTheme.colorScheme.onSurface
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
                 },
-            decorator = { innerBox ->
-                Row(
+                shape = RoundedCornerShape(5.dp)
+            )
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .onFocusChanged {
+                isFocused = it.isFocused
+            },
+        decorator = { innerBox ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (startIcon != null) {
+                    Icon(
+                        imageVector = startIcon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
+
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                        .weight(1f)
                 ) {
-                    if (startIcon != null) {
-                        Icon(
-                            imageVector = startIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                    ) {
-                        if (state.text.isEmpty() && !isFocused) {
-                            Text(
-                                text = hint,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            )
-                        }
-
-                        innerBox()
-                    }
-
-                    if (endIcon != null) {
-                        Spacer(modifier = Modifier.width(16.dp))
-
-                        Icon(
-                            imageVector = endIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    if (state.text.isEmpty() && !isFocused) {
+                        Text(
+                            text = hint,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier
-                                .padding(end = 8.dp)
+                                .fillMaxWidth()
                         )
                     }
+
+                    innerBox()
+                }
+
+                if (endIcon != null) {
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    Icon(
+                        imageVector = endIcon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                    )
                 }
             }
-        )
-    }
+        }
+    )
 }
 
 @Preview(showBackground = true)
@@ -160,7 +130,7 @@ private fun SnapdexTextFieldPreview() {
             state = rememberTextFieldState(),
             startIcon = null,
             endIcon = null,
-            hint = "E-mail",
+            hint = "Email",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp)

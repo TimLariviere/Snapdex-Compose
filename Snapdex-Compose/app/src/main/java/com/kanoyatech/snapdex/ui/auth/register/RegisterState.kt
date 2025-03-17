@@ -3,6 +3,7 @@ package com.kanoyatech.snapdex.ui.auth.register
 import androidx.compose.foundation.text.input.TextFieldState
 
 data class RegisterState(
+    val name: TextFieldState = TextFieldState(),
     val email: TextFieldState = TextFieldState(),
     val isEmailValid: Boolean = false,
     val password: TextFieldState = TextFieldState(),

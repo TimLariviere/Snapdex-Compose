@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,122 +38,81 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kanoyatech.snapdex.theme.Icons
 
 @Composable
 fun SnapdexPasswordField(
     state: TextFieldState,
     isPasswordVisible: Boolean,
     onTogglePasswordVisibility: () -> Unit,
-    hint: String,
     modifier: Modifier = Modifier,
-    startIcon: ImageVector? = null,
-    endIcon: ImageVector? = null,
-    error: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    additionalInfo: String? = null
+    hint: String = ""
 ) {
     var isFocused by remember {
         mutableStateOf(false)
     }
 
-    Column(
+    BasicSecureTextField(
+        state = state,
+        textStyle = LocalTextStyle.current.copy(
+            color = Color(0xFF000000)
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password
+        ),
+        cursorBrush = SolidColor(Color(0xFF000000)),
         modifier = modifier
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (error != null) {
-                Text(
-                    text = error,
-                    color = MaterialTheme.colorScheme.error,
-                    fontSize = 12.sp
-                )
-            } else if (additionalInfo != null) {
-                Text(
-                    text = additionalInfo,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 12.sp
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        BasicSecureTextField(
-            state = state,
-            textStyle = LocalTextStyle.current.copy(
-                color = Color(0xFF000000)
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType
-            ),
-            cursorBrush = SolidColor(Color(0xFF000000)),
-            modifier = Modifier
-                .clip(RoundedCornerShape(5.dp))
-                .background(Color.Transparent)
-                .border(
-                    width = 1.dp,
-                    color = if (isFocused) {
-                        Color(0xFF000000)
-                    } else {
-                        Color(0xFF999999)
-                    },
-                    shape = RoundedCornerShape(5.dp)
-                )
-                .padding(12.dp)
-                .onFocusChanged {
-                    isFocused = it.isFocused
+            .clip(RoundedCornerShape(5.dp))
+            .background(Color.Transparent)
+            .border(
+                width = 1.dp,
+                color = if (isFocused) {
+                    Color(0xFF000000)
+                } else {
+                    Color(0xFF999999)
                 },
-            decorator = { innerBox ->
-                Row(
+                shape = RoundedCornerShape(5.dp)
+            )
+            .onFocusChanged {
+                isFocused = it.isFocused
+            },
+        decorator = { innerBox ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                        .weight(1f)
+                        .padding(start = 16.dp)
                 ) {
-                    if (startIcon != null) {
-                        Icon(
-                            imageVector = startIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                    ) {
-                        if (state.text.isEmpty() && !isFocused) {
-                            Text(
-                                text = hint,
-                                color = Color(0xFF999999),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            )
-                        }
-
-                        innerBox()
-                    }
-
-                    if (endIcon != null) {
-                        Spacer(modifier = Modifier.width(16.dp))
-
-                        Icon(
-                            imageVector = endIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    if (state.text.isEmpty() && !isFocused) {
+                        Text(
+                            text = hint,
+                            color = Color(0xFF999999),
                             modifier = Modifier
-                                .padding(end = 8.dp)
+                                .fillMaxWidth()
                         )
                     }
+
+                    innerBox()
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                IconButton(
+                    onClick = onTogglePasswordVisibility
+                ) {
+                    Icon(
+                        imageVector = if (isPasswordVisible) Icons.EyeClosed else Icons.Eye,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
-        )
-    }
+        }
+    )
 }
 
 @Preview

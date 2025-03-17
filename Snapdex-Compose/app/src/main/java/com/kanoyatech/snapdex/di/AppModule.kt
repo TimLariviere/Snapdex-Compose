@@ -7,6 +7,7 @@ import com.kanoyatech.snapdex.data.RoomDataSource
 import com.kanoyatech.snapdex.data.SnapdexDatabase
 import com.kanoyatech.snapdex.domain.DataSource
 import com.kanoyatech.snapdex.services.PokemonClassifier
+import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
 import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailViewModel
@@ -41,8 +42,9 @@ val dataModule = module {
 }
 
 val uiModule = module {
-    viewModelOf(::RegisterViewModel)
     viewModelOf(::LoginViewModel)
+    viewModelOf(::RegisterViewModel)
+    viewModelOf(::ForgotPasswordViewModel)
     viewModelOf(::PokedexViewModel)
     viewModelOf(::ProfileViewModel)
     viewModelOf(::StatsViewModel)

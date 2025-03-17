@@ -1,8 +1,9 @@
 package com.kanoyatech.snapdex.theme
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -13,12 +14,13 @@ import androidx.compose.ui.res.vectorResource
 import com.kanoyatech.snapdex.R
 
 data object Icons {
-    val ArrowBack = Icons.AutoMirrored.Default.KeyboardArrowLeft
+    val ArrowBack = Icons.AutoMirrored.Default.ArrowBack
     val Favorite = Icons.Default.Favorite
     val FavoriteBorder = Icons.Default.FavoriteBorder
     val Search = Icons.Filled.Search
     val Profile = Icons.Filled.AccountCircle
     val Close = Icons.Filled.Close
+    val Add = Icons.Filled.Add
 
     val Category: ImageVector
         @Composable
@@ -47,6 +49,14 @@ data object Icons {
     val Filter: ImageVector
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.icon_filter)
+
+    val Eye: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_eye)
+
+    val EyeClosed: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_eye_closed)
 }
 
 data object ElementIcon {

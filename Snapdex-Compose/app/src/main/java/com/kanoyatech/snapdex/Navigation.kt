@@ -1,56 +1,56 @@
 package com.kanoyatech.snapdex
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
 import com.kanoyatech.snapdex.domain.PokemonId
+import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordScreenRoot
 import com.kanoyatech.snapdex.ui.auth.login.LoginScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailViewModel
 import com.kanoyatech.snapdex.ui.main.profile.ProfileScreenRoot
 import com.kanoyatech.snapdex.ui.auth.register.RegisterScreenRoot
+import com.kanoyatech.snapdex.ui.intro.IntroScreenRoot
 import com.kanoyatech.snapdex.ui.main.MainScreen
 import com.kanoyatech.snapdex.ui.main.stats.StatsScreenRoot
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
+@Serializable data object IntroRoute
+
+@Serializable data object AuthNavRoute
 @Serializable data object LoginRoute
 @Serializable data object RegisterRoute
+@Serializable data object ForgotPasswordRoute
+
 @Serializable data object MainRoute
 
 @Composable
 fun RootNavigation(
     navController: NavHostController,
+    hasSeenIntro: Boolean,
     isLoggedIn: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) MainRoute else LoginRoute
-    ) {
-        composable<LoginRoute> {
-            LoginScreenRoot(
-                onSuccessfulLogin = {
-                    navController.navigate(MainRoute)
-                },
-                onRegisterClick = {
-                    navController.navigate(RegisterRoute)
-                }
-            )
+        startDestination = when {
+            isLoggedIn -> MainRoute
+            hasSeenIntro -> LoginRoute
+            else -> IntroRoute
         }
-
-        composable<RegisterRoute> {
-            RegisterScreenRoot(
-                onBackClick = {
-                    navController.popBackStack()
-                },
-                onSuccessfulRegistration = {
-                    navController.navigate(MainRoute) {
-                        popUpTo(LoginRoute) {
+    ) {
+        composable<IntroRoute> {
+            IntroScreenRoot(
+                onContinueClick = {
+                    navController.navigate(LoginRoute) {
+                        popUpTo<IntroRoute> {
                             inclusive = true
                         }
                     }
@@ -58,11 +58,56 @@ fun RootNavigation(
             )
         }
 
+        navigation<AuthNavRoute>(
+            startDestination = LoginRoute
+        ) {
+            composable<LoginRoute> {
+                LoginScreenRoot(
+                    onRegisterClick = {
+                        navController.navigate(RegisterRoute)
+                    },
+                    onForgotPasswordClick = {
+                        navController.navigate(ForgotPasswordRoute)
+                    },
+                    onSuccessfulLogin = {
+                        navController.navigate(MainRoute) {
+                            popUpTo<AuthNavRoute> {
+                                inclusive = true
+                            }
+                        }
+                    }
+                )
+            }
+
+            composable<RegisterRoute> {
+                RegisterScreenRoot(
+                    onBackClick = {
+                        navController.popBackStack()
+                    },
+                    onSuccessfulRegistration = {
+                        navController.navigate(MainRoute) {
+                            popUpTo(AuthNavRoute) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                )
+            }
+
+            composable<ForgotPasswordRoute> {
+                ForgotPasswordScreenRoot(
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
+
         composable<MainRoute> {
             MainScreen(
                 onLoggedOut = {
                     navController.navigate(LoginRoute) {
-                        popUpTo(LoginRoute) {
+                        popUpTo(MainRoute) {
                             inclusive = true
                         }
                     }

@@ -39,4 +39,20 @@
     <string name="login">Log in</string>
     <string name="logout">Log out</string>
     <string name="search_hint">Search Pokémon…</string>
+    <string name="next">Next</string>
+    <string name="gotta_snapem_all">Gotta snap\'em all!</string>
+    <string name="intro_description_1">Capture pokemon in real life by snapping them with Snapdex.</string>
+    <string name="intro_description_2">Plushes, trading cards, anime, games…\nAny pokemon seen can be captured.</string>
+    <string name="intro_description_3">Snapdex will automatically recognize the Pokémon and add it to your Pokedex.</string>
+    <string name="snapdex">Snapdex</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="name_hint">Name</string>
+    <string name="create_account">Create account</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="password_reset_link">We will email you a password reset link</string>
+    <string name="send_password_reset_link">Send password reset link</string>
+    <string name="forgotten_password">Forgotten Password</string>
 </resources>

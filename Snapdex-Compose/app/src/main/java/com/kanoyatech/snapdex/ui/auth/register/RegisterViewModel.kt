@@ -24,6 +24,9 @@ class RegisterViewModel(
 
     fun onAction(action: RegisterAction) {
         when (action) {
+            RegisterAction.OnTogglePasswordVisibility -> {
+                state = state.copy(isPasswordVisible = !state.isPasswordVisible)
+            }
             RegisterAction.OnRegisterClick -> register()
             else -> Unit
         }

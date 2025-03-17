@@ -29,7 +29,8 @@ class MainActivity: ComponentActivity() {
                     val navHostController = rememberNavController()
                     RootNavigation(
                         navController = navHostController,
-                        isLoggedIn = auth.currentUser != null
+                        hasSeenIntro = false,
+                        isLoggedIn = false //auth.currentUser != null
                     )
                 }
             }
