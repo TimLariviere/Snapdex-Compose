@@ -3,6 +3,7 @@ package com.kanoyatech.snapdex.ui.auth.register
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -49,5 +50,9 @@ class RegisterViewModel(
 
             state = state.copy(isRegistering = false)
         }
+    }
+
+    fun setAvatar(avatar: Int) {
+        state = state.copy(avatar = avatar)
     }
 }

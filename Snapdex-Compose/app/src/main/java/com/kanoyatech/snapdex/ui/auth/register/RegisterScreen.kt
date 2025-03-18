@@ -2,6 +2,7 @@
 
 package com.kanoyatech.snapdex.ui.auth.register
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,18 +16,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.SavedStateHandle
+import coil.compose.AsyncImage
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
@@ -35,13 +40,16 @@ import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
+import com.kanoyatech.snapdex.ui.AvatarUi
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
+import kotlinx.coroutines.flow.single
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RegisterScreenRoot(
     viewModel: RegisterViewModel = koinViewModel(),
     onBackClick: () -> Unit,
+    onPickAvatarClick: () -> Unit,
     onSuccessfulRegistration: () -> Unit
 ) {
     ObserveAsEvents(viewModel.events) { event ->
@@ -56,6 +64,7 @@ fun RegisterScreenRoot(
         onAction = { action ->
             when (action) {
                 RegisterAction.OnBackClick -> onBackClick()
+                RegisterAction.OnPickAvatarClick -> onPickAvatarClick()
                 else -> Unit
             }
 
@@ -86,37 +95,12 @@ private fun RegisterScreen(
                 .pagePadding(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(
+            PickPictureButton(
+                state = state,
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .align(Alignment.CenterHorizontally)
             ) {
-                Box(
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outline,
-                            shape = CircleShape
-                        )
-                        .size(88.dp)
-                        .clickable(enabled = !state.isRegistering) {
-                            onAction(RegisterAction.OnSelectPictureClick)
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Add,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(48.dp)
-                    )
-                }
-
-                Text(
-                    text = stringResource(id = R.string.profile_picture),
-                    style = MaterialTheme.typography.bodySmall
-                )
+                onAction(RegisterAction.OnPickAvatarClick)
             }
 
             Column(
@@ -177,12 +161,52 @@ private fun RegisterScreen(
     }
 }
 
+@Composable
+private fun PickPictureButton(
+    state: RegisterState,
+    modifier: Modifier = Modifier,
+    onPickAvatarClick: () -> Unit
+) {
+        Box(
+            modifier = modifier
+                .clip(CircleShape)
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outline,
+                    shape = CircleShape
+                )
+                .size(88.dp)
+                .clickable(enabled = !state.isRegistering) {
+                    onPickAvatarClick()
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            if (state.avatar == -1) {
+                Icon(
+                    imageVector = Icons.Add,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(48.dp)
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = AvatarUi.getFor(state.avatar)),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                )
+            }
+        }
+}
+
 @Preview
 @Composable
 private fun RegisterScreenPreview() {
     AppTheme {
         RegisterScreen(
-            state = RegisterState(),
+            state = RegisterState(avatar = 1),
             onAction = {}
         )
     }

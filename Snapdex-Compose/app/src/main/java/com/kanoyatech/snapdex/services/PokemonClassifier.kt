@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import com.kanoyatech.snapdex.domain.PokemonId
-import com.kanoyatech.snapdex.utils.AssetsLoader
+import com.kanoyatech.snapdex.utils.Assets
 import org.tensorflow.lite.Interpreter
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -13,7 +13,7 @@ class PokemonClassifier {
     private lateinit var interpreter: Interpreter
 
     fun init(context: Context) {
-        val model = AssetsLoader.load(context, "model.tflite")
+        val model = Assets.load(context, "model.tflite")
         val options = Interpreter.Options()
         interpreter = Interpreter(model, options)
     }

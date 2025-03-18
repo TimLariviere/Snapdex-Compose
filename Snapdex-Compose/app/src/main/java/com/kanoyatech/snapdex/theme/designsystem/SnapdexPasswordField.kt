@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -57,6 +58,11 @@ fun SnapdexPasswordField(
         textStyle = LocalTextStyle.current.copy(
             color = Color(0xFF000000)
         ),
+        textObfuscationMode = if (isPasswordVisible) {
+            TextObfuscationMode.Visible
+        } else {
+            TextObfuscationMode.RevealLastTyped
+        },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password
         ),
