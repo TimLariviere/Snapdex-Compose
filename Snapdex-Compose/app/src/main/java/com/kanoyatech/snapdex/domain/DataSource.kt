@@ -3,7 +3,8 @@ package com.kanoyatech.snapdex.domain
 import java.util.Locale
 
 interface DataSource {
-    suspend fun createUser(userId: UserId, name: String)
+    suspend fun createUser(userId: UserId, avatarId: Int, name: String, email: String, timestamp: Long)
+    suspend fun getUser(userId: UserId): User?
     suspend fun hasCaughtPokemon(userId: UserId, pokemonId: PokemonId): Boolean
     suspend fun addPokemonToUser(userId: UserId, pokemonId: PokemonId)
     suspend fun getCaughtPokemons(userId: UserId, locale: Locale): List<Pokemon>

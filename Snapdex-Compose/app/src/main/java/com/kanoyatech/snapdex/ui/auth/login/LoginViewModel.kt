@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.domain.DataSource
 import com.kanoyatech.snapdex.ui.UiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -15,8 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class LoginViewModel(
-    private val auth: FirebaseAuth,
-    private val dataSource: DataSource
+    private val auth: FirebaseAuth
 ): ViewModel() {
     var state by mutableStateOf(LoginState())
         private set
@@ -42,10 +40,6 @@ class LoginViewModel(
                         state.email.text.toString(),
                         state.password.text.toString()
                     ).await()
-
-                val user = result.user!!
-
-                dataSource.createUser(user.uid, name = user.displayName ?: "NO_NAME")
 
                 eventChannel.send(LoginEvent.LoginSuccessful)
             } catch (e: Exception) {

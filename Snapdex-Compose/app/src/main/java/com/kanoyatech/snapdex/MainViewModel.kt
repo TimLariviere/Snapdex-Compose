@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.kanoyatech.snapdex.data.PreferencesRepository
+import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
 import kotlinx.coroutines.launch
 
 class MainViewModel(

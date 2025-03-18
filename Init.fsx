@@ -102,7 +102,10 @@ CREATE TABLE EvolutionChainLinks(
 db.Execute("""
 CREATE TABLE Users(
     id TEXT PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL
+    avatarId INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
 )
 """)
 

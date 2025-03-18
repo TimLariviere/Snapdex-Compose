@@ -2,15 +2,12 @@ package com.kanoyatech.snapdex
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
 import com.kanoyatech.snapdex.domain.PokemonId
-import com.kanoyatech.snapdex.ui.auth.avatar_picker.AvatarPickerScreenRoot
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordScreenRoot
 import com.kanoyatech.snapdex.ui.auth.login.LoginScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexScreenRoot
@@ -18,16 +15,11 @@ import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailViewModel
 import com.kanoyatech.snapdex.ui.main.profile.ProfileScreenRoot
 import com.kanoyatech.snapdex.ui.auth.register.RegisterScreenRoot
-import com.kanoyatech.snapdex.ui.auth.register.RegisterViewModel
 import com.kanoyatech.snapdex.ui.intro.IntroScreenRoot
 import com.kanoyatech.snapdex.ui.main.MainScreen
 import com.kanoyatech.snapdex.ui.main.stats.StatsScreenRoot
-import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.Serializable
-import org.koin.androidx.compose.getStateViewModel
-import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 
 @Serializable data object IntroRoute
@@ -35,7 +27,6 @@ import org.koin.core.parameter.parametersOf
 @Serializable data object AuthNavRoute
 @Serializable data object LoginRoute
 @Serializable data object RegisterRoute
-@Serializable data object AvatarPickerRoute
 @Serializable data object ForgotPasswordRoute
 
 @Serializable data object MainRoute
@@ -93,34 +84,12 @@ fun RootNavigation(
                     onBackClick = {
                         navController.popBackStack()
                     },
-                    onPickAvatarClick = {
-                        navController.navigate(AvatarPickerRoute)
-                    },
                     onSuccessfulRegistration = {
                         navController.navigate(MainRoute) {
                             popUpTo(AuthNavRoute) {
                                 inclusive = true
                             }
                         }
-                    }
-                )
-            }
-
-            composable<AvatarPickerRoute> { backStackEntry ->
-                val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry(RegisterRoute)
-                }
-                val registerViewModel: RegisterViewModel = koinViewModel(
-                    viewModelStoreOwner = parentEntry
-                )
-                AvatarPickerScreenRoot(
-                    selected = registerViewModel.state.avatar,
-                    onSelectedChange = { avatar ->
-                        registerViewModel.setAvatar(avatar)
-                        navController.popBackStack()
-                    },
-                    onClose = {
-                        navController.popBackStack()
                     }
                 )
             }

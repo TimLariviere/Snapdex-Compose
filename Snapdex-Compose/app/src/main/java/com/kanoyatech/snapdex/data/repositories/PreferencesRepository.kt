@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.data
+package com.kanoyatech.snapdex.data.repositories
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

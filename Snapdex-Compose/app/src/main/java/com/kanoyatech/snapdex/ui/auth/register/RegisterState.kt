@@ -4,6 +4,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 
 data class RegisterState(
     val avatar: Int = -1,
+    val showAvatarPicker: Boolean = false,
     val name: TextFieldState = TextFieldState(),
     val email: TextFieldState = TextFieldState(),
     val isEmailValid: Boolean = false,

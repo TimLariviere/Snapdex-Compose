@@ -7,10 +7,12 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import com.kanoyatech.snapdex.MainViewModel
-import com.kanoyatech.snapdex.data.PreferencesRepository
+import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
 import com.kanoyatech.snapdex.data.RoomDataSource
 import com.kanoyatech.snapdex.data.SnapdexDatabase
+import com.kanoyatech.snapdex.data.repositories.UserRepository
 import com.kanoyatech.snapdex.domain.DataSource
 import com.kanoyatech.snapdex.services.PokemonClassifier
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
@@ -51,6 +53,9 @@ val dataModule = module {
 
     single<DataStore<Preferences>> { androidContext().dataStore }
     singleOf(::PreferencesRepository)
+
+    single { Firebase.firestore }
+    singleOf(::UserRepository)
 }
 
 val uiModule = module {

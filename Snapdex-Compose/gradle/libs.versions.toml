@@ -65,6 +65,7 @@ koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compos
 # Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref="firebase-bom" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 
 # Gradle
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }

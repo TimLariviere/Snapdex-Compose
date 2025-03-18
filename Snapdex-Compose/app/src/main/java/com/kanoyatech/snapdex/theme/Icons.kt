@@ -2,9 +2,11 @@ package com.kanoyatech.snapdex.theme
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
@@ -21,6 +23,7 @@ data object Icons {
     val Profile = Icons.Filled.AccountCircle
     val Close = Icons.Filled.Close
     val Add = Icons.Filled.Add
+    val Logout = Icons.AutoMirrored.Filled.ExitToApp
 
     val Category: ImageVector
         @Composable

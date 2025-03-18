@@ -8,10 +8,12 @@ import com.kanoyatech.snapdex.data.entities.UserEntity
 import com.kanoyatech.snapdex.data.entities.UserPokemonEntity
 import com.kanoyatech.snapdex.data.mappers.toEvolutionChain
 import com.kanoyatech.snapdex.data.mappers.toPokemon
+import com.kanoyatech.snapdex.data.mappers.toUser
 import com.kanoyatech.snapdex.domain.DataSource
 import com.kanoyatech.snapdex.domain.EvolutionChain
 import com.kanoyatech.snapdex.domain.Pokemon
 import com.kanoyatech.snapdex.domain.PokemonId
+import com.kanoyatech.snapdex.domain.User
 import com.kanoyatech.snapdex.domain.UserId
 import java.util.Locale
 
@@ -21,9 +23,19 @@ class RoomDataSource(
     private val userDao: UserDao,
     private val userPokemonDao: UserPokemonDao
 ): DataSource {
-    override suspend fun createUser(userId: UserId, name: String) {
-        val entity = UserEntity(id = userId, name = name)
+    override suspend fun createUser(userId: UserId, avatarId: Int, name: String, email: String, timestamp: Long) {
+        val entity = UserEntity(
+            id = userId,
+            avatarId = avatarId,
+            name = name,
+            email = email,
+            timestamp = timestamp
+        )
         userDao.insert(entity)
+    }
+
+    override suspend fun getUser(userId: UserId): User? {
+        return userDao.getById(id = userId)?.toUser()
     }
 
     override suspend fun hasCaughtPokemon(userId: UserId, pokemonId: PokemonId): Boolean {
