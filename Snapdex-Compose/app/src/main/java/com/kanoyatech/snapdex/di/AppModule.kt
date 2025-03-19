@@ -15,6 +15,7 @@ import com.kanoyatech.snapdex.data.SnapdexDatabase
 import com.kanoyatech.snapdex.data.repositories.UserRepository
 import com.kanoyatech.snapdex.domain.DataSource
 import com.kanoyatech.snapdex.services.PokemonClassifier
+import com.kanoyatech.snapdex.services.UserDataValidator
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
 import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
@@ -76,4 +77,8 @@ val authModule = module {
 
 val servicesModule = module {
     singleOf(::PokemonClassifier)
+}
+
+val domainModule = module {
+    singleOf(::UserDataValidator)
 }

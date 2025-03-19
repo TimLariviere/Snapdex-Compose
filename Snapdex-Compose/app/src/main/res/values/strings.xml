@@ -56,6 +56,10 @@
     <string name="send_password_reset_link">Send password reset link</string>
     <string name="forgotten_password">Forgotten Password</string>
     <string name="pick_an_avatar">Pick an avatar</string>
-    <string name="use_as_avatar">Use as avatar</string>
+    <string name="use_avatar">Use avatar</string>
     <string name="author_credit">All avatars by artist Beliot419</string>
+    <string name="at_least_x_characters">At least 9 characters</string>
+    <string name="at_least_x_digits">At least 1 number</string>
+    <string name="contains_lowercase">Contains lowercase character</string>
+    <string name="contains_uppercase">Contains uppercase character</string>
 </resources>

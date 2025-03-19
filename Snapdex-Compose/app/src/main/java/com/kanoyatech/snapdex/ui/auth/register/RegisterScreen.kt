@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -141,13 +143,31 @@ private fun RegisterScreen(
                             onAction(RegisterAction.OnTogglePasswordVisibility)
                         }
                     )
+
+                    PasswordRequirement(
+                        text = stringResource(id = R.string.at_least_x_characters),
+                        isValid = state.passwordValidationState.hasMinLength
+                    )
+                    PasswordRequirement(
+                        text = stringResource(id = R.string.at_least_x_digits),
+                        isValid = state.passwordValidationState.hasDigit
+                    )
+                    PasswordRequirement(
+                        text = stringResource(id = R.string.contains_lowercase),
+                        isValid = state.passwordValidationState.hasLowercase
+                    )
+                    PasswordRequirement(
+                        text = stringResource(id = R.string.contains_uppercase),
+                        isValid = state.passwordValidationState.hasUppercase
+                    )
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
 
                 PrimaryButton(
                     text = stringResource(id = R.string.create_account),
-                    enabled = state.canRegister && !state.isRegistering,
+                    enabled = state.canRegister,
+                    isBusy = state.isRegistering,
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
@@ -167,6 +187,34 @@ private fun RegisterScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun PasswordRequirement(
+    text: String,
+    isValid: Boolean
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = if (isValid) Icons.Check else Icons.Close,
+            contentDescription = null,
+            tint = if (isValid) {
+                Color.Green
+            } else {
+                MaterialTheme.colorScheme.error
+            },
+            modifier = Modifier
+                .size(20.dp)
+        )
+
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelMedium
+        )
     }
 }
 

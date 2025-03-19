@@ -3,6 +3,7 @@ package com.kanoyatech.snapdex
 import android.app.Application
 import com.kanoyatech.snapdex.di.authModule
 import com.kanoyatech.snapdex.di.dataModule
+import com.kanoyatech.snapdex.di.domainModule
 import com.kanoyatech.snapdex.di.servicesModule
 import com.kanoyatech.snapdex.di.uiModule
 import org.koin.android.ext.koin.androidContext
@@ -20,7 +21,8 @@ class SnapdexApp: Application() {
                 dataModule,
                 uiModule,
                 authModule,
-                servicesModule
+                servicesModule,
+                domainModule
             )
         }
     }

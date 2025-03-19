@@ -5,30 +5,45 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kanoyatech.snapdex.data.RoomDataSource
 import com.kanoyatech.snapdex.domain.User
+import com.kanoyatech.snapdex.utils.Error
+import com.kanoyatech.snapdex.utils.EmptyResult
+import com.kanoyatech.snapdex.utils.Result
 import kotlinx.coroutines.tasks.await
+
+sealed interface RepositoryError: Error {
+    enum class GetCurrentUserError: RepositoryError {
+        NOT_LOGGED_IN,
+        NOT_FOUND
+    }
+
+    enum class AddUserError: RepositoryError {
+        FAILED,
+        EXCEPTION
+    }
+}
 
 class UserRepository(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val dataSource: RoomDataSource
 ) {
-    suspend fun getCurrentUser(): Result<User> {
-        val userId = auth.currentUser?.uid ?: return Result.failure(Exception("User not logged in"))
+    suspend fun getCurrentUser(): Result<User, RepositoryError.GetCurrentUserError> {
+        val userId = auth.currentUser?.uid ?: return Result.Error(RepositoryError.GetCurrentUserError.NOT_LOGGED_IN)
         val user = dataSource.getUser(userId)
         return if (user == null) {
-            Result.failure(Exception("No such user '${userId}'"))
+            Result.Error(RepositoryError.GetCurrentUserError.NOT_FOUND)
         } else {
-            Result.success(user)
+            Result.Success(user)
         }
     }
 
-    suspend fun addUser(user: User): Result<Unit> {
+    suspend fun addUser(user: User): EmptyResult<RepositoryError.AddUserError> {
         try {
             // Register user on Firebase Auth
             val authResult = auth.createUserWithEmailAndPassword(user.email, user.password)
                 .await()
 
-            val userId = authResult.user?.uid ?: return Result.failure(Exception("User registration failed"))
+            val userId = authResult.user?.uid ?: return Result.Error(RepositoryError.AddUserError.FAILED)
 
             val timestamp = System.currentTimeMillis()
 
@@ -57,9 +72,9 @@ class UserRepository(
                 Log.d("FIRESTORE", "Failed to insert into Firestore: ${e.message}")
             }
 
-            return Result.success(Unit)
+            return Result.Success(Unit)
         } catch (e: Exception) {
-            return Result.failure(e)
+            return Result.Error(RepositoryError.AddUserError.EXCEPTION)
         }
     }
 }

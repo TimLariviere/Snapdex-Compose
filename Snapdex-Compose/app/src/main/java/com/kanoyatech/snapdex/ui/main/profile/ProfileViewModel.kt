@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.kanoyatech.snapdex.data.repositories.UserRepository
+import com.kanoyatech.snapdex.utils.Result
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -23,12 +24,16 @@ class ProfileViewModel(
 
     init {
         viewModelScope.launch {
-            val currentUser = userRepository.getCurrentUser().getOrNull()!!
-            state = state.copy(
-                avatarId = currentUser.avatarId,
-                name = currentUser.name,
-                email = currentUser.email
-            )
+            when (val result = userRepository.getCurrentUser()) {
+                is Result.Error -> {}
+                is Result.Success -> {
+                    state = state.copy(
+                        avatarId = result.data.avatarId,
+                        name = result.data.name,
+                        email = result.data.email
+                    )
+                }
+            }
         }
     }
 

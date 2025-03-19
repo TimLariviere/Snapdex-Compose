@@ -1,6 +1,7 @@
 package com.kanoyatech.snapdex.theme.designsystem
 
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,16 +13,19 @@ fun PrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    isBusy: Boolean = false,
     onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
-        enabled = enabled,
+        enabled = enabled && !isBusy,
         modifier = modifier
     ) {
-        Text(
-            text = text
-        )
+        if (isBusy) {
+            CircularProgressIndicator()
+        } else {
+            Text(text)
+        }
     }
 }
 
@@ -44,6 +48,18 @@ private fun PrimaryButtonDisabledPreview() {
         PrimaryButton(
             text = "Click me",
             enabled = false,
+            onClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PrimaryButtonBusyPreview() {
+    AppTheme {
+        PrimaryButton(
+            text = "Click me",
+            isBusy = true,
             onClick = {}
         )
     }

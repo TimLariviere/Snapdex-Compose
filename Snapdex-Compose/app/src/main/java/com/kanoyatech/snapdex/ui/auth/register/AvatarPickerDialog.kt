@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -70,6 +71,7 @@ fun AvatarPickerDialog(
                         avatarId = index,
                         isSelected = isSelected,
                         modifier = Modifier
+                            .clip(CircleShape)
                             .clickable {
                                 selectedIndex.intValue = index
                             }
@@ -85,7 +87,7 @@ fun AvatarPickerDialog(
             )
 
             PrimaryButton(
-                text = stringResource(id = R.string.use_as_avatar),
+                text = stringResource(id = R.string.use_avatar),
                 enabled = selectedIndex.intValue > -1,
                 modifier = Modifier
                     .fillMaxWidth()
