@@ -46,11 +46,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.domain.Pokemon
-import com.kanoyatech.snapdex.domain.PokemonId
+import com.kanoyatech.snapdex.domain.models.Pokemon
+import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexSearchField
 import com.kanoyatech.snapdex.theme.designsystem.search.SearchView
 import com.kanoyatech.snapdex.ui.State
 import com.kanoyatech.snapdex.ui.TypeUi

@@ -1,7 +1,7 @@
 package com.kanoyatech.snapdex.ui.main.pokedex
 
-import com.kanoyatech.snapdex.domain.Pokemon
-import com.kanoyatech.snapdex.domain.PokemonType
+import com.kanoyatech.snapdex.domain.models.Pokemon
+import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.theme.designsystem.search.SearchViewState
 import com.kanoyatech.snapdex.ui.State
 

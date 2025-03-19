@@ -2,7 +2,9 @@ package com.kanoyatech.snapdex
 
 import android.app.Application
 import com.kanoyatech.snapdex.di.authModule
+import com.kanoyatech.snapdex.di.dataLocalModule
 import com.kanoyatech.snapdex.di.dataModule
+import com.kanoyatech.snapdex.di.dataRemoteModule
 import com.kanoyatech.snapdex.di.domainModule
 import com.kanoyatech.snapdex.di.servicesModule
 import com.kanoyatech.snapdex.di.uiModule
@@ -18,6 +20,8 @@ class SnapdexApp: Application() {
             androidLogger()
             androidContext(this@SnapdexApp)
             modules(
+                dataLocalModule,
+                dataRemoteModule,
                 dataModule,
                 uiModule,
                 authModule,

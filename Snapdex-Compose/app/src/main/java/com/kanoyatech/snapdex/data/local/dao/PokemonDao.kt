@@ -1,16 +1,16 @@
-package com.kanoyatech.snapdex.data.dao
+package com.kanoyatech.snapdex.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Embedded
 import androidx.room.Query
 import androidx.room.Relation
-import com.kanoyatech.snapdex.data.entities.AbilityEntity
-import com.kanoyatech.snapdex.data.entities.AbilityTranslationEntity
-import com.kanoyatech.snapdex.data.entities.CategoryEntity
-import com.kanoyatech.snapdex.data.entities.CategoryTranslationEntity
-import com.kanoyatech.snapdex.data.entities.PokemonEntity
-import com.kanoyatech.snapdex.data.entities.PokemonTranslationEntity
-import com.kanoyatech.snapdex.data.entities.PokemonTypeEntity
+import com.kanoyatech.snapdex.data.local.entities.AbilityEntity
+import com.kanoyatech.snapdex.data.local.entities.AbilityTranslationEntity
+import com.kanoyatech.snapdex.data.local.entities.CategoryEntity
+import com.kanoyatech.snapdex.data.local.entities.CategoryTranslationEntity
+import com.kanoyatech.snapdex.data.local.entities.PokemonEntity
+import com.kanoyatech.snapdex.data.local.entities.PokemonTranslationEntity
+import com.kanoyatech.snapdex.data.local.entities.PokemonTypeEntity
 
 @Dao
 interface PokemonDao {

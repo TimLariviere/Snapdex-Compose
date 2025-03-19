@@ -1,5 +1,7 @@
 package com.kanoyatech.snapdex.domain
 
+import com.kanoyatech.snapdex.domain.models.PokemonType
+
 object PokemonWeaknessCalculator {
     private val weaknessesMap = mapOf(
         Pair(PokemonType.BUG, listOf(PokemonType.FIRE, PokemonType.FIGHTING, PokemonType.ROCK)),

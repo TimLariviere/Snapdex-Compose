@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.data.entities
+package com.kanoyatech.snapdex.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

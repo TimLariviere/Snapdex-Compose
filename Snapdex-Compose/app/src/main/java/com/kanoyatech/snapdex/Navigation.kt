@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
-import com.kanoyatech.snapdex.domain.PokemonId
+import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordScreenRoot
 import com.kanoyatech.snapdex.ui.auth.login.LoginScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexScreenRoot

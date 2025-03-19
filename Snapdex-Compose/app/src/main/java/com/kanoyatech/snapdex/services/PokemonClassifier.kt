@@ -3,7 +3,7 @@ package com.kanoyatech.snapdex.services
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
-import com.kanoyatech.snapdex.domain.PokemonId
+import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.utils.Assets
 import org.tensorflow.lite.Interpreter
 import java.nio.ByteBuffer

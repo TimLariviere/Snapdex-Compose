@@ -1,19 +1,20 @@
 package com.kanoyatech.snapdex.ui.auth.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,7 +23,6 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.designsystem.LinkButton
 import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
-import com.kanoyatech.snapdex.theme.designsystem.SecondaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.pagePadding
@@ -36,10 +36,23 @@ fun LoginScreenRoot(
     onForgotPasswordClick: () -> Unit,
     onSuccessfulLogin: () -> Unit
 ) {
+    val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
-            LoginEvent.LoginSuccessful -> onSuccessfulLogin()
-            else -> Unit
+            is LoginEvent.Error -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            LoginEvent.LoginSuccessful -> {
+                keyboardController?.hide()
+                onSuccessfulLogin()
+            }
         }
     }
 

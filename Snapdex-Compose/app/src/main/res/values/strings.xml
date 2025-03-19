@@ -34,7 +34,7 @@
     <string name="statistics">Stats</string>
     <string name="profile">Profile</string>
     <string name="register">Register</string>
-    <string name="register_error">Error while registering</string>
+    <string name="register_failed">Failed to register</string>
     <string name="login_error">Error while login in</string>
     <string name="login">Log in</string>
     <string name="logout">Log out</string>
@@ -62,4 +62,6 @@
     <string name="at_least_x_digits">At least 1 number</string>
     <string name="contains_lowercase">Contains lowercase character</string>
     <string name="contains_uppercase">Contains uppercase character</string>
+    <string name="email_already_used">Email already used</string>
+    <string name="login_failed">Login failed</string>
 </resources>

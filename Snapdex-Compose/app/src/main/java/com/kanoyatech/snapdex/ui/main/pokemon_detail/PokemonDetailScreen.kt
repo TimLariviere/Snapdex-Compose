@@ -29,14 +29,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.domain.EvolutionChain
+import com.kanoyatech.snapdex.domain.models.EvolutionChain
 import com.kanoyatech.snapdex.domain.units.Length
 import com.kanoyatech.snapdex.domain.units.Percentage
-import com.kanoyatech.snapdex.domain.Pokemon
-import com.kanoyatech.snapdex.domain.PokemonAbility
-import com.kanoyatech.snapdex.domain.PokemonCategory
-import com.kanoyatech.snapdex.domain.PokemonId
-import com.kanoyatech.snapdex.domain.PokemonType
+import com.kanoyatech.snapdex.domain.models.Pokemon
+import com.kanoyatech.snapdex.domain.models.PokemonAbility
+import com.kanoyatech.snapdex.domain.models.PokemonCategory
+import com.kanoyatech.snapdex.domain.models.PokemonId
+import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.domain.units.Weight
 import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.domain.units.m
@@ -401,7 +401,8 @@ private fun PokemonDetailsScreenPreview() {
                 category = PokemonCategory(id = 0, name = "Lizard"),
                 ability = PokemonAbility(id = 0, name = "Blaze"),
                 maleToFemaleRatio = 87.5.percent
-            )),
+            )
+            ),
             Pair(32, Pokemon(
                 id = 6,
                 name = "Charizard",
@@ -416,7 +417,8 @@ private fun PokemonDetailsScreenPreview() {
                 category = PokemonCategory(id = 0, name = "Lizard"),
                 ability = PokemonAbility(id = 0, name = "Blaze"),
                 maleToFemaleRatio = 87.5.percent
-            ))
+            )
+            )
         )
     )
 

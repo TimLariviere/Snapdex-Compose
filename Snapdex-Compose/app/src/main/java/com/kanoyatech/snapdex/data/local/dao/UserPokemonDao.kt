@@ -1,11 +1,11 @@
-package com.kanoyatech.snapdex.data.dao
+package com.kanoyatech.snapdex.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.kanoyatech.snapdex.data.entities.UserPokemonEntity
-import com.kanoyatech.snapdex.domain.PokemonId
-import com.kanoyatech.snapdex.domain.UserId
+import com.kanoyatech.snapdex.data.local.entities.UserPokemonEntity
+import com.kanoyatech.snapdex.domain.models.PokemonId
+import com.kanoyatech.snapdex.domain.models.UserId
 
 @Dao
 interface UserPokemonDao {

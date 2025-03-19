@@ -6,12 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.data.repositories.UserRepository
-import com.kanoyatech.snapdex.domain.User
+import com.kanoyatech.snapdex.domain.repositories.RegisterError
+import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.services.UserDataValidator
 import com.kanoyatech.snapdex.ui.UiText
+import com.kanoyatech.snapdex.utils.TypedResult
 import com.kanoyatech.snapdex.utils.textAsFlow
-import com.kanoyatech.snapdex.utils.Result
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -86,23 +86,26 @@ class RegisterViewModel(
         viewModelScope.launch {
             state = state.copy(isRegistering = true)
 
-            val result = userRepository.addUser(
-                User(
-                    id = null,
-                    avatarId = state.avatar,
-                    name = state.name.text.toString(),
-                    email = state.email.text.toString(),
-                    password = state.password.text.toString()
-                )
+            val result = userRepository.register(
+                avatarId = state.avatar,
+                name = state.name.text.toString(),
+                email = state.email.text.toString(),
+                password = state.password.text.toString()
             )
 
             state = state.copy(isRegistering = false)
 
             when (result) {
-                is Result.Error -> {
-                    eventChannel.send(RegisterEvent.Error(UiText.StringResource(id = R.string.register_error)))
+                is TypedResult.Error -> {
+                    val message =
+                        when (result.error) {
+                            is RegisterError.EmailAlreadyUsed -> UiText.StringResource(id = R.string.email_already_used)
+                            is RegisterError.UnknownReason -> UiText.StringResource(id = R.string.register_failed)
+                        }
+
+                    eventChannel.send(RegisterEvent.Error(message))
                 }
-                is Result.Success -> {
+                is TypedResult.Success -> {
                     eventChannel.send(RegisterEvent.RegistrationSuccess)
                 }
             }

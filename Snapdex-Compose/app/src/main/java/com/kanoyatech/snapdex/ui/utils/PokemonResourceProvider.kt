@@ -2,7 +2,7 @@ package com.kanoyatech.snapdex.ui.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.kanoyatech.snapdex.domain.PokemonId
+import com.kanoyatech.snapdex.domain.models.PokemonId
 
 object PokemonResourceProvider {
     fun getPokemonNameResourceId(context: Context, id: PokemonId): Int {

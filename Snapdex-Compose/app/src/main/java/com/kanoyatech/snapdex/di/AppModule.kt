@@ -10,10 +10,10 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.kanoyatech.snapdex.MainViewModel
 import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
-import com.kanoyatech.snapdex.data.RoomDataSource
-import com.kanoyatech.snapdex.data.SnapdexDatabase
-import com.kanoyatech.snapdex.data.repositories.UserRepository
-import com.kanoyatech.snapdex.domain.DataSource
+import com.kanoyatech.snapdex.data.local.SnapdexDatabase
+import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserDataSource
+import com.kanoyatech.snapdex.data.repositories.UserRepositoryImpl
+import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.services.PokemonClassifier
 import com.kanoyatech.snapdex.services.UserDataValidator
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
@@ -34,7 +34,7 @@ import org.koin.dsl.module
 
 private val Context.dataStore by preferencesDataStore("settings")
 
-val dataModule = module {
+val dataLocalModule = module {
     single {
         Room.databaseBuilder(
             androidApplication(),
@@ -45,18 +45,24 @@ val dataModule = module {
             .build()
     }
 
+    // DAO
     single { get<SnapdexDatabase>().pokemonDao }
     single { get<SnapdexDatabase>().evolutionChainDao }
     single { get<SnapdexDatabase>().userDao }
     single { get<SnapdexDatabase>().userPokemonDao }
+}
 
-    singleOf(::RoomDataSource).bind<DataSource>()
+val dataRemoteModule = module {
+    single { Firebase.firestore }
 
+    // Data sources
+    singleOf(::RemoteUserDataSource)
+}
+
+val dataModule = module {
     single<DataStore<Preferences>> { androidContext().dataStore }
     singleOf(::PreferencesRepository)
-
-    single { Firebase.firestore }
-    singleOf(::UserRepository)
+    singleOf(::UserRepositoryImpl).bind<UserRepository>()
 }
 
 val uiModule = module {
@@ -68,7 +74,7 @@ val uiModule = module {
     viewModelOf(::PokedexViewModel)
     viewModelOf(::ProfileViewModel)
     viewModelOf(::StatsViewModel)
-    viewModel { parameters -> PokemonDetailViewModel(get(), parameters.get()) }
+    viewModel { parameters -> PokemonDetailViewModel(parameters.get()) }
 }
 
 val authModule = module {

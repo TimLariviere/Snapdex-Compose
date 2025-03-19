@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.domain
+package com.kanoyatech.snapdex.domain.models
 
 enum class PokemonType {
     BUG,

@@ -1,8 +1,8 @@
 package com.kanoyatech.snapdex.ui.main.pokedex
 
 import android.graphics.Bitmap
-import com.kanoyatech.snapdex.domain.PokemonId
-import com.kanoyatech.snapdex.domain.PokemonType
+import com.kanoyatech.snapdex.domain.models.PokemonId
+import com.kanoyatech.snapdex.domain.models.PokemonType
 
 sealed interface PokedexAction {
     data class OnPokemonClick(val pokemonId: PokemonId): PokedexAction

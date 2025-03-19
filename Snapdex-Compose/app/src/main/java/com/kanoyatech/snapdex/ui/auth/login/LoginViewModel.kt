@@ -5,16 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.repositories.LoginError
+import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.UiText
+import com.kanoyatech.snapdex.utils.TypedResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class LoginViewModel(
-    private val auth: FirebaseAuth
+    private val userRepository: UserRepository
 ): ViewModel() {
     var state by mutableStateOf(LoginState())
         private set
@@ -34,16 +35,28 @@ class LoginViewModel(
 
     private fun login() {
         viewModelScope.launch {
-            try {
-                val result =
-                    auth.signInWithEmailAndPassword(
-                        state.email.text.toString(),
-                        state.password.text.toString()
-                    ).await()
+            state = state.copy(isLoginIn = true)
 
-                eventChannel.send(LoginEvent.LoginSuccessful)
-            } catch (e: Exception) {
-                eventChannel.send(LoginEvent.Error(UiText.StringResource(id = R.string.login_error)))
+            val result = userRepository.login(
+                email = state.email.text.toString(),
+                password = state.password.text.toString()
+            )
+
+            state = state.copy(isLoginIn = false)
+
+            when (result) {
+                is TypedResult.Error -> {
+                    val message =
+                        when (result.error) {
+                            is LoginError.UserNotFoundInRemote -> UiText.StringResource(id = R.string.login_failed)
+                            is LoginError.UnknownReason -> UiText.StringResource(id = R.string.login_failed)
+                        }
+
+                    eventChannel.send(LoginEvent.Error(message))
+                }
+                is TypedResult.Success -> {
+                    eventChannel.send(LoginEvent.LoginSuccessful)
+                }
             }
         }
     }

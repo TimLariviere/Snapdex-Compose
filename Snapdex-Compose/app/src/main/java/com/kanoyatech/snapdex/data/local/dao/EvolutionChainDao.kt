@@ -1,12 +1,12 @@
-package com.kanoyatech.snapdex.data.dao
+package com.kanoyatech.snapdex.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Relation
 import androidx.room.Transaction
-import com.kanoyatech.snapdex.data.entities.EvolutionChainLinkEntity
-import com.kanoyatech.snapdex.data.entities.PokemonEntity
-import com.kanoyatech.snapdex.domain.PokemonId
+import com.kanoyatech.snapdex.data.local.entities.EvolutionChainLinkEntity
+import com.kanoyatech.snapdex.data.local.entities.PokemonEntity
+import com.kanoyatech.snapdex.domain.models.PokemonId
 
 @Dao
 interface EvolutionChainDao {

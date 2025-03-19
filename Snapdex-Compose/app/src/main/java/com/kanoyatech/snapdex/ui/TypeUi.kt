@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.domain.PokemonType
+import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.theme.TypeColor
 
 data class TypeUi(
