@@ -64,4 +64,8 @@
     <string name="contains_uppercase">Contains uppercase character</string>
     <string name="email_already_used">Email already used</string>
     <string name="login_failed">Login failed</string>
+    <string name="send_password_failed">Send password reset email failed</string>
+    <string name="password_reset">Password Reset</string>
+    <string name="check_mailbox_password_reset_link">Please check your email for the link to reset your password.</string>
+    <string name="ok">OK</string>
 </resources>

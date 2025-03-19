@@ -13,7 +13,12 @@ sealed interface LoginError {
     data object UserNotFoundInRemote : LoginError
 }
 
+sealed interface SendPasswordResetEmailError {
+    data object UnknownReason: SendPasswordResetEmailError
+}
+
 interface UserRepository {
     suspend fun register(avatarId: AvatarId, name: String, email: String, password: String): TypedResult<Unit, RegisterError>
     suspend fun login(email: String, password: String): TypedResult<Unit, LoginError>
+    suspend fun sendPasswordResetEmail(email: String): TypedResult<Unit, SendPasswordResetEmailError>
 }

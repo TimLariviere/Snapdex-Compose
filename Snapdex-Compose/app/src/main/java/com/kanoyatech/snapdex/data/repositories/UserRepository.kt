@@ -12,6 +12,7 @@ import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.data.utils.Retry
 import com.kanoyatech.snapdex.domain.repositories.LoginError
 import com.kanoyatech.snapdex.domain.repositories.RegisterError
+import com.kanoyatech.snapdex.domain.repositories.SendPasswordResetEmailError
 import com.kanoyatech.snapdex.utils.TypedResult
 import kotlinx.coroutines.tasks.await
 
@@ -113,6 +114,20 @@ class UserRepositoryImpl(
                 timestamp = userRemoteEntity.timestamp
             )
         )
+
+        return TypedResult.Success(Unit)
+    }
+
+    override suspend fun sendPasswordResetEmail(email: String): TypedResult<Unit, SendPasswordResetEmailError> {
+        val result =
+            Retry.execute(
+                body = { auth.sendPasswordResetEmail(email).await() },
+                retryIf = { it is FirebaseNetworkException }
+            )
+
+        if (result.isFailure) {
+            return TypedResult.Error(SendPasswordResetEmailError.UnknownReason)
+        }
 
         return TypedResult.Success(Unit)
     }
