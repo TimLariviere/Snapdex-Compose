@@ -8,10 +8,11 @@ import androidx.room.Room
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
-import com.kanoyatech.snapdex.MainViewModel
+import com.kanoyatech.snapdex.MainActivityViewModel
 import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
 import com.kanoyatech.snapdex.data.local.SnapdexDatabase
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserDataSource
+import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserPokemonDataSource
 import com.kanoyatech.snapdex.data.repositories.UserRepositoryImpl
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.services.PokemonClassifier
@@ -23,6 +24,7 @@ import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailViewModel
 import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
 import com.kanoyatech.snapdex.ui.auth.register.RegisterViewModel
 import com.kanoyatech.snapdex.ui.intro.IntroViewModel
+import com.kanoyatech.snapdex.ui.main.MainViewModel
 import com.kanoyatech.snapdex.ui.main.stats.StatsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -57,6 +59,7 @@ val dataRemoteModule = module {
 
     // Data sources
     singleOf(::RemoteUserDataSource)
+    singleOf(::RemoteUserPokemonDataSource)
 }
 
 val dataModule = module {
@@ -66,13 +69,14 @@ val dataModule = module {
 }
 
 val uiModule = module {
-    viewModelOf(::MainViewModel)
+    viewModelOf(::MainActivityViewModel)
     viewModelOf(::IntroViewModel)
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)
     viewModelOf(::ForgotPasswordViewModel)
+    viewModelOf(::MainViewModel)
     viewModelOf(::PokedexViewModel)
-    viewModelOf(::ProfileViewModel)
+    viewModel { parameters -> ProfileViewModel(parameters.get(), get()) }
     viewModelOf(::StatsViewModel)
     viewModel { parameters -> PokemonDetailViewModel(parameters.get()) }
 }

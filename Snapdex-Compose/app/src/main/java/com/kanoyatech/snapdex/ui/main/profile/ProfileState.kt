@@ -1,7 +1,7 @@
 package com.kanoyatech.snapdex.ui.main.profile
 
+import com.kanoyatech.snapdex.domain.models.User
+
 data class ProfileState(
-    val avatarId: Int = 0,
-    val name: String = "",
-    val email: String = ""
+    val user: User
 )

@@ -9,11 +9,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
 import kotlinx.coroutines.launch
 
-class MainViewModel(
+class MainActivityViewModel(
     private val auth: FirebaseAuth,
     private val preferencesRepository: PreferencesRepository
 ): ViewModel() {
-    var state by mutableStateOf(MainState())
+    var state by mutableStateOf(MainActivityState())
         private set
 
     init {

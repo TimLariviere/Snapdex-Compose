@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,9 +24,22 @@ import com.kanoyatech.snapdex.TabsNavigation
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexNavBar
 import com.kanoyatech.snapdex.theme.designsystem.TabItem
+import org.koin.androidx.compose.koinViewModel
+
+@Composable
+fun MainScreenRoot(
+    viewModel: MainViewModel = koinViewModel(),
+    onLoggedOut: () -> Unit
+) {
+    MainScreen(
+        state = viewModel.state,
+        onLoggedOut = onLoggedOut
+    )
+}
 
 @Composable
 fun MainScreen(
+    state: MainState,
     onLoggedOut: () -> Unit
 ) {
     val navController = rememberNavController()
@@ -40,59 +55,67 @@ fun MainScreen(
             bottom = paddingValues.calculateBottomPadding() + 48.dp
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            TabsNavigation(
-                navController = navController,
-                paddingValues = adjustedPaddingValues,
-                onLoggedOut = onLoggedOut
-            )
-
-            SnapdexNavBar(
-                tabs = arrayOf(
-                    TabItem(
-                        imageVector = Icons.Pokeball,
-                        onClick = {
-                            navController.navigate(PokedexTabRoute) {
-                                popUpTo(PokedexTabRoute) {
-                                    inclusive = true
-                                }
-                            }
-                        }
-                    ),
-                    TabItem(
-                        imageVector = Icons.Statistics,
-                        onClick = {
-                            navController.navigate(StatsTabRoute) {
-                                popUpTo(PokedexTabRoute) {
-                                    inclusive = true
-                                }
-                            }
-                        }
-                    ),
-                    TabItem(
-                        imageVector = Icons.Profile,
-                        onClick = {
-                            navController.navigate(ProfileTabRoute) {
-                                popUpTo(PokedexTabRoute) {
-                                    inclusive = true
-                                }
-                            }
-                        }
-                    )
-                ),
-                shouldShowNavBar = {
-                    when (currentDestination?.route) {
-                        "com.kanoyatech.snapdex.PokemonDetailsRoute/{pokemonId}" -> false
-                        else -> true
-                    }
-                },
+        if (state.user == null) {
+            CircularProgressIndicator(
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = paddingValues.calculateBottomPadding() + 8.dp)
+                    .fillMaxSize()
             )
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                TabsNavigation(
+                    navController = navController,
+                    paddingValues = adjustedPaddingValues,
+                    user = state.user,
+                    onLoggedOut = onLoggedOut
+                )
+
+                SnapdexNavBar(
+                    tabs = arrayOf(
+                        TabItem(
+                            imageVector = Icons.Pokeball,
+                            onClick = {
+                                navController.navigate(PokedexTabRoute) {
+                                    popUpTo(PokedexTabRoute) {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        ),
+                        TabItem(
+                            imageVector = Icons.Statistics,
+                            onClick = {
+                                navController.navigate(StatsTabRoute) {
+                                    popUpTo(PokedexTabRoute) {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        ),
+                        TabItem(
+                            imageVector = Icons.Profile,
+                            onClick = {
+                                navController.navigate(ProfileTabRoute) {
+                                    popUpTo(PokedexTabRoute) {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        )
+                    ),
+                    shouldShowNavBar = {
+                        when (currentDestination?.route) {
+                            "com.kanoyatech.snapdex.PokemonDetailsRoute/{pokemonId}" -> false
+                            else -> true
+                        }
+                    },
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = paddingValues.calculateBottomPadding() + 8.dp)
+                )
+            }
         }
     }
 }

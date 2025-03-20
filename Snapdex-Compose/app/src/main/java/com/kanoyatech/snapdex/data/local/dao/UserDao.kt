@@ -5,6 +5,7 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.kanoyatech.snapdex.data.local.entities.UserEntity
 import com.kanoyatech.snapdex.domain.models.UserId
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
@@ -12,5 +13,5 @@ interface UserDao {
     suspend fun upsert(entity: UserEntity)
 
     @Query("SELECT * FROM Users WHERE id = :id")
-    suspend fun getById(id: UserId): UserEntity
+    fun observeById(id: UserId): Flow<UserEntity>
 }

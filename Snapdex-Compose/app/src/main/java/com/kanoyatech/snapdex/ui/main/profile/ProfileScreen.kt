@@ -6,26 +6,21 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.AvatarView
-import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
@@ -66,7 +61,7 @@ private fun ProfileScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AvatarView(
-                avatarId = state.avatarId,
+                avatarId = state.user.avatarId,
                 isSelected = false,
                 modifier = Modifier
                     .height(48.dp)
@@ -74,11 +69,11 @@ private fun ProfileScreen(
 
             Column {
                 Text(
-                    text = state.name,
+                    text = state.user.name,
                     style = MaterialTheme.typography.titleSmall
                 )
                 Text(
-                    text = state.email,
+                    text = state.user.email,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.surfaceVariant
                 )
@@ -106,9 +101,12 @@ private fun ProfileScreenPreview() {
         ProfileScreen(
             paddingValues = PaddingValues(0.dp),
             state = ProfileState(
-                avatarId = 7,
-                name = "Test Name",
-                email = "test@example.com"
+                user = User(
+                    id = "",
+                    avatarId = 4,
+                    name = "Roger",
+                    email = "roger@snapdex.com"
+                )
             ),
             onAction = {}
         )

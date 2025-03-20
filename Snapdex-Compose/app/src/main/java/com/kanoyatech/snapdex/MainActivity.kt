@@ -14,7 +14,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import org.koin.android.ext.android.inject
 
 class MainActivity: ComponentActivity() {
-    private val viewModel: MainViewModel by inject()
+    private val viewModel: MainActivityViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

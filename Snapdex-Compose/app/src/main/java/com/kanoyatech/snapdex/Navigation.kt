@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
 import com.kanoyatech.snapdex.domain.models.PokemonId
+import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordScreenRoot
 import com.kanoyatech.snapdex.ui.auth.login.LoginScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexScreenRoot
@@ -17,6 +18,8 @@ import com.kanoyatech.snapdex.ui.main.profile.ProfileScreenRoot
 import com.kanoyatech.snapdex.ui.auth.register.RegisterScreenRoot
 import com.kanoyatech.snapdex.ui.intro.IntroScreenRoot
 import com.kanoyatech.snapdex.ui.main.MainScreen
+import com.kanoyatech.snapdex.ui.main.MainScreenRoot
+import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
 import com.kanoyatech.snapdex.ui.main.stats.StatsScreenRoot
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
@@ -104,7 +107,7 @@ fun RootNavigation(
         }
 
         composable<MainRoute> {
-            MainScreen(
+            MainScreenRoot(
                 onLoggedOut = {
                     navController.navigate(LoginRoute) {
                         popUpTo(MainRoute) {
@@ -126,6 +129,7 @@ fun RootNavigation(
 fun TabsNavigation(
     navController: NavHostController,
     paddingValues: PaddingValues,
+    user: User,
     onLoggedOut: () -> Unit
 ) {
     NavHost(
@@ -148,6 +152,7 @@ fun TabsNavigation(
         }
 
         composable<ProfileTabRoute> {
+            val viewModel: ProfileViewModel = koinViewModel { parametersOf(user) }
             ProfileScreenRoot(
                 paddingValues = paddingValues,
                 onLoggedOut = {
