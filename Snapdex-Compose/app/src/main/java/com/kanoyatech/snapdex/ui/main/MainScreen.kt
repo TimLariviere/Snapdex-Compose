@@ -22,6 +22,7 @@ import com.kanoyatech.snapdex.PokedexTabRoute
 import com.kanoyatech.snapdex.ProfileTabRoute
 import com.kanoyatech.snapdex.StatsTabRoute
 import com.kanoyatech.snapdex.TabsNavigation
+import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexNavBar
 import com.kanoyatech.snapdex.theme.designsystem.TabItem
@@ -40,14 +41,21 @@ fun MainScreenRoot(
 
     MainScreen(
         state = viewModel.state,
-        onLoggedOut = onLoggedOut
+        onAction = { action ->
+            when (action) {
+                MainAction.OnLoggedOut -> onLoggedOut()
+                else -> Unit
+            }
+
+            viewModel.onAction(action)
+        }
     )
 }
 
 @Composable
 fun MainScreen(
     state: MainState,
-    onLoggedOut: () -> Unit
+    onAction: (MainAction) -> Unit
 ) {
     val navController = rememberNavController()
 
@@ -77,7 +85,12 @@ fun MainScreen(
                     paddingValues = adjustedPaddingValues,
                     user = state.user,
                     pokemons = state.pokemons,
-                    onLoggedOut = onLoggedOut
+                    onPokemonCatch = { pokemonId ->
+                        onAction(MainAction.OnPokemonCatch(pokemonId))
+                    },
+                    onLoggedOut = {
+                        onAction(MainAction.OnLoggedOut)
+                    }
                 )
 
                 SnapdexNavBar(

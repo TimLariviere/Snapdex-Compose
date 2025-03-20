@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -58,6 +59,7 @@ fun SearchView(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
+            .defaultMinSize(minHeight = 44.dp)
             .border(
                 width = 1.dp,
                 color = if (isFocused) {
@@ -69,9 +71,9 @@ fun SearchView(
             )
             .clip(RoundedCornerShape(40.dp))
             .background(MaterialTheme.colorScheme.background)
-            .padding(20.dp)
+            .padding(horizontal = 16.dp)
             .clickable { isFocused = true },
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically)
     ) {
         if (isFocused || state.text.text.isNotEmpty() || state.filter.isEmpty()) {
             SearchTextField(

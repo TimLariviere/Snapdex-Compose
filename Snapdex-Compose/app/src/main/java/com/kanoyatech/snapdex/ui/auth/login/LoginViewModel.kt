@@ -10,7 +10,11 @@ import com.kanoyatech.snapdex.domain.repositories.LoginError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.utils.TypedResult
+import com.kanoyatech.snapdex.utils.textAsFlow
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -22,6 +26,17 @@ class LoginViewModel(
 
     private val eventChannel = Channel<LoginEvent>()
     val events = eventChannel.receiveAsFlow()
+
+    init {
+        combine(state.email.textAsFlow(), state.password.textAsFlow()) { email, password ->
+            email.isNotBlank()
+            && password.isNotBlank()
+        }
+            .onEach {
+                state = state.copy(canLogin = it)
+            }
+            .launchIn(viewModelScope)
+    }
 
     fun onAction(action: LoginAction) {
         when (action) {

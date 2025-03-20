@@ -21,4 +21,16 @@ class RemoteUserPokemonDataSource(
             )
         }
     }
+
+    suspend fun insert(userPokemonRemoteEntity: UserPokemonRemoteEntity) {
+        val data = mapOf(
+            "userId" to userPokemonRemoteEntity.userId,
+            "pokemonId" to userPokemonRemoteEntity.pokemonId
+        )
+
+        firestore.collection("user_pokemons")
+            .document()
+            .set(data)
+            .await()
+    }
 }

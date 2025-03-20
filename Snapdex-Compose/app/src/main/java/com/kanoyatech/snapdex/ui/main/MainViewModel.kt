@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 class MainViewModel(
@@ -42,5 +44,22 @@ class MainViewModel(
                 )
             }
             .launchIn(viewModelScope)
+    }
+
+    fun onAction(action: MainAction) {
+        when (action) {
+            is MainAction.OnPokemonCatch -> catchPokemon(action.pokemonId)
+            else -> Unit
+        }
+    }
+
+    private fun catchPokemon(pokemonId: PokemonId) {
+        viewModelScope.launch {
+            val userId = state.user?.id
+                ?: return@launch
+
+            val result = pokemonRepository.catchPokemon(userId, pokemonId)
+            // TODO: handle error
+        }
     }
 }

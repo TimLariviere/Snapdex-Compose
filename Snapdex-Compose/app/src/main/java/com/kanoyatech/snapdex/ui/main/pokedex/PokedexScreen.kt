@@ -8,7 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,13 +34,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -53,17 +50,25 @@ import com.kanoyatech.snapdex.theme.designsystem.search.SearchView
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SmallTypeBadge
+import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PokedexScreenRoot(
     paddingValues: PaddingValues,
     viewModel: PokedexViewModel = koinViewModel(),
-    onPokemonClick: (PokemonId) -> Unit
+    onPokemonClick: (PokemonId) -> Unit,
+    onPokemonCatch: (PokemonId) -> Unit
 ) {
     val context = LocalContext.current
     LaunchedEffect(true) {
         viewModel.init(context)
+    }
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            is PokedexEvent.OnPokemonCatch -> onPokemonCatch(event.pokemonId)
+        }
     }
 
     PokedexScreen(
@@ -87,19 +92,6 @@ private fun PokedexScreen(
     onAction: (PokedexAction) -> Unit
 ) {
     Box {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(
-                            Color(0xFFD8E6F8),
-                            Color(0xFFA9CEFC)
-                        )
-                    )
-                )
-        )
-
         Column(
             modifier = Modifier
                 .padding(
@@ -107,16 +99,8 @@ private fun PokedexScreen(
                     top = paddingValues.calculateTopPadding(),
                     end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
                 )
-                .padding(top = 8.dp)
+                .padding(top = 16.dp)
         ) {
-            Text(
-                text = "Last caught: ${state.lastCaught}",
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
-
             SearchView(
                 state = state.searchState,
                 hint = stringResource(id = R.string.search_hint),
@@ -129,7 +113,7 @@ private fun PokedexScreen(
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
-                contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 72.dp),
+                contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 88.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
@@ -175,7 +159,11 @@ fun PokemonItem(
             .fillMaxSize()
             .height(120.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.40f))
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = RoundedCornerShape(12.dp)
+            )
             .padding(8.dp)
     ) {
         Column(
@@ -215,7 +203,11 @@ fun UnknownItem(
             .fillMaxWidth()
             .height(120.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.40f))
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = RoundedCornerShape(12.dp)
+            )
             .padding(8.dp),
         contentAlignment = Alignment.Center
     ) {

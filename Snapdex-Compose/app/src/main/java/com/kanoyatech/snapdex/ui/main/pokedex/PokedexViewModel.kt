@@ -12,6 +12,8 @@ import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.PokemonClassifier
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class PokedexViewModel(
@@ -22,6 +24,9 @@ class PokedexViewModel(
         pokemons = pokemons
     ))
         private set
+
+    private val eventChannel = Channel<PokedexEvent>()
+    val events = eventChannel.receiveAsFlow()
 
     fun init(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,26 +48,11 @@ class PokedexViewModel(
         }
     }
 
-    private fun catchPokemon(pokemonId: PokemonId) {
-        //viewModelScope.launch {
-        //    val userId = auth.currentUser!!.uid
-        //    val alreadyCaught = dataSource.hasCaughtPokemon(userId = userId, pokemonId = pokemonId)
-        //    var newPokemons = state.pokemons
-        //    if (!alreadyCaught) {
-        //        dataSource.addPokemonToUser(auth.currentUser!!.uid, pokemonId)
-        //        newPokemons = dataSource.getCaughtPokemons(userId, Locale.ENGLISH)
-        //    }
-        //
-        //    val lastCaught = newPokemons.find { it.id == pokemonId }
-        //    state = state.copy(pokemons = newPokemons, lastCaught = lastCaught?.name ?: "Unknown")
-        //}
-    }
-
     private fun recognizePokemon(bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
             val pokemonId = classifier.classify(bitmap)
             if (pokemonId != null) {
-                catchPokemon(pokemonId)
+                eventChannel.send(PokedexEvent.OnPokemonCatch(pokemonId))
             }
         }
     }

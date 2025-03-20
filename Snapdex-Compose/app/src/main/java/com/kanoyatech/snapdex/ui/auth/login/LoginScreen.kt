@@ -126,6 +126,8 @@ private fun LoginScreen(
         ) {
             PrimaryButton(
                 text = stringResource(id = R.string.login),
+                enabled = state.canLogin,
+                isBusy = state.isLoginIn,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

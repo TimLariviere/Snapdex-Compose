@@ -133,6 +133,7 @@ fun TabsNavigation(
     paddingValues: PaddingValues,
     user: User,
     pokemons: List<Pokemon>,
+    onPokemonCatch: (PokemonId) -> Unit,
     onLoggedOut: () -> Unit
 ) {
     NavHost(
@@ -146,6 +147,9 @@ fun TabsNavigation(
                 paddingValues = paddingValues,
                 onPokemonClick = { pokemonId ->
                     navController.navigate(PokemonDetailsRoute(pokemonId = pokemonId))
+                },
+                onPokemonCatch = { pokemonId ->
+                    onPokemonCatch(pokemonId)
                 }
             )
         }
