@@ -9,24 +9,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.kanoyatech.snapdex.domain.models.PokemonId
-import com.kanoyatech.snapdex.services.PokemonClassifier
+import com.kanoyatech.snapdex.domain.PokemonClassifier
+import com.kanoyatech.snapdex.domain.models.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokedexViewModel(
-    private val auth: FirebaseAuth,
+    pokemons: List<Pokemon>,
     private val classifier: PokemonClassifier
 ): ViewModel() {
-    var state by mutableStateOf(PokedexState())
+    var state by mutableStateOf(PokedexState(
+        pokemons = pokemons
+    ))
         private set
 
     fun init(context: Context) {
-        //viewModelScope.launch {
-        //    val userId = auth.currentUser!!.uid
-        //    val pokemons = dataSource.getCaughtPokemons(userId, context.getLocale())
-        //    state = state.copy(pokemons = pokemons, state = State.IDLE)
-        //}
-
         viewModelScope.launch(Dispatchers.IO) {
             classifier.init(context)
         }

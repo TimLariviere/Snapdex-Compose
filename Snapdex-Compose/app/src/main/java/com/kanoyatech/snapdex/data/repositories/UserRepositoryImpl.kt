@@ -3,7 +3,6 @@ package com.kanoyatech.snapdex.data.repositories
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.kanoyatech.snapdex.data.auth.currentUserAsFlow
 import com.kanoyatech.snapdex.data.local.dao.UserDao
 import com.kanoyatech.snapdex.data.local.dao.UserPokemonDao
 import com.kanoyatech.snapdex.data.local.entities.UserEntity
@@ -20,6 +19,7 @@ import com.kanoyatech.snapdex.domain.repositories.LogoutError
 import com.kanoyatech.snapdex.domain.repositories.RegisterError
 import com.kanoyatech.snapdex.domain.repositories.SendPasswordResetEmailError
 import com.kanoyatech.snapdex.utils.TypedResult
+import com.kanoyatech.snapdex.utils.currentUserAsFlow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest

@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.repositories.SendPasswordResetEmailError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
-import com.kanoyatech.snapdex.services.UserDataValidator
+import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.utils.TypedResult
 import com.kanoyatech.snapdex.utils.textAsFlow

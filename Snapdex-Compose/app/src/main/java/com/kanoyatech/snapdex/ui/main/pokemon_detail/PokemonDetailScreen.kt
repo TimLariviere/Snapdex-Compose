@@ -64,7 +64,7 @@ fun PokemonDetailScreenRoot(
 ) {
     val context = LocalContext.current
     LaunchedEffect(true) {
-        viewModel.setLocale(context.getLocale())
+        viewModel.initialize(context.getLocale())
     }
 
     PokemonDetailScreen(

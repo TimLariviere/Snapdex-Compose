@@ -25,7 +25,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -51,7 +50,6 @@ import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.search.SearchView
-import com.kanoyatech.snapdex.ui.State
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SmallTypeBadge
@@ -84,32 +82,6 @@ fun PokedexScreenRoot(
 
 @Composable
 private fun PokedexScreen(
-    paddingValues: PaddingValues,
-    state: PokedexState,
-    onAction: (PokedexAction) -> Unit
-) {
-    when (state.state) {
-        State.LOADING ->
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(64.dp)
-                )
-            }
-        State.IDLE -> PokemonGrid(
-            paddingValues = paddingValues,
-            state = state,
-            onAction = onAction
-        )
-    }
-}
-
-@Composable
-fun PokemonGrid(
     paddingValues: PaddingValues,
     state: PokedexState,
     onAction: (PokedexAction) -> Unit
@@ -320,9 +292,7 @@ private fun PokedexScreenPreview() {
     AppTheme {
         PokedexScreen(
             paddingValues = PaddingValues(0.dp),
-            state = PokedexState(
-                state = State.IDLE
-            ),
+            state = PokedexState(),
             onAction = {}
         )
     }

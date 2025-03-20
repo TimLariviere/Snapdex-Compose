@@ -13,10 +13,14 @@ import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
 import com.kanoyatech.snapdex.data.local.SnapdexDatabase
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserDataSource
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserPokemonDataSource
+import com.kanoyatech.snapdex.data.repositories.EvolutionChainRepositoryImpl
+import com.kanoyatech.snapdex.data.repositories.PokemonRepositoryImpl
 import com.kanoyatech.snapdex.data.repositories.UserRepositoryImpl
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
-import com.kanoyatech.snapdex.services.PokemonClassifier
-import com.kanoyatech.snapdex.services.UserDataValidator
+import com.kanoyatech.snapdex.domain.PokemonClassifier
+import com.kanoyatech.snapdex.domain.UserDataValidator
+import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
+import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
 import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
@@ -66,6 +70,8 @@ val dataModule = module {
     single<DataStore<Preferences>> { androidContext().dataStore }
     singleOf(::PreferencesRepository)
     singleOf(::UserRepositoryImpl).bind<UserRepository>()
+    singleOf(::PokemonRepositoryImpl).bind<PokemonRepository>()
+    singleOf(::EvolutionChainRepositoryImpl).bind<EvolutionChainRepository>()
 }
 
 val uiModule = module {
@@ -75,10 +81,10 @@ val uiModule = module {
     viewModelOf(::RegisterViewModel)
     viewModelOf(::ForgotPasswordViewModel)
     viewModelOf(::MainViewModel)
-    viewModelOf(::PokedexViewModel)
+    viewModel { parameters -> PokedexViewModel(parameters.get(), get()) }
     viewModel { parameters -> ProfileViewModel(parameters.get(), get()) }
     viewModelOf(::StatsViewModel)
-    viewModel { parameters -> PokemonDetailViewModel(parameters.get()) }
+    viewModel { parameters -> PokemonDetailViewModel(parameters.get(), get(), get()) }
 }
 
 val authModule = module {

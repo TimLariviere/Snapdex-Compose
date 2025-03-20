@@ -1,7 +1,6 @@
-package com.kanoyatech.snapdex.services
+package com.kanoyatech.snapdex.domain
 
 import android.util.Patterns
-import com.kanoyatech.snapdex.domain.PasswordValidationState
 
 class UserDataValidator {
     fun validateName(name: String): Boolean {

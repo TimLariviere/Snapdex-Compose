@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.services
+package com.kanoyatech.snapdex.domain
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -9,10 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,6 +25,7 @@ import com.kanoyatech.snapdex.TabsNavigation
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexNavBar
 import com.kanoyatech.snapdex.theme.designsystem.TabItem
+import com.kanoyatech.snapdex.ui.utils.getLocale
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -31,6 +33,11 @@ fun MainScreenRoot(
     viewModel: MainViewModel = koinViewModel(),
     onLoggedOut: () -> Unit
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.initialize(context.getLocale())
+    }
+
     MainScreen(
         state = viewModel.state,
         onLoggedOut = onLoggedOut
@@ -69,6 +76,7 @@ fun MainScreen(
                     navController = navController,
                     paddingValues = adjustedPaddingValues,
                     user = state.user,
+                    pokemons = state.pokemons,
                     onLoggedOut = onLoggedOut
                 )
 

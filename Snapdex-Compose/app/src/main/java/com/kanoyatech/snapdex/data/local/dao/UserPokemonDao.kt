@@ -8,6 +8,7 @@ import androidx.room.Upsert
 import com.kanoyatech.snapdex.data.local.entities.UserPokemonEntity
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.models.UserId
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserPokemonDao {
@@ -27,5 +28,5 @@ interface UserPokemonDao {
             WHERE userId = :userId
         )
     """)
-    suspend fun getUserPokemons(userId: UserId): List<PokemonWithRelations>
+    fun observeUserPokemons(userId: UserId): Flow<List<PokemonWithRelations>>
 }
