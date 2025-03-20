@@ -29,4 +29,5 @@ interface UserRepository {
     suspend fun login(email: String, password: String): TypedResult<Unit, LoginError>
     suspend fun sendPasswordResetEmail(email: String): TypedResult<Unit, SendPasswordResetEmailError>
     suspend fun logout(): TypedResult<Unit, LogoutError>
+    suspend fun deleteCurrentUser(): TypedResult<Unit, Unit>
 }

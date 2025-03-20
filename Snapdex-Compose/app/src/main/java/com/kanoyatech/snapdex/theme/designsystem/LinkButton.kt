@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,11 +17,19 @@ fun LinkButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    color: Color = Color.Unspecified,
     onClick: () -> Unit
 ) {
+    val colorOverride =
+        if (color == Color.Unspecified) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            color
+        }
+
     Text(
         text = text,
-        color = MaterialTheme.colorScheme.primary,
+        color = colorOverride,
         style = MaterialTheme.typography.labelLarge,
         textDecoration = TextDecoration.Underline,
         modifier = modifier

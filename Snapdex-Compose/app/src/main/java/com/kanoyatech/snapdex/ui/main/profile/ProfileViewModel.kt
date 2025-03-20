@@ -35,12 +35,29 @@ class ProfileViewModel(
     fun onAction(action: ProfileAction) {
         when (action) {
             ProfileAction.OnLogoutClick -> logout()
+            ProfileAction.OnDeleteAccountClick -> {
+                state = state.copy(showAccountDeletionDialog = true)
+            }
+            ProfileAction.OnAccountDeletionCancel -> {
+                state = state.copy(showAccountDeletionDialog = false)
+            }
+            ProfileAction.OnAccountDeletionConfirm -> {
+                state = state.copy(showAccountDeletionDialog = false)
+                deleteAccount()
+            }
         }
     }
 
     private fun logout() {
         viewModelScope.launch {
             userRepository.logout()
+            eventChannel.send(ProfileEvent.LoggedOut)
+        }
+    }
+
+    private fun deleteAccount() {
+        viewModelScope.launch {
+            userRepository.deleteCurrentUser()
             eventChannel.send(ProfileEvent.LoggedOut)
         }
     }

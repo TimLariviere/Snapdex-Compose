@@ -39,4 +39,14 @@ class RemoteUserDataSource(
             timestamp = data["timestamp"] as Long
         )
     }
+
+    suspend fun delete(id: String) {
+        val snapshot =
+            firestore.collection("users")
+                .document(id)
+                .get()
+                .await()
+
+        snapshot.reference.delete().await()
+    }
 }

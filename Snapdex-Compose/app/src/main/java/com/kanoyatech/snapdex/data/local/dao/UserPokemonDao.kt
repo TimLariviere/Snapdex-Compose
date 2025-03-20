@@ -1,6 +1,7 @@
 package com.kanoyatech.snapdex.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -19,7 +20,10 @@ interface UserPokemonDao {
     suspend fun insertAll(entities: List<UserPokemonEntity>)
 
     @Query("SELECT 1 FROM UserPokemons WHERE userId = :userId AND pokemonId = :pokemonId")
-    suspend fun exists(userId: UserId, pokemonId: PokemonId): Boolean
+    suspend fun exists(userId: String, pokemonId: Int): Boolean
+
+    @Query("DELETE FROM UserPokemons WHERE userId = :userId")
+    suspend fun deleteAllForUser(userId: String)
 
     @Query("""
         SELECT * FROM Pokemons
@@ -28,5 +32,5 @@ interface UserPokemonDao {
             WHERE userId = :userId
         )
     """)
-    fun observeUserPokemons(userId: UserId): Flow<List<PokemonWithRelations>>
+    fun observeUserPokemons(userId: String): Flow<List<PokemonWithRelations>>
 }

@@ -18,19 +18,35 @@ fun SecondaryButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    isDestructive: Boolean = false,
     onClick: () -> Unit
 ) {
+    val outlinedButtonColors = ButtonDefaults.outlinedButtonColors()
+    val buttonColors = ButtonDefaults.buttonColors()
+    val colors = outlinedButtonColors.copy(
+        contentColor = if (isDestructive) {
+            MaterialTheme.colorScheme.error
+        } else {
+            outlinedButtonColors.contentColor
+        },
+        disabledContainerColor = buttonColors.disabledContainerColor,
+        disabledContentColor = buttonColors.disabledContentColor
+    )
+
+    val borderColor = when {
+        enabled && isDestructive -> MaterialTheme.colorScheme.error
+        enabled -> MaterialTheme.colorScheme.primary
+        else -> Color.Transparent
+    }
+
     OutlinedButton(
         onClick = onClick,
         enabled = enabled,
         shape = RoundedCornerShape(50.dp),
-        colors = ButtonDefaults.outlinedButtonColors().copy(
-            disabledContainerColor = ButtonDefaults.buttonColors().disabledContainerColor,
-            disabledContentColor = ButtonDefaults.buttonColors().disabledContentColor
-        ),
+        colors = colors,
         border = BorderStroke(
             width = 2.dp,
-            color = if (enabled) MaterialTheme.colorScheme.primary else Color.Transparent
+            color = borderColor
         ),
         modifier = modifier
     ) {
@@ -59,6 +75,19 @@ private fun SecondaryButtonDisabledPreview() {
         SecondaryButton(
             text = "Click me",
             enabled = false,
+            onClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SecondaryButtonDestructivePreview() {
+    AppTheme {
+        SecondaryButton(
+            text = "Click me",
+            enabled = true,
+            isDestructive = true,
             onClick = {}
         )
     }

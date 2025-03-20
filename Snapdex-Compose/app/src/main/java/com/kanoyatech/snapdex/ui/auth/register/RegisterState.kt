@@ -5,6 +5,7 @@ import com.kanoyatech.snapdex.domain.PasswordValidationState
 
 data class RegisterState(
     val avatar: Int = -1,
+    val isAvatarValid: Boolean = false,
     val showAvatarPicker: Boolean = false,
     val name: TextFieldState = TextFieldState(),
     val isNameValid: Boolean = false,

@@ -1,5 +1,6 @@
 package com.kanoyatech.snapdex.data.remote.datasources
 
+import android.util.Log
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kanoyatech.snapdex.data.remote.entities.UserPokemonRemoteEntity
@@ -45,5 +46,17 @@ class RemoteUserPokemonDataSource(
                 .await()
 
         return snapshot.count > 0
+    }
+
+    suspend fun deleteAllForUser(userId: String) {
+        val snapshot =
+            firestore.collection("user_pokemons")
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+
+        snapshot.documents.forEach {
+            it.reference.delete()
+        }
     }
 }

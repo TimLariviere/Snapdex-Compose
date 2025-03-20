@@ -3,6 +3,7 @@ package com.kanoyatech.snapdex.ui.auth.register
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
@@ -29,12 +30,22 @@ class RegisterViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
+        snapshotFlow { state.avatar }
+            .onEach {
+                val isAvatarValid = it > -1
+                state = state.copy(
+                    isAvatarValid = isAvatarValid,
+                    canRegister = isAvatarValid && state.isNameValid && state.isEmailValid && state.passwordValidationState.isValid
+                )
+            }
+            .launchIn(viewModelScope)
+
         state.name.textAsFlow()
             .onEach {
                 val isNameValid = userDataValidator.validateName(it.toString())
                 state = state.copy(
                     isNameValid = isNameValid,
-                    canRegister = isNameValid && state.isEmailValid && state.passwordValidationState.isValid
+                    canRegister = state.isAvatarValid && isNameValid && state.isEmailValid && state.passwordValidationState.isValid
                 )
             }
             .launchIn(viewModelScope)
@@ -44,7 +55,7 @@ class RegisterViewModel(
                 val isEmailValid = userDataValidator.validateEmail(it.toString())
                 state = state.copy(
                     isEmailValid = isEmailValid,
-                    canRegister = state.isNameValid && isEmailValid && state.passwordValidationState.isValid
+                    canRegister = state.isAvatarValid && state.isNameValid && isEmailValid && state.passwordValidationState.isValid
                 )
             }
             .launchIn(viewModelScope)
@@ -54,7 +65,7 @@ class RegisterViewModel(
                 val passwordValidationState = userDataValidator.validatePassword(it.toString())
                 state = state.copy(
                     passwordValidationState = passwordValidationState,
-                    canRegister = state.isNameValid && state.isEmailValid && passwordValidationState.isValid
+                    canRegister = state.isAvatarValid && state.isNameValid && state.isEmailValid && passwordValidationState.isValid
                 )
             }
             .launchIn(viewModelScope)

@@ -185,4 +185,28 @@ class UserRepositoryImpl(
         auth.signOut()
         return TypedResult.Success(Unit)
     }
+
+    override suspend fun deleteCurrentUser(): TypedResult<Unit, Unit> {
+        val user = auth.currentUser
+            ?: return TypedResult.Error(Unit)
+
+        val userId = user.uid
+
+        Retry.execute(
+            body = { remoteUserPokemons.deleteAllForUser(userId) },
+            retryIf = { it is FirebaseNetworkException }
+        )
+
+        Retry.execute(
+            body = { remoteUsers.delete(userId) },
+            retryIf = { it is FirebaseNetworkException }
+        )
+
+        localUserPokemons.deleteAllForUser(userId)
+        localUsers.delete(userId)
+
+        user.delete()
+
+        return TypedResult.Success(Unit)
+    }
 }
