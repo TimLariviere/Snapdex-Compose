@@ -1,5 +1,6 @@
 package com.kanoyatech.snapdex.data.remote.datasources
 
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kanoyatech.snapdex.data.remote.entities.UserPokemonRemoteEntity
 import kotlinx.coroutines.tasks.await
@@ -32,5 +33,17 @@ class RemoteUserPokemonDataSource(
             .document()
             .set(data)
             .await()
+    }
+
+    suspend fun exists(userId: String, pokemonId: Int): Boolean {
+        val snapshot =
+            firestore.collection("user_pokemons")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("pokemonId", pokemonId)
+                .count()
+                .get(AggregateSource.SERVER)
+                .await()
+
+        return snapshot.count > 0
     }
 }

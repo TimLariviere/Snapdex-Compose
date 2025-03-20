@@ -10,6 +10,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,11 +23,11 @@ import com.kanoyatech.snapdex.PokedexTabRoute
 import com.kanoyatech.snapdex.ProfileTabRoute
 import com.kanoyatech.snapdex.StatsTabRoute
 import com.kanoyatech.snapdex.TabsNavigation
-import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexNavBar
 import com.kanoyatech.snapdex.theme.designsystem.TabItem
 import com.kanoyatech.snapdex.ui.utils.getLocale
+import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -40,7 +41,7 @@ fun MainScreenRoot(
     }
 
     MainScreen(
-        state = viewModel.state,
+        stateFlow = viewModel.state,
         onAction = { action ->
             when (action) {
                 MainAction.OnLoggedOut -> onLoggedOut()
@@ -54,9 +55,10 @@ fun MainScreenRoot(
 
 @Composable
 fun MainScreen(
-    state: MainState,
+    stateFlow: StateFlow<MainState>,
     onAction: (MainAction) -> Unit
 ) {
+    val state = stateFlow.collectAsState()
     val navController = rememberNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -70,7 +72,7 @@ fun MainScreen(
             bottom = paddingValues.calculateBottomPadding() + 48.dp
         )
 
-        if (state.user == null) {
+        if (state.value.user == null) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .fillMaxSize()
@@ -83,8 +85,7 @@ fun MainScreen(
                 TabsNavigation(
                     navController = navController,
                     paddingValues = adjustedPaddingValues,
-                    user = state.user,
-                    pokemons = state.pokemons,
+                    mainState = stateFlow,
                     onPokemonCatch = { pokemonId ->
                         onAction(MainAction.OnPokemonCatch(pokemonId))
                     },

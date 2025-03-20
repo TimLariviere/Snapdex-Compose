@@ -20,9 +20,13 @@ import com.kanoyatech.snapdex.ui.auth.register.RegisterScreenRoot
 import com.kanoyatech.snapdex.ui.intro.IntroScreenRoot
 import com.kanoyatech.snapdex.ui.main.MainScreen
 import com.kanoyatech.snapdex.ui.main.MainScreenRoot
+import com.kanoyatech.snapdex.ui.main.MainState
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
 import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
 import com.kanoyatech.snapdex.ui.main.stats.StatsScreenRoot
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -131,8 +135,7 @@ fun RootNavigation(
 fun TabsNavigation(
     navController: NavHostController,
     paddingValues: PaddingValues,
-    user: User,
-    pokemons: List<Pokemon>,
+    mainState: StateFlow<MainState>,
     onPokemonCatch: (PokemonId) -> Unit,
     onLoggedOut: () -> Unit
 ) {
@@ -141,7 +144,8 @@ fun TabsNavigation(
         startDestination = PokedexTabRoute
     ) {
         composable<PokedexTabRoute> {
-            val viewModel: PokedexViewModel = koinViewModel { parametersOf(pokemons) }
+            val pokemonsFlow = mainState.map { it.pokemons }
+            val viewModel: PokedexViewModel = koinViewModel { parametersOf(pokemonsFlow) }
             PokedexScreenRoot(
                 viewModel = viewModel,
                 paddingValues = paddingValues,
@@ -161,7 +165,8 @@ fun TabsNavigation(
         }
 
         composable<ProfileTabRoute> {
-            val viewModel: ProfileViewModel = koinViewModel { parametersOf(user) }
+            val userFlow = mainState.map { it.user }.filterNotNull()
+            val viewModel: ProfileViewModel = koinViewModel { parametersOf(userFlow) }
             ProfileScreenRoot(
                 viewModel = viewModel,
                 paddingValues = paddingValues,

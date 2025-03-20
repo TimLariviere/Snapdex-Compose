@@ -39,6 +39,11 @@ class PokemonRepositoryImpl(
     }
 
     override suspend fun catchPokemon(userId: UserId, pokemonId: PokemonId): TypedResult<Unit, CatchPokemonError> {
+        // The user has already caught that pokemon, so we don't do anything
+        if (localUserPokemons.exists(userId, pokemonId)) {
+            return TypedResult.Success(Unit)
+        }
+
         localUserPokemons.insert(
             UserPokemonEntity(
                 userId = userId,
@@ -51,14 +56,22 @@ class PokemonRepositoryImpl(
             pokemonId = pokemonId
         )
 
-        val result = Retry.execute(
-            body = { remoteUserPokemons.insert(userPokemonRemoteEntity) },
+        val remoteExistsResult = Retry.execute(
+            body = { remoteUserPokemons.exists(userId, pokemonId) },
             retryIf = { it is FirebaseNetworkException }
         )
 
-        if (result.isFailure) {
-            val e = result.exceptionOrNull()!!
-            Log.d("Firestore", "Error while inserting UserPokemon: $e")
+        val remoteExists = remoteExistsResult.getOrNull() ?: false
+        if (!remoteExists) {
+            val result = Retry.execute(
+                body = { remoteUserPokemons.insert(userPokemonRemoteEntity) },
+                retryIf = { it is FirebaseNetworkException }
+            )
+
+            if (result.isFailure) {
+                val e = result.exceptionOrNull()!!
+                Log.d("Firestore", "Error while inserting UserPokemon: $e")
+            }
         }
 
         return TypedResult.Success(Unit)

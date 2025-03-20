@@ -7,26 +7,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
-import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.PokemonClassifier
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class PokedexViewModel(
-    pokemons: List<Pokemon>,
+    pokemonsFlow: Flow<List<Pokemon>>,
     private val classifier: PokemonClassifier
 ): ViewModel() {
-    var state by mutableStateOf(PokedexState(
-        pokemons = pokemons
-    ))
+    var state by mutableStateOf(PokedexState())
         private set
 
     private val eventChannel = Channel<PokedexEvent>()
     val events = eventChannel.receiveAsFlow()
+
+    init {
+        pokemonsFlow
+            .onEach { pokemons ->
+                state = state.copy(pokemons = pokemons)
+            }
+            .launchIn(viewModelScope)
+    }
 
     fun init(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
