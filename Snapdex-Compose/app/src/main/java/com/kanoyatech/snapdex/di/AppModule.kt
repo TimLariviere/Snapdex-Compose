@@ -81,7 +81,7 @@ val uiModule = module {
     viewModelOf(::RegisterViewModel)
     viewModelOf(::ForgotPasswordViewModel)
     viewModelOf(::MainViewModel)
-    viewModel { parameters -> PokedexViewModel(parameters.get(), get()) }
+    viewModel { parameters -> PokedexViewModel(parameters.get(), get(), get()) }
     viewModel { parameters -> ProfileViewModel(parameters.get(), get()) }
     viewModelOf(::StatsViewModel)
     viewModel { parameters -> PokemonDetailViewModel(parameters.get(), get(), get()) }

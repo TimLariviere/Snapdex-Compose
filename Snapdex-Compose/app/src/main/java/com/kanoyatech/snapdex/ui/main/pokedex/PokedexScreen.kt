@@ -48,6 +48,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.search.SearchView
 import com.kanoyatech.snapdex.ui.TypeUi
+import com.kanoyatech.snapdex.ui.main.pokedex.components.PokemonCaughtOverlay
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SmallTypeBadge
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
@@ -144,6 +145,15 @@ private fun PokedexScreen(
                 .align(Alignment.BottomEnd)
                 .padding(end = 16.dp, bottom = paddingValues.calculateBottomPadding() + 16.dp)
         )
+
+        if (state.lastCaught != null) {
+            PokemonCaughtOverlay(
+                pokemon = state.lastCaught,
+                onDismissRequest = {
+                    onAction(PokedexAction.OnPokemonCaughtDialogDismiss)
+                }
+            )
+        }
     }
 }
 

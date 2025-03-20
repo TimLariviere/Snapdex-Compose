@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.PokemonClassifier
 import com.kanoyatech.snapdex.domain.models.Pokemon
+import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -16,10 +17,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class PokedexViewModel(
     pokemonsFlow: Flow<List<Pokemon>>,
-    private val classifier: PokemonClassifier
+    private val classifier: PokemonClassifier,
+    private val pokemonRepository: PokemonRepository
 ): ViewModel() {
     var state by mutableStateOf(PokedexState())
         private set
@@ -51,6 +54,9 @@ class PokedexViewModel(
                     )
                 )
             }
+            PokedexAction.OnPokemonCaughtDialogDismiss -> {
+                state = state.copy(lastCaught = null)
+            }
             else -> Unit
         }
     }
@@ -60,6 +66,14 @@ class PokedexViewModel(
             val pokemonId = classifier.classify(bitmap)
             if (pokemonId != null) {
                 eventChannel.send(PokedexEvent.OnPokemonCatch(pokemonId))
+
+                val pokemon = pokemonRepository.getPokemonById(pokemonId, Locale.ENGLISH)!!
+                state = state.copy(
+                    lastCaught = PokemonCaught(
+                        id = pokemon.id,
+                        name = pokemon.name
+                    )
+                )
             }
         }
     }
