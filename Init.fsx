@@ -261,6 +261,7 @@ module Categories =
                 for lang in allowedLanguages do
                     let name = data.genera |> List.tryFind(fun x -> x.language.name = lang) |> Option.map _.genus |> Option.defaultValue ""
                     let name = name.Replace(" Pokémon", "")
+                    let name = name.Replace("Pokémon ", "")
                     db.Execute("INSERT INTO CategoryTranslations(categoryId, language, name) VALUES(?, ?, ?)", categoryId, lang, name) |> ignore
                     
                 return categoryId

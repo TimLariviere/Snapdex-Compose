@@ -180,9 +180,8 @@ private fun AccountSettings(
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
         ) {
-            SettingsPickerButton(
-                text = stringResource(id = R.string.account_name),
-                value = state.user.name,
+            SettingsButton(
+                text = stringResource(id = R.string.change_name),
                 onClick = { onAction(ProfileAction.OnChangeNameClick) }
             )
 

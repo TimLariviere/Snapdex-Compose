@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">Snapdex</string>
-    <string name="hello_world">Hello world</string>
     <string name="go_back">Go back</string>
-    <string name="pokemon_number">Nº%04d</string>
-    <string name="pokemon_number_alt">%04d</string>
+    <string name="pokemon_number" translatable="false">Nº%04d</string>
+    <string name="pokemon_number_alt" translatable="false">%04d</string>
     <string name="type_normal">Normal</string>
     <string name="type_fire">Fire</string>
     <string name="type_water">Water</string>
@@ -30,7 +29,7 @@
     <string name="weaknesses">Weaknesses</string>
     <string name="evolutions">Evolutions</string>
     <string name="level_x">Level %d</string>
-    <string name="pokedex">Pokedex</string>
+    <string name="pokedex" translatable="false">Pokedex</string>
     <string name="statistics">Stats</string>
     <string name="profile">Profile</string>
     <string name="register">Register</string>
@@ -44,7 +43,7 @@
     <string name="intro_description_1">Capture pokemon in real life by snapping them with Snapdex.</string>
     <string name="intro_description_2">Plushes, trading cards, anime, games…\nAny pokemon seen can be captured.</string>
     <string name="intro_description_3">Snapdex will automatically recognize the Pokémon and add it to your Pokedex.</string>
-    <string name="snapdex">Snapdex</string>
+    <string name="snapdex" translatable="false">Snapdex</string>
     <string name="create_an_account">Create an account</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
@@ -84,25 +83,25 @@
     <string name="language">Language</string>
     <string name="ai_model">AI model</string>
     <string name="notifications">Notifications</string>
-    <string name="account_name">Name</string>
+    <string name="change_name">Change name</string>
     <string name="change_password">Change password</string>
     <string name="invalid_credentials">Incorrect email or password</string>
     <string name="about">About</string>
-    <string name="licenses_and_credits"><![CDATA[Licenses & Credits]]></string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="built_in_the_open">"Snapdex is open-source on "</string>
-    <string name="snapdex_on_github">GitHub</string>
+    <string name="snapdex_on_github" translatable="false">GitHub</string>
     <string name="get_in_touch">"\nGet in touch at: "</string>
-    <string name="website_link">timothelariviere.com</string>
+    <string name="website_link" translatable="false">timothelariviere.com</string>
     <string name="new_password">New password</string>
     <string name="set_new_password">Set new password</string>
     <string name="password_changed">Password Changed</string>
     <string name="password_changed_description">Your password has been changed successfully.</string>
-    <string name="could_not_change_password">Could not change password.</string>
+    <string name="could_not_change_password">Could not change password</string>
     <string name="old_password">Old password</string>
     <string name="could_not_change_name">Could not change name</string>
     <string name="new_name">New name</string>
     <string name="set_new_name">Set new name</string>
     <string name="name_changed">Name Changed</string>
     <string name="name_changed_description">Your name has been changed.</string>
+    <string name="licenses_and_credits"><![CDATA[Licenses & Credits]]></string>
 </resources>
