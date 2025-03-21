@@ -13,6 +13,7 @@ import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.utils.TypedResult
 import com.kanoyatech.snapdex.utils.textAsFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -94,7 +95,7 @@ class RegisterViewModel(
     }
 
     private fun register() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             state = state.copy(isRegistering = true)
 
             val result = userRepository.register(

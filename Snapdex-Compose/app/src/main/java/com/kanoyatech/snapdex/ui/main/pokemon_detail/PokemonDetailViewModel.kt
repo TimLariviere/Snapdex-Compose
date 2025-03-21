@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -25,7 +26,7 @@ class PokemonDetailViewModel(
     }
 
     fun initialize(locale: Locale) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val pokemon = pokemonRepository.getPokemonById(pokemonId, locale)!!
             val evolutionChain = evolutionChainRepository.getEvolutionChainForPokemon(pokemonId, locale)!!
             state = state.copy(pokemon = pokemon, evolutionChain = evolutionChain)

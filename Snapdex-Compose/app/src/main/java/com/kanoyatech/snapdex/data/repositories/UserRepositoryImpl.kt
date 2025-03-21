@@ -215,6 +215,18 @@ class UserRepositoryImpl(
         return TypedResult.Success(Unit)
     }
 
+    override suspend fun changeName(newName: String): TypedResult<Unit, Unit> {
+        val user = auth.currentUser
+            ?: return TypedResult.Error(Unit)
+
+        val userEntity = localUsers.getById(user.uid)
+            ?: return TypedResult.Error(Unit)
+
+        val updatedEntity = userEntity.copy(name = newName)
+        localUsers.upsert(updatedEntity)
+        return TypedResult.Success(Unit)
+    }
+
     override suspend fun changePassword(oldPassword:String, newPassword: String): TypedResult<Unit, ChangePasswordError> {
         val user = auth.currentUser
             ?: return TypedResult.Error(ChangePasswordError.UnknownReason)

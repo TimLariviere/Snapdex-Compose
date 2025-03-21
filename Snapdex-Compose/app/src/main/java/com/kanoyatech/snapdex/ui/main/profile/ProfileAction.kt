@@ -13,6 +13,6 @@ sealed interface ProfileAction {
     object OnChangeAiModelClick : ProfileAction
     object OnChangeLanguageClick : ProfileAction
     object OnChangeNotificationsClick: ProfileAction
-    object OnLicensesClick : ProfileAction
+    object OnCreditsClick : ProfileAction
     object OnPrivacyPolicyClick : ProfileAction
 }

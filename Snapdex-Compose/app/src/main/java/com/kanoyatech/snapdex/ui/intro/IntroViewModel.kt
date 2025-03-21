@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ class IntroViewModel(
     }
 
     private fun next() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (state.currentPage < IntroState.TOTAL_PAGE_COUNT - 1) {
                 state = state.copy(currentPage = state.currentPage + 1)
                 eventChannel.send(IntroEvent.PageChanged(state.currentPage))

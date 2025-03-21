@@ -23,7 +23,11 @@ import com.kanoyatech.snapdex.ui.main.MainScreenRoot
 import com.kanoyatech.snapdex.ui.main.MainState
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
 import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
+import com.kanoyatech.snapdex.ui.main.profile.credits.CreditsScreen
+import com.kanoyatech.snapdex.ui.main.profile.new_name.NewNameScreenRoot
+import com.kanoyatech.snapdex.ui.main.profile.new_name.NewNameViewModel
 import com.kanoyatech.snapdex.ui.main.profile.new_password.NewPasswordScreenRoot
+import com.kanoyatech.snapdex.ui.main.profile.privacy_policy.PrivacyPolicyScreen
 import com.kanoyatech.snapdex.ui.main.stats.StatsScreenRoot
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -131,7 +135,10 @@ fun RootNavigation(
 @Serializable data object StatsTabRoute
 @Serializable data object ProfileTabRoute
 @Serializable data class PokemonDetailsRoute(val pokemonId: PokemonId)
+@Serializable data object NewNameRoute
 @Serializable data object NewPasswordRoute
+@Serializable data object CreditsRoute
+@Serializable data object PrivacyPolicyRoute
 
 @Composable
 fun TabsNavigation(
@@ -173,8 +180,17 @@ fun TabsNavigation(
                 viewModel = viewModel,
                 paddingValues = paddingValues,
                 onLoggedOut = { onLoggedOut() },
+                onChangeNameClick = {
+                    navController.navigate(NewNameRoute)
+                },
                 onChangePasswordClick = {
                     navController.navigate(NewPasswordRoute)
+                },
+                onCreditsClick = {
+                    navController.navigate(CreditsRoute)
+                },
+                onPrivacyPolicyClick = {
+                    navController.navigate(PrivacyPolicyRoute)
                 }
             )
         }
@@ -193,8 +209,34 @@ fun TabsNavigation(
             )
         }
 
+        composable<NewNameRoute> {
+            val userFlow = mainState.map { it.user }.filterNotNull()
+            val viewModel: NewNameViewModel = koinViewModel { parametersOf(userFlow) }
+            NewNameScreenRoot(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
         composable<NewPasswordRoute> {
             NewPasswordScreenRoot(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable<CreditsRoute> {
+            CreditsScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable<PrivacyPolicyRoute> {
+            PrivacyPolicyScreen(
                 onBackClick = {
                     navController.popBackStack()
                 }

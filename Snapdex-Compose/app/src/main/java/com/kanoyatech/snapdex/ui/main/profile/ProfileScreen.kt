@@ -47,7 +47,10 @@ fun ProfileScreenRoot(
     paddingValues: PaddingValues,
     viewModel: ProfileViewModel = koinViewModel(),
     onLoggedOut: () -> Unit,
-    onChangePasswordClick: () -> Unit
+    onChangeNameClick: () -> Unit,
+    onChangePasswordClick: () -> Unit,
+    onCreditsClick: () -> Unit,
+    onPrivacyPolicyClick: () -> Unit
 ) {
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
@@ -60,7 +63,10 @@ fun ProfileScreenRoot(
         state = viewModel.state,
         onAction = { action ->
             when (action) {
+                ProfileAction.OnChangeNameClick -> onChangeNameClick()
                 ProfileAction.OnChangePasswordClick -> onChangePasswordClick()
+                ProfileAction.OnCreditsClick -> onCreditsClick()
+                ProfileAction.OnPrivacyPolicyClick -> onPrivacyPolicyClick()
                 else -> Unit
             }
 
@@ -269,7 +275,7 @@ private fun About(
         ) {
             SettingsButton(
                 text = stringResource(id = R.string.licenses_and_credits),
-                onClick = { onAction(ProfileAction.OnLicensesClick) }
+                onClick = { onAction(ProfileAction.OnCreditsClick) }
             )
 
             HorizontalDivider()

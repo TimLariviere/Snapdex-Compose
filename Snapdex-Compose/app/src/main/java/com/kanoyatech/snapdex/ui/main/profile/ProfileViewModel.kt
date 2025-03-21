@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
@@ -62,20 +63,20 @@ class ProfileViewModel(
     }
 
     private fun logout() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             userRepository.logout()
             eventChannel.send(ProfileEvent.LoggedOut)
         }
     }
 
     private fun resetProgress() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             pokemonRepository.resetForUser(state.user.id!!)
         }
     }
 
     private fun deleteAccount() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             userRepository.deleteCurrentUser()
             eventChannel.send(ProfileEvent.LoggedOut)
         }

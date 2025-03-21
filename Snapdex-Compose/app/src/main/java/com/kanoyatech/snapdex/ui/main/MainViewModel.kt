@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -56,7 +57,7 @@ class MainViewModel(
     }
 
     private fun catchPokemon(pokemonId: PokemonId) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val userId = _state.value.user?.id
                 ?: return@launch
 

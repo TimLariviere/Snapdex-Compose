@@ -83,6 +83,9 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     debugImplementation(platform(libs.androidx.compose.bom))
 
+    // Markdown
+    implementation(libs.compose.markdown)
+
     // Coil
     implementation(libs.coil)
     implementation(libs.coil.compose)

@@ -36,5 +36,6 @@ interface UserRepository {
     suspend fun sendPasswordResetEmail(email: String): TypedResult<Unit, SendPasswordResetEmailError>
     suspend fun logout(): TypedResult<Unit, LogoutError>
     suspend fun deleteCurrentUser(): TypedResult<Unit, Unit>
+    suspend fun changeName(newName: String): TypedResult<Unit, Unit>
     suspend fun changePassword(oldPassword: String, newPassword: String): TypedResult<Unit, ChangePasswordError>
 }

@@ -29,6 +29,7 @@ import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
 import com.kanoyatech.snapdex.ui.auth.register.RegisterViewModel
 import com.kanoyatech.snapdex.ui.intro.IntroViewModel
 import com.kanoyatech.snapdex.ui.main.MainViewModel
+import com.kanoyatech.snapdex.ui.main.profile.new_name.NewNameViewModel
 import com.kanoyatech.snapdex.ui.main.profile.new_password.NewPasswordViewModel
 import com.kanoyatech.snapdex.ui.main.stats.StatsViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -86,6 +87,7 @@ val uiModule = module {
     viewModel { parameters -> ProfileViewModel(parameters.get(), get(), get()) }
     viewModelOf(::StatsViewModel)
     viewModel { parameters -> PokemonDetailViewModel(parameters.get(), get(), get()) }
+    viewModel { parameters -> NewNameViewModel(parameters.get(), get(), get()) }
     viewModelOf(::NewPasswordViewModel)
 }
 

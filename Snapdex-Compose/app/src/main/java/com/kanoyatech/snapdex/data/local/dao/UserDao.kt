@@ -17,5 +17,8 @@ interface UserDao {
     suspend fun delete(id: String)
 
     @Query("SELECT * FROM Users WHERE id = :id")
+    fun getById(id: String): UserEntity?
+
+    @Query("SELECT * FROM Users WHERE id = :id")
     fun observeById(id: String): Flow<UserEntity>
 }
