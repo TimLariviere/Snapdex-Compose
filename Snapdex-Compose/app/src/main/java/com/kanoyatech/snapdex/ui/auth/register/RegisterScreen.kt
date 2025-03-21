@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
+import com.kanoyatech.snapdex.theme.designsystem.PasswordRequirements
 import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
@@ -160,21 +161,8 @@ private fun RegisterScreen(
                         }
                     )
 
-                    PasswordRequirement(
-                        text = stringResource(id = R.string.at_least_x_characters),
-                        isValid = state.passwordValidationState.hasMinLength
-                    )
-                    PasswordRequirement(
-                        text = stringResource(id = R.string.at_least_x_digits),
-                        isValid = state.passwordValidationState.hasDigit
-                    )
-                    PasswordRequirement(
-                        text = stringResource(id = R.string.contains_lowercase),
-                        isValid = state.passwordValidationState.hasLowercase
-                    )
-                    PasswordRequirement(
-                        text = stringResource(id = R.string.contains_uppercase),
-                        isValid = state.passwordValidationState.hasUppercase
+                    PasswordRequirements(
+                        state = state.passwordValidationState
                     )
                 }
 
@@ -203,34 +191,6 @@ private fun RegisterScreen(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun PasswordRequirement(
-    text: String,
-    isValid: Boolean
-) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = if (isValid) Icons.Check else Icons.Close,
-            contentDescription = null,
-            tint = if (isValid) {
-                Color.Green
-            } else {
-                MaterialTheme.colorScheme.error
-            },
-            modifier = Modifier
-                .size(20.dp)
-        )
-
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelMedium
-        )
     }
 }
 

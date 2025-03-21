@@ -23,6 +23,7 @@ import com.kanoyatech.snapdex.ui.main.MainScreenRoot
 import com.kanoyatech.snapdex.ui.main.MainState
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
 import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
+import com.kanoyatech.snapdex.ui.main.profile.new_password.NewPasswordScreenRoot
 import com.kanoyatech.snapdex.ui.main.stats.StatsScreenRoot
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -130,6 +131,7 @@ fun RootNavigation(
 @Serializable data object StatsTabRoute
 @Serializable data object ProfileTabRoute
 @Serializable data class PokemonDetailsRoute(val pokemonId: PokemonId)
+@Serializable data object NewPasswordRoute
 
 @Composable
 fun TabsNavigation(
@@ -170,8 +172,9 @@ fun TabsNavigation(
             ProfileScreenRoot(
                 viewModel = viewModel,
                 paddingValues = paddingValues,
-                onLoggedOut = {
-                    onLoggedOut()
+                onLoggedOut = { onLoggedOut() },
+                onChangePasswordClick = {
+                    navController.navigate(NewPasswordRoute)
                 }
             )
         }
@@ -186,6 +189,14 @@ fun TabsNavigation(
                 },
                 onPokemonClick = { pokemonId ->
                     navController.navigate(PokemonDetailsRoute(pokemonId))
+                }
+            )
+        }
+
+        composable<NewPasswordRoute> {
+            NewPasswordScreenRoot(
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }

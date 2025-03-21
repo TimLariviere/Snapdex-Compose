@@ -76,4 +76,15 @@ class PokemonRepositoryImpl(
 
         return TypedResult.Success(Unit)
     }
+
+    override suspend fun resetForUser(userId: UserId): TypedResult<Unit, Unit> {
+        Retry.execute(
+            body = { remoteUserPokemons.deleteAllForUser(userId) },
+            retryIf = { it is FirebaseNetworkException }
+        )
+
+        localUserPokemons.deleteAllForUser(userId)
+
+        return TypedResult.Success(Unit)
+    }
 }

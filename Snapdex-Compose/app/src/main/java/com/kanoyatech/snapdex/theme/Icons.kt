@@ -2,7 +2,6 @@ package com.kanoyatech.snapdex.theme
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
@@ -23,8 +22,11 @@ data object Icons {
     val Profile = Icons.Filled.AccountCircle
     val Close = Icons.Filled.Close
     val Add = Icons.Filled.Add
-    val Logout = Icons.AutoMirrored.Filled.ExitToApp
     val Check = Icons.Filled.Check
+
+    val Apps: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_apps)
 
     val Category: ImageVector
         @Composable

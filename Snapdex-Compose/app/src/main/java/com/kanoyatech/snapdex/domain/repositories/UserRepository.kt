@@ -13,6 +13,7 @@ sealed interface RegisterError {
 sealed interface LoginError {
     data object UnknownReason: LoginError
     data object UserNotFoundInRemote : LoginError
+    data object InvalidCredentials : LoginError
 }
 
 sealed interface SendPasswordResetEmailError {
@@ -23,6 +24,11 @@ sealed interface LogoutError {
 
 }
 
+sealed interface ChangePasswordError {
+    object UnknownReason: ChangePasswordError
+    object ReauthenticationFailed: ChangePasswordError
+}
+
 interface UserRepository {
     fun getCurrentUser(): Flow<User?>
     suspend fun register(avatarId: AvatarId, name: String, email: String, password: String): TypedResult<Unit, RegisterError>
@@ -30,4 +36,5 @@ interface UserRepository {
     suspend fun sendPasswordResetEmail(email: String): TypedResult<Unit, SendPasswordResetEmailError>
     suspend fun logout(): TypedResult<Unit, LogoutError>
     suspend fun deleteCurrentUser(): TypedResult<Unit, Unit>
+    suspend fun changePassword(oldPassword: String, newPassword: String): TypedResult<Unit, ChangePasswordError>
 }

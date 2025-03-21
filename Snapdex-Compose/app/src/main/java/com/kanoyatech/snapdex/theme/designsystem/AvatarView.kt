@@ -44,7 +44,7 @@ fun AvatarView(
             painter = painterResource(id = AvatarUi.getFor(avatarId)),
             contentDescription = null,
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .fillMaxSize()
         )
     }

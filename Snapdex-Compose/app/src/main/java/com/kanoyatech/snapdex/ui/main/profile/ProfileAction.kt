@@ -1,8 +1,18 @@
 package com.kanoyatech.snapdex.ui.main.profile
 
 sealed interface ProfileAction {
-    data object OnLogoutClick : ProfileAction
-    data object OnDeleteAccountClick : ProfileAction
-    data object OnAccountDeletionConfirm: ProfileAction
-    data object OnAccountDeletionCancel: ProfileAction
+    object OnLogoutClick : ProfileAction
+    object OnResetProgressClick : ProfileAction
+    object OnDeleteAccountClick : ProfileAction
+    object OnAccountDeletionConfirm: ProfileAction
+    object OnAccountDeletionCancel: ProfileAction
+    object OnProgressResetConfirm : ProfileAction
+    object OnProgressResetCancel : ProfileAction
+    object OnChangeNameClick : ProfileAction
+    object OnChangePasswordClick : ProfileAction
+    object OnChangeAiModelClick : ProfileAction
+    object OnChangeLanguageClick : ProfileAction
+    object OnChangeNotificationsClick: ProfileAction
+    object OnLicensesClick : ProfileAction
+    object OnPrivacyPolicyClick : ProfileAction
 }

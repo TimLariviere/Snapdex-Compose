@@ -1,7 +1,10 @@
 package com.kanoyatech.snapdex.data.repositories
 
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.kanoyatech.snapdex.data.local.dao.UserDao
 import com.kanoyatech.snapdex.data.local.dao.UserPokemonDao
@@ -14,6 +17,7 @@ import com.kanoyatech.snapdex.domain.models.AvatarId
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.data.utils.Retry
 import com.kanoyatech.snapdex.domain.models.User
+import com.kanoyatech.snapdex.domain.repositories.ChangePasswordError
 import com.kanoyatech.snapdex.domain.repositories.LoginError
 import com.kanoyatech.snapdex.domain.repositories.LogoutError
 import com.kanoyatech.snapdex.domain.repositories.RegisterError
@@ -112,6 +116,7 @@ class UserRepositoryImpl(
 
         if (authResult.isFailure || authResult.getOrNull()?.user == null) {
             return when (authResult.exceptionOrNull()!!) {
+                is FirebaseAuthInvalidCredentialsException -> TypedResult.Error(LoginError.InvalidCredentials)
                 else -> TypedResult.Error(LoginError.UnknownReason)
             }
         }
@@ -208,5 +213,33 @@ class UserRepositoryImpl(
         user.delete()
 
         return TypedResult.Success(Unit)
+    }
+
+    override suspend fun changePassword(oldPassword:String, newPassword: String): TypedResult<Unit, ChangePasswordError> {
+        val user = auth.currentUser
+            ?: return TypedResult.Error(ChangePasswordError.UnknownReason)
+
+        val authCredential = EmailAuthProvider.getCredential(user.email.toString(), oldPassword)
+        val reauthenticationResult =
+            Retry.execute(
+                body = { user.reauthenticate(authCredential).await() },
+                retryIf = { it is FirebaseNetworkException }
+            )
+
+        if (reauthenticationResult.isFailure) {
+            return TypedResult.Error(ChangePasswordError.ReauthenticationFailed)
+        }
+
+        val result =
+            Retry.execute(
+                body = { user.updatePassword(newPassword).await() },
+                retryIf = { it is FirebaseNetworkException }
+            )
+
+        return if (result.isFailure) {
+            return TypedResult.Error(ChangePasswordError.UnknownReason)
+        } else {
+            return TypedResult.Success(Unit)
+        }
     }
 }

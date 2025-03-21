@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.models.User
+import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     userFlow: Flow<User>,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val pokemonRepository: PokemonRepository
 ): ViewModel() {
     var state by mutableStateOf(ProfileState())
         private set
@@ -35,6 +37,16 @@ class ProfileViewModel(
     fun onAction(action: ProfileAction) {
         when (action) {
             ProfileAction.OnLogoutClick -> logout()
+            ProfileAction.OnResetProgressClick -> {
+                state = state.copy(showProgressResetDialog = true)
+            }
+            ProfileAction.OnProgressResetCancel -> {
+                state = state.copy(showProgressResetDialog = false)
+            }
+            ProfileAction.OnProgressResetConfirm -> {
+                state = state.copy(showProgressResetDialog = false)
+                resetProgress()
+            }
             ProfileAction.OnDeleteAccountClick -> {
                 state = state.copy(showAccountDeletionDialog = true)
             }
@@ -45,6 +57,7 @@ class ProfileViewModel(
                 state = state.copy(showAccountDeletionDialog = false)
                 deleteAccount()
             }
+            else -> Unit
         }
     }
 
@@ -52,6 +65,12 @@ class ProfileViewModel(
         viewModelScope.launch {
             userRepository.logout()
             eventChannel.send(ProfileEvent.LoggedOut)
+        }
+    }
+
+    private fun resetProgress() {
+        viewModelScope.launch {
+            pokemonRepository.resetForUser(state.user.id!!)
         }
     }
 

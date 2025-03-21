@@ -97,7 +97,7 @@ fun MainScreen(
                 SnapdexNavBar(
                     tabs = arrayOf(
                         TabItem(
-                            imageVector = Icons.Pokeball,
+                            imageVector = Icons.Apps,
                             onClick = {
                                 navController.navigate(PokedexTabRoute) {
                                     popUpTo(PokedexTabRoute) {
@@ -130,6 +130,7 @@ fun MainScreen(
                     shouldShowNavBar = {
                         when (currentDestination?.route) {
                             "com.kanoyatech.snapdex.PokemonDetailsRoute/{pokemonId}" -> false
+                            "com.kanoyatech.snapdex.NewPasswordRoute" -> false
                             else -> true
                         }
                     },

@@ -1,6 +1,5 @@
 package com.kanoyatech.snapdex.data.remote.datasources
 
-import android.util.Log
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kanoyatech.snapdex.data.remote.entities.UserPokemonRemoteEntity

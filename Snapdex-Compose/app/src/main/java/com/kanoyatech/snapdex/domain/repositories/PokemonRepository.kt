@@ -15,4 +15,5 @@ interface PokemonRepository {
     fun getPokemonsCaughtByUser(userId: UserId, locale: Locale): Flow<List<Pokemon>>
     suspend fun getPokemonById(pokemonId: PokemonId, locale: Locale): Pokemon?
     suspend fun catchPokemon(userId: UserId, pokemonId: PokemonId): TypedResult<Unit, CatchPokemonError>
+    suspend fun resetForUser(id: UserId): TypedResult<Unit, Unit>
 }
