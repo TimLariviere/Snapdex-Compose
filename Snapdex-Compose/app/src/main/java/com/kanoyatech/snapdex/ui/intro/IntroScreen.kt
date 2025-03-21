@@ -16,6 +16,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +42,10 @@ fun IntroScreenRoot(
 ) {
     val animationScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = viewModel.state.currentPage) { IntroState.TOTAL_PAGE_COUNT }
+
+    LaunchedEffect(pagerState.currentPage) {
+        viewModel.setCurrentPage(pagerState.currentPage)
+    }
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {

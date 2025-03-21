@@ -37,4 +37,8 @@ class IntroViewModel(
             }
         }
     }
+
+    fun setCurrentPage(currentPage: Int) {
+        state = state.copy(currentPage = currentPage)
+    }
 }

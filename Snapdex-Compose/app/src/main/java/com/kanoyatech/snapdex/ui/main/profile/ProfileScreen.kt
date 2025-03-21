@@ -1,5 +1,6 @@
 package com.kanoyatech.snapdex.ui.main.profile
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,9 +18,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -40,7 +43,9 @@ import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButt
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsPickerButton
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
+import com.kanoyatech.snapdex.ui.utils.getLocale
 import org.koin.androidx.compose.koinViewModel
+import java.util.Locale
 
 @Composable
 fun ProfileScreenRoot(
@@ -52,6 +57,13 @@ fun ProfileScreenRoot(
     onCreditsClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val locale = configuration.getLocale()
+
+    LaunchedEffect(locale) {
+        viewModel.onAction(ProfileAction.OnLanguageChange(locale))
+    }
+
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             ProfileEvent.LoggedOut -> onLoggedOut()
@@ -130,7 +142,7 @@ private fun ProfileScreen(
                         .padding(horizontal = 16.dp)
                 ) {
                     AccountSettings(state, onAction)
-                    AppSettings(onAction)
+                    AppSettings(state, onAction)
                     About(onAction)
                     Column(
                         modifier = Modifier
@@ -211,6 +223,7 @@ private fun AccountSettings(
 
 @Composable
 private fun AppSettings(
+    state: ProfileState,
     onAction: (ProfileAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -238,7 +251,7 @@ private fun AppSettings(
 
             SettingsPickerButton(
                 text = stringResource(id = R.string.language),
-                value = "English",
+                value = state.language.getDisplayLanguage(state.language),
                 onClick = { onAction(ProfileAction.OnChangeLanguageClick) }
             )
 
@@ -363,7 +376,8 @@ private fun ProfileScreenPreview() {
                     avatarId = 4,
                     name = "Roger",
                     email = "roger@snapdex.com"
-                )
+                ),
+                language = Locale.FRENCH
             ),
             onAction = {}
         )

@@ -38,6 +38,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     buildTypes {
         val apiKey = gradleLocalProperties(rootDir, rootProject.providers).getProperty("API_KEY")
 

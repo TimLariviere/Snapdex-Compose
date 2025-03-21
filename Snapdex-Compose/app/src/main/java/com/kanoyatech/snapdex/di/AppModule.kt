@@ -21,6 +21,7 @@ import com.kanoyatech.snapdex.domain.PokemonClassifier
 import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
+import com.kanoyatech.snapdex.ui.AppLocaleManager
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
 import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
@@ -84,11 +85,12 @@ val uiModule = module {
     viewModelOf(::ForgotPasswordViewModel)
     viewModelOf(::MainViewModel)
     viewModel { parameters -> PokedexViewModel(parameters.get(), get(), get()) }
-    viewModel { parameters -> ProfileViewModel(parameters.get(), get(), get()) }
+    viewModel { parameters -> ProfileViewModel(parameters.get(), get(), get(), androidApplication(), get()) }
     viewModelOf(::StatsViewModel)
     viewModel { parameters -> PokemonDetailViewModel(parameters.get(), get(), get()) }
     viewModel { parameters -> NewNameViewModel(parameters.get(), get(), get()) }
     viewModelOf(::NewPasswordViewModel)
+    singleOf(::AppLocaleManager)
 }
 
 val authModule = module {

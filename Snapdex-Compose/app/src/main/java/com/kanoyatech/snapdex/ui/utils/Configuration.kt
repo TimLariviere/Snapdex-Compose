@@ -11,6 +11,5 @@ import java.util.Locale
 @Composable
 @ReadOnlyComposable
 fun Configuration.getLocale(): Locale {
-    val configuration = LocalConfiguration.current
-    return ConfigurationCompat.getLocales(configuration).get(0) ?: LocaleListCompat.getDefault()[0]!!
+    return ConfigurationCompat.getLocales(this).get(0) ?: LocaleListCompat.getDefault()[0]!!
 }

@@ -1,5 +1,7 @@
 package com.kanoyatech.snapdex.ui.main.profile
 
+import java.util.Locale
+
 sealed interface ProfileAction {
     object OnLogoutClick : ProfileAction
     object OnResetProgressClick : ProfileAction
@@ -15,4 +17,5 @@ sealed interface ProfileAction {
     object OnChangeNotificationsClick: ProfileAction
     object OnCreditsClick : ProfileAction
     object OnPrivacyPolicyClick : ProfileAction
+    data class OnLanguageChange(val language: Locale): ProfileAction
 }
