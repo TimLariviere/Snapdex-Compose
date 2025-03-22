@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
@@ -120,12 +121,8 @@ private fun PokedexScreen(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                items(151) { index ->
-                    val pokemonId = index + 1
-                    val pokemon = state.pokemons.find { it.id == pokemonId }
-                    if (pokemon == null) {
-                        UnknownItem(pokemonId)
-                    } else {
+                if (state.filteredPokemons != null) {
+                    items(state.filteredPokemons, key = { it.id }) { pokemon ->
                         PokemonItem(
                             pokemon = pokemon,
                             modifier = Modifier
@@ -133,6 +130,22 @@ private fun PokedexScreen(
                                     onAction(PokedexAction.OnPokemonClick(pokemon.id))
                                 }
                         )
+                    }
+                } else {
+                    items(151, key = { it + 1 }) { index ->
+                        val pokemonId = index + 1
+                        val pokemon = state.allPokemons.find { it.id == pokemonId }
+                        if (pokemon == null) {
+                            UnknownItem(pokemonId)
+                        } else {
+                            PokemonItem(
+                                pokemon = pokemon,
+                                modifier = Modifier
+                                    .clickable {
+                                        onAction(PokedexAction.OnPokemonClick(pokemon.id))
+                                    }
+                            )
+                        }
                     }
                 }
             }

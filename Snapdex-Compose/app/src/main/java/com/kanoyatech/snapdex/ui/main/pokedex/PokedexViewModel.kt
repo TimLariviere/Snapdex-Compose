@@ -10,15 +10,20 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.PokemonClassifier
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
+import com.kanoyatech.snapdex.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.Locale
 
+@OptIn(FlowPreview::class)
 class PokedexViewModel(
     pokemonsFlow: Flow<List<Pokemon>>,
     private val classifier: PokemonClassifier,
@@ -31,9 +36,23 @@ class PokedexViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
-        pokemonsFlow
+        val searchFlow = state.searchState.text.textAsFlow()
+            .debounce(300L)
+
+        val pokemonsFlow_ = pokemonsFlow
             .onEach { pokemons ->
-                state = state.copy(pokemons = pokemons)
+                state = state.copy(allPokemons = pokemons)
+            }
+
+        combine(searchFlow, pokemonsFlow_) { searchText, allPokemons ->
+            if (searchText.isBlank()) {
+                null
+            } else {
+                allPokemons.filter { it.name.contains(searchText) }
+            }
+        }
+            .onEach { filteredPokemons ->
+                state = state.copy(filteredPokemons = filteredPokemons)
             }
             .launchIn(viewModelScope)
     }
