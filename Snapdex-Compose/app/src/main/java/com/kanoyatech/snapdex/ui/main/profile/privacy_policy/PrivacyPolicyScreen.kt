@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -15,9 +13,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexMarkdownText
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
-import dev.jeziellago.compose.markdowntext.MarkdownText
 
 @Composable
 fun PrivacyPolicyScreen(
@@ -30,7 +29,7 @@ fun PrivacyPolicyScreen(
             .use { it.readText() }
     }
 
-    Scaffold(
+    SnapdexScaffold(
         topBar = {
             SnapdexTopAppBar(
                 title = stringResource(id = R.string.privacy_policy),
@@ -43,9 +42,8 @@ fun PrivacyPolicyScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            MarkdownText(
+            SnapdexMarkdownText(
                 markdown = markdown,
-                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(paddingValues)
                     .pagePadding()

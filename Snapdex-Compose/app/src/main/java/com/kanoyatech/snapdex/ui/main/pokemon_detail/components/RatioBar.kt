@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,8 +25,7 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.snapdexBlue400
-import com.kanoyatech.snapdex.theme.snapdexRed200
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 
@@ -85,16 +83,16 @@ private fun Label(
 
         Text(
             text = value.formatted(),
-            style = MaterialTheme.typography.labelMedium,
+            //style = SnapdexTheme.typography.labelMedium,
             color = RatioBarColors.labelColor
         )
     }
 }
 
 object RatioBarColors {
-    val maleColor: Color @Composable get() = snapdexBlue400
-    val femaleColor: Color @Composable get() = snapdexRed200
-    val labelColor: Color @Composable get() = MaterialTheme.colorScheme.secondary
+    val maleColor: Color @Composable get() = SnapdexTheme.colorScheme.primary
+    val femaleColor: Color @Composable get() = SnapdexTheme.colorScheme.primary
+    val labelColor: Color @Composable get() = SnapdexTheme.colorScheme.primary
 }
 
 @Preview(showBackground = true)

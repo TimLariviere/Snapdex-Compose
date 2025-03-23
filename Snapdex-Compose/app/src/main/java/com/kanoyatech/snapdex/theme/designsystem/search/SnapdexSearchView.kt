@@ -21,8 +21,6 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,12 +39,14 @@ import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.snapdexBlue400
+import com.kanoyatech.snapdex.theme.LocalTextStyle
+import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.GradientBackground
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
-fun SearchView(
-    state: SearchViewState,
+fun SnapdexSearchView(
+    state: SnapdexSearchViewState,
     hint: String,
     onRemoveFilterClick: (PokemonType) -> Unit,
     modifier: Modifier = Modifier
@@ -63,14 +63,14 @@ fun SearchView(
             .border(
                 width = 1.dp,
                 color = if (isFocused) {
-                    MaterialTheme.colorScheme.outline
+                    SnapdexTheme.colorScheme.primary
                 } else {
-                    MaterialTheme.colorScheme.surfaceVariant
+                    SnapdexTheme.colorScheme.outline
                 },
                 shape = RoundedCornerShape(40.dp)
             )
             .clip(RoundedCornerShape(40.dp))
-            .background(MaterialTheme.colorScheme.background)
+            .background(SnapdexTheme.colorScheme.surface)
             .padding(horizontal = 16.dp)
             .clickable { isFocused = true },
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically)
@@ -107,10 +107,10 @@ private fun SearchTextField(
     BasicTextField(
         state = state,
         textStyle = LocalTextStyle.current.copy(
-            color = MaterialTheme.colorScheme.onSurface
+            color = SnapdexTheme.colorScheme.onSurface
         ),
         lineLimits = TextFieldLineLimits.SingleLine,
-        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+        cursorBrush = SolidColor(SnapdexTheme.colorScheme.primary),
         modifier = Modifier
             .fillMaxWidth()
             .onFocusChanged(onFocusChanged),
@@ -123,7 +123,7 @@ private fun SearchTextField(
                 Icon(
                     imageVector = Icons.Search,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = SnapdexTheme.colorScheme.onSurfaceVariant
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
@@ -135,7 +135,7 @@ private fun SearchTextField(
                     if (state.text.isEmpty() && !isFocused) {
                         Text(
                             text = hint,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = SnapdexTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier
                                 .fillMaxWidth()
                         )
@@ -164,7 +164,7 @@ private fun FilterField(
         Icon(
             imageVector = Icons.Filter,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            tint = SnapdexTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .size(24.dp)
                 .padding(start = 2.dp)
@@ -177,14 +177,14 @@ private fun FilterField(
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
-                        .background(snapdexBlue400)
+                        .background(SnapdexTheme.colorScheme.primary)
                         .padding(start = 12.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
                         .clickable { onRemoveFilterClick(filter[index]) },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = stringResource(id = type.name),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = SnapdexTheme.colorScheme.onPrimary
                     )
 
                     Spacer(modifier = Modifier.width(4.dp))
@@ -192,7 +192,7 @@ private fun FilterField(
                     Icon(
                         imageVector = Icons.Close,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary
+                        tint = SnapdexTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -202,73 +202,81 @@ private fun FilterField(
 
 @Preview(showBackground = true)
 @Composable
-private fun SearchViewPreview0() {
+private fun SnapdexSearchViewPreview0() {
     AppTheme {
-        SearchView(
-            state = SearchViewState(),
-            hint = "Search Pokémon...",
-            onRemoveFilterClick = {},
-            modifier = Modifier
-                .padding(24.dp)
-        )
+        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+            SnapdexSearchView(
+                state = SnapdexSearchViewState(),
+                hint = "Search Pokémon...",
+                onRemoveFilterClick = {},
+                modifier = Modifier
+                    .padding(24.dp)
+            )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun SearchViewPreview1() {
+private fun SnapdexSearchViewPreview1() {
     AppTheme {
-        SearchView(
-            state = SearchViewState(
-                text = TextFieldState(
-                    initialText = "Hello"
-                )
-            ),
-            hint = "Search Pokémon...",
-            onRemoveFilterClick = {},
-            modifier = Modifier
-                .padding(24.dp)
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SearchViewPreview2() {
-    AppTheme {
-        SearchView(
-            state = SearchViewState(
-                filter = listOf(
-                    PokemonType.POISON,
-                    PokemonType.BUG
-                )
-            ),
-            hint = "Search Pokémon...",
-            onRemoveFilterClick = {},
-            modifier = Modifier
-                .padding(24.dp)
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SearchViewPreview3() {
-    AppTheme {
-        SearchView(
-            state = SearchViewState(
-                text = TextFieldState(
-                    initialText = "Hello"
+        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+            SnapdexSearchView(
+                state = SnapdexSearchViewState(
+                    text = TextFieldState(
+                        initialText = "Hello"
+                    )
                 ),
-                filter = listOf(
-                    PokemonType.POISON,
-                    PokemonType.BUG
-                )
-            ),
-            hint = "Search Pokémon...",
-            onRemoveFilterClick = {},
-            modifier = Modifier
-                .padding(24.dp)
-        )
+                hint = "Search Pokémon...",
+                onRemoveFilterClick = {},
+                modifier = Modifier
+                    .padding(24.dp)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SnapdexSearchViewPreview2() {
+    AppTheme {
+        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+            SnapdexSearchView(
+                state = SnapdexSearchViewState(
+                    filter = listOf(
+                        PokemonType.POISON,
+                        PokemonType.BUG
+                    )
+                ),
+                hint = "Search Pokémon...",
+                onRemoveFilterClick = {},
+                modifier = Modifier
+                    .padding(24.dp)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun SnapdexSearchViewPreview3() {
+    AppTheme {
+        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+            SnapdexSearchView(
+                state = SnapdexSearchViewState(
+                    text = TextFieldState(
+                        initialText = "Hello"
+                    ),
+                    filter = listOf(
+                        PokemonType.POISON,
+                        PokemonType.BUG
+                    )
+                ),
+                hint = "Search Pokémon...",
+                onRemoveFilterClick = {},
+                modifier = Modifier
+                    .padding(24.dp)
+            )
+        }
     }
 }

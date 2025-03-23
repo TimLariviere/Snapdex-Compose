@@ -24,7 +24,7 @@ data class PopupButton(
 )
 
 @Composable
-fun Popup(
+fun SnapdexPopup(
     title: String,
     description: String,
     primaryButton: PopupButton,
@@ -62,7 +62,7 @@ fun Popup(
                     .fillMaxWidth()
             ) {
                 if (!isDestructive) {
-                    PrimaryButton(
+                    SnapdexPrimaryButton(
                         text = primaryButton.text,
                         enabled = primaryButton.enabled,
                         isBusy = primaryButton.isBusy,
@@ -71,7 +71,7 @@ fun Popup(
                             .weight(1f)
                     )
                 } else {
-                    PrimaryButton(
+                    SnapdexPrimaryButton(
                         text = primaryButton.text,
                         enabled = primaryButton.enabled,
                         //isBusy = primaryButton.isBusy,

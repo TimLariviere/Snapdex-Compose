@@ -26,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
@@ -72,7 +74,7 @@ private fun ForgotPasswordScreen(
     state: ForgotPasswordState,
     onAction: (ForgotPasswordAction) -> Unit
 ) {
-    Scaffold(
+    SnapdexScaffold(
         topBar = {
             SnapdexTopAppBar(
                 title = stringResource(id = R.string.forgotten_password),
@@ -91,7 +93,7 @@ private fun ForgotPasswordScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                Text(
+                SnapdexText(
                     text = stringResource(id = R.string.password_reset_link),
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -106,7 +108,7 @@ private fun ForgotPasswordScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                PrimaryButton(
+                SnapdexPrimaryButton(
                     text = stringResource(id = R.string.send_password_reset_link),
                     enabled = state.canSendEmail && !state.isSendingEmail,
                     isBusy = state.isSendingEmail,
@@ -140,7 +142,7 @@ private fun EmailSentDialog(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(
+            SnapdexText(
                 text = stringResource(id = R.string.password_reset),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
@@ -148,14 +150,14 @@ private fun EmailSentDialog(
                     .fillMaxWidth()
             )
 
-            Text(
+            SnapdexText(
                 text = stringResource(id = R.string.check_mailbox_password_reset_link),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
             )
 
-            PrimaryButton(
+            SnapdexPrimaryButton(
                 text = stringResource(id = R.string.ok),
                 onClick = onConfirmClick,
                 modifier = Modifier

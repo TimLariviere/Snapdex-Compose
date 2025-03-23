@@ -1,30 +1,8 @@
 package com.kanoyatech.snapdex.theme
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-
-@Immutable
-data class CustomColorScheme(
-    val displayLarge: Color,
-    val titleMedium: Color,
-    val titleSmall: Color,
-    val labelLarge: Color
-)
-
-// Validated colors
-val snapdexWhite = Color(0xFFFFFFFF)
-val snapdexBlack = Color(0xFF000000)
-val snapdexBlue400 = Color(0xFF2551C3)
-val snapdexBlue700 = Color(0xFF173EA5)
-val snapdexRed200 = Color(0xFFFF7596)
-val snapdexGray200 = Color(0xFFCCCCCC)
-val snapdexGray400 = Color(0xFF999999)
-val snapdexGray700 = Color(0xFF4D4D4D)
 
 data object TypeColor {
     val Normal = Color(0xFF919AA2)
@@ -47,40 +25,56 @@ data object TypeColor {
     val Fairy = Color(0xFFEC8FE6)
 }
 
-val LightColors = lightColorScheme(
-    primary = snapdexBlue700, // default button color
-    onPrimary = snapdexWhite, // default button text color
-    primaryContainer = snapdexBlue700, // default floating action button background
-    onSecondaryContainer = snapdexWhite, // default active tab icon
-    secondaryContainer = snapdexBlue700, // default active tab background
-    background = snapdexWhite, // default page color
-    onBackground = snapdexGray700, // default text color
-    surface = snapdexWhite, // default unchecked toggle thumb
-    surfaceVariant = snapdexGray200, // default unchecked toggle track
-    surfaceContainer = snapdexGray700, // default navigation bar background
-    onSurface = snapdexGray700, // default disabled button container (12% alpha), disabled label text (38% alpha), active tab label
-    onSurfaceVariant = snapdexGray400, // default placeholder, inactive tab label/icon
-    outlineVariant = snapdexGray200, // default horizontal divider
+@Immutable
+data class ColorScheme(
+    val primary: Color,
+    val onPrimary: Color,
+    val background: Color,
+    val backgroundVariant: Color,
+    val onBackground: Color,
+    val surface: Color,
+    val surfaceVariant: Color,
+    val onSurface: Color,
+    val onSurfaceVariant: Color, // Missing from figma, placeholder in fields
+    val surfaceContainer: Color, // Tab bar
+    val outline: Color,
+    val success: Color, // Missing from figma
+    val error: Color, // Missing from figma
+    val onError: Color // Missing from figma
 )
 
-val LightCustomColors = CustomColorScheme(
-    displayLarge = snapdexBlack,
-    titleMedium = snapdexBlack,
-    titleSmall = snapdexBlack,
-    labelLarge = snapdexBlack
+val LightColors = ColorScheme(
+    primary = Color(0xFFFF6999),
+    onPrimary = Color(0xFFFFFFFF),
+    background = Color(0xFFFFF0A2),
+    backgroundVariant = Color(0xFFFFCCD8),
+    onBackground = Color(0xFF68635E),
+    surface = Color(0x4DFFFFFF),
+    surfaceVariant = Color(0xFFFFE9CF),
+    onSurface = Color(0xFF68635E),
+    onSurfaceVariant = Color(0xFF68635E),
+    surfaceContainer = Color(0xFF0000FF),
+    outline = Color(0xFFFFD9C3),
+    success = Color(0xFF00FF00),
+    error = Color(0xFFFF0000),
+    onError = Color(0xFFFFFFFF)
 )
 
-val DarkColors = darkColorScheme()
-
-val DarkCustomColors = CustomColorScheme(
-    displayLarge = snapdexBlack,
-    titleMedium = snapdexBlack,
-    titleSmall = snapdexBlack,
-    labelLarge = snapdexBlack
+val DarkColors = ColorScheme(
+    primary = Color(0xFFFF6999),
+    onPrimary = Color(0xFFFFFFFF),
+    background = Color(0xFFFFF0A2),
+    backgroundVariant = Color(0xFFFFCCD8),
+    onBackground = Color(0xFF68635E),
+    surface = Color(0x4DFFFFFF),
+    surfaceVariant = Color(0xFFFFE9CF),
+    onSurface = Color(0xFF68635E),
+    onSurfaceVariant = Color(0xFF68635E),
+    surfaceContainer = Color(0xFF0000FF),
+    outline = Color(0xFFFFD9C3),
+    success = Color(0xFF00FF00),
+    error = Color(0xFFFF0000),
+    onError = Color(0xFFFFFFFF)
 )
 
-val LocalCustomColors = staticCompositionLocalOf { LightCustomColors }
-
-val MaterialTheme.customColorScheme: CustomColorScheme
-    @Composable
-    get() = LocalCustomColors.current
+val LocalColors = staticCompositionLocalOf { LightColors }

@@ -8,6 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -47,7 +48,9 @@ import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.designsystem.search.SearchView
+import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
+import com.kanoyatech.snapdex.theme.designsystem.search.SnapdexSearchView
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.main.pokedex.components.PokemonCaughtOverlay
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
@@ -103,7 +106,7 @@ private fun PokedexScreen(
                 )
                 .padding(top = 16.dp)
         ) {
-            SearchView(
+            SnapdexSearchView(
                 state = state.searchState,
                 hint = stringResource(id = R.string.search_hint),
                 onRemoveFilterClick = { type ->
@@ -181,11 +184,12 @@ fun PokemonItem(
         modifier = modifier
             .fillMaxSize()
             .height(120.dp)
-            .clip(RoundedCornerShape(12.dp))
+            .clip(SnapdexTheme.shapes.regular)
+            .background(SnapdexTheme.colorScheme.surface)
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.outline,
-                shape = RoundedCornerShape(12.dp)
+                color = SnapdexTheme.colorScheme.outline,
+                shape = SnapdexTheme.shapes.regular
             )
             .padding(8.dp)
     ) {
@@ -208,9 +212,8 @@ fun PokemonItem(
                     .weight(1f)
             )
 
-            Text(
-                text = stringResource(id = R.string.pokemon_number_alt, pokemon.id),
-                style = MaterialTheme.typography.labelMedium
+            SnapdexText(
+                text = stringResource(id = R.string.pokemon_number_alt, pokemon.id)
             )
         }
     }
@@ -225,18 +228,18 @@ fun UnknownItem(
         modifier = modifier
             .fillMaxWidth()
             .height(120.dp)
-            .clip(RoundedCornerShape(12.dp))
+            .clip(SnapdexTheme.shapes.regular)
+            .background(SnapdexTheme.colorScheme.surface)
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.outline,
-                shape = RoundedCornerShape(12.dp)
+                color = SnapdexTheme.colorScheme.outline,
+                shape = SnapdexTheme.shapes.regular
             )
             .padding(8.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = stringResource(id = R.string.pokemon_number_alt, id),
-            style = MaterialTheme.typography.labelMedium
+        SnapdexText(
+            text = stringResource(id = R.string.pokemon_number_alt, id)
         )
     }
 }

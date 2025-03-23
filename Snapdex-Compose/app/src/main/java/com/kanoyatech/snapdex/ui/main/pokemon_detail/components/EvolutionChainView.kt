@@ -45,8 +45,6 @@ import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.customColorScheme
-import com.kanoyatech.snapdex.theme.snapdexWhite
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.theme.designsystem.BrushIcon
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
@@ -121,8 +119,8 @@ fun PokemonRow(
                 contentDescription = null,
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        snapdexWhite,
-                        snapdexWhite.copy(alpha = 0.1f)
+                        MaterialTheme.colorScheme.surface,
+                        MaterialTheme.colorScheme.surface.copy(alpha = 0.1f)
                     )
                 ),
                 modifier = Modifier
@@ -148,7 +146,7 @@ fun PokemonRow(
             Text(
                 text = pokemon.name,
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.customColorScheme.titleSmall
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(

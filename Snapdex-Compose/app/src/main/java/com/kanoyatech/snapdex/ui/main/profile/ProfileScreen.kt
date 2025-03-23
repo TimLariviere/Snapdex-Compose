@@ -1,6 +1,5 @@
 package com.kanoyatech.snapdex.ui.main.profile
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,7 +36,7 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.designsystem.AvatarView
-import com.kanoyatech.snapdex.theme.designsystem.Popup
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
 import com.kanoyatech.snapdex.theme.designsystem.PopupButton
 import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsButton
@@ -330,7 +329,7 @@ private fun CallToAction(modifier: Modifier = Modifier) {
 
 @Composable
 private fun ProgressResetConfirmationDialog(onAction: (ProfileAction) -> Unit) {
-    Popup(
+    SnapdexPopup(
         title = stringResource(id = R.string.progress_reset),
         description = stringResource(id = R.string.progress_reset_description),
         isDestructive = true,
@@ -348,7 +347,7 @@ private fun ProgressResetConfirmationDialog(onAction: (ProfileAction) -> Unit) {
 
 @Composable
 private fun AccountDeletionConfirmationDialog(onAction: (ProfileAction) -> Unit) {
-    Popup(
+    SnapdexPopup(
         title = stringResource(id = R.string.account_deletion),
         description = stringResource(id = R.string.account_deletion_description),
         isDestructive = true,

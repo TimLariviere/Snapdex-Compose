@@ -6,18 +6,17 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,12 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.kanoyatech.snapdex.theme.LocalTextStyle
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 @Composable
 fun SnapdexTextField(
@@ -51,24 +51,25 @@ fun SnapdexTextField(
     BasicTextField(
         state = state,
         textStyle = LocalTextStyle.current.copy(
-            color = MaterialTheme.colorScheme.onSurface
+            color = SnapdexTheme.colorScheme.onSurface
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType
         ),
         lineLimits = TextFieldLineLimits.SingleLine,
-        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+        cursorBrush = SolidColor(SnapdexTheme.colorScheme.primary),
         modifier = modifier
-            .clip(RoundedCornerShape(5.dp))
-            .background(Color.Transparent)
+            .height(44.dp)
+            .clip(SnapdexTheme.shapes.regular)
+            .background(SnapdexTheme.colorScheme.surfaceVariant)
             .border(
                 width = 1.dp,
                 color = if (isFocused) {
-                    MaterialTheme.colorScheme.onSurface
+                    SnapdexTheme.colorScheme.primary
                 } else {
-                    MaterialTheme.colorScheme.onSurfaceVariant
+                    SnapdexTheme.colorScheme.outline
                 },
-                shape = RoundedCornerShape(5.dp)
+                shape = SnapdexTheme.shapes.regular
             )
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .onFocusChanged {
@@ -84,7 +85,7 @@ fun SnapdexTextField(
                     Icon(
                         imageVector = startIcon,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = SnapdexTheme.colorScheme.onSurfaceVariant
                     )
 
                     Spacer(modifier = Modifier.width(16.dp))
@@ -97,7 +98,7 @@ fun SnapdexTextField(
                     if (state.text.isEmpty() && !isFocused) {
                         Text(
                             text = hint,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = SnapdexTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier
                                 .fillMaxWidth()
                         )
@@ -112,7 +113,7 @@ fun SnapdexTextField(
                     Icon(
                         imageVector = endIcon,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        tint = SnapdexTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier
                             .padding(end = 8.dp)
                     )
@@ -122,18 +123,20 @@ fun SnapdexTextField(
     )
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun SnapdexTextFieldPreview() {
     AppTheme {
-        SnapdexTextField(
-            state = rememberTextFieldState(),
-            startIcon = null,
-            endIcon = null,
-            hint = "Email",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp)
-        )
+        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+            SnapdexTextField(
+                state = rememberTextFieldState(),
+                startIcon = null,
+                endIcon = null,
+                hint = "Email",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp)
+            )
+        }
     }
 }

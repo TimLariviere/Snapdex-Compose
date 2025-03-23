@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -18,10 +17,11 @@ import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.designsystem.PasswordRequirements
-import com.kanoyatech.snapdex.theme.designsystem.Popup
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
 import com.kanoyatech.snapdex.theme.designsystem.PopupButton
-import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
@@ -70,7 +70,7 @@ fun NewPasswordScreen(
     state: NewPasswordState,
     onAction: (NewPasswordAction) -> Unit
 ) {
-    Scaffold(
+    SnapdexScaffold(
         topBar = {
             SnapdexTopAppBar(
                 title = stringResource(R.string.new_password),
@@ -105,7 +105,7 @@ fun NewPasswordScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                PrimaryButton(
+                SnapdexPrimaryButton(
                     text = stringResource(R.string.set_new_password),
                     onClick = { onAction(NewPasswordAction.OnSetPasswordClick) },
                     enabled = state.canChangePassword,
@@ -116,7 +116,7 @@ fun NewPasswordScreen(
             }
 
             if (state.showPasswordChangedPopup) {
-                Popup(
+                SnapdexPopup(
                     title = stringResource(id = R.string.password_changed),
                     description = stringResource(id = R.string.password_changed_description),
                     primaryButton = PopupButton(

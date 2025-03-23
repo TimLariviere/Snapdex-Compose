@@ -5,12 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,6 +15,7 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.PasswordValidationState
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 @Composable
 fun PasswordRequirements(
@@ -60,17 +58,16 @@ private fun PasswordRequirement(
             imageVector = if (isValid) Icons.Check else Icons.Close,
             contentDescription = null,
             tint = if (isValid) {
-                Color.Green
+                SnapdexTheme.colorScheme.success
             } else {
-                MaterialTheme.colorScheme.error
+                SnapdexTheme.colorScheme.error
             },
             modifier = Modifier
                 .size(20.dp)
         )
 
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelMedium
+        SnapdexText(
+            text = text
         )
     }
 }

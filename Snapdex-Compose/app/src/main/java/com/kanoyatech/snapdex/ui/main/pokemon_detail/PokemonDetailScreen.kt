@@ -43,8 +43,9 @@ import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.customColorScheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexProgressIndicator
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
@@ -86,7 +87,7 @@ private fun PokemonDetailScreen(
     state: PokemonDetailState,
     onAction: (PokemonDetailAction) -> Unit
 ) {
-    Scaffold(
+    SnapdexScaffold(
         topBar = {
             SnapdexToolbar(
                 isFavorite = state.isFavorite,
@@ -100,7 +101,7 @@ private fun PokemonDetailScreen(
         }
     ) { paddingValues ->
         if (state.pokemon == null) {
-            CircularProgressIndicator()
+            SnapdexProgressIndicator()
         }
         else {
             val types = state.pokemon.types.map { TypeUi.fromType(it) }
@@ -187,7 +188,7 @@ private fun Header(
         Text(
             text = name,
             style = MaterialTheme.typography.displayLarge,
-            color = MaterialTheme.customColorScheme.displayLarge
+            color = MaterialTheme.colorScheme.onBackground
         )
         Text(
             text = stringResource(R.string.pokemon_number, id),
@@ -302,7 +303,7 @@ private fun WeaknessesSection(
         Text(
             text = stringResource(id = R.string.weaknesses),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.customColorScheme.titleMedium
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         FlowRow(
@@ -339,7 +340,7 @@ fun EvolutionChainSection(
         Text(
             text = stringResource(R.string.evolutions),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.customColorScheme.titleMedium
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         EvolutionChainView(

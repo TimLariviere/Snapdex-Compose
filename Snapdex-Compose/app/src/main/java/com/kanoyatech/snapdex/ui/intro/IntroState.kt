@@ -4,6 +4,6 @@ data class IntroState(
     val currentPage: Int = 0
 ) {
     companion object {
-        val TOTAL_PAGE_COUNT = 3
+        const val TOTAL_PAGE_COUNT = 3
     }
 }

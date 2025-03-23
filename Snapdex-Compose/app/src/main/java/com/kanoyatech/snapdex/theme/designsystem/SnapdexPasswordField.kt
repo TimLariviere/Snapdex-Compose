@@ -5,23 +5,19 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import com.kanoyatech.snapdex.theme.AppTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,14 +28,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.theme.Icons
+import com.kanoyatech.snapdex.theme.LocalTextStyle
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 @Composable
 fun SnapdexPasswordField(
@@ -56,7 +51,7 @@ fun SnapdexPasswordField(
     BasicSecureTextField(
         state = state,
         textStyle = LocalTextStyle.current.copy(
-            color = Color(0xFF000000)
+            color = SnapdexTheme.colorScheme.onSurface
         ),
         textObfuscationMode = if (isPasswordVisible) {
             TextObfuscationMode.Visible
@@ -66,18 +61,19 @@ fun SnapdexPasswordField(
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password
         ),
-        cursorBrush = SolidColor(Color(0xFF000000)),
+        cursorBrush = SolidColor(SnapdexTheme.colorScheme.primary),
         modifier = modifier
-            .clip(RoundedCornerShape(5.dp))
-            .background(Color.Transparent)
+            .height(44.dp)
+            .clip(SnapdexTheme.shapes.regular)
+            .background(SnapdexTheme.colorScheme.surfaceVariant)
             .border(
                 width = 1.dp,
                 color = if (isFocused) {
-                    Color(0xFF000000)
+                    SnapdexTheme.colorScheme.primary
                 } else {
-                    Color(0xFF999999)
+                    SnapdexTheme.colorScheme.outline
                 },
-                shape = RoundedCornerShape(5.dp)
+                shape = SnapdexTheme.shapes.regular
             )
             .onFocusChanged {
                 isFocused = it.isFocused
@@ -96,7 +92,7 @@ fun SnapdexPasswordField(
                     if (state.text.isEmpty() && !isFocused) {
                         Text(
                             text = hint,
-                            color = Color(0xFF999999),
+                            color = SnapdexTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier
                                 .fillMaxWidth()
                         )
@@ -113,7 +109,7 @@ fun SnapdexPasswordField(
                     Icon(
                         imageVector = if (isPasswordVisible) Icons.EyeClosed else Icons.Eye,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = SnapdexTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -125,13 +121,16 @@ fun SnapdexPasswordField(
 @Composable
 private fun SnapdexPasswordFieldPreview() {
     AppTheme {
-        SnapdexPasswordField(
-            state = rememberTextFieldState(),
-            isPasswordVisible = false,
-            onTogglePasswordVisibility = {},
-            hint = "Password",
-            modifier = Modifier
-                .fillMaxWidth()
-        )
+        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+            SnapdexPasswordField(
+                state = rememberTextFieldState(),
+                isPasswordVisible = false,
+                onTogglePasswordVisibility = {},
+                hint = "Password",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp)
+            )
+        }
     }
 }

@@ -2,7 +2,8 @@
 
 package com.kanoyatech.snapdex.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -10,7 +11,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
-import org.w3c.dom.Text
 
 val Poppins = FontFamily(
     Font(
@@ -20,115 +20,68 @@ val Poppins = FontFamily(
     Font(
         R.font.poppins_medium,
         FontWeight.Medium
+    ),
+    Font(
+        R.font.poppins_semibold,
+        FontWeight.SemiBold
     )
 )
 
+@Immutable
+data class Typography(
+    val heading1: TextStyle,
+    val heading2: TextStyle,
+    val heading3: TextStyle,
+    val paragraph: TextStyle,
+    val primaryButton: TextStyle,
+    val secondaryButton: TextStyle,
+    val smallLabel: TextStyle
+)
 
-//displayLarge	Roboto 57/64
-//displayMedium	Roboto 45/52
-//displaySmall	Roboto 36/44
-//headlineLarge	Roboto 32/40
-//headlineMedium	Roboto 28/36
-//headlineSmall	Roboto 24/32
-//titleLarge	New- Roboto Medium 22/28
-//titleMedium	Roboto Medium 16/24
-//titleSmall	Roboto Medium 14/20
-//bodyLarge	Roboto 16/24
-//bodyMedium	Roboto 14/20
-//bodySmall	Roboto 12/16
-//labelLarge	Roboto Medium 14/20
-//labelMedium	Roboto Medium 12/16
-//labelSmall	New Roboto Medium, 11/16
-
-val Typography = Typography(
-    displayLarge = TextStyle(
+val SnapdexTypography = Typography(
+    heading1 = TextStyle(
         fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        fontSize = 57.sp,
-        lineHeight = 64.sp
-    ),
-    displayMedium = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        fontSize = 45.sp,
-        lineHeight = 52.sp
-    ),
-    displaySmall = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        fontSize = 36.sp,
-        lineHeight = 44.sp
-    ),
-    headlineLarge = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 32.sp,
-        lineHeight = 40.sp
+        lineHeight = 32.sp
     ),
-    headlineMedium = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        fontSize = 28.sp,
-        lineHeight = 36.sp
-    ),
-    headlineSmall = TextStyle(
+    heading2 = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 24.sp,
-        lineHeight = 32.sp
+        lineHeight = 24.sp
     ),
-    titleLarge = TextStyle(
+    heading3 = TextStyle(
         fontFamily = Poppins,
-        fontWeight = FontWeight.Medium,
-        fontSize = 22.sp,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
+        lineHeight = 44.sp
+    ),
+    paragraph = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 17.sp
+    ),
+    primaryButton = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 24.sp,
         lineHeight = 28.sp
     ),
-    titleMedium = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        lineHeight = 24.sp
-    ),
-    titleSmall = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp
-    ),
-    bodyLarge = TextStyle(
+    secondaryButton = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp
+        fontSize = 18.sp,
+        lineHeight = 21.sp
     ),
-    bodyMedium = TextStyle(
+    smallLabel = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 20.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp
-    ),
-    labelLarge = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
-        lineHeight = 16.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp
+        fontSize = 10.sp,
+        lineHeight = 10.sp
     )
 )
+
+val LocalTypography = staticCompositionLocalOf { SnapdexTypography }
+val LocalTextStyle = staticCompositionLocalOf { SnapdexTypography.paragraph }

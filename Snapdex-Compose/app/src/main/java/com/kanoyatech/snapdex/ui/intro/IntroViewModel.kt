@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -22,16 +21,24 @@ class IntroViewModel(
 
     fun onAction(action: IntroAction) {
         when (action) {
+            is IntroAction.OnCurrentPageChange -> goToPage(action.page)
             IntroAction.OnNextClick -> next()
         }
     }
 
+    private fun goToPage(page: Int) {
+        viewModelScope.launch {
+            state = state.copy(currentPage = page)
+            eventChannel.send(IntroEvent.PageChanged(state.currentPage))
+        }
+    }
+
     private fun next() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             if (state.currentPage < IntroState.TOTAL_PAGE_COUNT - 1) {
-                state = state.copy(currentPage = state.currentPage + 1)
-                eventChannel.send(IntroEvent.PageChanged(state.currentPage))
+                goToPage(state.currentPage + 1)
             } else {
+                // If we are on the last page, remember user saw the intro
                 preferencesRepository.setHasSeenIntro(true)
                 eventChannel.send(IntroEvent.PreferencesUpdated)
             }

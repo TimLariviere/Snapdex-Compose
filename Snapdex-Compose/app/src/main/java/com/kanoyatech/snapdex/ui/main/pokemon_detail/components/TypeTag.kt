@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.customColorScheme
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
@@ -63,7 +62,7 @@ fun TypeTag(
         Text(
             text = stringResource(id = elementUi.name),
             style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.customColorScheme.labelLarge,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .defaultMinSize(minWidth = 40.dp)

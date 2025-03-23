@@ -1,29 +1,32 @@
 package com.kanoyatech.snapdex.ui.auth.login
 
 import android.widget.Toast
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.designsystem.LinkButton
-import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
+import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.GradientBackground
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexLinkButton
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
@@ -75,71 +78,82 @@ private fun LoginScreen(
     state: LoginState,
     onAction: (LoginAction) -> Unit
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .systemBarsPadding()
-            .pagePadding()
-    ) {
-        Spacer(modifier = Modifier.weight(1f))
-
-        Text(
-            text = stringResource(id = R.string.snapdex).uppercase(),
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center,
+    GradientBackground {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(32.dp),
             modifier = Modifier
-                .fillMaxWidth()
-        )
-
-        SnapdexTextField(
-            state = state.email,
-            hint = stringResource(id = R.string.email_hint)
-        )
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .fillMaxSize()
+                .systemBarsPadding()
+                .pagePadding()
         ) {
-            SnapdexPasswordField(
-                state = state.password,
-                isPasswordVisible = state.isPasswordVisible,
-                onTogglePasswordVisibility = {
-                    onAction(LoginAction.OnTogglePasswordVisibility)
-                },
-                hint = stringResource(id = R.string.password_hint)
-            )
+            Spacer(modifier = Modifier.weight(1f))
 
-            LinkButton(
-                text = stringResource(id = R.string.forgot_password),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                onAction(LoginAction.OnForgotPasswordClick)
-            }
-        }
+            Column {
+                Image(
+                    painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                    contentDescription = stringResource(id = R.string.app_name),
+                    modifier = Modifier
+                        .size(84.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            PrimaryButton(
-                text = stringResource(id = R.string.login),
-                enabled = state.canLogin,
-                isBusy = state.isLoginIn,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                onAction(LoginAction.OnLoginClick)
+                SnapdexText(
+                    text = stringResource(id = R.string.snapdex).uppercase(),
+                    style = SnapdexTheme.typography.heading1,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
             }
 
-            LinkButton(
-                text = stringResource(id = R.string.create_an_account),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                onAction(LoginAction.OnRegisterClick)
+                SnapdexTextField(
+                    state = state.email,
+                    hint = stringResource(id = R.string.email_hint)
+                )
+
+                SnapdexPasswordField(
+                    state = state.password,
+                    isPasswordVisible = state.isPasswordVisible,
+                    onTogglePasswordVisibility = {
+                        onAction(LoginAction.OnTogglePasswordVisibility)
+                    },
+                    hint = stringResource(id = R.string.password_hint)
+                )
+
+                SnapdexLinkButton(
+                    text = stringResource(id = R.string.forgot_password),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    onAction(LoginAction.OnForgotPasswordClick)
+                }
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                SnapdexPrimaryButton(
+                    text = stringResource(id = R.string.login),
+                    enabled = state.canLogin,
+                    isBusy = state.isLoginIn,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    onAction(LoginAction.OnLoginClick)
+                }
+
+                SnapdexLinkButton(
+                    text = stringResource(id = R.string.create_an_account),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    onAction(LoginAction.OnRegisterClick)
+                }
             }
         }
     }

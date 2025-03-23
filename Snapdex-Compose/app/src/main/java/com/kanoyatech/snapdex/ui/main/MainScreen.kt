@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +23,8 @@ import com.kanoyatech.snapdex.StatsTabRoute
 import com.kanoyatech.snapdex.TabsNavigation
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexNavBar
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexProgressIndicator
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.TabItem
 import com.kanoyatech.snapdex.ui.utils.getLocale
 import kotlinx.coroutines.flow.StateFlow
@@ -64,7 +64,7 @@ fun MainScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    Scaffold { paddingValues ->
+    SnapdexScaffold { paddingValues ->
         val adjustedPaddingValues = PaddingValues(
             start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
             top = (paddingValues.calculateTopPadding() - 16.dp).coerceAtLeast(0.dp), // Not sure why Scaffold has a top padding that is too large
@@ -73,7 +73,7 @@ fun MainScreen(
         )
 
         if (state.value.user == null) {
-            CircularProgressIndicator(
+            SnapdexProgressIndicator(
                 modifier = Modifier
                     .fillMaxSize()
             )

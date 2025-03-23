@@ -1,19 +1,19 @@
 package com.kanoyatech.snapdex.theme.designsystem
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.theme.AppTheme
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 @Composable
-fun PrimaryButton(
+fun SnapdexPrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
     isDestructive: Boolean = false,
@@ -21,28 +21,28 @@ fun PrimaryButton(
     isBusy: Boolean = false,
     onClick: () -> Unit
 ) {
-    val buttonColors = ButtonDefaults.buttonColors()
-    val colors = buttonColors.copy(
-        contentColor = if (isDestructive) {
-            MaterialTheme.colorScheme.onError
-        } else {
-            buttonColors.contentColor
-        },
-        containerColor = if (isDestructive) {
-            MaterialTheme.colorScheme.error
-        } else {
-            buttonColors.containerColor
-        },
-    )
+    val colors = if (!isDestructive) {
+        ButtonDefaults.buttonColors().copy(
+            containerColor = SnapdexTheme.colorScheme.primary,
+            contentColor = SnapdexTheme.colorScheme.onPrimary
+        )
+    } else {
+        ButtonDefaults.buttonColors().copy(
+            containerColor = SnapdexTheme.colorScheme.error,
+            contentColor = SnapdexTheme.colorScheme.onError
+        )
+    }
 
     Button(
         onClick = onClick,
         enabled = enabled && !isBusy,
-        modifier = modifier,
+        shape = SnapdexTheme.shapes.regular,
+        modifier = modifier
+            .height(48.dp),
         colors = colors
     ) {
         if (isBusy) {
-            CircularProgressIndicator(
+            SnapdexProgressIndicator(
                 modifier = Modifier
                     .size(24.dp)
             )
@@ -54,9 +54,9 @@ fun PrimaryButton(
 
 @Preview
 @Composable
-private fun PrimaryButtonEnabledPreview() {
+private fun SnapdexPrimaryButtonEnabledPreview() {
     AppTheme {
-        PrimaryButton(
+        SnapdexPrimaryButton(
             text = "Click me",
             enabled = true,
             onClick = {}
@@ -66,9 +66,9 @@ private fun PrimaryButtonEnabledPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PrimaryButtonDisabledPreview() {
+private fun SnapdexPrimaryButtonDisabledPreview() {
     AppTheme {
-        PrimaryButton(
+        SnapdexPrimaryButton(
             text = "Click me",
             enabled = false,
             onClick = {}
@@ -78,9 +78,9 @@ private fun PrimaryButtonDisabledPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PrimaryButtonBusyPreview() {
+private fun SnapdexPrimaryButtonBusyPreview() {
     AppTheme {
-        PrimaryButton(
+        SnapdexPrimaryButton(
             text = "Click me",
             isBusy = true,
             onClick = {}
@@ -90,9 +90,9 @@ private fun PrimaryButtonBusyPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PrimaryButtonDestructivePreview() {
+private fun SnapdexPrimaryButtonDestructivePreview() {
     AppTheme {
-        PrimaryButton(
+        SnapdexPrimaryButton(
             text = "Click me",
             isDestructive = true,
             onClick = {}

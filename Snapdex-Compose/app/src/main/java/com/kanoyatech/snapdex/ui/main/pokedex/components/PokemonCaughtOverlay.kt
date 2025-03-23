@@ -20,7 +20,7 @@ import androidx.compose.ui.window.Dialog
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
-import com.kanoyatech.snapdex.theme.designsystem.PrimaryButton
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.ui.main.pokedex.PokemonCaught
 import com.kanoyatech.snapdex.ui.utils.PokemonResourceProvider
 
@@ -76,7 +76,7 @@ fun PokemonCaughtOverlay(
                     color = Color.LightGray
                 )
             }
-            PrimaryButton(
+            SnapdexPrimaryButton(
                 text = "Awesome!",
                 onClick = onDismissRequest
             )
