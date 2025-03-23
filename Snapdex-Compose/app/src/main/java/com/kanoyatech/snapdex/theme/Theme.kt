@@ -3,8 +3,6 @@ package com.kanoyatech.snapdex.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import com.kanoyatech.snapdex.theme.designsystem.LocalShapes
-import com.kanoyatech.snapdex.theme.designsystem.Shapes
 
 @Composable
 fun AppTheme(

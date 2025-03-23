@@ -41,7 +41,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.LocalTextStyle
 import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.GradientBackground
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
@@ -204,7 +204,7 @@ private fun FilterField(
 @Composable
 private fun SnapdexSearchViewPreview0() {
     AppTheme {
-        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
             SnapdexSearchView(
                 state = SnapdexSearchViewState(),
                 hint = "Search Pokémon...",
@@ -220,7 +220,7 @@ private fun SnapdexSearchViewPreview0() {
 @Composable
 private fun SnapdexSearchViewPreview1() {
     AppTheme {
-        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
             SnapdexSearchView(
                 state = SnapdexSearchViewState(
                     text = TextFieldState(
@@ -240,7 +240,7 @@ private fun SnapdexSearchViewPreview1() {
 @Composable
 private fun SnapdexSearchViewPreview2() {
     AppTheme {
-        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
             SnapdexSearchView(
                 state = SnapdexSearchViewState(
                     filter = listOf(
@@ -261,7 +261,7 @@ private fun SnapdexSearchViewPreview2() {
 @Composable
 private fun SnapdexSearchViewPreview3() {
     AppTheme {
-        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
             SnapdexSearchView(
                 state = SnapdexSearchViewState(
                     text = TextFieldState(

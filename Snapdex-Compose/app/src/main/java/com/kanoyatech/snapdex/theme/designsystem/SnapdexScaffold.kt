@@ -17,7 +17,7 @@ fun SnapdexScaffold(
         modifier = modifier,
         topBar = topBar
     ) { paddingValues ->
-        GradientBackground {
+        SnapdexBackground {
             content(paddingValues)
         }
     }

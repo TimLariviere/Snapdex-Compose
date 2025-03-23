@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,12 +17,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -51,8 +52,12 @@ fun SnapdexNavBar(
             modifier = Modifier
                 .height(IntrinsicSize.Min)
                 .width(IntrinsicSize.Min)
-                .clip(RoundedCornerShape(32.dp))
-                .background(SnapdexTheme.colorScheme.surfaceContainer.copy(alpha = 0.6f))
+                .clip(SnapdexTheme.shapes.regular)
+                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.9f))
+                .border(
+                    width = 1.dp,
+                    color = SnapdexTheme.colorScheme.outline
+                )
         ) {
             Row(
                 modifier = Modifier
@@ -67,7 +72,7 @@ fun SnapdexNavBar(
                     modifier = Modifier
                         .fillMaxHeight()
                         .weight(1f)
-                        .clip(RoundedCornerShape(32.dp))
+                        .clip(SnapdexTheme.shapes.regular)
                         .background(SnapdexTheme.colorScheme.primary)
                 )
 
@@ -105,7 +110,7 @@ private fun SnapdexTabItem(
     Icon(
         imageVector = imageVector,
         contentDescription = null,
-        tint = if (selected) SnapdexTheme.colorScheme.surface else SnapdexTheme.colorScheme.surfaceVariant,
+        tint = if (selected) SnapdexTheme.colorScheme.onPrimary else SnapdexTheme.colorScheme.onSurface,
         modifier = modifier
             .size(32.dp)
             .clickable {
@@ -123,22 +128,27 @@ data class TabItem(
 @Composable
 private fun SnapdexNavBarPreview() {
     AppTheme {
-        SnapdexNavBar(
-            tabs = arrayOf(
-                TabItem(
-                    imageVector = Icons.Pokeball,
-                    onClick = {}
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+            SnapdexNavBar(
+                tabs = arrayOf(
+                    TabItem(
+                        imageVector = Icons.Pokeball,
+                        onClick = {}
+                    ),
+                    TabItem(
+                        imageVector = Icons.Statistics,
+                        onClick = {}
+                    ),
+                    TabItem(
+                        imageVector = Icons.Profile,
+                        onClick = {}
+                    )
                 ),
-                TabItem(
-                    imageVector = Icons.Statistics,
-                    onClick = {}
-                ),
-                TabItem(
-                    imageVector = Icons.Profile,
-                    onClick = {}
-                )
-            ),
-            shouldShowNavBar = { true }
-        )
+                shouldShowNavBar = { true },
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(16.dp)
+            )
+        }
     }
 }

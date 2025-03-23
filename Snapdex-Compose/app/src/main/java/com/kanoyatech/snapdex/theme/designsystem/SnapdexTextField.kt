@@ -127,7 +127,7 @@ fun SnapdexTextField(
 @Composable
 private fun SnapdexTextFieldPreview() {
     AppTheme {
-        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
             SnapdexTextField(
                 state = rememberTextFieldState(),
                 startIcon = null,

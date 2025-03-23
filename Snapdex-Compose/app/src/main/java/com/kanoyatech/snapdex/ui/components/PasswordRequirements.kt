@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.theme.designsystem
+package com.kanoyatech.snapdex.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,7 @@ import com.kanoyatech.snapdex.domain.PasswordValidationState
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 
 @Composable
 fun PasswordRequirements(

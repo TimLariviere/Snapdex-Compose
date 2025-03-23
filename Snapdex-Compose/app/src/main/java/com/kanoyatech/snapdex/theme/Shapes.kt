@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.theme.designsystem
+package com.kanoyatech.snapdex.theme
 
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape

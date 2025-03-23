@@ -49,6 +49,7 @@ import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexFloatingActionButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.search.SnapdexSearchView
 import com.kanoyatech.snapdex.ui.TypeUi
@@ -275,7 +276,7 @@ fun TakePictureButton(
             }
         }
 
-    FloatingActionButton(
+    SnapdexFloatingActionButton(
         onClick = {
             when {
                 !(activity?.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) ?: false) -> {
@@ -292,7 +293,6 @@ fun TakePictureButton(
                 }
             }
         },
-        shape = CircleShape,
         modifier = modifier
     ) {
         Icon(

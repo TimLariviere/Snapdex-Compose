@@ -3,7 +3,6 @@ package com.kanoyatech.snapdex.ui.auth.register
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,8 +24,8 @@ import androidx.compose.ui.window.Dialog
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.AvatarView
-import com.kanoyatech.snapdex.theme.designsystem.GradientBackground
+import com.kanoyatech.snapdex.ui.components.AvatarView
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 
@@ -105,7 +104,7 @@ fun AvatarPickerDialog(
 @Composable
 private fun AvatarPickerDialogPreview() {
      AppTheme {
-         GradientBackground {
+         SnapdexBackground {
              AvatarPickerDialog(
                  selected = -1,
                  onSelectionChange = {},

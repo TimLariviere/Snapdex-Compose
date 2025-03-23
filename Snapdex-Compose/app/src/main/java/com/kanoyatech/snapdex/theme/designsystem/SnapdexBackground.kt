@@ -12,7 +12,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 @Composable
-fun GradientBackground(
+fun SnapdexBackground(
     modifier: Modifier = Modifier,
     content: @Composable (BoxScope.() -> Unit)
 ) {
@@ -35,6 +35,6 @@ fun GradientBackground(
 @Composable
 private fun GradientBackgroundPreview() {
     AppTheme {
-        GradientBackground {}
+        SnapdexBackground {}
     }
 }

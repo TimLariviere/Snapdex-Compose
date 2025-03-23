@@ -121,7 +121,7 @@ fun SnapdexPasswordField(
 @Composable
 private fun SnapdexPasswordFieldPreview() {
     AppTheme {
-        GradientBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
             SnapdexPasswordField(
                 state = rememberTextFieldState(),
                 isPasswordVisible = false,

@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.GradientBackground
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexLinkButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
@@ -78,7 +78,7 @@ private fun LoginScreen(
     state: LoginState,
     onAction: (LoginAction) -> Unit
 ) {
-    GradientBackground {
+    SnapdexBackground {
         Column(
             verticalArrangement = Arrangement.spacedBy(32.dp),
             modifier = Modifier

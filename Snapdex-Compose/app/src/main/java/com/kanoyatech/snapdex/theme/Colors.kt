@@ -23,6 +23,9 @@ data object TypeColor {
     val Dark = Color(0xFF5A5465)
     val Steel = Color(0xFF5A8EA2)
     val Fairy = Color(0xFFEC8FE6)
+
+    // Color for anything on top of the type colors
+    val OnType = Color(0xFFFFFFFF)
 }
 
 @Immutable

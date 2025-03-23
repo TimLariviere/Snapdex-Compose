@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.designsystem.AvatarView
+import com.kanoyatech.snapdex.ui.components.AvatarView
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
 import com.kanoyatech.snapdex.theme.designsystem.PopupButton
 import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButton

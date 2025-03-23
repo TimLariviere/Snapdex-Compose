@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.designsystem.PasswordRequirements
+import com.kanoyatech.snapdex.ui.components.PasswordRequirements
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
 import com.kanoyatech.snapdex.theme.designsystem.PopupButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton

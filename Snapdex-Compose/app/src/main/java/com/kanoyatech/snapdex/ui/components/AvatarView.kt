@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.theme.designsystem
+package com.kanoyatech.snapdex.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
