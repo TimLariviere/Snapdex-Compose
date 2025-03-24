@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,61 +42,63 @@ fun AvatarPickerDialog(
     Dialog(
         onDismissRequest = onDismissRequest
     ) {
-        Column(
-            modifier = Modifier
-                .height(420.dp)
-                .clip(SnapdexTheme.shapes.regular)
-                .background(SnapdexTheme.colorScheme.surface)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+        CompositionLocalProvider(
+            LocalContentColor provides SnapdexTheme.colorScheme.onSurface
         ) {
-            SnapdexText(
-                text = stringResource(id = R.string.pick_an_avatar),
-                style = SnapdexTheme.typography.heading3,
-                color = SnapdexTheme.colorScheme.onSurface,
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                    .height(420.dp)
+                    .clip(SnapdexTheme.shapes.regular)
+                    .background(SnapdexTheme.colorScheme.surface)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(10) { index ->
-                    val isSelected = index == selectedIndex.intValue
+                SnapdexText(
+                    text = stringResource(id = R.string.pick_an_avatar),
+                    style = SnapdexTheme.typography.heading3,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
 
-                    AvatarView(
-                        avatarId = index,
-                        isSelected = isSelected,
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .clickable {
-                                selectedIndex.intValue = index
-                            }
-                    )
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(10) { index ->
+                        val isSelected = index == selectedIndex.intValue
+
+                        AvatarView(
+                            avatarId = index,
+                            isSelected = isSelected,
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .clickable {
+                                    selectedIndex.intValue = index
+                                }
+                        )
+                    }
                 }
-            }
 
-            SnapdexText(
-                text = stringResource(id = R.string.author_credit),
-                style = SnapdexTheme.typography.smallLabel,
-                color = SnapdexTheme.colorScheme.onSurface,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            )
+                SnapdexText(
+                    text = stringResource(id = R.string.author_credit),
+                    style = SnapdexTheme.typography.smallLabel,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                )
 
-            SnapdexPrimaryButton(
-                text = stringResource(id = R.string.use_avatar),
-                enabled = selectedIndex.intValue > -1,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                onSelectionChange(selectedIndex.intValue)
+                SnapdexPrimaryButton(
+                    text = stringResource(id = R.string.use_avatar),
+                    enabled = selectedIndex.intValue > -1,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    onSelectionChange(selectedIndex.intValue)
+                }
             }
         }
     }

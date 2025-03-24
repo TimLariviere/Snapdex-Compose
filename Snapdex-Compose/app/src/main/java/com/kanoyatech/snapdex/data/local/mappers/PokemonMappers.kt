@@ -1,6 +1,7 @@
 package com.kanoyatech.snapdex.data.local.mappers
 
 import com.kanoyatech.snapdex.data.local.dao.PokemonWithRelations
+import com.kanoyatech.snapdex.domain.PokemonWeaknessCalculator
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.PokemonAbility
 import com.kanoyatech.snapdex.domain.models.PokemonCategory
@@ -9,26 +10,24 @@ import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import java.util.Locale
 
-fun PokemonWithRelations.toPokemon(locale: Locale): Pokemon {
-    val translation = translations.firstOrNull { it.language == locale.language }
-    val categoryTranslation = category.translations.firstOrNull { it.language == locale.language }
-    val abilityTranslation = ability.translations.firstOrNull { it.language == locale.language }
+fun PokemonWithRelations.toPokemon(): Pokemon {
+    val types = types.map { it.toType() }
     return Pokemon(
         id = pokemon.id,
-        name = translation?.name ?: "NO_TRANSLATION",
-        description = translation?.description ?: "NO_TRANSLATION",
-        types = types.map { it.toType() },
-        weaknesses = types.map { it.toType() },
+        name = translations.associate { Locale.forLanguageTag(it.language) to it.name },
+        description = translations.associate { Locale.forLanguageTag(it.language) to it.description },
+        types = types,
+        weaknesses = PokemonWeaknessCalculator.calculateWeaknesses(types),
         weight = (pokemon.weight / 10f).kg,
         height = (pokemon.height / 10f).m,
         category = PokemonCategory(
             id = category.category.id,
-            name = categoryTranslation?.name ?: "NO_TRANSLATION"
+            name = category.translations.associate { Locale.forLanguageTag(it.language) to it.name }
         ),
         ability = PokemonAbility(
             id = ability.ability.id,
-            name = abilityTranslation?.name ?: "NO_TRANSLATION"
+            name = ability.translations.associate { Locale.forLanguageTag(it.language) to it.name }
         ),
-        maleToFemaleRatio = pokemon.maleToFemaleRatio.percent
+        maleToFemaleRatio = (pokemon.maleToFemaleRatio * 100.0).percent
     )
 }

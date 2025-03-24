@@ -1,24 +1,26 @@
-package com.kanoyatech.snapdex.domain
+package com.kanoyatech.snapdex.data.classifiers
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.utils.Assets
 import org.tensorflow.lite.Interpreter
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import androidx.core.graphics.scale
 
-class PokemonClassifier {
+class TensorflowClassifier: Classifier {
     private lateinit var interpreter: Interpreter
 
-    fun init(context: Context) {
+    override suspend fun init(context: Context) {
         val model = Assets.load(context, "model.tflite")
         val options = Interpreter.Options()
         interpreter = Interpreter(model, options)
     }
 
-    fun classify(bitmap: Bitmap): PokemonId? {
+    override suspend fun classify(bitmap: Bitmap): PokemonId? {
         val inputBuffer = preprocessBitmap(bitmap)
         val outputArray = Array(1) { FloatArray(149) }
 
@@ -58,7 +60,7 @@ class PokemonClassifier {
         val croppedBitmap = Bitmap.createBitmap(bitmap, xOffset, yOffset, squareSize, squareSize)
 
         // Scale the cropped bitmap to the required size
-        val scaledBitmap = Bitmap.createScaledBitmap(croppedBitmap, modelInputSize, modelInputSize, true)
+        val scaledBitmap = croppedBitmap.scale(modelInputSize, modelInputSize)
 
         val byteBuffer = ByteBuffer.allocateDirect(4 * modelInputSize * modelInputSize * 3) // 3 for RGB
         byteBuffer.order(ByteOrder.nativeOrder())

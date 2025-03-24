@@ -33,12 +33,15 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.AIModel
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.ui.components.AvatarView
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
 import com.kanoyatech.snapdex.theme.designsystem.PopupButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexDialogPicker
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsPickerButton
@@ -169,6 +172,14 @@ private fun ProfileScreen(
         if (state.showAccountDeletionDialog) {
             AccountDeletionConfirmationDialog(onAction)
         }
+
+        if (state.showLanguageDialog) {
+            LanguageDialog(state.language, onAction)
+        }
+
+        if (state.showAIModelDialog) {
+            AIModelDialog(state.aiModel, onAction)
+        }
     }
 }
 
@@ -243,8 +254,11 @@ private fun AppSettings(
         ) {
             SettingsPickerButton(
                 text = stringResource(id = R.string.ai_model),
-                value = "On device",
-                onClick = { onAction(ProfileAction.OnChangeAiModelClick) }
+                value = when (state.aiModel) {
+                    AIModel.EMBEDDED -> stringResource(id = R.string.on_device)
+                    AIModel.OPENAI -> stringResource(id = R.string.openai)
+                },
+                onClick = { onAction(ProfileAction.OnChangeAIModelClick) }
             )
 
             HorizontalDivider()
@@ -362,6 +376,53 @@ private fun AccountDeletionConfirmationDialog(onAction: (ProfileAction) -> Unit)
             onClick = { onAction(ProfileAction.OnAccountDeletionCancel) }
         )
     )
+}
+
+@Composable
+private fun AIModelDialog(
+    aiModel: AIModel,
+    onAction: (ProfileAction) -> Unit
+) {
+    SnapdexDialogPicker(
+        title = stringResource(id = R.string.set_ai_model),
+        buttonText = stringResource(id = R.string.choose),
+        items = listOf(
+            AIModel.EMBEDDED,
+            AIModel.OPENAI
+        ),
+        initialItemSelected = aiModel,
+        onItemSelect = { aiModel -> onAction(ProfileAction.OnAIModelChange(aiModel)) },
+        onDismissRequest = { onAction(ProfileAction.OnAIModelDialogDismiss) },
+    ) { model ->
+        SnapdexText(
+            text = when (model) {
+                AIModel.EMBEDDED -> stringResource(id = R.string.on_device)
+                AIModel.OPENAI -> stringResource(id = R.string.openai)
+            }
+        )
+    }
+}
+
+@Composable
+private fun LanguageDialog(
+    locale: Locale,
+    onAction: (ProfileAction) -> Unit
+) {
+    SnapdexDialogPicker(
+        title = stringResource(id = R.string.set_language),
+        buttonText = stringResource(id = R.string.choose),
+        items = listOf(
+            Locale.ENGLISH,
+            Locale.FRENCH
+        ),
+        initialItemSelected = locale,
+        onItemSelect = { locale -> onAction(ProfileAction.OnLanguageChange(locale)) },
+        onDismissRequest = { onAction(ProfileAction.OnLanguageDialogDismiss) },
+    ) { locale ->
+        SnapdexText(
+            text = locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() }
+        )
+    }
 }
 
 @Preview(showBackground = true)

@@ -5,9 +5,10 @@ import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kanoyatech.snapdex.domain.PokemonClassifier
+import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.utils.textAsFlow
@@ -26,11 +27,13 @@ import java.util.Locale
 @OptIn(FlowPreview::class)
 class PokedexViewModel(
     pokemonsFlow: Flow<List<Pokemon>>,
-    private val classifier: PokemonClassifier,
+    private val classifier: Classifier,
     private val pokemonRepository: PokemonRepository
 ): ViewModel() {
     var state by mutableStateOf(PokedexState())
         private set
+
+    var locale: Locale by mutableStateOf(Locale.ENGLISH)
 
     private val eventChannel = Channel<PokedexEvent>()
     val events = eventChannel.receiveAsFlow()
@@ -44,11 +47,16 @@ class PokedexViewModel(
                 state = state.copy(allPokemons = pokemons)
             }
 
-        combine(searchFlow, pokemonsFlow_) { searchText, allPokemons ->
+        val localeFlow = snapshotFlow { locale }
+
+        combine(searchFlow, pokemonsFlow_, localeFlow) { searchText, allPokemons, locale ->
             if (searchText.isBlank()) {
                 null
             } else {
-                allPokemons.filter { it.name.contains(searchText) }
+                allPokemons.filter {
+                    val name = it.name.getOrElse(locale, { "" })
+                    name.contains(searchText)
+                }
             }
         }
             .onEach { filteredPokemons ->
@@ -57,7 +65,7 @@ class PokedexViewModel(
             .launchIn(viewModelScope)
     }
 
-    fun init(context: Context) {
+    fun initialize(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             classifier.init(context)
         }
@@ -86,7 +94,7 @@ class PokedexViewModel(
             if (pokemonId != null) {
                 eventChannel.send(PokedexEvent.OnPokemonCatch(pokemonId))
 
-                val pokemon = pokemonRepository.getPokemonById(pokemonId, Locale.ENGLISH)!!
+                val pokemon = pokemonRepository.getPokemonById(pokemonId)!!
                 state = state.copy(
                     lastCaught = PokemonCaught(
                         id = pokemon.id,

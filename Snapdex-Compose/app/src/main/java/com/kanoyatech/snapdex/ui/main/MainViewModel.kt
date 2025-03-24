@@ -32,7 +32,7 @@ class MainViewModel(
                 if (user == null) {
                     flowOf(Pair(null, emptyList()))
                 } else {
-                    pokemonRepository.getPokemonsCaughtByUser(user.id!!, locale)
+                    pokemonRepository.getPokemonsCaughtByUser(user.id!!)
                         .map {
                             Pair(user, it)
                         }

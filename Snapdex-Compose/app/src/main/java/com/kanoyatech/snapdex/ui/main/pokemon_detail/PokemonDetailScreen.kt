@@ -52,7 +52,8 @@ import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.DataCardItem
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.RatioBar
 import com.kanoyatech.snapdex.ui.utils.largeImageId
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.EvolutionChainView
-import com.kanoyatech.snapdex.ui.utils.getLocale
+import com.kanoyatech.snapdex.ui.utils.translated
+import java.util.Locale
 
 @Composable
 fun PokemonDetailScreenRoot(
@@ -60,11 +61,6 @@ fun PokemonDetailScreenRoot(
     onBackClick: () -> Unit,
     onPokemonClick: (PokemonId) -> Unit
 ) {
-    val context = LocalContext.current
-    LaunchedEffect(true) {
-        viewModel.initialize(context.getLocale())
-    }
-
     PokemonDetailScreen(
         state = viewModel.state,
         onAction = { action ->
@@ -123,7 +119,7 @@ private fun PokemonDetailScreen(
 
                 Header(
                     id = state.pokemon.id,
-                    name = state.pokemon.name
+                    name = state.pokemon.name.translated()
                 )
 
                 FlowRow(
@@ -135,7 +131,7 @@ private fun PokemonDetailScreen(
                     }
                 }
 
-                SnapdexText(state.pokemon.description)
+                SnapdexText(state.pokemon.description.translated())
 
                 DataCardsSection(
                     weight = state.pokemon.weight,
@@ -149,7 +145,7 @@ private fun PokemonDetailScreen(
                     weaknesses = weaknesses
                 )
 
-                if (state.evolutionChain == null) {
+                if (state.evolutionChain == null || state.evolutionChain.evolutions.isEmpty()) {
                     Box {}
                 } else {
                     EvolutionChainSection(
@@ -216,7 +212,7 @@ private fun DataCardsSection(
             DataCardItem(
                 icon = Icons.Category,
                 name = stringResource(id = R.string.category),
-                value = category.name,
+                value = category.name.translated(),
                 modifier = Modifier
                     .weight(1f)
             )
@@ -224,7 +220,7 @@ private fun DataCardsSection(
             DataCardItem(
                 icon = Icons.Pokeball,
                 name = stringResource(id = R.string.abilities),
-                value = ability.name,
+                value = ability.name.translated(),
                 modifier = Modifier
                     .weight(1f)
             )
@@ -281,7 +277,7 @@ fun EvolutionChainSection(
     onAction: (PokemonDetailAction) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy((-16).dp)
     ) {
         SnapdexText(
             text = stringResource(id = R.string.evolutions).uppercase(),
@@ -302,8 +298,8 @@ fun EvolutionChainSection(
 private fun PokemonDetailsScreenPreview() {
     val pokemon = Pokemon(
         id = 6,
-        name = "Charizard",
-        description = "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade.",
+        name = mapOf(Locale.ENGLISH to "Charizard"),
+        description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
         types = listOf(
             PokemonType.FIRE,
             PokemonType.FLYING
@@ -313,16 +309,16 @@ private fun PokemonDetailsScreenPreview() {
         ),
         weight = 120.0.kg,
         height = 1.70.m,
-        category = PokemonCategory(id = 0, name = "Lizard"),
-        ability = PokemonAbility(id = 0, name = "Blaze"),
+        category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+        ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
         maleToFemaleRatio = 87.5.percent
     )
 
     val evolutionChain = EvolutionChain(
         startingPokemon = Pokemon(
             id = 6,
-            name = "Charizard",
-            description = "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade.",
+            name = mapOf(Locale.ENGLISH to "Charizard"),
+            description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
             types = listOf(
                 PokemonType.FIRE,
                 PokemonType.FLYING
@@ -332,43 +328,45 @@ private fun PokemonDetailsScreenPreview() {
             ),
             weight = 120.0.kg,
             height = 1.70.m,
-            category = PokemonCategory(id = 0, name = "Lizard"),
-            ability = PokemonAbility(id = 0, name = "Blaze"),
+            category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+            ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
             maleToFemaleRatio = 87.5.percent
         ),
         evolutions = mapOf(
             Pair(16, Pokemon(
                 id = 6,
-                name = "Charizard",
-                description = "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade.",
+                name = mapOf(Locale.ENGLISH to "Charizard"),
+                description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
                 types = listOf(
                     PokemonType.FIRE,
                     PokemonType.FLYING
                 ),
-                weaknesses = emptyList(),
+                weaknesses = listOf(
+                    PokemonType.BUG
+                ),
                 weight = 120.0.kg,
                 height = 1.70.m,
-                category = PokemonCategory(id = 0, name = "Lizard"),
-                ability = PokemonAbility(id = 0, name = "Blaze"),
+                category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+                ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
                 maleToFemaleRatio = 87.5.percent
-            )
-            ),
+            )),
             Pair(32, Pokemon(
                 id = 6,
-                name = "Charizard",
-                description = "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade.",
+                name = mapOf(Locale.ENGLISH to "Charizard"),
+                description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
                 types = listOf(
                     PokemonType.FIRE,
                     PokemonType.FLYING
                 ),
-                weaknesses = emptyList(),
+                weaknesses = listOf(
+                    PokemonType.BUG
+                ),
                 weight = 120.0.kg,
                 height = 1.70.m,
-                category = PokemonCategory(id = 0, name = "Lizard"),
-                ability = PokemonAbility(id = 0, name = "Blaze"),
+                category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+                ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
                 maleToFemaleRatio = 87.5.percent
-            )
-            )
+            ))
         )
     )
 

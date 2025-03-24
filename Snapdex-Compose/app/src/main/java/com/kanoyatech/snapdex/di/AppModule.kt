@@ -9,7 +9,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.kanoyatech.snapdex.MainActivityViewModel
-import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
+import com.kanoyatech.snapdex.data.classifiers.OpenAIClassifier
+import com.kanoyatech.snapdex.data.repositories.PreferencesRepositoryImpl
 import com.kanoyatech.snapdex.data.local.SnapdexDatabase
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserDataSource
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserPokemonDataSource
@@ -17,10 +18,15 @@ import com.kanoyatech.snapdex.data.repositories.EvolutionChainRepositoryImpl
 import com.kanoyatech.snapdex.data.repositories.PokemonRepositoryImpl
 import com.kanoyatech.snapdex.data.repositories.UserRepositoryImpl
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
-import com.kanoyatech.snapdex.domain.PokemonClassifier
+import com.kanoyatech.snapdex.data.classifiers.TensorflowClassifier
+import com.kanoyatech.snapdex.data.repositories.EncryptedPreferencesRepositoryImpl
+import com.kanoyatech.snapdex.domain.Classifier
+import com.kanoyatech.snapdex.domain.ClassifierFactory
 import com.kanoyatech.snapdex.domain.UserDataValidator
+import com.kanoyatech.snapdex.domain.repositories.EncryptedPreferencesRepository
 import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
+import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
 import com.kanoyatech.snapdex.ui.AppLocaleManager
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
 import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
@@ -71,7 +77,10 @@ val dataRemoteModule = module {
 
 val dataModule = module {
     single<DataStore<Preferences>> { androidContext().dataStore }
-    singleOf(::PreferencesRepository)
+    singleOf(::OpenAIClassifier)
+    singleOf(::TensorflowClassifier)
+    singleOf(::PreferencesRepositoryImpl).bind<PreferencesRepository>()
+    singleOf(::EncryptedPreferencesRepositoryImpl).bind<EncryptedPreferencesRepository>()
     singleOf(::UserRepositoryImpl).bind<UserRepository>()
     singleOf(::PokemonRepositoryImpl).bind<PokemonRepository>()
     singleOf(::EvolutionChainRepositoryImpl).bind<EvolutionChainRepository>()
@@ -97,10 +106,7 @@ val authModule = module {
     single { Firebase.auth }
 }
 
-val servicesModule = module {
-    singleOf(::PokemonClassifier)
-}
-
 val domainModule = module {
     singleOf(::UserDataValidator)
+    singleOf(::ClassifierFactory).bind<Classifier>()
 }

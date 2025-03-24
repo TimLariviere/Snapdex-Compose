@@ -10,15 +10,15 @@ import java.util.Locale
 class EvolutionChainRepositoryImpl(
     private val localEvolutionChain: EvolutionChainDao
 ): EvolutionChainRepository {
-    override suspend fun getEvolutionChainForPokemon(pokemonId: PokemonId, locale: Locale): EvolutionChain? {
+    override suspend fun getEvolutionChainForPokemon(pokemonId: PokemonId): EvolutionChain? {
         val evolutionChainWithRelations = localEvolutionChain.getFor(pokemonId)
             ?: return null
 
         return EvolutionChain(
-            startingPokemon = evolutionChainWithRelations.startingPokemon.toPokemon(locale),
-            evolutions = evolutionChainWithRelations.evolvesTo.map { evolutionChainLink ->
-                evolutionChainLink.minLevel to evolutionChainLink.pokemon.toPokemon(locale)
-            }.toMap()
+            startingPokemon = evolutionChainWithRelations.startingPokemon.toPokemon(),
+            evolutions = evolutionChainWithRelations.evolvesTo.associate { evolutionChainLink ->
+                evolutionChainLink.minLevel to evolutionChainLink.pokemon.toPokemon()
+            }
         )
     }
 }

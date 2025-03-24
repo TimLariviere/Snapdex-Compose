@@ -1,8 +1,12 @@
 **Snapdex** is an open-source app built with Jetpack Compose, available on [GitHub](https://github.com/TimLariviere/Snapdex/tree/main/Snapdex-Compose)
 
-This project is provided freely as a demonstration of mobile development skills and for educational purposes.
+This project is provided freely as a demonstration of mobile development skills and for educational purposes.  
+It is **not affiliated with, endorsed, sponsored, or specifically approved by Nintendo, The Pokémon Company, or Game Freak**.
 
 We are grateful to the developers and maintainers of the open data sources, libraries, and community assets that made this possible.
+
+> **Pokémon is © 1996–2025 Nintendo, Creatures Inc., and GAME FREAK Inc.**  
+> Pokémon and Pokémon character names are trademarks of Nintendo, The Pokémon Company, and Game Freak.
 
 ### Assets & Data
 
@@ -11,7 +15,7 @@ Sourced from [Pokémon Database](https://pokemondb.net/)
 
 **Sprites**  
 3D models sourced from the Pokémon fan community  
-(_Used under fair use for educational and non-commercial purposes_)
+_Used under fair use for educational and non-commercial purposes_
 
 **Data**  
 Provided by [PokeAPI](https://pokeapi.co/) — an open Pokémon RESTful API  
@@ -44,4 +48,4 @@ _License: Apache 2.0_
 
 Every effort has been made to properly credit all authors and respect licensing terms.
 
-If you are the owner of any asset, library, or model used in this app and believe attribution is missing or incorrect, please contact me at [timothe.lariviere@kanoyatech.com](email:timothe.lariviere@kanoyatech.com).
+If you are the owner of any asset, library, or model used in this app and believe attribution is missing or incorrect, please contact me at [timothe.lariviere@kanoyatech.com](mailto:timothe.lariviere@kanoyatech.com).

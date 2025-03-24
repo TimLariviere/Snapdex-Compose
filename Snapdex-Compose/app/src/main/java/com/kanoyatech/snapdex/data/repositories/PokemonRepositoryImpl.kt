@@ -24,18 +24,18 @@ class PokemonRepositoryImpl(
     private val remoteUserPokemons: RemoteUserPokemonDataSource,
     private val localPokemons: PokemonDao
 ): PokemonRepository {
-    override fun getPokemonsCaughtByUser(userId: UserId, locale: Locale): Flow<List<Pokemon>> {
+    override fun getPokemonsCaughtByUser(userId: UserId): Flow<List<Pokemon>> {
         return localUserPokemons.observeUserPokemons(userId)
             .map { userPokemons ->
-                userPokemons.map { it.toPokemon(locale) }
+                userPokemons.map { it.toPokemon() }
             }
     }
 
-    override suspend fun getPokemonById(pokemonId: PokemonId, locale: Locale): Pokemon? {
+    override suspend fun getPokemonById(pokemonId: PokemonId): Pokemon? {
         val pokemonWithRelations = localPokemons.getBy(pokemonId)
             ?: return null
 
-        return pokemonWithRelations.toPokemon(locale)
+        return pokemonWithRelations.toPokemon()
     }
 
     override suspend fun catchPokemon(userId: UserId, pokemonId: PokemonId): TypedResult<Unit, CatchPokemonError> {

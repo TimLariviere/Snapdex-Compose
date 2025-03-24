@@ -104,4 +104,9 @@
     <string name="name_changed">Name Changed</string>
     <string name="name_changed_description">Your name has been changed.</string>
     <string name="licenses_and_credits"><![CDATA[Licenses & Credits]]></string>
+    <string name="set_language">Set language</string>
+    <string name="choose">Choose</string>
+    <string name="set_ai_model">Set AI model</string>
+    <string name="on_device">On device</string>
+    <string name="openai" translatable="false">OpenAI</string>
 </resources>

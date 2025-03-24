@@ -1,21 +1,31 @@
 package com.kanoyatech.snapdex.ui.main.profile
 
+import com.kanoyatech.snapdex.domain.AIModel
 import java.util.Locale
 
 sealed interface ProfileAction {
-    object OnLogoutClick : ProfileAction
+    object OnChangeNameClick : ProfileAction
+    object OnChangePasswordClick : ProfileAction
+
     object OnResetProgressClick : ProfileAction
+    object OnProgressResetConfirm : ProfileAction
+    object OnProgressResetCancel : ProfileAction
+
     object OnDeleteAccountClick : ProfileAction
     object OnAccountDeletionConfirm: ProfileAction
     object OnAccountDeletionCancel: ProfileAction
-    object OnProgressResetConfirm : ProfileAction
-    object OnProgressResetCancel : ProfileAction
-    object OnChangeNameClick : ProfileAction
-    object OnChangePasswordClick : ProfileAction
-    object OnChangeAiModelClick : ProfileAction
+
+    object OnChangeAIModelClick : ProfileAction
+    data class OnAIModelChange(val aiModel: AIModel): ProfileAction
+    object OnAIModelDialogDismiss: ProfileAction
+
     object OnChangeLanguageClick : ProfileAction
+    data class OnLanguageChange(val language: Locale): ProfileAction
+    object OnLanguageDialogDismiss : ProfileAction
+
     object OnChangeNotificationsClick: ProfileAction
+
     object OnCreditsClick : ProfileAction
     object OnPrivacyPolicyClick : ProfileAction
-    data class OnLanguageChange(val language: Locale): ProfileAction
+    object OnLogoutClick : ProfileAction
 }

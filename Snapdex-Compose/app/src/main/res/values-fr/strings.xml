@@ -99,4 +99,8 @@
     <string name="new_name">Nouveau mot de passe</string>
     <string name="set_new_name">Définir nouveau nom</string>
     <string name="name_changed">Nom Changé</string>
+    <string name="set_language">Choisir langue</string>
+    <string name="choose">Choisir</string>
+    <string name="set_ai_model">Choisir modèle IA</string>
+    <string name="on_device">Sur téléphone</string>
 </resources>

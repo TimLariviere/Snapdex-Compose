@@ -25,18 +25,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
@@ -57,6 +53,8 @@ import com.kanoyatech.snapdex.ui.main.pokedex.components.PokemonCaughtOverlay
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SmallTypeBadge
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
+import com.kanoyatech.snapdex.ui.utils.getLocale
+import com.kanoyatech.snapdex.ui.utils.translated
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -68,7 +66,13 @@ fun PokedexScreenRoot(
 ) {
     val context = LocalContext.current
     LaunchedEffect(true) {
-        viewModel.init(context)
+        viewModel.initialize(context)
+    }
+
+    val configuration = LocalConfiguration.current
+    val locale = configuration.getLocale()
+    LaunchedEffect(locale) {
+        viewModel.locale = locale
     }
 
     ObserveAsEvents(viewModel.events) { event ->
@@ -207,7 +211,7 @@ fun PokemonItem(
         ) {
             Image(
                 bitmap = ImageBitmap.imageResource(id = pokemon.mediumImageId),
-                contentDescription = pokemon.name,
+                contentDescription = pokemon.name.translated(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)

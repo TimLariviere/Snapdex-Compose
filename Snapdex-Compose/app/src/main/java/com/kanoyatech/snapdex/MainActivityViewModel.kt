@@ -6,12 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
+import com.kanoyatech.snapdex.data.repositories.PreferencesRepositoryImpl
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
     private val auth: FirebaseAuth,
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepositoryImpl: PreferencesRepositoryImpl
 ): ViewModel() {
     var state by mutableStateOf(MainActivityState())
         private set
@@ -21,7 +21,7 @@ class MainActivityViewModel(
             state = state.copy(
                 isLoading = true
             )
-            val hasSeenIntro = preferencesRepository.getHasSeenIntro()
+            val hasSeenIntro = preferencesRepositoryImpl.getHasSeenIntro()
             val isLoggedIn = auth.currentUser != null
             state = state.copy(
                 isLoading = false,

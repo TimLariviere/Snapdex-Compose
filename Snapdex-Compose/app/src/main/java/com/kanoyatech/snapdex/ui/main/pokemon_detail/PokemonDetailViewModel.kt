@@ -1,6 +1,5 @@
 package com.kanoyatech.snapdex.ui.main.pokemon_detail
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,7 +10,6 @@ import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class PokemonDetailViewModel(
     private val pokemonId: PokemonId,
@@ -22,13 +20,9 @@ class PokemonDetailViewModel(
         private set
 
     init {
-        Log.d("PokemonDetailsViewModel", "ViewModel initialized with ID: $pokemonId")
-    }
-
-    fun initialize(locale: Locale) {
         viewModelScope.launch(Dispatchers.IO) {
-            val pokemon = pokemonRepository.getPokemonById(pokemonId, locale)!!
-            val evolutionChain = evolutionChainRepository.getEvolutionChainForPokemon(pokemonId, locale)!!
+            val pokemon = pokemonRepository.getPokemonById(pokemonId)!!
+            val evolutionChain = evolutionChainRepository.getEvolutionChainForPokemon(pokemonId)!!
             state = state.copy(pokemon = pokemon, evolutionChain = evolutionChain)
         }
     }

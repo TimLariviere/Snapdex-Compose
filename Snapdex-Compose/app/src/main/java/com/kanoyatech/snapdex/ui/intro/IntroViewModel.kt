@@ -5,13 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kanoyatech.snapdex.data.repositories.PreferencesRepository
+import com.kanoyatech.snapdex.data.repositories.PreferencesRepositoryImpl
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class IntroViewModel(
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepositoryImpl: PreferencesRepositoryImpl
 ): ViewModel() {
     var state by mutableStateOf(IntroState())
         private set
@@ -39,7 +39,7 @@ class IntroViewModel(
                 goToPage(state.currentPage + 1)
             } else {
                 // If we are on the last page, remember user saw the intro
-                preferencesRepository.setHasSeenIntro(true)
+                preferencesRepositoryImpl.setHasSeenIntro(true)
                 eventChannel.send(IntroEvent.PreferencesUpdated)
             }
         }

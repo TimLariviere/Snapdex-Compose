@@ -1,6 +1,8 @@
 package com.kanoyatech.snapdex.domain.models
 
+import java.util.Locale
+
 data class PokemonCategory(
     val id: Int,
-    val name: String
+    val name: Map<Locale, String>
 )

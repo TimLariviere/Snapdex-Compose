@@ -1,12 +1,12 @@
 package com.kanoyatech.snapdex.ui.main.profile
 
 import android.app.Application
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kanoyatech.snapdex.domain.AIModel
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
@@ -43,17 +43,6 @@ class ProfileViewModel(
 
     fun onAction(action: ProfileAction) {
         when (action) {
-            ProfileAction.OnLogoutClick -> logout()
-            ProfileAction.OnChangeLanguageClick -> {
-                if (state.language == Locale.ENGLISH) {
-                    changeLanguage(Locale.FRENCH)
-                } else {
-                    changeLanguage(Locale.ENGLISH)
-                }
-            }
-            is ProfileAction.OnLanguageChange -> {
-                state = state.copy(language = action.language)
-            }
             ProfileAction.OnResetProgressClick -> {
                 state = state.copy(showProgressResetDialog = true)
             }
@@ -64,6 +53,7 @@ class ProfileViewModel(
                 state = state.copy(showProgressResetDialog = false)
                 resetProgress()
             }
+
             ProfileAction.OnDeleteAccountClick -> {
                 state = state.copy(showAccountDeletionDialog = true)
             }
@@ -74,6 +64,24 @@ class ProfileViewModel(
                 state = state.copy(showAccountDeletionDialog = false)
                 deleteAccount()
             }
+
+            ProfileAction.OnChangeAIModelClick -> {
+                state = state.copy(showAIModelDialog = true)
+            }
+            is ProfileAction.OnAIModelChange -> changeAIModel(action.aiModel)
+            ProfileAction.OnAIModelDialogDismiss -> {
+                state = state.copy(showAIModelDialog = false)
+            }
+
+            ProfileAction.OnChangeLanguageClick -> {
+                state = state.copy(showLanguageDialog = true)
+            }
+            is ProfileAction.OnLanguageChange -> changeLanguage(action.language)
+            ProfileAction.OnLanguageDialogDismiss -> {
+                state = state.copy(showLanguageDialog = false)
+            }
+
+            ProfileAction.OnLogoutClick -> logout()
             else -> Unit
         }
     }
@@ -99,9 +107,13 @@ class ProfileViewModel(
     }
 
     private fun changeLanguage(locale: Locale) {
-        viewModelScope.launch(Dispatchers.Main) {
-            state = state.copy(language = locale)
+        viewModelScope.launch {
+            state = state.copy(language = locale, showLanguageDialog = false)
             appLocaleManager.changeLanguage(application, locale.language)
         }
+    }
+
+    private fun changeAIModel(aiModel: AIModel) {
+        state = state.copy(aiModel = aiModel, showAIModelDialog = false)
     }
 }
