@@ -1,6 +1,7 @@
 package com.kanoyatech.snapdex
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,6 +23,8 @@ fun SetStatusBarColor() {
     if (!view.isInEditMode) {
         SideEffect {
             val window = (context as Activity).window
+            window.statusBarColor = Color.TRANSPARENT
+
             val wic = WindowInsetsControllerCompat(window, view)
             wic.isAppearanceLightStatusBars = true
         }

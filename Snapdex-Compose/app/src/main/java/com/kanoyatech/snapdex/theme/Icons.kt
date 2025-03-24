@@ -28,6 +28,10 @@ data object Icons {
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.icon_apps)
 
+    val ArrowDown: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_arrow_down)
+
     val Category: ImageVector
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.icon_category)

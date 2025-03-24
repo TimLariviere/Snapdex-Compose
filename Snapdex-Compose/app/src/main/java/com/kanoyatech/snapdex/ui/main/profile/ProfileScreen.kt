@@ -38,6 +38,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.ui.components.AvatarView
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
 import com.kanoyatech.snapdex.theme.designsystem.PopupButton
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsPickerButton
@@ -367,18 +368,20 @@ private fun AccountDeletionConfirmationDialog(onAction: (ProfileAction) -> Unit)
 @Composable
 private fun ProfileScreenPreview() {
     AppTheme {
-        ProfileScreen(
-            paddingValues = PaddingValues(0.dp),
-            state = ProfileState(
-                user = User(
-                    id = "",
-                    avatarId = 4,
-                    name = "Roger",
-                    email = "roger@snapdex.com"
+        SnapdexBackground {
+            ProfileScreen(
+                paddingValues = PaddingValues(0.dp),
+                state = ProfileState(
+                    user = User(
+                        id = "",
+                        avatarId = 4,
+                        name = "Roger",
+                        email = "roger@snapdex.com"
+                    ),
+                    language = Locale.FRENCH
                 ),
-                language = Locale.FRENCH
-            ),
-            onAction = {}
-        )
+                onAction = {}
+            )
+        }
     }
 }

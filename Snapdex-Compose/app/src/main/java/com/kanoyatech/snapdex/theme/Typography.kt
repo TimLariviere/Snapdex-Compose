@@ -35,7 +35,8 @@ data class Typography(
     val paragraph: TextStyle,
     val primaryButton: TextStyle,
     val secondaryButton: TextStyle,
-    val smallLabel: TextStyle
+    val smallLabel: TextStyle,
+    val largeLabel: TextStyle
 )
 
 val SnapdexTypography = Typography(
@@ -47,7 +48,7 @@ val SnapdexTypography = Typography(
     ),
     heading2 = TextStyle(
         fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
         lineHeight = 24.sp
     ),
@@ -65,7 +66,7 @@ val SnapdexTypography = Typography(
     ),
     primaryButton = TextStyle(
         fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
         lineHeight = 28.sp
     ),
@@ -80,6 +81,12 @@ val SnapdexTypography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 10.sp,
         lineHeight = 10.sp
+    ),
+    largeLabel = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp,
+        lineHeight = 20.sp
     )
 )
 

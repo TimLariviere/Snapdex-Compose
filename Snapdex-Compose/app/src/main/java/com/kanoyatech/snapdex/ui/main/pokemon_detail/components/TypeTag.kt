@@ -1,19 +1,21 @@
 package com.kanoyatech.snapdex.ui.main.pokemon_detail.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.theme.AppTheme
+import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
@@ -35,37 +40,28 @@ fun TypeTag(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(67.dp))
-            .background(elementUi.color)
-            .padding(horizontal = 14.dp, vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(28.dp)
-                .background(MaterialTheme.colorScheme.background),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = elementUi.image),
-                contentDescription = null,
-                tint = elementUi.color,
-                modifier = Modifier
-                    .size(18.dp)
+            .clip(SnapdexTheme.shapes.small)
+            .background(SnapdexTheme.colorScheme.surface)
+            .border(
+                width = 1.dp,
+                color = SnapdexTheme.colorScheme.outline,
+                shape = SnapdexTheme.shapes.small
             )
-        }
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(
-            text = stringResource(id = elementUi.name),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center,
+            .padding(horizontal = 14.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = elementUi.image),
+            contentDescription = null,
+            tint = elementUi.color,
             modifier = Modifier
-                .defaultMinSize(minWidth = 40.dp)
+                .height(20.dp)
+                .aspectRatio(1f)
+        )
+
+        SnapdexText(
+            text = stringResource(id = elementUi.name)
         )
     }
 }
@@ -74,8 +70,12 @@ fun TypeTag(
 @Composable
 private fun TypeViewPreview() {
     AppTheme {
-        TypeTag(
-            elementUi = TypeUi.fromType(PokemonType.FIRE)
-        )
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min).width(IntrinsicSize.Min)) {
+            TypeTag(
+                elementUi = TypeUi.fromType(PokemonType.FIRE),
+                modifier = Modifier
+                    .padding(16.dp)
+            )
+        }
     }
 }

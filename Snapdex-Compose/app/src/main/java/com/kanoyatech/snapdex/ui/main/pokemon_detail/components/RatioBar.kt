@@ -7,16 +7,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +25,7 @@ import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 
@@ -44,7 +44,7 @@ fun RatioBar(
                     .height(8.dp)
                     .weight(ratio.toFloat())
                     .clip(RoundedCornerShape(topStart = 49.dp, bottomStart = 49.dp))
-                    .background(RatioBarColors.maleColor)
+                    .background(SnapdexTheme.colorScheme.secondary)
             )
 
             Box(
@@ -52,7 +52,7 @@ fun RatioBar(
                     .height(8.dp)
                     .weight(1f - ratio.toFloat())
                     .clip(RoundedCornerShape(topEnd = 49.dp, bottomEnd = 49.dp))
-                    .background(RatioBarColors.femaleColor)
+                    .background(SnapdexTheme.colorScheme.primary)
             )
         }
 
@@ -75,24 +75,14 @@ private fun Label(
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(id = imageId),
-            contentDescription = null,
-            tint = RatioBarColors.labelColor,
-            modifier = Modifier
-                .size(12.dp)
+            contentDescription = null
         )
 
-        Text(
+        SnapdexText(
             text = value.formatted(),
-            //style = SnapdexTheme.typography.labelMedium,
-            color = RatioBarColors.labelColor
+            style = SnapdexTheme.typography.smallLabel
         )
     }
-}
-
-object RatioBarColors {
-    val maleColor: Color @Composable get() = SnapdexTheme.colorScheme.primary
-    val femaleColor: Color @Composable get() = SnapdexTheme.colorScheme.primary
-    val labelColor: Color @Composable get() = SnapdexTheme.colorScheme.primary
 }
 
 @Preview(showBackground = true)

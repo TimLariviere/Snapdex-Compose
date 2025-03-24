@@ -32,40 +32,45 @@ data object TypeColor {
 data class ColorScheme(
     val primary: Color,
     val onPrimary: Color,
+    val secondary: Color,
     val background: Color,
     val backgroundVariant: Color,
     val onBackground: Color,
     val surface: Color,
     val surfaceVariant: Color,
     val onSurface: Color,
-    val onSurfaceVariant: Color, // Missing from figma, placeholder in fields
+    val onSurfaceVariant: Color,
     val surfaceContainer: Color, // Tab bar
     val outline: Color,
-    val success: Color, // Missing from figma
-    val error: Color, // Missing from figma
-    val onError: Color // Missing from figma
+    val inOutline: Color,
+    val success: Color,
+    val error: Color,
+    val onError: Color
 )
 
 val LightColors = ColorScheme(
     primary = Color(0xFFFF6999),
     onPrimary = Color(0xFFFFFFFF),
+    secondary = Color(0xFF2C73FF),
     background = Color(0xFFFFF0A2),
     backgroundVariant = Color(0xFFFFCCD8),
     onBackground = Color(0xFF68635E),
     surface = Color(0x4DFFFFFF),
     surfaceVariant = Color(0xFFFFE9CF),
     onSurface = Color(0xFF68635E),
-    onSurfaceVariant = Color(0xFF68635E),
+    onSurfaceVariant = Color(0x8068635E),
     surfaceContainer = Color(0xFF0000FF),
     outline = Color(0xFFFFD9C3),
-    success = Color(0xFF00FF00),
-    error = Color(0xFFFF0000),
+    inOutline = Color(0xFFFFFFFF),
+    success = Color(0xFF059F30),
+    error = Color(0xFFD10303),
     onError = Color(0xFFFFFFFF)
 )
 
 val DarkColors = ColorScheme(
     primary = Color(0xFFFF6999),
     onPrimary = Color(0xFFFFFFFF),
+    secondary = Color(0xFF2C73FF),
     background = Color(0xFFFFF0A2),
     backgroundVariant = Color(0xFFFFCCD8),
     onBackground = Color(0xFF68635E),
@@ -75,6 +80,7 @@ val DarkColors = ColorScheme(
     onSurfaceVariant = Color(0xFF68635E),
     surfaceContainer = Color(0xFF0000FF),
     outline = Color(0xFFFFD9C3),
+    inOutline = Color(0xFFFFFFFF),
     success = Color(0xFF00FF00),
     error = Color(0xFFFF0000),
     onError = Color(0xFFFFFFFF)

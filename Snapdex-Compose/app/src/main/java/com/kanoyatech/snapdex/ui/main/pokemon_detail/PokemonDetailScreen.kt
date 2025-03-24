@@ -8,20 +8,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -43,16 +39,17 @@ import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexProgressIndicator
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexToolbar
 import com.kanoyatech.snapdex.ui.utils.formatted
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.TypeTag
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.DataCardItem
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.RatioBar
-import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.TypeBackground
 import com.kanoyatech.snapdex.ui.utils.largeImageId
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.EvolutionChainView
 import com.kanoyatech.snapdex.ui.utils.getLocale
@@ -116,19 +113,29 @@ private fun PokemonDetailScreen(
                     .padding(paddingValues),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
+                GifImage(
+                    imageId = state.pokemon.largeImageId,
+                    modifier = Modifier
+                        .height(180.dp)
+                        .aspectRatio(1f)
+                        .align(Alignment.CenterHorizontally)
+                )
+
                 Header(
                     id = state.pokemon.id,
-                    name = state.pokemon.name,
-                    image = state.pokemon.largeImageId,
-                    type = types.first()
+                    name = state.pokemon.name
                 )
 
-                DescriptionSection(
-                    description = state.pokemon.description,
-                    types = types
-                )
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    types.forEach { type ->
+                        TypeTag(type)
+                    }
+                }
 
-                HorizontalDivider()
+                SnapdexText(state.pokemon.description)
 
                 DataCardsSection(
                     weight = state.pokemon.weight,
@@ -158,64 +165,16 @@ private fun PokemonDetailScreen(
 @Composable
 private fun Header(
     id: PokemonId,
-    name: String,
-    image: Int,
-    type: TypeUi
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Box(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(250.dp)
-        ) {
-            TypeBackground(
-                type = type
-            )
-
-            GifImage(
-                imageId = image,
-                modifier = Modifier
-                    .fillMaxSize()
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Text(
-            text = name,
-            style = MaterialTheme.typography.displayLarge,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-        Text(
-            text = stringResource(R.string.pokemon_number, id),
-            style = MaterialTheme.typography.titleSmall
-        )
-    }
-}
-
-@Composable
-fun DescriptionSection(
-    description: String,
-    types: List<TypeUi>
+    name: String
 ) {
     Column {
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            types.forEach { type ->
-                TypeTag(type)
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Text(
-            text = description
+        SnapdexText(
+            text = stringResource(R.string.pokemon_number, id),
+            style = SnapdexTheme.typography.smallLabel
+        )
+        SnapdexText(
+            text = name,
+            style = SnapdexTheme.typography.heading1
         )
     }
 }
@@ -229,10 +188,10 @@ private fun DataCardsSection(
     maleToFemaleRatio: Percentage
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             DataCardItem(
                 icon = Icons.Weight,
@@ -252,7 +211,7 @@ private fun DataCardsSection(
         }
 
         Row(
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             DataCardItem(
                 icon = Icons.Category,
@@ -276,9 +235,9 @@ private fun DataCardsSection(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
+            SnapdexText(
                 text = stringResource(id = R.string.gender).uppercase(),
-                style = MaterialTheme.typography.labelMedium,
+                style = SnapdexTheme.typography.largeLabel,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -300,30 +259,17 @@ private fun WeaknessesSection(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text(
-            text = stringResource(id = R.string.weaknesses),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
+        SnapdexText(
+            text = stringResource(id = R.string.weaknesses).uppercase(),
+            style = SnapdexTheme.typography.largeLabel
         )
 
         FlowRow(
-            maxItemsInEachRow = 2,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier
-                .fillMaxWidth()
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             weaknesses.forEach { weakness ->
-                TypeTag(
-                    elementUi = weakness,
-                    modifier = Modifier
-                        .weight(1f)
-                )
-            }
-
-            // Add an empty box to avoid last type taking all the row
-            if (weaknesses.count() % 2 == 1) {
-                Box(modifier = Modifier.weight(1f))
+                TypeTag(weakness)
             }
         }
     }
@@ -335,12 +281,11 @@ fun EvolutionChainSection(
     onAction: (PokemonDetailAction) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Text(
-            text = stringResource(R.string.evolutions),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
+        SnapdexText(
+            text = stringResource(id = R.string.evolutions).uppercase(),
+            style = SnapdexTheme.typography.largeLabel
         )
 
         EvolutionChainView(
@@ -363,7 +308,9 @@ private fun PokemonDetailsScreenPreview() {
             PokemonType.FIRE,
             PokemonType.FLYING
         ),
-        weaknesses = emptyList(),
+        weaknesses = listOf(
+            PokemonType.BUG
+        ),
         weight = 120.0.kg,
         height = 1.70.m,
         category = PokemonCategory(id = 0, name = "Lizard"),
@@ -380,7 +327,9 @@ private fun PokemonDetailsScreenPreview() {
                 PokemonType.FIRE,
                 PokemonType.FLYING
             ),
-            weaknesses = emptyList(),
+            weaknesses = listOf(
+                PokemonType.BUG
+            ),
             weight = 120.0.kg,
             height = 1.70.m,
             category = PokemonCategory(id = 0, name = "Lizard"),

@@ -1,5 +1,8 @@
 package com.kanoyatech.snapdex.ui.main.pokemon_detail.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,29 +10,27 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
@@ -45,9 +46,12 @@ import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.ui.TypeUi
-import com.kanoyatech.snapdex.theme.designsystem.BrushIcon
+import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexOutlinedText
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
+import kotlinx.coroutines.delay
 
 @Composable
 fun EvolutionChainView(
@@ -55,17 +59,18 @@ fun EvolutionChainView(
     onPokemonClick: (PokemonId) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var animationStep by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(500)
+            animationStep = (animationStep + 1) % (evolutionChain.evolutions.size * 2)
+        }
+    }
+
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant,
-                shape = RoundedCornerShape(15.dp)
-            )
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         PokemonRow(
             pokemon = evolutionChain.startingPokemon,
@@ -75,15 +80,28 @@ fun EvolutionChainView(
                 }
         )
 
-        evolutionChain.evolutions.forEach { (level, pokemon) ->
-            LevelRow(level)
-            PokemonRow(
-                pokemon = pokemon,
-                modifier = Modifier
-                    .clickable {
-                        onPokemonClick(pokemon.id)
-                    }
-            )
+        evolutionChain.evolutions.entries.forEachIndexed { index, (level, pokemon) ->
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy((-24).dp)
+            ) {
+                val animateCurrentRow = animationStep / 2 == index
+                val animateArrow1 = animateCurrentRow && (animationStep % 2 == 0)
+                val animateArrow2 = animateCurrentRow && (animationStep % 2 == 1)
+
+                LevelRow(
+                    level = level,
+                    animateArrow1 = animateArrow1,
+                    animateArrow2 = animateArrow2
+                )
+                PokemonRow(
+                    pokemon = pokemon,
+                    modifier = Modifier
+                        .clickable {
+                            onPokemonClick(pokemon.id)
+                        }
+                )
+            }
         }
     }
 }
@@ -93,95 +111,101 @@ fun PokemonRow(
     pokemon: Pokemon,
     modifier: Modifier = Modifier
 ) {
-    val typeUi = TypeUi.fromType(pokemon.types.first())
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant,
-                shape = RoundedCornerShape(90.dp)
-            )
-            .height(74.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
+    Box {
         Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(95.dp)
-                .clip(RoundedCornerShape(90.dp))
-                .background(typeUi.color),
-            contentAlignment = Alignment.Center
+            modifier = modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .clip(SnapdexTheme.shapes.regular)
+                .background(SnapdexTheme.colorScheme.surface)
+                .border(
+                    width = 1.dp,
+                    color = SnapdexTheme.colorScheme.outline,
+                    shape = SnapdexTheme.shapes.regular
+                )
         ) {
-            BrushIcon(
-                imageVector = ImageVector.vectorResource(id = typeUi.image),
-                contentDescription = null,
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.surface,
-                        MaterialTheme.colorScheme.surface.copy(alpha = 0.1f)
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.Start),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(76.dp)
+                        .width(108.dp)
+                )
+
+                Column {
+                    SnapdexText(
+                        text = stringResource(R.string.pokemon_number, pokemon.id),
+                        style = SnapdexTheme.typography.smallLabel
                     )
-                ),
-                modifier = Modifier
-                    .size(65.dp)
-            )
 
-            Image(
-                bitmap = ImageBitmap.imageResource(pokemon.mediumImageId),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .offset(y = (-4).dp)
-            )
+                    SnapdexText(
+                        text = pokemon.name,
+                        style = SnapdexTheme.typography.heading2
+                    )
+                }
+            }
         }
 
-        Column(
+        Image(
+            bitmap = ImageBitmap.imageResource(pokemon.mediumImageId),
+            contentDescription = null,
             modifier = Modifier
-                .fillMaxSize()
-                .weight(1f)
-                .padding(vertical = 10.dp)
-                .padding(end = 10.dp)
-        ) {
-            Text(
-                text = pokemon.name,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-
-            Text(
-                text = stringResource(R.string.pokemon_number, pokemon.id),
-                style = MaterialTheme.typography.labelMedium
-            )
-        }
+                .size(124.dp)
+                .align(Alignment.BottomStart)
+        )
     }
 }
 
 @Composable
 fun LevelRow(
     level: Level,
+    animateArrow1: Boolean,
+    animateArrow2: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val arrow1Tint by animateColorAsState(
+        targetValue = if (animateArrow1) SnapdexTheme.colorScheme.primary.copy(alpha = 0.4f) else SnapdexTheme.colorScheme.surface,
+        animationSpec = tween(durationMillis = 250, easing = EaseInOut),
+        label = "Arrow1Tint"
+    )
+    val arrow2Tint by animateColorAsState(
+        targetValue = if (animateArrow2) SnapdexTheme.colorScheme.primary.copy(alpha = 0.8f) else SnapdexTheme.colorScheme.surface,
+        animationSpec = tween(durationMillis = 250, easing = EaseInOut),
+        label = "Arrow2Tint"
+    )
+
     Row(
-        modifier = modifier
-            .padding(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = Icons.EvolutionArrow,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary
-        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy((-4).dp)
+        ) {
+            Icon(
+                imageVector = Icons.ArrowDown,
+                contentDescription = null,
+                tint = arrow1Tint
+            )
+            Icon(
+                imageVector = Icons.ArrowDown,
+                contentDescription = null,
+                tint = arrow2Tint
+            )
+        }
 
-        Text(
+        SnapdexOutlinedText(
             text = stringResource(R.string.level_x, level),
-            color = MaterialTheme.colorScheme.primary
+            style = SnapdexTheme.typography.largeLabel
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun EvolutionChainViewPreview() {
     val evolutionChain = EvolutionChain(
@@ -237,9 +261,12 @@ private fun EvolutionChainViewPreview() {
     )
 
     AppTheme {
-        EvolutionChainView(
-            evolutionChain = evolutionChain,
-            onPokemonClick = {}
-        )
+        SnapdexBackground(modifier = Modifier
+            .height(IntrinsicSize.Min)) {
+            EvolutionChainView(
+                evolutionChain = evolutionChain,
+                onPokemonClick = {}
+            )
+        }
     }
 }
