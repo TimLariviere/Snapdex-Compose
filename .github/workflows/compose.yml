@@ -64,7 +64,8 @@ jobs:
         run: |
           curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute Snapdex-Compose/app/build/outputs/bundle/release/app-release.aab \
-            --app snapdex-64209 \
+            --app ${{ secrets.FIREBASE_APP_ID }} \
+            --project ${{ secrets.FIREBASE_PROJECT_ID }} \
             --groups testers \
             --release-notes "Automated build from GitHub Actions"
 
