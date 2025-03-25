@@ -5,6 +5,7 @@ open System.IO
 open System.Net
 open System.Net.Http
 open System.Text.Json.Serialization
+open System.Threading.Tasks
 open SQLite
 
 // Create a new SQLite database
@@ -388,3 +389,4 @@ task {
     with ex ->
         printfn $"Error: %s{ex.ToString()}"
 }
+|> _.GetAwaiter().GetResult()
