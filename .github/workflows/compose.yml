@@ -37,7 +37,7 @@ jobs:
 
       - name: Create signing.properties
         run: |
-          echo "storeFile=../keystore.jks" > Snapdex-Compose/signing.properties
+          echo "storeFile=../../keystore.jks" > Snapdex-Compose/signing.properties
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> Snapdex-Compose/signing.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> Snapdex-Compose/signing.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> Snapdex-Compose/signing.properties

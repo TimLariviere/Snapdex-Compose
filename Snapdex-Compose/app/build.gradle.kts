@@ -1,5 +1,13 @@
 import androidx.room.gradle.RoomExtension
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
+
+val signingPropertiesFile = rootProject.file("signing.properties")
+val signingProperties = Properties()
+
+if (signingPropertiesFile.exists()) {
+    signingProperties.load(signingPropertiesFile.inputStream())
+}
 
 plugins {
     alias(libs.plugins.android.application)
@@ -42,20 +50,25 @@ android {
         generateLocaleConfig = true
     }
 
-    buildTypes {
-        val apiKey = gradleLocalProperties(rootDir, rootProject.providers).getProperty("API_KEY")
-
-        debug {
-            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+    signingConfigs {
+        create("release") {
+            if (signingPropertiesFile.exists()) {
+                storeFile = file(signingProperties["storeFile"] as String)
+                storePassword = signingProperties["storePassword"] as String
+                keyAlias = signingProperties["keyAlias"] as String
+                keyPassword = signingProperties["keyPassword"] as String
+            }
         }
-        release {
-            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+    }
 
+    buildTypes {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
