@@ -1,5 +1,4 @@
 import androidx.room.gradle.RoomExtension
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.util.Properties
 
 val signingPropertiesFile = rootProject.file("signing.properties")
@@ -79,6 +78,10 @@ android {
 
 extensions.configure<RoomExtension> {
     schemaDirectory("$projectDir/schemas")
+}
+
+tasks.register("buildAllRelease") {
+    dependsOn("assembleRelease", "bundleRelease")
 }
 
 dependencies {

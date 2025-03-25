@@ -50,7 +50,13 @@ jobs:
 
       - name: Build Release AAB
         working-directory: ./Snapdex-Compose
-        run: ./gradlew bundleRelease
+        run: ./gradlew buildAllRelease
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Snapdex-AAB
+          path: Snapdex-Compose/app/build/outputs/bundle/release/app-release.apk
 
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v4
@@ -63,7 +69,7 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
         run: |
           curl -sL https://firebase.tools | bash
-          firebase appdistribution:distribute Snapdex-Compose/app/build/outputs/bundle/release/app-release.aab \
+          firebase appdistribution:distribute Snapdex-Compose/app/build/outputs/bundle/release/app-release.apk \
             --app ${{ secrets.FIREBASE_APP_ID }} \
             --project ${{ secrets.FIREBASE_PROJECT_ID }} \
             --groups testers \
