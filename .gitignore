@@ -5,3 +5,5 @@
 Snapdex-Compose/app/src/main/assets/*.db
 Snapdex-Compose/app/src/main/res/drawable/pokemon*.*
 Snapdex-Compose/app/google-services.json
+snapdex.jks
+cert.txt
