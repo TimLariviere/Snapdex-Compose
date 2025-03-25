@@ -21,9 +21,7 @@ fun SnapdexScaffold(
         topBar = topBar
     ) { paddingValues ->
         SnapdexBackground {
-            CompositionLocalProvider(LocalContentColor provides SnapdexTheme.colorScheme.onBackground) {
-                content(paddingValues)
-            }
+            content(paddingValues)
         }
     }
 }

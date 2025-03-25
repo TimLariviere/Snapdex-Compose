@@ -8,7 +8,7 @@ import com.kanoyatech.snapdex.data.local.entities.UserPokemonEntity
 import com.kanoyatech.snapdex.data.local.mappers.toPokemon
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserPokemonDataSource
 import com.kanoyatech.snapdex.data.remote.entities.UserPokemonRemoteEntity
-import com.kanoyatech.snapdex.data.utils.Retry
+import com.kanoyatech.snapdex.utils.Retry
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.models.UserId

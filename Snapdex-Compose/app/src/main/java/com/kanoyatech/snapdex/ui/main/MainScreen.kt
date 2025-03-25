@@ -23,7 +23,7 @@ import com.kanoyatech.snapdex.StatsTabRoute
 import com.kanoyatech.snapdex.TabsNavigation
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexNavBar
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexProgressIndicator
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircularProgressIndicator
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.TabItem
 import com.kanoyatech.snapdex.ui.utils.getLocale
@@ -73,7 +73,7 @@ fun MainScreen(
         )
 
         if (state.value.user == null) {
-            SnapdexProgressIndicator(
+            SnapdexCircularProgressIndicator(
                 modifier = Modifier
                     .fillMaxSize()
             )

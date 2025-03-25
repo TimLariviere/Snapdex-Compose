@@ -8,7 +8,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 @Composable
-fun SnapdexProgressIndicator(modifier: Modifier = Modifier) {
+fun SnapdexCircularProgressIndicator(modifier: Modifier = Modifier) {
     CircularProgressIndicator(
         modifier = modifier,
         color = SnapdexTheme.colorScheme.primary
@@ -17,8 +17,8 @@ fun SnapdexProgressIndicator(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun SnapdexProgressIndicatorPreview() {
+private fun SnapdexCircularProgressIndicatorPreview() {
     AppTheme {
-        SnapdexProgressIndicator()
+        SnapdexCircularProgressIndicator()
     }
 }

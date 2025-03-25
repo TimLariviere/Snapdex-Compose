@@ -14,7 +14,7 @@ import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserPokemonDataSourc
 import com.kanoyatech.snapdex.data.remote.entities.UserRemoteEntity
 import com.kanoyatech.snapdex.domain.models.AvatarId
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
-import com.kanoyatech.snapdex.data.utils.Retry
+import com.kanoyatech.snapdex.utils.Retry
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.ChangePasswordError
 import com.kanoyatech.snapdex.domain.repositories.LoginError

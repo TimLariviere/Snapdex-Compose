@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,11 +34,13 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.AIModel
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.theme.AppTheme
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.ui.components.AvatarView
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
 import com.kanoyatech.snapdex.theme.designsystem.PopupButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexDialogPicker
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexHorizontalDivider
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsButton
@@ -123,14 +123,13 @@ private fun ProfileScreen(
                 )
 
                 Column {
-                    Text(
+                    SnapdexText(
                         text = state.user.name,
-                        style = MaterialTheme.typography.titleSmall
+                        style = SnapdexTheme.typography.heading3
                     )
-                    Text(
+                    SnapdexText(
                         text = state.user.email,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.surfaceVariant
+                        style = SnapdexTheme.typography.largeLabel
                     )
                 }
             }
@@ -152,7 +151,7 @@ private fun ProfileScreen(
                     Column(
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+                            .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.3f))
                     ) {
                         DestructiveSettingsButton(stringResource(id = R.string.logout)) {
                             onAction(ProfileAction.OnLogoutClick)
@@ -191,36 +190,36 @@ private fun AccountSettings(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        Text(
+        SnapdexText(
             text = stringResource(id = R.string.account_settings),
-            style = MaterialTheme.typography.titleSmall
+            style = SnapdexTheme.typography.largeLabel
         )
 
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.3f))
         ) {
             SettingsButton(
                 text = stringResource(id = R.string.change_name),
                 onClick = { onAction(ProfileAction.OnChangeNameClick) }
             )
 
-            HorizontalDivider()
+            SnapdexHorizontalDivider()
 
             SettingsButton(
                 text = stringResource(id = R.string.change_password),
                 onClick = { onAction(ProfileAction.OnChangePasswordClick) }
             )
 
-            HorizontalDivider()
+            SnapdexHorizontalDivider()
 
             SettingsButton(
                 text = stringResource(id = R.string.reset_progress),
                 onClick = { onAction(ProfileAction.OnResetProgressClick) }
             )
 
-            HorizontalDivider()
+            SnapdexHorizontalDivider()
 
             DestructiveSettingsButton(
                 text = stringResource(id = R.string.delete_account),
@@ -240,15 +239,15 @@ private fun AppSettings(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        Text(
+        SnapdexText(
             text = stringResource(id = R.string.app_settings),
-            style = MaterialTheme.typography.titleSmall
+            style = SnapdexTheme.typography.largeLabel
         )
 
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.3f))
         ) {
             SettingsPickerButton(
                 text = stringResource(id = R.string.ai_model),
@@ -259,7 +258,7 @@ private fun AppSettings(
                 onClick = { onAction(ProfileAction.OnChangeAIModelClick) }
             )
 
-            HorizontalDivider()
+            SnapdexHorizontalDivider()
 
             SettingsPickerButton(
                 text = stringResource(id = R.string.language),
@@ -267,7 +266,7 @@ private fun AppSettings(
                 onClick = { onAction(ProfileAction.OnChangeLanguageClick) }
             )
 
-            HorizontalDivider()
+            SnapdexHorizontalDivider()
 
             SettingsPickerButton(
                 text = stringResource(id = R.string.notifications),
@@ -287,22 +286,22 @@ private fun About(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        Text(
+        SnapdexText(
             text = stringResource(id = R.string.about),
-            style = MaterialTheme.typography.titleSmall
+            style = SnapdexTheme.typography.largeLabel
         )
 
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.3f))
         ) {
             SettingsButton(
                 text = stringResource(id = R.string.licenses_and_credits),
                 onClick = { onAction(ProfileAction.OnCreditsClick) }
             )
 
-            HorizontalDivider()
+            SnapdexHorizontalDivider()
 
             SettingsButton(
                 text = stringResource(id = R.string.privacy_policy),
@@ -317,7 +316,7 @@ private fun CallToAction(modifier: Modifier = Modifier) {
     val styles =
         TextLinkStyles(
             style = SpanStyle(
-                color = MaterialTheme.colorScheme.primary,
+                color = SnapdexTheme.colorScheme.primary,
                 textDecoration = TextDecoration.Underline
             )
         )
@@ -333,7 +332,7 @@ private fun CallToAction(modifier: Modifier = Modifier) {
                 append(stringResource(id = R.string.website_link))
             }
         },
-        style = MaterialTheme.typography.bodySmall,
+        style = SnapdexTheme.typography.smallLabel,
         textAlign = TextAlign.Center,
         modifier = modifier
             .fillMaxWidth()

@@ -39,7 +39,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexProgressIndicator
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircularProgressIndicator
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
@@ -87,7 +87,7 @@ private fun PokemonDetailScreen(
         }
     ) { paddingValues ->
         if (state.pokemon == null) {
-            SnapdexProgressIndicator()
+            SnapdexCircularProgressIndicator()
         }
         else {
             val types = state.pokemon.types.map { TypeUi.fromType(it) }

@@ -2,7 +2,6 @@ package com.kanoyatech.snapdex.ui.main.pokedex.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,7 +25,7 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexProgressIndicator
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircularProgressIndicator
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.utils.PokemonResourceProvider
 import com.kanoyatech.snapdex.ui.utils.translated
@@ -64,7 +63,7 @@ private fun RecognitionInProgress() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SnapdexProgressIndicator(
+        SnapdexCircularProgressIndicator(
             modifier = Modifier
                 .size(80.dp)
         )

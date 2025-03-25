@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.domain
+package com.kanoyatech.snapdex.utils
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

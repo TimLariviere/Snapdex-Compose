@@ -42,7 +42,7 @@ fun SnapdexPrimaryButton(
         colors = colors
     ) {
         if (isBusy) {
-            SnapdexProgressIndicator(
+            SnapdexCircularProgressIndicator(
                 modifier = Modifier
                     .size(24.dp)
             )

@@ -4,7 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.kanoyatech.snapdex.domain.Crypto
+import com.kanoyatech.snapdex.utils.Crypto
 import com.kanoyatech.snapdex.domain.repositories.EncryptedPreferencesRepository
 import kotlinx.coroutines.flow.first
 import kotlin.io.encoding.Base64

@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.data.utils
+package com.kanoyatech.snapdex.utils
 
 import kotlinx.coroutines.delay
 
