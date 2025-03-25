@@ -26,6 +26,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +37,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.domain.models.PokemonType
@@ -45,7 +45,6 @@ import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircleGraph
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexLinearGraph
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.TypeUi
 import org.koin.androidx.compose.koinViewModel
@@ -120,12 +119,12 @@ private fun OverallProgress() {
             modifier = Modifier
                 .padding(16.dp)
         ) {
-            SnapdexText(
+            Text(
                 text = "Completion",
                 style = SnapdexTheme.typography.heading3,
                 textAlign = TextAlign.Center
             )
-            SnapdexText(
+            Text(
                 text = "75%",
                 style = SnapdexTheme.typography.heading1,
                 textAlign = TextAlign.Center
@@ -136,7 +135,7 @@ private fun OverallProgress() {
                     .fillMaxWidth()
                     .height(32.dp)
             )
-            SnapdexText(
+            Text(
                 text = "113/151 pokemons captured",
                 style = SnapdexTheme.typography.paragraph,
                 textAlign = TextAlign.Center
@@ -173,7 +172,7 @@ private fun TypeProgress(type: PokemonType, progress: Float, modifier: Modifier 
                         .size(24.dp)
                 )
 
-                SnapdexText(
+                Text(
                     text = stringResource(id = typeUi.name),
                     style = SnapdexTheme.typography.largeLabel
                 )
@@ -190,7 +189,7 @@ private fun TypeProgress(type: PokemonType, progress: Float, modifier: Modifier 
                     modifier = Modifier
                         .fillMaxSize()
                 )
-                SnapdexText(
+                Text(
                     text = "75%",
                     style = SnapdexTheme.typography.heading3.copy(
                         fontSize = 28.sp
@@ -198,7 +197,7 @@ private fun TypeProgress(type: PokemonType, progress: Float, modifier: Modifier 
                 )
             }
 
-            SnapdexText(
+            Text(
                 text = "113/151 captured",
                 style = SnapdexTheme.typography.smallLabel
             )

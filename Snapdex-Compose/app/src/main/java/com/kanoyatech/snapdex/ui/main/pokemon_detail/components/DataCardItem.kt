@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Composition
 import androidx.compose.runtime.CompositionLocalProvider
@@ -28,10 +29,8 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.theme.LocalColors
-import com.kanoyatech.snapdex.theme.LocalTextStyle
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 @Composable
@@ -72,13 +71,13 @@ fun DataCardItem(
                             .size(16.dp)
                     )
 
-                    SnapdexText(
+                    Text(
                         text = name.uppercase(),
                         style = SnapdexTheme.typography.smallLabel
                     )
                 }
 
-                SnapdexText(
+                Text(
                     text = value,
                     style = SnapdexTheme.typography.largeLabel
                 )

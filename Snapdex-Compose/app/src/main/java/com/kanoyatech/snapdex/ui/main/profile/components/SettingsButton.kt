@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 
 @Composable
 fun SettingsPickerButton(
@@ -28,7 +28,7 @@ fun SettingsPickerButton(
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        SnapdexText(
+        Text(
             text = text,
             modifier = Modifier
                 .padding(start = 20.dp)
@@ -36,7 +36,7 @@ fun SettingsPickerButton(
 
         Spacer(modifier = modifier.weight(1f))
 
-        SnapdexText(
+        Text(
             text = value,
             style = SnapdexTheme.typography.smallLabel,
             color = SnapdexTheme.colorScheme.onBackground.copy(alpha = 0.7f),
@@ -59,7 +59,7 @@ fun SettingsButton(
             .clickable(onClick = onClick),
         contentAlignment = Alignment.CenterStart
     ) {
-        SnapdexText(
+        Text(
             text = text,
             modifier = Modifier
                 .padding(start = 20.dp)
@@ -80,7 +80,7 @@ fun DestructiveSettingsButton(
             .clickable(onClick = onClick),
         contentAlignment = Alignment.CenterStart
     ) {
-        SnapdexText(
+        Text(
             text = text,
             color = SnapdexTheme.colorScheme.error,
             modifier = Modifier

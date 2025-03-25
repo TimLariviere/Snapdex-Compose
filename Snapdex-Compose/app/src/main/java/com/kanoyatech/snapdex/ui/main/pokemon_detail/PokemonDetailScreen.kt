@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +42,6 @@ import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircularProgressIndicator
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.DataCardItem
@@ -124,7 +124,7 @@ private fun PokemonDetailScreen(
                     }
                 }
 
-                SnapdexText(state.pokemon.description.translated())
+                Text(state.pokemon.description.translated())
 
                 DataCardsSection(
                     weight = state.pokemon.weight,
@@ -157,11 +157,11 @@ private fun Header(
     name: String
 ) {
     Column {
-        SnapdexText(
+        Text(
             text = stringResource(R.string.pokemon_number, id),
             style = SnapdexTheme.typography.smallLabel
         )
-        SnapdexText(
+        Text(
             text = name,
             style = SnapdexTheme.typography.heading1
         )
@@ -224,7 +224,7 @@ private fun DataCardsSection(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            SnapdexText(
+            Text(
                 text = stringResource(id = R.string.gender).uppercase(),
                 style = SnapdexTheme.typography.largeLabel,
                 textAlign = TextAlign.Center,
@@ -248,7 +248,7 @@ private fun WeaknessesSection(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.weaknesses).uppercase(),
             style = SnapdexTheme.typography.largeLabel
         )
@@ -272,7 +272,7 @@ fun EvolutionChainSection(
     Column(
         verticalArrangement = Arrangement.spacedBy((-16).dp)
     ) {
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.evolutions).uppercase(),
             style = SnapdexTheme.typography.largeLabel
         )

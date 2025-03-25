@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +21,6 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.AIModel
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexRadioButton
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
@@ -91,7 +91,7 @@ private fun ChooseAIModelScreen(
                             selected = model == state.selected
                         )
 
-                        SnapdexText(
+                        Text(
                             text = when (model) {
                                 AIModel.EMBEDDED -> stringResource(id = R.string.on_device)
                                 AIModel.OPENAI -> stringResource(id = R.string.openai)

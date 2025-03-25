@@ -41,7 +41,6 @@ import com.kanoyatech.snapdex.theme.designsystem.PopupButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexDialogPicker
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexHorizontalDivider
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsPickerButton
@@ -123,11 +122,11 @@ private fun ProfileScreen(
                 )
 
                 Column {
-                    SnapdexText(
+                    Text(
                         text = state.user.name,
                         style = SnapdexTheme.typography.heading3
                     )
-                    SnapdexText(
+                    Text(
                         text = state.user.email,
                         style = SnapdexTheme.typography.largeLabel
                     )
@@ -190,7 +189,7 @@ private fun AccountSettings(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.account_settings),
             style = SnapdexTheme.typography.largeLabel
         )
@@ -239,7 +238,7 @@ private fun AppSettings(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.app_settings),
             style = SnapdexTheme.typography.largeLabel
         )
@@ -286,7 +285,7 @@ private fun About(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.about),
             style = SnapdexTheme.typography.largeLabel
         )
@@ -391,7 +390,7 @@ private fun LanguageDialog(
         onItemSelect = { locale -> onAction(ProfileAction.OnLanguageChange(locale)) },
         onDismissRequest = { onAction(ProfileAction.OnLanguageDialogDismiss) },
     ) { locale ->
-        SnapdexText(
+        Text(
             text = locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() }
         )
     }

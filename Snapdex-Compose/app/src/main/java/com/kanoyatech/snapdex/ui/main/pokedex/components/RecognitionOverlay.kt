@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -26,7 +27,6 @@ import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircularProgressIndicator
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.utils.PokemonResourceProvider
 import com.kanoyatech.snapdex.ui.utils.translated
 import java.util.Locale
@@ -67,7 +67,7 @@ private fun RecognitionInProgress() {
             modifier = Modifier
                 .size(80.dp)
         )
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.recognizing)
         )
     }
@@ -92,11 +92,11 @@ private fun PokemonCaught(
                 )
             )
     ) {
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.congratulations),
             style = SnapdexTheme.typography.heading2
         )
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.you_caught)
         )
         GifImage(
@@ -108,11 +108,11 @@ private fun PokemonCaught(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SnapdexText(
+            Text(
                 text = pokemon.name.translated(),
                 style = SnapdexTheme.typography.heading1
             )
-            SnapdexText(
+            Text(
                 text = stringResource(id = R.string.pokemon_number, pokemon.id),
                 style = SnapdexTheme.typography.smallLabel
             )
@@ -139,17 +139,17 @@ private fun NothingCaught(onDismissRequest: () -> Unit) {
                 )
             )
     ) {
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.you_missed_it),
             style = SnapdexTheme.typography.heading2
         )
-        SnapdexText(
+        Text(
             text = "?",
             style = SnapdexTheme.typography.heading1.copy(
                 fontSize = 120.sp
             )
         )
-        SnapdexText(
+        Text(
             text = stringResource(id = R.string.could_not_find_pokemon),
             textAlign = TextAlign.Center
         )

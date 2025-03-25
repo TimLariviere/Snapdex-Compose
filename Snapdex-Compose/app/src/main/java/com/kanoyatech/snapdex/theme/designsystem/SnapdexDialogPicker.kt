@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableIntStateOf
@@ -47,7 +48,7 @@ fun <T> SnapdexDialogPicker(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                SnapdexText(
+                Text(
                     text = title,
                     style = SnapdexTheme.typography.heading3,
                     textAlign = TextAlign.Center,
@@ -108,7 +109,7 @@ private fun SnapdexDialogPickerPreview() {
                 onItemSelect = {},
                 onDismissRequest = {}
             ) { locale ->
-                SnapdexText(locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() })
+                Text(locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() })
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.kanoyatech.snapdex.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 
@@ -16,6 +18,7 @@ fun AppTheme(
         LocalColors provides colors,
         LocalShapes provides Shapes(),
         LocalTextStyle provides SnapdexTypography.paragraph,
+        LocalContentColor provides SnapdexTheme.colorScheme.onBackground,
         content = content
     )
 }

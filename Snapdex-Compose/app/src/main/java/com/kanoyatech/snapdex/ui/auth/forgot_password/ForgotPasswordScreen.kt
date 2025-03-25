@@ -28,7 +28,6 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
@@ -93,7 +92,7 @@ private fun ForgotPasswordScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                SnapdexText(
+                Text(
                     text = stringResource(id = R.string.password_reset_link),
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -142,7 +141,7 @@ private fun EmailSentDialog(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            SnapdexText(
+            Text(
                 text = stringResource(id = R.string.password_reset),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
@@ -150,7 +149,7 @@ private fun EmailSentDialog(
                     .fillMaxWidth()
             )
 
-            SnapdexText(
+            Text(
                 text = stringResource(id = R.string.check_mailbox_password_reset_link),
                 textAlign = TextAlign.Center,
                 modifier = Modifier

@@ -14,10 +14,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexMarkdownText
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
+import dev.jeziellago.compose.markdowntext.MarkdownText
 
 @Composable
 fun CreditsScreen(
@@ -48,7 +48,7 @@ fun CreditsScreen(
                     .verticalScroll(rememberScrollState())
                     .clipToBounds()
             ) {
-                SnapdexMarkdownText(
+                MarkdownText(
                     markdown = markdown,
                     modifier = Modifier
                         .pagePadding()

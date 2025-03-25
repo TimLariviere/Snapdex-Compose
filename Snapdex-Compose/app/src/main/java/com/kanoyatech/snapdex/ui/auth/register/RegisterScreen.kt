@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +40,6 @@ import com.kanoyatech.snapdex.ui.components.PasswordRequirements
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
@@ -121,7 +121,7 @@ private fun RegisterScreen(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    SnapdexText(
+                    Text(
                         text = stringResource(id = R.string.name_hint),
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -134,7 +134,7 @@ private fun RegisterScreen(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    SnapdexText(
+                    Text(
                         text = stringResource(id = R.string.email_hint),
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -148,7 +148,7 @@ private fun RegisterScreen(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    SnapdexText(
+                    Text(
                         text = stringResource(id = R.string.password_hint),
                         style = MaterialTheme.typography.bodySmall
                     )

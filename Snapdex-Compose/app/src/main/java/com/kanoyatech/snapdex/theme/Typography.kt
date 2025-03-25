@@ -91,4 +91,3 @@ val SnapdexTypography = Typography(
 )
 
 val LocalTypography = staticCompositionLocalOf { SnapdexTypography }
-val LocalTextStyle = staticCompositionLocalOf { SnapdexTypography.paragraph }

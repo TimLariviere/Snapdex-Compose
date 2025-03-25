@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableIntStateOf
@@ -29,7 +30,6 @@ import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.ui.components.AvatarView
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 
 @Composable
 fun AvatarPickerDialog(
@@ -53,7 +53,7 @@ fun AvatarPickerDialog(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                SnapdexText(
+                Text(
                     text = stringResource(id = R.string.pick_an_avatar),
                     style = SnapdexTheme.typography.heading3,
                     modifier = Modifier
@@ -84,7 +84,7 @@ fun AvatarPickerDialog(
                     }
                 }
 
-                SnapdexText(
+                Text(
                     text = stringResource(id = R.string.author_credit),
                     style = SnapdexTheme.typography.smallLabel,
                     modifier = Modifier

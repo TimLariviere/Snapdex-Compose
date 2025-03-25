@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,7 +50,6 @@ import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexOutlinedText
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.utils.translated
 import kotlinx.coroutines.delay
@@ -139,12 +139,12 @@ fun PokemonRow(
                 )
 
                 Column {
-                    SnapdexText(
+                    Text(
                         text = stringResource(R.string.pokemon_number, pokemon.id),
                         style = SnapdexTheme.typography.smallLabel
                     )
 
-                    SnapdexText(
+                    Text(
                         text = pokemon.name.translated(),
                         style = SnapdexTheme.typography.heading2
                     )
