@@ -23,9 +23,9 @@ jobs:
           java-version: 17
 
       - name: Set up .NET 9.0
-        task: UseDotNet@2
-        inputs:
-          version: 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
       - name: Decode Keystore
         run: |
