@@ -112,4 +112,8 @@
     <string name="choose_ai_model">Choose AI Model</string>
     <string name="openai_api_key">API Key</string>
     <string name="save">Save</string>
+    <string name="you_missed_it">Uh oh, there\'s no one here…</string>
+    <string name="could_not_find_pokemon">Couldn\'t find a pokemon in your picture.\nYou must have just missed it!</string>
+    <string name="try_again">Try again</string>
+    <string name="recognizing">Capturing pokemon…</string>
 </resources>

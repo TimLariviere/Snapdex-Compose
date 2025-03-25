@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
+import com.kanoyatech.snapdex.ui.main.pokedex.components.PokemonCaught
 import com.kanoyatech.snapdex.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -81,8 +82,8 @@ class PokedexViewModel(
                     )
                 )
             }
-            PokedexAction.OnPokemonCaughtDialogDismiss -> {
-                state = state.copy(lastCaught = null)
+            PokedexAction.OnRecognitionOverlayDismiss -> {
+                state = state.copy(lastCaught = null, showRecognitionOverlay = false)
             }
             else -> Unit
         }
@@ -90,18 +91,28 @@ class PokedexViewModel(
 
     private fun recognizePokemon(bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
+            state = state.copy(
+                showRecognitionOverlay = true,
+                isRecognizing = true,
+                lastCaught = null
+            )
+
+            var lastCaught: PokemonCaught? = null
             val pokemonId = classifier.classify(bitmap)
             if (pokemonId != null) {
                 eventChannel.send(PokedexEvent.OnPokemonCatch(pokemonId))
 
                 val pokemon = pokemonRepository.getPokemonById(pokemonId)!!
-                state = state.copy(
-                    lastCaught = PokemonCaught(
-                        id = pokemon.id,
-                        name = pokemon.name
-                    )
+                lastCaught = PokemonCaught(
+                    id = pokemon.id,
+                    name = pokemon.name
                 )
             }
+
+            state = state.copy(
+                isRecognizing = false,
+                lastCaught = lastCaught
+            )
         }
     }
 }

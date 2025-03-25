@@ -8,6 +8,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,14 +41,19 @@ fun PrivacyPolicyScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
         ) {
-            SnapdexMarkdownText(
-                markdown = markdown,
+            Box(
                 modifier = Modifier
-                    .padding(paddingValues)
-                    .pagePadding()
-            )
+                    .verticalScroll(rememberScrollState())
+                    .clipToBounds()
+            ) {
+                SnapdexMarkdownText(
+                    markdown = markdown,
+                    modifier = Modifier
+                        .pagePadding()
+                )
+            }
         }
     }
 }

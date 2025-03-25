@@ -9,5 +9,5 @@ sealed interface PokedexAction {
     data class IsCameraGrantedChange(val isGranted: Boolean) : PokedexAction
     data class OnPhotoTake(val bitmap: Bitmap) : PokedexAction
     data class RemoveFilterClick(val type: PokemonType) : PokedexAction
-    data object OnPokemonCaughtDialogDismiss : PokedexAction
+    data object OnRecognitionOverlayDismiss : PokedexAction
 }

@@ -45,11 +45,13 @@ import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexFloatingActionButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
 import com.kanoyatech.snapdex.theme.designsystem.search.SnapdexSearchView
+import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.TypeUi
-import com.kanoyatech.snapdex.ui.main.pokedex.components.PokemonCaughtOverlay
+import com.kanoyatech.snapdex.ui.main.pokedex.components.RecognitionOverlay
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SmallTypeBadge
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
@@ -109,7 +111,7 @@ private fun PokedexScreen(
                     top = paddingValues.calculateTopPadding(),
                     end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
                 )
-                .padding(top = 16.dp)
+                .padding(top = 20.dp)
         ) {
             SnapdexSearchView(
                 state = state.searchState,
@@ -167,12 +169,11 @@ private fun PokedexScreen(
                 .padding(end = 16.dp, bottom = paddingValues.calculateBottomPadding() + 16.dp)
         )
 
-        if (state.lastCaught != null) {
-            PokemonCaughtOverlay(
+        if (state.showRecognitionOverlay) {
+            RecognitionOverlay(
+                isRecognizing = state.isRecognizing,
                 pokemon = state.lastCaught,
-                onDismissRequest = {
-                    onAction(PokedexAction.OnPokemonCaughtDialogDismiss)
-                }
+                onDismissRequest = { onAction(PokedexAction.OnRecognitionOverlayDismiss) }
             )
         }
     }
@@ -312,10 +313,12 @@ fun TakePictureButton(
 @Composable
 private fun PokedexScreenPreview() {
     AppTheme {
-        PokedexScreen(
-            paddingValues = PaddingValues(0.dp),
-            state = PokedexState(),
-            onAction = {}
-        )
+        SnapdexBackground {
+            PokedexScreen(
+                paddingValues = PaddingValues(0.dp),
+                state = PokedexState(),
+                onAction = {}
+            )
+        }
     }
 }
