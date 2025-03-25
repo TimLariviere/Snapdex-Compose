@@ -5,6 +5,5 @@ import com.kanoyatech.snapdex.domain.models.Pokemon
 
 data class PokemonDetailState(
     val pokemon: Pokemon? = null,
-    val evolutionChain: EvolutionChain? = null,
-    var isFavorite: Boolean = false
+    val evolutionChain: EvolutionChain? = null
 )

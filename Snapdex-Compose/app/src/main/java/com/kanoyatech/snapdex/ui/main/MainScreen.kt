@@ -132,6 +132,7 @@ fun MainScreen(
                             "com.kanoyatech.snapdex.PokemonDetailsRoute/{pokemonId}" -> false
                             "com.kanoyatech.snapdex.NewNameRoute" -> false
                             "com.kanoyatech.snapdex.NewPasswordRoute" -> false
+                            "com.kanoyatech.snapdex.ChooseAIModelRoute" -> false
                             "com.kanoyatech.snapdex.CreditsRoute" -> false
                             "com.kanoyatech.snapdex.PrivacyPolicyRoute" -> false
                             else -> true

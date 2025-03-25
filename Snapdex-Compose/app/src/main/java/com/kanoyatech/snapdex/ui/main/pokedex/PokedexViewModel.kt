@@ -54,8 +54,8 @@ class PokedexViewModel(
                 null
             } else {
                 allPokemons.filter {
-                    val name = it.name.getOrElse(locale, { "" })
-                    name.contains(searchText)
+                    val name = it.name.getOrElse(locale) { "" }
+                    name.contains(searchText, ignoreCase = true)
                 }
             }
         }

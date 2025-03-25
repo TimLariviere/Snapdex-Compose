@@ -18,8 +18,10 @@ import com.kanoyatech.snapdex.ui.main.pokedex.PokedexScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokedex.PokedexViewModel
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailScreenRoot
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.PokemonDetailViewModel
+import com.kanoyatech.snapdex.ui.main.profile.ProfileAction
 import com.kanoyatech.snapdex.ui.main.profile.ProfileScreenRoot
 import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
+import com.kanoyatech.snapdex.ui.main.profile.choose_aimodel.ChooseAIModelScreenRoot
 import com.kanoyatech.snapdex.ui.main.profile.credits.CreditsScreen
 import com.kanoyatech.snapdex.ui.main.profile.new_name.NewNameScreenRoot
 import com.kanoyatech.snapdex.ui.main.profile.new_name.NewNameViewModel
@@ -136,6 +138,7 @@ fun RootNavigation(
 @Serializable data object NewPasswordRoute
 @Serializable data object CreditsRoute
 @Serializable data object PrivacyPolicyRoute
+@Serializable data object ChooseAIModelRoute
 
 @Composable
 fun TabsNavigation(
@@ -183,6 +186,9 @@ fun TabsNavigation(
                 onChangePasswordClick = {
                     navController.navigate(NewPasswordRoute)
                 },
+                onChangeAIModelClick = {
+                    navController.navigate(ChooseAIModelRoute)
+                },
                 onCreditsClick = {
                     navController.navigate(CreditsRoute)
                 },
@@ -210,6 +216,7 @@ fun TabsNavigation(
             val userFlow = mainState.map { it.user }.filterNotNull()
             val viewModel: NewNameViewModel = koinViewModel { parametersOf(userFlow) }
             NewNameScreenRoot(
+                viewModel = viewModel,
                 onBackClick = {
                     navController.popBackStack()
                 }
@@ -219,6 +226,20 @@ fun TabsNavigation(
         composable<NewPasswordRoute> {
             NewPasswordScreenRoot(
                 onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable<ChooseAIModelRoute> { navBackStackEntry ->
+            val userFlow = mainState.map { it.user }.filterNotNull()
+            val profileViewModel: ProfileViewModel = koinViewModel(viewModelStoreOwner = navBackStackEntry) { parametersOf(userFlow) }
+            ChooseAIModelScreenRoot(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onSaved = { model ->
+                    profileViewModel.onAction(ProfileAction.OnAIModelChange(model))
                     navController.popBackStack()
                 }
             )

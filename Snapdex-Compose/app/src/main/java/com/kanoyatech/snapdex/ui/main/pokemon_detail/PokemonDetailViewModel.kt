@@ -29,8 +29,6 @@ class PokemonDetailViewModel(
 
     fun onAction(action: PokemonDetailAction) {
         when (action) {
-            PokemonDetailAction.OnFavoriteToggleClick ->
-                state = state.copy(isFavorite = !state.isFavorite)
             else -> Unit
         }
     }

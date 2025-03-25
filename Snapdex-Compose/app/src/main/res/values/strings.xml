@@ -109,4 +109,7 @@
     <string name="set_ai_model">Set AI model</string>
     <string name="on_device">On device</string>
     <string name="openai" translatable="false">OpenAI</string>
+    <string name="choose_ai_model">Choose AI Model</string>
+    <string name="openai_api_key">API Key</string>
+    <string name="save">Save</string>
 </resources>

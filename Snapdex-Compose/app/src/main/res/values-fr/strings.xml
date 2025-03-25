@@ -103,4 +103,7 @@
     <string name="choose">Choisir</string>
     <string name="set_ai_model">Choisir modèle IA</string>
     <string name="on_device">Sur téléphone</string>
+    <string name="choose_ai_model">Choisir modèle IA</string>
+    <string name="openai_api_key">Clé API</string>
+    <string name="save">Sauvegarder</string>
 </resources>

@@ -24,15 +24,14 @@ class EncryptedPreferencesRepositoryImpl(
         val base64Bytes = encrypted.toByteArray()
         val encryptedBytes = Base64.decode(base64Bytes)
         val decryptedBytes = Crypto.decrypt(encryptedBytes)
-        val decrypted = decryptedBytes.toString()
+        val decrypted = String(decryptedBytes)
         return decrypted
     }
 
     override suspend fun setOpenAIApiKey(value: String) {
         val decryptedBytes = value.toByteArray()
         val encryptedBytes = Crypto.encrypt(decryptedBytes)
-        val base64Bytes = Base64.encode(encryptedBytes)
-        val encrypted = base64Bytes.toString()
+        val encrypted = Base64.encode(encryptedBytes)
         dataStore.edit { data ->
             data[PreferencesKeys.OPENAI_API_KEY] = encrypted
         }

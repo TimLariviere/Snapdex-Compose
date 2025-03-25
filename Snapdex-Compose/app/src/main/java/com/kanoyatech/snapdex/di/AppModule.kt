@@ -36,6 +36,7 @@ import com.kanoyatech.snapdex.ui.main.profile.ProfileViewModel
 import com.kanoyatech.snapdex.ui.auth.register.RegisterViewModel
 import com.kanoyatech.snapdex.ui.intro.IntroViewModel
 import com.kanoyatech.snapdex.ui.main.MainViewModel
+import com.kanoyatech.snapdex.ui.main.profile.choose_aimodel.ChooseAIModelViewModel
 import com.kanoyatech.snapdex.ui.main.profile.new_name.NewNameViewModel
 import com.kanoyatech.snapdex.ui.main.profile.new_password.NewPasswordViewModel
 import com.kanoyatech.snapdex.ui.main.stats.StatsViewModel
@@ -94,11 +95,12 @@ val uiModule = module {
     viewModelOf(::ForgotPasswordViewModel)
     viewModelOf(::MainViewModel)
     viewModel { parameters -> PokedexViewModel(parameters.get(), get(), get()) }
-    viewModel { parameters -> ProfileViewModel(parameters.get(), get(), get(), androidApplication(), get()) }
+    viewModel { parameters -> ProfileViewModel(parameters.get(), get(), get(), androidApplication(), get(), get()) }
     viewModelOf(::StatsViewModel)
     viewModel { parameters -> PokemonDetailViewModel(parameters.get(), get(), get()) }
     viewModel { parameters -> NewNameViewModel(parameters.get(), get(), get()) }
     viewModelOf(::NewPasswordViewModel)
+    viewModelOf(::ChooseAIModelViewModel)
     singleOf(::AppLocaleManager)
 }
 

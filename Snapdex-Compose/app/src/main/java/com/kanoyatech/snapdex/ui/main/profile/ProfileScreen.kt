@@ -57,6 +57,7 @@ fun ProfileScreenRoot(
     onLoggedOut: () -> Unit,
     onChangeNameClick: () -> Unit,
     onChangePasswordClick: () -> Unit,
+    onChangeAIModelClick: () -> Unit,
     onCreditsClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit
 ) {
@@ -80,6 +81,7 @@ fun ProfileScreenRoot(
             when (action) {
                 ProfileAction.OnChangeNameClick -> onChangeNameClick()
                 ProfileAction.OnChangePasswordClick -> onChangePasswordClick()
+                ProfileAction.OnChangeAIModelClick -> onChangeAIModelClick()
                 ProfileAction.OnCreditsClick -> onCreditsClick()
                 ProfileAction.OnPrivacyPolicyClick -> onPrivacyPolicyClick()
                 else -> Unit
@@ -175,10 +177,6 @@ private fun ProfileScreen(
 
         if (state.showLanguageDialog) {
             LanguageDialog(state.language, onAction)
-        }
-
-        if (state.showAIModelDialog) {
-            AIModelDialog(state.aiModel, onAction)
         }
     }
 }
@@ -376,31 +374,6 @@ private fun AccountDeletionConfirmationDialog(onAction: (ProfileAction) -> Unit)
             onClick = { onAction(ProfileAction.OnAccountDeletionCancel) }
         )
     )
-}
-
-@Composable
-private fun AIModelDialog(
-    aiModel: AIModel,
-    onAction: (ProfileAction) -> Unit
-) {
-    SnapdexDialogPicker(
-        title = stringResource(id = R.string.set_ai_model),
-        buttonText = stringResource(id = R.string.choose),
-        items = listOf(
-            AIModel.EMBEDDED,
-            AIModel.OPENAI
-        ),
-        initialItemSelected = aiModel,
-        onItemSelect = { aiModel -> onAction(ProfileAction.OnAIModelChange(aiModel)) },
-        onDismissRequest = { onAction(ProfileAction.OnAIModelDialogDismiss) },
-    ) { model ->
-        SnapdexText(
-            text = when (model) {
-                AIModel.EMBEDDED -> stringResource(id = R.string.on_device)
-                AIModel.OPENAI -> stringResource(id = R.string.openai)
-            }
-        )
-    }
 }
 
 @Composable

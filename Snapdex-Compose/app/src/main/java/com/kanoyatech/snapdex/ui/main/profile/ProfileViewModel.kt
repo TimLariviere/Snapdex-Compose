@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.AIModel
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
+import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.AppLocaleManager
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,8 @@ class ProfileViewModel(
     private val userRepository: UserRepository,
     private val pokemonRepository: PokemonRepository,
     private val application: Application,
-    private val appLocaleManager: AppLocaleManager
+    private val appLocaleManager: AppLocaleManager,
+    private val preferencesRepository: PreferencesRepository
 ): ViewModel() {
     var state by mutableStateOf(ProfileState())
         private set
@@ -34,6 +36,11 @@ class ProfileViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
+        viewModelScope.launch {
+            val model = preferencesRepository.getAIModel()
+            state = state.copy(aiModel = model)
+        }
+
         userFlow
             .onEach {
                 state = state.copy(user = it)
@@ -64,13 +71,8 @@ class ProfileViewModel(
                 state = state.copy(showAccountDeletionDialog = false)
                 deleteAccount()
             }
-
-            ProfileAction.OnChangeAIModelClick -> {
-                state = state.copy(showAIModelDialog = true)
-            }
-            is ProfileAction.OnAIModelChange -> changeAIModel(action.aiModel)
-            ProfileAction.OnAIModelDialogDismiss -> {
-                state = state.copy(showAIModelDialog = false)
+            is ProfileAction.OnAIModelChange -> {
+                state = state.copy(aiModel = action.aiModel)
             }
 
             ProfileAction.OnChangeLanguageClick -> {
@@ -111,9 +113,5 @@ class ProfileViewModel(
             state = state.copy(language = locale, showLanguageDialog = false)
             appLocaleManager.changeLanguage(application, locale.language)
         }
-    }
-
-    private fun changeAIModel(aiModel: AIModel) {
-        state = state.copy(aiModel = aiModel, showAIModelDialog = false)
     }
 }

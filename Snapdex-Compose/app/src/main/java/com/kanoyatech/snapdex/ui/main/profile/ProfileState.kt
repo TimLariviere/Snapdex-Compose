@@ -10,6 +10,5 @@ data class ProfileState(
     val aiModel: AIModel = AIModel.EMBEDDED,
     val showProgressResetDialog: Boolean = false,
     val showAccountDeletionDialog: Boolean = false,
-    val showLanguageDialog: Boolean = false,
-    val showAIModelDialog: Boolean = false
+    val showLanguageDialog: Boolean = false
 )

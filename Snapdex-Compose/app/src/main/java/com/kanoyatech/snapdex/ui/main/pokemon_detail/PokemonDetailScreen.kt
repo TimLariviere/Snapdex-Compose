@@ -16,23 +16,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.models.EvolutionChain
-import com.kanoyatech.snapdex.domain.units.Length
-import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.PokemonAbility
 import com.kanoyatech.snapdex.domain.models.PokemonCategory
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.models.PokemonType
+import com.kanoyatech.snapdex.domain.units.Length
+import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.units.Weight
 import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.domain.units.m
@@ -44,14 +42,14 @@ import com.kanoyatech.snapdex.theme.designsystem.GifImage
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexProgressIndicator
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexText
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.ui.TypeUi
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexToolbar
-import com.kanoyatech.snapdex.ui.utils.formatted
-import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.TypeTag
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.DataCardItem
-import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.RatioBar
-import com.kanoyatech.snapdex.ui.utils.largeImageId
 import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.EvolutionChainView
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.RatioBar
+import com.kanoyatech.snapdex.ui.main.pokemon_detail.components.TypeTag
+import com.kanoyatech.snapdex.ui.utils.formatted
+import com.kanoyatech.snapdex.ui.utils.largeImageId
 import com.kanoyatech.snapdex.ui.utils.translated
 import java.util.Locale
 
@@ -82,14 +80,9 @@ private fun PokemonDetailScreen(
 ) {
     SnapdexScaffold(
         topBar = {
-            SnapdexToolbar(
-                isFavorite = state.isFavorite,
-                onBackClick = {
-                    onAction(PokemonDetailAction.OnBackClick)
-                },
-                onFavoriteClick = {
-                    onAction(PokemonDetailAction.OnFavoriteToggleClick)
-                }
+            SnapdexTopAppBar(
+                title = "",
+                onBackClick = { onAction(PokemonDetailAction.OnBackClick) }
             )
         }
     ) { paddingValues ->
@@ -374,8 +367,7 @@ private fun PokemonDetailsScreenPreview() {
         PokemonDetailScreen(
             state = PokemonDetailState(
                 pokemon = pokemon,
-                evolutionChain = evolutionChain,
-                isFavorite = false
+                evolutionChain = evolutionChain
             ),
             onAction = {}
         )

@@ -17,7 +17,6 @@ sealed interface ProfileAction {
 
     object OnChangeAIModelClick : ProfileAction
     data class OnAIModelChange(val aiModel: AIModel): ProfileAction
-    object OnAIModelDialogDismiss: ProfileAction
 
     object OnChangeLanguageClick : ProfileAction
     data class OnLanguageChange(val language: Locale): ProfileAction
