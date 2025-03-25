@@ -63,7 +63,7 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
         run: |
           curl -sL https://firebase.tools | bash
-          ./firebase appdistribution:distribute Snapdex-Compose/app/build/outputs/bundle/release/app-release.aab \
+          firebase appdistribution:distribute Snapdex-Compose/app/build/outputs/bundle/release/app-release.aab \
             --app snapdex-64209 \
             --groups testers \
             --release-notes "Automated build from GitHub Actions"
