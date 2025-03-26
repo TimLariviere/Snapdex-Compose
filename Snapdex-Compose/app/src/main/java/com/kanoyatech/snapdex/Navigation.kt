@@ -169,7 +169,6 @@ fun TabsNavigation(
     navController: NavHostController,
     paddingValues: PaddingValues,
     mainState: StateFlow<MainState>,
-    onPokemonCatch: (PokemonId) -> Unit,
     onLoggedOut: () -> Unit
 ) {
     DisposableEffect(navController) {
@@ -201,9 +200,6 @@ fun TabsNavigation(
                 paddingValues = paddingValues,
                 onPokemonClick = { pokemonId ->
                     navController.navigate(PokemonDetailsRoute(pokemonId = pokemonId))
-                },
-                onPokemonCatch = { pokemonId ->
-                    onPokemonCatch(pokemonId)
                 }
             )
         }

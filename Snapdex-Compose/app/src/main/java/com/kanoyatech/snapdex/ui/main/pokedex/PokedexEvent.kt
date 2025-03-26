@@ -1,7 +1,7 @@
 package com.kanoyatech.snapdex.ui.main.pokedex
 
-import com.kanoyatech.snapdex.domain.models.PokemonId
+import com.kanoyatech.snapdex.ui.UiText
 
 sealed interface PokedexEvent {
-    data class OnPokemonCatch(val pokemonId: PokemonId): PokedexEvent
+    data class Error(val error: UiText): PokedexEvent
 }

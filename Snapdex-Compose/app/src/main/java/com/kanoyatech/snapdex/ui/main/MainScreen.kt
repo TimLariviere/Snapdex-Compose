@@ -38,21 +38,13 @@ fun MainScreenRoot(
     viewModel: MainViewModel = koinViewModel(),
     onLoggedOut: () -> Unit
 ) {
-    val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        viewModel.initialize(context.getLocale())
-    }
-
     MainScreen(
         analytics = analytics,
         stateFlow = viewModel.state,
         onAction = { action ->
             when (action) {
                 MainAction.OnLoggedOut -> onLoggedOut()
-                else -> Unit
             }
-
-            viewModel.onAction(action)
         }
     )
 }
@@ -92,9 +84,6 @@ fun MainScreen(
                     navController = navController,
                     paddingValues = adjustedPaddingValues,
                     mainState = stateFlow,
-                    onPokemonCatch = { pokemonId ->
-                        onAction(MainAction.OnPokemonCatch(pokemonId))
-                    },
                     onLoggedOut = {
                         onAction(MainAction.OnLoggedOut)
                     }

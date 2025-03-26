@@ -1,7 +1,9 @@
 package com.kanoyatech.snapdex.data.repositories
 
-import android.util.Log
+import android.os.Bundle
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kanoyatech.snapdex.data.local.dao.PokemonDao
 import com.kanoyatech.snapdex.data.local.dao.UserPokemonDao
 import com.kanoyatech.snapdex.data.local.entities.SyncStatus
@@ -16,10 +18,13 @@ import com.kanoyatech.snapdex.domain.repositories.CatchPokemonError
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.utils.Retry
 import com.kanoyatech.snapdex.utils.TypedResult
+import com.kanoyatech.snapdex.utils.recordExceptionWithKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class PokemonRepositoryImpl(
+    private val analytics: FirebaseAnalytics,
+    private val crashlytics: FirebaseCrashlytics,
     private val localUserPokemons: UserPokemonDao,
     private val remoteUserPokemons: RemoteUserPokemonDataSource,
     private val localPokemons: PokemonDao
@@ -66,30 +71,45 @@ class PokemonRepositoryImpl(
             retryIf = { it is FirebaseNetworkException }
         )
 
-        val remoteExists = remoteExistsResult.getOrNull() ?: false
+        remoteExistsResult.exceptionOrNull()?.let { exception ->
+            if (exception !is FirebaseNetworkException) {
+                crashlytics.recordExceptionWithKeys(exception, mapOf(
+                    "userId" to userId,
+                    "pokemonId" to pokemonId.toString()
+                ))
+            }
+        }
+
+        val remoteExists = remoteExistsResult.getOrNull() == true
         if (!remoteExists) {
             val result = Retry.execute(
                 body = { remoteUserPokemons.insert(userPokemonRemoteEntity) },
                 retryIf = { it is FirebaseNetworkException }
             )
 
-            if (result.isFailure) {
-                val e = result.exceptionOrNull()!!
-                Log.d("Firestore", "Error while inserting UserPokemon: $e")
+            result.exceptionOrNull()?.let { exception ->
+                analytics.logEvent("catch_error", Bundle().apply {
+                    putString("userId", userId)
+                    putString("pokemonId", pokemonId.toString())
+                })
             }
         }
 
         return TypedResult.Success(Unit)
     }
 
-    override suspend fun resetForUser(userId: UserId): TypedResult<Unit, Unit> {
-        Retry.execute(
+    override suspend fun resetForUser(userId: UserId) {
+        localUserPokemons.deleteAllForUser(userId)
+
+        val result = Retry.execute(
             body = { remoteUserPokemons.deleteAllForUser(userId) },
             retryIf = { it is FirebaseNetworkException }
         )
 
-        localUserPokemons.deleteAllForUser(userId)
-
-        return TypedResult.Success(Unit)
+        result.exceptionOrNull()?.let { exception ->
+            crashlytics.recordExceptionWithKeys(exception, mapOf(
+                "userId" to userId
+            ))
+        }
     }
 }

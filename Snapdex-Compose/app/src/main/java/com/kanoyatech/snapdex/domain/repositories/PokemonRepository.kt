@@ -7,12 +7,12 @@ import com.kanoyatech.snapdex.utils.TypedResult
 import kotlinx.coroutines.flow.Flow
 
 sealed interface CatchPokemonError {
-    object UnknownReason: CatchPokemonError
+    object CatchFailed: CatchPokemonError
 }
 
 interface PokemonRepository {
     fun getPokemonsCaughtByUser(userId: UserId): Flow<List<Pokemon>>
     suspend fun getPokemonById(pokemonId: PokemonId): Pokemon?
     suspend fun catchPokemon(userId: UserId, pokemonId: PokemonId): TypedResult<Unit, CatchPokemonError>
-    suspend fun resetForUser(id: UserId): TypedResult<Unit, Unit>
+    suspend fun resetForUser(id: UserId)
 }

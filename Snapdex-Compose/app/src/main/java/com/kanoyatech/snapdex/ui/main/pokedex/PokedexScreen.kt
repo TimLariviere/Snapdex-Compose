@@ -3,6 +3,7 @@ package com.kanoyatech.snapdex.ui.main.pokedex
 import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,13 +50,12 @@ import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexFloatingActionButton
 import com.kanoyatech.snapdex.theme.designsystem.search.SnapdexSearchView
-import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.main.pokedex.components.RecognitionOverlay
-import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SmallTypeBadge
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import com.kanoyatech.snapdex.ui.utils.getLocale
+import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.utils.translated
 import org.koin.androidx.compose.koinViewModel
 
@@ -63,23 +63,25 @@ import org.koin.androidx.compose.koinViewModel
 fun PokedexScreenRoot(
     paddingValues: PaddingValues,
     viewModel: PokedexViewModel = koinViewModel(),
-    onPokemonClick: (PokemonId) -> Unit,
-    onPokemonCatch: (PokemonId) -> Unit
+    onPokemonClick: (PokemonId) -> Unit
 ) {
     val context = LocalContext.current
-    LaunchedEffect(true) {
-        viewModel.initialize(context)
-    }
-
     val configuration = LocalConfiguration.current
     val locale = configuration.getLocale()
+
     LaunchedEffect(locale) {
         viewModel.locale = locale
     }
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
-            is PokedexEvent.OnPokemonCatch -> onPokemonCatch(event.pokemonId)
+            is PokedexEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

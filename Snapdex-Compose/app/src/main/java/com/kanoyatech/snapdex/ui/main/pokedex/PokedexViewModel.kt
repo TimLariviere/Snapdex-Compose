@@ -8,10 +8,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.Pokemon
+import com.kanoyatech.snapdex.domain.models.User
+import com.kanoyatech.snapdex.domain.repositories.CatchPokemonError
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
+import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.main.pokedex.components.PokemonCaught
+import com.kanoyatech.snapdex.utils.TypedResult
 import com.kanoyatech.snapdex.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -27,6 +32,7 @@ import java.util.Locale
 
 @OptIn(FlowPreview::class)
 class PokedexViewModel(
+    userFlow: Flow<User>,
     pokemonsFlow: Flow<List<Pokemon>>,
     private val classifier: Classifier,
     private val pokemonRepository: PokemonRepository
@@ -42,6 +48,11 @@ class PokedexViewModel(
     init {
         val searchFlow = state.searchState.text.textAsFlow()
             .debounce(300L)
+
+        userFlow
+            .onEach {
+                state = state.copy(user = it)
+            }
 
         val pokemonsFlow_ = pokemonsFlow
             .onEach { pokemons ->
@@ -91,6 +102,8 @@ class PokedexViewModel(
 
     private fun recognizePokemon(bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
+            val userId = state.user?.id ?: return@launch
+
             state = state.copy(
                 showRecognitionOverlay = true,
                 isRecognizing = true,
@@ -100,13 +113,24 @@ class PokedexViewModel(
             var lastCaught: PokemonCaught? = null
             val pokemonId = classifier.classify(bitmap)
             if (pokemonId != null) {
-                eventChannel.send(PokedexEvent.OnPokemonCatch(pokemonId))
+                val result = pokemonRepository.catchPokemon(userId, pokemonId)
 
-                val pokemon = pokemonRepository.getPokemonById(pokemonId)!!
-                lastCaught = PokemonCaught(
-                    id = pokemon.id,
-                    name = pokemon.name
-                )
+                when (result) {
+                    is TypedResult.Error -> {
+                        val message =
+                            when (result.error) {
+                                is CatchPokemonError.CatchFailed -> UiText.StringResource(id = R.string.catch_failed)
+                            }
+                        eventChannel.send(PokedexEvent.Error(message))
+                    }
+                    is TypedResult.Success -> {
+                        val pokemon = pokemonRepository.getPokemonById(pokemonId)!!
+                        lastCaught = PokemonCaught(
+                            id = pokemon.id,
+                            name = pokemon.name
+                        )
+                    }
+                }
             }
 
             state = state.copy(

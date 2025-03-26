@@ -105,4 +105,25 @@
     <string name="choose_ai_model">Choisir modèle IA</string>
     <string name="openai_api_key">Clé API</string>
     <string name="save">Sauvegarder</string>
+    <string name="you_missed_it">Ah, il n\'y rien ici...</string>
+    <string name="could_not_find_pokemon">Il n\'y a aucun pokémon dans cette image.\nTu as dû le manquer!</string>
+    <string name="could_not_find_pokemon">I</string>
+    <string name="try_again">Essayes encore</string>
+    <string name="try_again">E</string>
+    <string name="recognizing">Capture de Pokémon en cours...</string>
+    <string name="completion">Taux de complétion</string>
+    <string name="pokemons_captured">%d/%d pokémons capturés</string>
+    <string name="captured">%d/%d capturés</string>
+    <string name="captured">%Y</string>
+    <string name="captured">%Y</string>
+    <string name="send_password_reset_no_such_email">Pas de compte avec cet email</string>
+    <string name="send_password_reset_invalid_email">Format d\'email invalide</string>
+    <string name="register_invalid_email">Format d\'email invalide</string>
+    <string name="register_invalid_email">F</string>
+    <string name="register_invalid_password">Mot de passe trop faible</string>
+    <string name="delete_user_failed">Echec de la suppression de compte</string>
+    <string name="change_password_invalid_old_password">Ancien mot de passe invalide</string>
+    <string name="change_password_invalid_new_password">Nouveau mot de passe trop faible</string>
+    <string name="change_password_failed">Echec du changement de mot de passe</string>
+    <string name="catch_failed">Echec de la capture du pokémon</string>
 </resources>

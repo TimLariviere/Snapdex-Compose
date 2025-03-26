@@ -117,7 +117,7 @@
     <string name="recognizing">Capturing pokemon…</string>
     <string name="completion">Completion</string>
     <string name="pokemons_captured">%d/%d pokemons captured</string>
-    <string name="percentage">%d%%</string>
+    <string name="percentage" translatable="false">%d%%</string>
     <string name="captured">%d/%d captured</string>
     <string name="send_password_reset_no_such_email">No such email exists</string>
     <string name="send_password_reset_invalid_email">Invalid email format</string>
@@ -127,4 +127,5 @@
     <string name="change_password_invalid_old_password">Old password is invalid</string>
     <string name="change_password_invalid_new_password">New password is too weak</string>
     <string name="change_password_failed">Failed to change password</string>
+    <string name="catch_failed">Failed to catch the pokemon</string>
 </resources>
