@@ -180,23 +180,22 @@ let copyDatabase () =
 let typeToInt(typ: string) =
     match typ with
     | "bug" -> 0
-    | "dark" -> 1
-    | "dragon" -> 2
-    | "electric" -> 3
-    | "fairy" -> 4
-    | "fighting" -> 5
-    | "fire" -> 6
-    | "flying" -> 7
-    | "ghost" -> 8
-    | "grass" -> 9
-    | "ground" -> 10
-    | "ice" -> 11
-    | "normal" -> 12
-    | "poison" -> 13
-    | "psychic" -> 14
-    | "rock" -> 15
-    | "steel" -> 16
-    | "water" -> 17
+    | "dragon" -> 1
+    | "electric" -> 2
+    | "fairy" -> 3
+    | "fighting" -> 4
+    | "fire" -> 5
+    | "flying" -> 6
+    | "ghost" -> 7
+    | "grass" -> 8
+    | "ground" -> 9
+    | "ice" -> 10
+    | "normal" -> 11
+    | "poison" -> 12
+    | "psychic" -> 13
+    | "rock" -> 14
+    | "steel" -> 15
+    | "water" -> 16
     | _ -> 0
     
     
@@ -370,7 +369,8 @@ task {
             db.Execute("INSERT INTO Pokemons(id, weight, height, categoryId, abilityId, maleToFemaleRatio) VALUES(?, ?, ?, ?, ?, ?)", data.id, data.weight, data.height, categoryId, abilityId, 0.875) |> ignore
             
             // Insert types
-            for t in data.types do
+            let filteredTypes = data.types |> List.filter(fun x -> x.type_.name <> "dark") // dark is gen 2+ only
+            for t in filteredTypes do
                 let typeId = typeToInt t.type_.name
                 db.Execute("INSERT INTO PokemonTypes(pokemonId, type) VALUES(?, ?)", data.id, typeId) |> ignore
             

@@ -1,12 +1,16 @@
 package com.kanoyatech.snapdex
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordScreenRoot
 import com.kanoyatech.snapdex.ui.auth.login.LoginScreenRoot
@@ -28,6 +32,7 @@ import com.kanoyatech.snapdex.ui.main.profile.new_name.NewNameViewModel
 import com.kanoyatech.snapdex.ui.main.profile.new_password.NewPasswordScreenRoot
 import com.kanoyatech.snapdex.ui.main.profile.privacy_policy.PrivacyPolicyScreen
 import com.kanoyatech.snapdex.ui.main.stats.StatsScreenRoot
+import com.kanoyatech.snapdex.ui.main.stats.StatsViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -46,10 +51,28 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun RootNavigation(
+    analytics: FirebaseAnalytics,
     navController: NavHostController,
     hasSeenIntro: Boolean,
     isLoggedIn: Boolean
 ) {
+    DisposableEffect(navController) {
+        val listener = NavController.OnDestinationChangedListener { _, destination, params ->
+            analytics.logEvent("root_navigation", Bundle().apply {
+                putString("page_name", destination.route ?: "unknown")
+                if (params != null) {
+                    putAll(params)
+                }
+            })
+        }
+
+        navController.addOnDestinationChangedListener(listener)
+
+        onDispose {
+            navController.removeOnDestinationChangedListener(listener)
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = when {
@@ -142,12 +165,30 @@ fun RootNavigation(
 
 @Composable
 fun TabsNavigation(
+    analytics: FirebaseAnalytics,
     navController: NavHostController,
     paddingValues: PaddingValues,
     mainState: StateFlow<MainState>,
     onPokemonCatch: (PokemonId) -> Unit,
     onLoggedOut: () -> Unit
 ) {
+    DisposableEffect(navController) {
+        val listener = NavController.OnDestinationChangedListener { _, destination, params ->
+            analytics.logEvent("tabs_navigation", Bundle().apply {
+                putString("page_name", destination.route ?: "unknown")
+                if (params != null) {
+                    putAll(params)
+                }
+            })
+        }
+
+        navController.addOnDestinationChangedListener(listener)
+
+        onDispose {
+            navController.removeOnDestinationChangedListener(listener)
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = PokedexTabRoute
@@ -168,7 +209,10 @@ fun TabsNavigation(
         }
 
         composable<StatsTabRoute> {
+            val userFlow = mainState.map { it.user }.filterNotNull()
+            val viewModel: StatsViewModel = koinViewModel { parametersOf(userFlow) }
             StatsScreenRoot(
+                viewModel = viewModel,
                 paddingValues = paddingValues
             )
         }

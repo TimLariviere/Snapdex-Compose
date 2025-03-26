@@ -1,28 +1,22 @@
 package com.kanoyatech.snapdex.ui.main.stats
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -39,7 +33,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.models.PokemonType
+import com.kanoyatech.snapdex.domain.models.Statistic
+import com.kanoyatech.snapdex.domain.units.Percentage
+import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
@@ -61,7 +59,6 @@ fun StatsScreenRoot(
     )
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun StatsScreen(
     paddingValues: PaddingValues,
@@ -78,36 +75,19 @@ private fun StatsScreen(
                 .pagePadding(),
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            Column {
-                OverallProgress()
-            }
-
-            BoxWithConstraints {
-                val maxWidth = with(LocalDensity.current) { constraints.maxWidth.toDp() }
-                val itemWidth = (maxWidth - 16.dp) / 2
-
-                FlowRow(
-                    maxItemsInEachRow = 2,
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    PokemonType.entries.forEach { type ->
-                        TypeProgress(
-                            type = type,
-                            progress = 0.75f,
-                            modifier = Modifier
-                                .width(itemWidth)
-                                .aspectRatio(1f)
-                        )
-                    }
-                }
-            }
+            OverallProgress(state.overallCompletion)
+            ProgressByType(state.completionByType)
         }
     }
 }
 
 @Composable
-private fun OverallProgress() {
+private fun OverallProgress(
+    statistic: Statistic
+) {
+    val completionRate = statistic.caughtPokemonCount.toFloat() / statistic.totalPokemonCount
+    val completionRateInt = (completionRate * 100).toInt()
+
     Box(
         modifier = Modifier
             .clip(SnapdexTheme.shapes.regular)
@@ -120,23 +100,23 @@ private fun OverallProgress() {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Completion",
+                text = stringResource(id = R.string.completion),
                 style = SnapdexTheme.typography.heading3,
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "75%",
+                text = stringResource(id = R.string.percentage, completionRateInt),
                 style = SnapdexTheme.typography.heading1,
                 textAlign = TextAlign.Center
             )
             SnapdexLinearGraph(
-                progress = 0.75f,
+                progress = completionRate,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(32.dp)
             )
             Text(
-                text = "113/151 pokemons captured",
+                text = stringResource(id = R.string.pokemons_captured, statistic.caughtPokemonCount, statistic.totalPokemonCount),
                 style = SnapdexTheme.typography.paragraph,
                 textAlign = TextAlign.Center
             )
@@ -144,9 +124,37 @@ private fun OverallProgress() {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-private fun TypeProgress(type: PokemonType, progress: Float, modifier: Modifier = Modifier) {
+private fun ProgressByType(statistics: Map<PokemonType, Statistic>) {
+    BoxWithConstraints {
+        val maxWidth = with(LocalDensity.current) { constraints.maxWidth.toDp() }
+        val itemWidth = (maxWidth - 16.dp) / 2
+
+        FlowRow(
+            maxItemsInEachRow = 2,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            PokemonType.entries.forEach { type ->
+                TypeProgress(
+                    type = type,
+                    statistic = statistics[type]!!,
+                    modifier = Modifier
+                        .width(itemWidth)
+                        .aspectRatio(1f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun TypeProgress(type: PokemonType, statistic: Statistic, modifier: Modifier = Modifier) {
     val typeUi = TypeUi.fromType(type)
+    val completionRate = statistic.caughtPokemonCount.toFloat() / statistic.totalPokemonCount
+    val completionRateInt = (completionRate * 100).toInt()
 
     Box(
         modifier = modifier
@@ -184,13 +192,13 @@ private fun TypeProgress(type: PokemonType, progress: Float, modifier: Modifier 
                     .weight(1f)
             ) {
                 SnapdexCircleGraph(
-                    progress = progress,
+                    progress = completionRate,
                     width = 24.dp,
                     modifier = Modifier
                         .fillMaxSize()
                 )
                 Text(
-                    text = "75%",
+                    text = stringResource(id = R.string.percentage, completionRateInt),
                     style = SnapdexTheme.typography.heading3.copy(
                         fontSize = 28.sp
                     )
@@ -198,7 +206,7 @@ private fun TypeProgress(type: PokemonType, progress: Float, modifier: Modifier 
             }
 
             Text(
-                text = "113/151 captured",
+                text = stringResource(id = R.string.captured, statistic.caughtPokemonCount, statistic.totalPokemonCount),
                 style = SnapdexTheme.typography.smallLabel
             )
         }

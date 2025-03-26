@@ -21,11 +21,6 @@ data class TypeUi(
                         color = TypeColor.Bug,
                         image = R.drawable.type_bug
                     )
-                    PokemonType.DARK -> TypeUi(
-                        name = R.string.type_dark,
-                        color = TypeColor.Dark,
-                        image = R.drawable.type_dark
-                    )
                     PokemonType.DRAGON -> TypeUi(
                         name = R.string.type_dragon,
                         color = TypeColor.Dragon,

@@ -20,7 +20,6 @@ data object TypeColor {
     val Rock = Color(0xFFC5B78C)
     val Ghost = Color(0xFF5269AD)
     val Dragon = Color(0xFF0B6DC3)
-    val Dark = Color(0xFF5A5465)
     val Steel = Color(0xFF5A8EA2)
     val Fairy = Color(0xFFEC8FE6)
 

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.kanoyatech.snapdex.PokedexTabRoute
 import com.kanoyatech.snapdex.ProfileTabRoute
 import com.kanoyatech.snapdex.StatsTabRoute
@@ -29,9 +30,11 @@ import com.kanoyatech.snapdex.theme.designsystem.TabItem
 import com.kanoyatech.snapdex.ui.utils.getLocale
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun MainScreenRoot(
+    analytics: FirebaseAnalytics = koinInject(),
     viewModel: MainViewModel = koinViewModel(),
     onLoggedOut: () -> Unit
 ) {
@@ -41,6 +44,7 @@ fun MainScreenRoot(
     }
 
     MainScreen(
+        analytics = analytics,
         stateFlow = viewModel.state,
         onAction = { action ->
             when (action) {
@@ -55,6 +59,7 @@ fun MainScreenRoot(
 
 @Composable
 fun MainScreen(
+    analytics: FirebaseAnalytics,
     stateFlow: StateFlow<MainState>,
     onAction: (MainAction) -> Unit
 ) {
@@ -83,6 +88,7 @@ fun MainScreen(
                     .fillMaxSize()
             ) {
                 TabsNavigation(
+                    analytics = analytics,
                     navController = navController,
                     paddingValues = adjustedPaddingValues,
                     mainState = stateFlow,
@@ -129,13 +135,10 @@ fun MainScreen(
                     ),
                     shouldShowNavBar = {
                         when (currentDestination?.route) {
-                            "com.kanoyatech.snapdex.PokemonDetailsRoute/{pokemonId}" -> false
-                            "com.kanoyatech.snapdex.NewNameRoute" -> false
-                            "com.kanoyatech.snapdex.NewPasswordRoute" -> false
-                            "com.kanoyatech.snapdex.ChooseAIModelRoute" -> false
-                            "com.kanoyatech.snapdex.CreditsRoute" -> false
-                            "com.kanoyatech.snapdex.PrivacyPolicyRoute" -> false
-                            else -> true
+                            "com.kanoyatech.snapdex.PokedexTabRoute" -> true
+                            "com.kanoyatech.snapdex.StatsTabRoute" -> true
+                            "com.kanoyatech.snapdex.ProfileTabRoute" -> true
+                            else -> false
                         }
                     },
                     modifier = Modifier

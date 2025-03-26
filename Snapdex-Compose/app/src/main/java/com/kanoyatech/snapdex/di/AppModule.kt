@@ -21,6 +21,7 @@ import com.kanoyatech.snapdex.data.repositories.UserRepositoryImpl
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.data.classifiers.TensorflowClassifier
 import com.kanoyatech.snapdex.data.repositories.EncryptedPreferencesRepositoryImpl
+import com.kanoyatech.snapdex.data.repositories.StatisticsRepositoryImpl
 import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.ClassifierFactory
 import com.kanoyatech.snapdex.domain.UserDataValidator
@@ -28,6 +29,7 @@ import com.kanoyatech.snapdex.domain.repositories.EncryptedPreferencesRepository
 import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
+import com.kanoyatech.snapdex.domain.repositories.StatisticsRepository
 import com.kanoyatech.snapdex.ui.AppLocaleManager
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
 import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
@@ -68,6 +70,7 @@ val dataLocalModule = module {
     single { get<SnapdexDatabase>().evolutionChainDao }
     single { get<SnapdexDatabase>().userDao }
     single { get<SnapdexDatabase>().userPokemonDao }
+    single { get<SnapdexDatabase>().statisticDao }
 }
 
 val dataRemoteModule = module {
@@ -87,6 +90,7 @@ val dataModule = module {
     singleOf(::UserRepositoryImpl).bind<UserRepository>()
     singleOf(::PokemonRepositoryImpl).bind<PokemonRepository>()
     singleOf(::EvolutionChainRepositoryImpl).bind<EvolutionChainRepository>()
+    singleOf(::StatisticsRepositoryImpl).bind<StatisticsRepository>()
 }
 
 val uiModule = module {

@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.kanoyatech.snapdex.data.local.dao.EvolutionChainDao
 import com.kanoyatech.snapdex.data.local.dao.PokemonDao
+import com.kanoyatech.snapdex.data.local.dao.StatisticDao
 import com.kanoyatech.snapdex.data.local.dao.UserDao
 import com.kanoyatech.snapdex.data.local.dao.UserPokemonDao
 import com.kanoyatech.snapdex.data.local.entities.AbilityEntity
@@ -39,4 +40,5 @@ abstract class SnapdexDatabase: RoomDatabase() {
     abstract val evolutionChainDao: EvolutionChainDao
     abstract val userDao: UserDao
     abstract val userPokemonDao: UserPokemonDao
+    abstract val statisticDao: StatisticDao
 }

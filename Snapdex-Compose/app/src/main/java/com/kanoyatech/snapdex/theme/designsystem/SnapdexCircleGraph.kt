@@ -48,7 +48,7 @@ fun SnapdexCircleGraph(
         drawArc(
             color = outlineColor,
             startAngle = 180f,
-            sweepAngle = 360f * progress,
+            sweepAngle = 360f,
             useCenter = false,
             topLeft = rect.topLeft,
             size = rect.size,

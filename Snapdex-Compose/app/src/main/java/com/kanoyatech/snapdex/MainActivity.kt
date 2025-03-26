@@ -13,8 +13,10 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.kanoyatech.snapdex.theme.AppTheme
 import org.koin.android.ext.android.inject
+import org.koin.compose.koinInject
 
 @Composable
 fun SetStatusBarColor() {
@@ -24,8 +26,6 @@ fun SetStatusBarColor() {
     if (!view.isInEditMode) {
         SideEffect {
             val window = (context as Activity).window
-            window.statusBarColor = Color.TRANSPARENT
-
             val wic = WindowInsetsControllerCompat(window, view)
             wic.isAppearanceLightStatusBars = true
         }
@@ -51,8 +51,10 @@ class MainActivity: ComponentActivity() {
 
             AppTheme {
                 if (!viewModel.state.isLoading) {
+                    val analytics = koinInject<FirebaseAnalytics>()
                     val navHostController = rememberNavController()
                     RootNavigation(
+                        analytics = analytics,
                         navController = navHostController,
                         hasSeenIntro = viewModel.state.hasSeenIntro,
                         isLoggedIn = viewModel.state.isLoggedIn

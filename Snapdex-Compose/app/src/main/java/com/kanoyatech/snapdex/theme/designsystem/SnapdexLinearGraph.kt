@@ -20,6 +20,8 @@ fun SnapdexLinearGraph(
     progress: Float,
     modifier: Modifier = Modifier
 ) {
+    val progress2 = progress.coerceAtLeast(0.01f)
+
     Row(
         modifier = modifier
             .clip(SnapdexTheme.shapes.small)
@@ -33,11 +35,11 @@ fun SnapdexLinearGraph(
         Box(
             modifier = Modifier
                 .fillMaxHeight()
-                .weight(progress)
+                .weight(progress2)
                 .background(color = SnapdexTheme.colorScheme.primary)
         )
 
-        Spacer(modifier = Modifier.weight(1f - progress))
+        Spacer(modifier = Modifier.weight(1f - progress2))
     }
 }
 

@@ -5,13 +5,14 @@ import com.kanoyatech.snapdex.domain.PokemonWeaknessCalculator
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.PokemonAbility
 import com.kanoyatech.snapdex.domain.models.PokemonCategory
+import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
 import java.util.Locale
 
 fun PokemonWithRelations.toPokemon(): Pokemon {
-    val types = types.map { it.toType() }
+    val types = types.map { PokemonType.fromInt(it.type) }
     return Pokemon(
         id = pokemon.id,
         name = translations.associate { Locale.forLanguageTag(it.language) to it.name },
