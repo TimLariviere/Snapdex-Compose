@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.domain.models.User
+import com.kanoyatech.snapdex.domain.repositories.ChangeNameError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.utils.TypedResult
@@ -71,7 +72,12 @@ class NewNameViewModel(
 
             when (result) {
                 is TypedResult.Error -> {
-                    eventChannel.send(NewNameEvent.Error(UiText.StringResource(R.string.could_not_change_name)))
+                    val message =
+                        when (result.error) {
+                            is ChangeNameError.ChangeFailed -> UiText.StringResource(R.string.could_not_change_name)
+                        }
+
+                    eventChannel.send(NewNameEvent.Error(message))
                 }
                 is TypedResult.Success -> {
                     eventChannel.send(NewNameEvent.NameChanged)

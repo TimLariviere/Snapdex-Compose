@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.UserDataValidator
+import com.kanoyatech.snapdex.domain.repositories.ChangePasswordError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.utils.TypedResult
@@ -79,7 +80,14 @@ class NewPasswordViewModel(
 
             when (result) {
                 is TypedResult.Error -> {
-                    eventChannel.send(NewPasswordEvent.Error(UiText.StringResource(R.string.could_not_change_password)))
+                    val message =
+                        when (result.error) {
+                            is ChangePasswordError.InvalidOldPassword -> UiText.StringResource(id = R.string.change_password_invalid_old_password)
+                            is ChangePasswordError.InvalidNewPassword -> UiText.StringResource(id = R.string.change_password_invalid_new_password)
+                            is ChangePasswordError.UpdatePasswordFailed -> UiText.StringResource(id = R.string.change_password_failed)
+                        }
+
+                    eventChannel.send(NewPasswordEvent.Error(message))
                 }
                 is TypedResult.Success -> {
                     eventChannel.send(NewPasswordEvent.PasswordChanged)

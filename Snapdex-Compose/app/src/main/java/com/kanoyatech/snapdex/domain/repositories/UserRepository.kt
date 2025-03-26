@@ -6,27 +6,35 @@ import com.kanoyatech.snapdex.utils.TypedResult
 import kotlinx.coroutines.flow.Flow
 
 sealed interface RegisterError {
-    data object EmailAlreadyUsed: RegisterError
-    data object UnknownReason: RegisterError
+    object AccountCreationFailed: RegisterError
+    object InvalidPassword: RegisterError
+    object InvalidEmail: RegisterError
+    object EmailAlreadyUsed: RegisterError
 }
 
 sealed interface LoginError {
-    data object UnknownReason: LoginError
-    data object UserNotFoundInRemote : LoginError
-    data object InvalidCredentials : LoginError
+    object LoginFailed : LoginError
+    object InvalidCredentials : LoginError
 }
 
 sealed interface SendPasswordResetEmailError {
-    data object UnknownReason: SendPasswordResetEmailError
+    object NoSuchEmail : SendPasswordResetEmailError
+    object InvalidEmail : SendPasswordResetEmailError
+    object SendFailed : SendPasswordResetEmailError
 }
 
-sealed interface LogoutError {
+sealed interface DeleteCurrentUserError {
+    object DeleteFailed : DeleteCurrentUserError
+}
 
+sealed interface ChangeNameError {
+    object ChangeFailed : ChangeNameError
 }
 
 sealed interface ChangePasswordError {
-    object UnknownReason: ChangePasswordError
-    object ReauthenticationFailed: ChangePasswordError
+    object InvalidOldPassword : ChangePasswordError
+    object InvalidNewPassword : ChangePasswordError
+    object UpdatePasswordFailed : ChangePasswordError
 }
 
 interface UserRepository {
@@ -34,8 +42,8 @@ interface UserRepository {
     suspend fun register(avatarId: AvatarId, name: String, email: String, password: String): TypedResult<Unit, RegisterError>
     suspend fun login(email: String, password: String): TypedResult<Unit, LoginError>
     suspend fun sendPasswordResetEmail(email: String): TypedResult<Unit, SendPasswordResetEmailError>
-    suspend fun logout(): TypedResult<Unit, LogoutError>
-    suspend fun deleteCurrentUser(): TypedResult<Unit, Unit>
-    suspend fun changeName(newName: String): TypedResult<Unit, Unit>
+    suspend fun logout()
+    suspend fun deleteCurrentUser(): TypedResult<Unit, DeleteCurrentUserError>
+    suspend fun changeName(newName: String): TypedResult<Unit, ChangeNameError>
     suspend fun changePassword(oldPassword: String, newPassword: String): TypedResult<Unit, ChangePasswordError>
 }

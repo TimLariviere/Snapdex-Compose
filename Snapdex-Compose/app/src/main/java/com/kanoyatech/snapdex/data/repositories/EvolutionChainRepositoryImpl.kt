@@ -5,7 +5,6 @@ import com.kanoyatech.snapdex.data.local.mappers.toPokemon
 import com.kanoyatech.snapdex.domain.models.EvolutionChain
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
-import java.util.Locale
 
 class EvolutionChainRepositoryImpl(
     private val localEvolutionChain: EvolutionChainDao

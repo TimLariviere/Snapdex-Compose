@@ -60,9 +60,9 @@
     <string name="at_least_x_digits">At least 1 number</string>
     <string name="contains_lowercase">Contains lowercase character</string>
     <string name="contains_uppercase">Contains uppercase character</string>
-    <string name="email_already_used">Email already used</string>
+    <string name="register_email_already_used">Email already used</string>
     <string name="login_failed">Login failed</string>
-    <string name="send_password_failed">Send password reset email failed</string>
+    <string name="send_password_reset_failed">Send password reset email failed</string>
     <string name="password_reset">Password Reset</string>
     <string name="check_mailbox_password_reset_link">Please check your email for the link to reset your password.</string>
     <string name="ok">OK</string>
@@ -84,7 +84,7 @@
     <string name="notifications">Notifications</string>
     <string name="change_name">Change name</string>
     <string name="change_password">Change password</string>
-    <string name="invalid_credentials">Incorrect email or password</string>
+    <string name="login_invalid_credentials">Incorrect email or password</string>
     <string name="about">About</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="built_in_the_open">"Snapdex is open-source on "</string>
@@ -119,4 +119,12 @@
     <string name="pokemons_captured">%d/%d pokemons captured</string>
     <string name="percentage">%d%%</string>
     <string name="captured">%d/%d captured</string>
+    <string name="send_password_reset_no_such_email">No such email exists</string>
+    <string name="send_password_reset_invalid_email">Invalid email format</string>
+    <string name="register_invalid_email">Invalid email format</string>
+    <string name="register_invalid_password">Password is too weak</string>
+    <string name="delete_user_failed">Delete account failed</string>
+    <string name="change_password_invalid_old_password">Old password is invalid</string>
+    <string name="change_password_invalid_new_password">New password is too weak</string>
+    <string name="change_password_failed">Failed to change password</string>
 </resources>

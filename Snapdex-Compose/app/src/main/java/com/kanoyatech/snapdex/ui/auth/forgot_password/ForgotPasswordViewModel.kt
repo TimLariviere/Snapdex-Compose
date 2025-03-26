@@ -64,7 +64,9 @@ class ForgotPasswordViewModel(
                 is TypedResult.Error -> {
                     val message =
                         when (result.error) {
-                            is SendPasswordResetEmailError.UnknownReason -> UiText.StringResource(id = R.string.send_password_failed)
+                            is SendPasswordResetEmailError.NoSuchEmail -> UiText.StringResource(id = R.string.send_password_reset_no_such_email)
+                            is SendPasswordResetEmailError.InvalidEmail -> UiText.StringResource(id = R.string.send_password_reset_invalid_email)
+                            is SendPasswordResetEmailError.SendFailed -> UiText.StringResource(id = R.string.send_password_reset_failed)
                         }
 
                     eventChannel.send(ForgotPasswordEvent.Error(message))

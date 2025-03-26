@@ -111,8 +111,10 @@ class RegisterViewModel(
                 is TypedResult.Error -> {
                     val message =
                         when (result.error) {
-                            is RegisterError.EmailAlreadyUsed -> UiText.StringResource(id = R.string.email_already_used)
-                            is RegisterError.UnknownReason -> UiText.StringResource(id = R.string.register_failed)
+                            is RegisterError.InvalidEmail -> UiText.StringResource(id = R.string.register_invalid_email)
+                            is RegisterError.InvalidPassword -> UiText.StringResource(id = R.string.register_invalid_password)
+                            is RegisterError.EmailAlreadyUsed -> UiText.StringResource(id = R.string.register_email_already_used)
+                            is RegisterError.AccountCreationFailed -> UiText.StringResource(id = R.string.register_failed)
                         }
 
                     eventChannel.send(RegisterEvent.Error(message))

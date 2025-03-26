@@ -6,12 +6,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.AIModel
 import com.kanoyatech.snapdex.domain.models.User
+import com.kanoyatech.snapdex.domain.repositories.DeleteCurrentUserError
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.AppLocaleManager
+import com.kanoyatech.snapdex.ui.UiText
+import com.kanoyatech.snapdex.utils.TypedResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -103,8 +107,25 @@ class ProfileViewModel(
 
     private fun deleteAccount() {
         viewModelScope.launch(Dispatchers.IO) {
-            userRepository.deleteCurrentUser()
-            eventChannel.send(ProfileEvent.LoggedOut)
+            state = state.copy(isDeletingAccount = true)
+
+            val result = userRepository.deleteCurrentUser()
+
+            state = state.copy(isDeletingAccount = false)
+
+            when (result) {
+                is TypedResult.Error -> {
+                    val message =
+                        when (result.error) {
+                            is DeleteCurrentUserError.DeleteFailed -> UiText.StringResource(id = R.string.delete_user_failed)
+                        }
+
+                    eventChannel.send(ProfileEvent.Error(message))
+                }
+                is TypedResult.Success -> {
+                    eventChannel.send(ProfileEvent.LoggedOut)
+                }
+            }
         }
     }
 

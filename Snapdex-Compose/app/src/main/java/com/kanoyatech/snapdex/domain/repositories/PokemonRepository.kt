@@ -7,7 +7,7 @@ import com.kanoyatech.snapdex.utils.TypedResult
 import kotlinx.coroutines.flow.Flow
 
 sealed interface CatchPokemonError {
-    data object UnknownReason: CatchPokemonError
+    object UnknownReason: CatchPokemonError
 }
 
 interface PokemonRepository {

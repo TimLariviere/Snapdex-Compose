@@ -40,14 +40,14 @@ import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
-@Serializable data object IntroRoute
+@Serializable object IntroRoute
 
-@Serializable data object AuthNavRoute
-@Serializable data object LoginRoute
-@Serializable data object RegisterRoute
-@Serializable data object ForgotPasswordRoute
+@Serializable object AuthNavRoute
+@Serializable object LoginRoute
+@Serializable object RegisterRoute
+@Serializable object ForgotPasswordRoute
 
-@Serializable data object MainRoute
+@Serializable object MainRoute
 
 @Composable
 fun RootNavigation(
@@ -153,15 +153,15 @@ fun RootNavigation(
     }
 }
 
-@Serializable data object PokedexTabRoute
-@Serializable data object StatsTabRoute
-@Serializable data object ProfileTabRoute
+@Serializable object PokedexTabRoute
+@Serializable object StatsTabRoute
+@Serializable object ProfileTabRoute
 @Serializable data class PokemonDetailsRoute(val pokemonId: PokemonId)
-@Serializable data object NewNameRoute
-@Serializable data object NewPasswordRoute
-@Serializable data object CreditsRoute
-@Serializable data object PrivacyPolicyRoute
-@Serializable data object ChooseAIModelRoute
+@Serializable object NewNameRoute
+@Serializable object NewPasswordRoute
+@Serializable object CreditsRoute
+@Serializable object PrivacyPolicyRoute
+@Serializable object ChooseAIModelRoute
 
 @Composable
 fun TabsNavigation(

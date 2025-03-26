@@ -57,9 +57,9 @@
     <string name="at_least_x_digits">Au moins 1 nombre</string>
     <string name="contains_lowercase">Doit contenir une minuscule</string>
     <string name="contains_uppercase">Doit contenir une majuscule</string>
-    <string name="email_already_used">Email déjà utilisé</string>
+    <string name="register_email_already_used">Email déjà utilisé</string>
     <string name="login_failed">Connexion échouée</string>
-    <string name="send_password_failed">Envoi du lien de réinitialisation échoué</string>
+    <string name="send_password_reset_failed">Envoi du lien de réinitialisation échoué</string>
     <string name="password_reset">Réinitialisation de Mot de Passe</string>
     <string name="check_mailbox_password_reset_link">Veuillez consulter votre e-mail pour le lien de réinitialisation de votre mot de passe.</string>
     <string name="ok">OK</string>
@@ -81,7 +81,7 @@
     <string name="notifications">Notifications</string>
     <string name="change_name">Changer nom</string>
     <string name="change_password">Changer mot de passe</string>
-    <string name="invalid_credentials">Email ou mot de passe incorrect</string>
+    <string name="login_invalid_credentials">Email ou mot de passe incorrect</string>
     <string name="about">À propos</string>
     <string name="name_changed_description">Votre nom a été changé.</string>
     <string name="licenses_and_credits"><![CDATA[Licences & Crédits]]></string>

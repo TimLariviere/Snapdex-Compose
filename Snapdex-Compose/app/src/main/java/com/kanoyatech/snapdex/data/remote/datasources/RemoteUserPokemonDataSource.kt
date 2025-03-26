@@ -18,7 +18,8 @@ class RemoteUserPokemonDataSource(
         return query.map { document ->
             UserPokemonRemoteEntity(
                 userId = document.data["userId"] as String,
-                pokemonId = (document.data["pokemonId"] as Long).toInt()
+                pokemonId = (document.data["pokemonId"] as Long).toInt(),
+                createdAt = document.data["createdAt"] as Long
             )
         }
     }
@@ -26,7 +27,8 @@ class RemoteUserPokemonDataSource(
     suspend fun insert(userPokemonRemoteEntity: UserPokemonRemoteEntity) {
         val data = mapOf(
             "userId" to userPokemonRemoteEntity.userId,
-            "pokemonId" to userPokemonRemoteEntity.pokemonId
+            "pokemonId" to userPokemonRemoteEntity.pokemonId,
+            "createdAt" to userPokemonRemoteEntity.createdAt
         )
 
         firestore.collection("user_pokemons")

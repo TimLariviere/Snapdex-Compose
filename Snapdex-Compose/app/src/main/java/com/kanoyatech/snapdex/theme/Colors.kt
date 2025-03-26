@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-data object TypeColor {
+object TypeColor {
     val Normal = Color(0xFF919AA2)
     val Fire = Color(0xFFFF9D55)
     val Water = Color(0xFF5090D6)

@@ -11,7 +11,7 @@ class RemoteUserDataSource(
         val data = mapOf(
             "avatarId" to user.avatarId,
             "name" to user.name,
-            "timestamp" to user.timestamp
+            "createdAt" to user.createdAt
         )
 
         firestore.collection("users")
@@ -36,7 +36,7 @@ class RemoteUserDataSource(
             id = id,
             avatarId = (data["avatarId"] as Long).toInt(),
             name = data["name"] as String,
-            timestamp = data["timestamp"] as Long
+            createdAt = data["createdAt"] as Long
         )
     }
 

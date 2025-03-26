@@ -1,5 +1,6 @@
 package com.kanoyatech.snapdex.ui.main.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -60,6 +62,7 @@ fun ProfileScreenRoot(
     onCreditsClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit
 ) {
+    val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val locale = configuration.getLocale()
 
@@ -69,6 +72,13 @@ fun ProfileScreenRoot(
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
+            is ProfileEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             ProfileEvent.LoggedOut -> onLoggedOut()
         }
     }
@@ -222,6 +232,7 @@ private fun AccountSettings(
 
             DestructiveSettingsButton(
                 text = stringResource(id = R.string.delete_account),
+                enabled = !state.isDeletingAccount,
                 onClick = { onAction(ProfileAction.OnDeleteAccountClick) }
             )
         }

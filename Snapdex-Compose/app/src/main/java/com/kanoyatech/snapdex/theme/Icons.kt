@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.kanoyatech.snapdex.R
 
-data object Icons {
+object Icons {
     val ArrowBack = Icons.AutoMirrored.Default.ArrowBack
     val Search = Icons.Filled.Search
     val Profile = Icons.Filled.AccountCircle

@@ -64,9 +64,8 @@ class LoginViewModel(
                 is TypedResult.Error -> {
                     val message =
                         when (result.error) {
-                            is LoginError.InvalidCredentials -> UiText.StringResource(id = R.string.invalid_credentials)
-                            is LoginError.UserNotFoundInRemote -> UiText.StringResource(id = R.string.login_failed)
-                            is LoginError.UnknownReason -> UiText.StringResource(id = R.string.login_failed)
+                            is LoginError.InvalidCredentials -> UiText.StringResource(id = R.string.login_invalid_credentials)
+                            is LoginError.LoginFailed -> UiText.StringResource(id = R.string.login_failed)
                         }
 
                     eventChannel.send(LoginEvent.Error(message))
