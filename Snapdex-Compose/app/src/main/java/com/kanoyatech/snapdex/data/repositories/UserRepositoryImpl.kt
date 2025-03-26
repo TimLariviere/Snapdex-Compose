@@ -1,6 +1,7 @@
 package com.kanoyatech.snapdex.data.repositories
 
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -32,10 +33,11 @@ import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImpl(
     private val auth: FirebaseAuth,
+    private val analytics: FirebaseAnalytics,
     private val localUsers: UserDao,
     private val localUserPokemons: UserPokemonDao,
     private val remoteUsers: RemoteUserDataSource,
-    private val remoteUserPokemons: RemoteUserPokemonDataSource
+    private val remoteUserPokemons: RemoteUserPokemonDataSource,
 ): UserRepository {
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getCurrentUser(): Flow<User?> {
@@ -77,6 +79,7 @@ class UserRepositoryImpl(
         }
 
         val userId = authResult.getOrNull()!!.user!!.uid
+        analytics.setUserId(userId)
 
         // Create user in local database
         val userEntity = UserEntity(
@@ -121,6 +124,7 @@ class UserRepositoryImpl(
         }
 
         val userId = authResult.getOrNull()!!.user!!.uid
+        analytics.setUserId(userId)
 
         // Retrieve user from remote database
         val remoteUserResult =
@@ -187,6 +191,7 @@ class UserRepositoryImpl(
 
     override suspend fun logout(): TypedResult<Unit, LogoutError> {
         auth.signOut()
+        analytics.setUserId(null)
         return TypedResult.Success(Unit)
     }
 
@@ -210,6 +215,9 @@ class UserRepositoryImpl(
         localUsers.delete(userId)
 
         user.delete()
+
+        auth.signOut()
+        analytics.setUserId(null)
 
         return TypedResult.Success(Unit)
     }

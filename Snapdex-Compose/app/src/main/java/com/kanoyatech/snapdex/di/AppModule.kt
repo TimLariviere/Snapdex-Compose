@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.kanoyatech.snapdex.MainActivityViewModel
@@ -47,6 +48,7 @@ import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import org.koin.dsl.single
 
 private val Context.dataStore by preferencesDataStore("settings")
 
@@ -106,6 +108,7 @@ val uiModule = module {
 
 val authModule = module {
     single { Firebase.auth }
+    single { Firebase.analytics }
 }
 
 val domainModule = module {
