@@ -106,7 +106,8 @@ CREATE TABLE Users(
     avatarId INTEGER NOT NULL,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
-    timestamp INTEGER NOT NULL
+    createdAt INTEGER NOT NULL,
+    updatedAt INTEGER NOT NULL
 )
 """)
 
@@ -115,6 +116,8 @@ CREATE TABLE UserPokemons(
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     userId TEXT NOT NULL,
     pokemonId INTEGER NOT NULL,
+    createdAt INTEGER NOT NULL,
+    updatedAt INTEGER NOT NULL,
     FOREIGN KEY(userId) REFERENCES Users(id),
     FOREIGN KEY(pokemonId) REFERENCES Pokemons(id)
 )

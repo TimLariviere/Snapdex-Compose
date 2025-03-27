@@ -8,6 +8,7 @@ import androidx.room.Room
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.analytics
 import com.google.firebase.auth.auth
+import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.firestore.firestore
 import com.kanoyatech.snapdex.MainActivityViewModel
 import com.kanoyatech.snapdex.data.classifiers.OpenAIClassifier
@@ -22,6 +23,7 @@ import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.data.classifiers.TensorflowClassifier
 import com.kanoyatech.snapdex.data.repositories.EncryptedPreferencesRepositoryImpl
 import com.kanoyatech.snapdex.data.repositories.StatisticsRepositoryImpl
+import com.kanoyatech.snapdex.data.repositories.SyncRepositoryImpl
 import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.ClassifierFactory
 import com.kanoyatech.snapdex.domain.UserDataValidator
@@ -30,6 +32,7 @@ import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
 import com.kanoyatech.snapdex.domain.repositories.StatisticsRepository
+import com.kanoyatech.snapdex.domain.repositories.SyncRepository
 import com.kanoyatech.snapdex.ui.AppLocaleManager
 import com.kanoyatech.snapdex.ui.auth.forgot_password.ForgotPasswordViewModel
 import com.kanoyatech.snapdex.ui.auth.login.LoginViewModel
@@ -91,6 +94,7 @@ val dataModule = module {
     singleOf(::PokemonRepositoryImpl).bind<PokemonRepository>()
     singleOf(::EvolutionChainRepositoryImpl).bind<EvolutionChainRepository>()
     singleOf(::StatisticsRepositoryImpl).bind<StatisticsRepository>()
+    singleOf(::SyncRepositoryImpl).bind<SyncRepository>()
 }
 
 val uiModule = module {
@@ -113,6 +117,7 @@ val uiModule = module {
 val authModule = module {
     single { Firebase.auth }
     single { Firebase.analytics }
+    single { Firebase.crashlytics }
 }
 
 val domainModule = module {

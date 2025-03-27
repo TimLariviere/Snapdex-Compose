@@ -4,10 +4,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-enum class SyncStatus {
-    PENDING, SYNCED, FAILED
-}
-
 @Entity("Users")
 data class UserEntity(
     @PrimaryKey val id: String,
@@ -15,7 +11,7 @@ data class UserEntity(
     val name: String,
     val email: String,
     val createdAt: Long,
-    val syncStatus: SyncStatus
+    val updatedAt: Long
 )
 
 @Entity(
@@ -38,5 +34,5 @@ data class UserPokemonEntity(
     val userId: String,
     val pokemonId: Int,
     val createdAt: Long,
-    val syncStatus: SyncStatus
+    val updatedAt: Long
 )

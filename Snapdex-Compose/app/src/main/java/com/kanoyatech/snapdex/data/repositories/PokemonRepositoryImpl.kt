@@ -6,7 +6,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kanoyatech.snapdex.data.local.dao.PokemonDao
 import com.kanoyatech.snapdex.data.local.dao.UserPokemonDao
-import com.kanoyatech.snapdex.data.local.entities.SyncStatus
 import com.kanoyatech.snapdex.data.local.entities.UserPokemonEntity
 import com.kanoyatech.snapdex.data.local.mappers.toPokemon
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserPokemonDataSource
@@ -51,19 +50,21 @@ class PokemonRepositoryImpl(
             return TypedResult.Success(Unit)
         }
 
-        localUserPokemons.insert(
+        localUserPokemons.upsert(
             UserPokemonEntity(
                 userId = userId,
                 pokemonId = pokemonId,
                 createdAt = timestamp,
-                syncStatus = SyncStatus.PENDING
+                updatedAt = timestamp
             )
         )
 
         val userPokemonRemoteEntity = UserPokemonRemoteEntity(
+            id = null,
             userId = userId,
             pokemonId = pokemonId,
-            createdAt = timestamp
+            createdAt = timestamp,
+            updatedAt = timestamp
         )
 
         val remoteExistsResult = Retry.execute(
@@ -83,7 +84,7 @@ class PokemonRepositoryImpl(
         val remoteExists = remoteExistsResult.getOrNull() == true
         if (!remoteExists) {
             val result = Retry.execute(
-                body = { remoteUserPokemons.insert(userPokemonRemoteEntity) },
+                body = { remoteUserPokemons.upsert(userPokemonRemoteEntity) },
                 retryIf = { it is FirebaseNetworkException }
             )
 

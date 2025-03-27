@@ -17,24 +17,34 @@ class RemoteUserPokemonDataSource(
 
         return query.map { document ->
             UserPokemonRemoteEntity(
+                id = document.id,
                 userId = document.data["userId"] as String,
                 pokemonId = (document.data["pokemonId"] as Long).toInt(),
-                createdAt = document.data["createdAt"] as Long
+                createdAt = document.data["createdAt"] as Long,
+                updatedAt = document.data["updatedAt"] as Long
             )
         }
     }
 
-    suspend fun insert(userPokemonRemoteEntity: UserPokemonRemoteEntity) {
+    suspend fun upsert(userPokemonRemoteEntity: UserPokemonRemoteEntity) {
         val data = mapOf(
             "userId" to userPokemonRemoteEntity.userId,
             "pokemonId" to userPokemonRemoteEntity.pokemonId,
-            "createdAt" to userPokemonRemoteEntity.createdAt
+            "createdAt" to userPokemonRemoteEntity.createdAt,
+            "updatedAt" to userPokemonRemoteEntity.updatedAt
         )
 
-        firestore.collection("user_pokemons")
-            .document()
-            .set(data)
-            .await()
+        if (userPokemonRemoteEntity.id == null) {
+            firestore.collection("user_pokemons")
+                .document()
+                .set(data)
+                .await()
+        } else {
+            firestore.collection("user_pokemons")
+                .document(userPokemonRemoteEntity.id)
+                .set(data)
+                .await()
+        }
     }
 
     suspend fun exists(userId: String, pokemonId: Int): Boolean {
@@ -47,6 +57,13 @@ class RemoteUserPokemonDataSource(
                 .await()
 
         return snapshot.count > 0
+    }
+
+    suspend fun delete(userPokemonRemoteEntity: UserPokemonRemoteEntity) {
+        firestore.collection("user_pokemons")
+            .document(userPokemonRemoteEntity.id!!)
+            .delete()
+            .await()
     }
 
     suspend fun deleteAllForUser(userId: String) {

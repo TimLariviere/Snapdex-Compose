@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kanoyatech.snapdex.data.local.dao.UserDao
 import com.kanoyatech.snapdex.data.local.dao.UserPokemonDao
-import com.kanoyatech.snapdex.data.local.entities.SyncStatus
 import com.kanoyatech.snapdex.data.local.entities.UserEntity
 import com.kanoyatech.snapdex.data.local.entities.UserPokemonEntity
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserDataSource
@@ -107,7 +106,7 @@ class UserRepositoryImpl(
             name = name,
             email = email,
             createdAt = timestamp,
-            syncStatus = SyncStatus.PENDING
+            updatedAt = timestamp
         )
 
         localUsers.upsert(userEntity)
@@ -117,27 +116,20 @@ class UserRepositoryImpl(
             id = userId,
             avatarId = avatarId,
             name = name,
-            createdAt = timestamp
+            createdAt = timestamp,
+            updatedAt = timestamp
         )
 
         val remoteResult = Retry.execute(
-            body = { remoteUsers.insert(userRemoteEntity) },
+            body = { remoteUsers.upsert(userRemoteEntity) },
             retryIf = { it is FirebaseNetworkException }
         )
 
-        val syncStatus =
-            if (remoteResult.isSuccess) {
-                SyncStatus.SYNCED
-            } else {
-                remoteResult.exceptionOrNull()?.let { e ->
-                    if (e !is FirebaseNetworkException) {
-                        crashlytics.recordExceptionWithKeys(e, mapOf("userId" to userId))
-                    }
-                }
-                SyncStatus.FAILED
+        remoteResult.exceptionOrNull()?.let { e ->
+            if (e !is FirebaseNetworkException) {
+                crashlytics.recordExceptionWithKeys(e, mapOf("userId" to userId))
             }
-
-        localUsers.upsert(userEntity.copy(syncStatus = syncStatus))
+        }
 
         return TypedResult.Success(Unit)
     }
@@ -196,7 +188,7 @@ class UserRepositoryImpl(
                 name = remoteUser.name,
                 email = email,
                 createdAt = remoteUser.createdAt,
-                syncStatus = SyncStatus.SYNCED
+                updatedAt = remoteUser.updatedAt
             )
         )
 
@@ -207,7 +199,7 @@ class UserRepositoryImpl(
                         userId = it.userId,
                         pokemonId = it.pokemonId,
                         createdAt = it.createdAt,
-                        syncStatus = SyncStatus.SYNCED
+                        updatedAt = it.updatedAt
                     )
                 }
             )

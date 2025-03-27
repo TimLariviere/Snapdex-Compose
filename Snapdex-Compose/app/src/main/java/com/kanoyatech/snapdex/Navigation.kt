@@ -193,8 +193,9 @@ fun TabsNavigation(
         startDestination = PokedexTabRoute
     ) {
         composable<PokedexTabRoute> {
+            val userFlow = mainState.map { it.user }.filterNotNull()
             val pokemonsFlow = mainState.map { it.pokemons }
-            val viewModel: PokedexViewModel = koinViewModel { parametersOf(pokemonsFlow) }
+            val viewModel: PokedexViewModel = koinViewModel { parametersOf(userFlow, pokemonsFlow) }
             PokedexScreenRoot(
                 viewModel = viewModel,
                 paddingValues = paddingValues,

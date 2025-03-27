@@ -7,11 +7,12 @@ import kotlinx.coroutines.tasks.await
 class RemoteUserDataSource(
     private val firestore: FirebaseFirestore
 ) {
-    suspend fun insert(user: UserRemoteEntity): Boolean {
+    suspend fun upsert(user: UserRemoteEntity): Boolean {
         val data = mapOf(
             "avatarId" to user.avatarId,
             "name" to user.name,
-            "createdAt" to user.createdAt
+            "createdAt" to user.createdAt,
+            "updatedAt" to user.updatedAt
         )
 
         firestore.collection("users")
@@ -36,7 +37,8 @@ class RemoteUserDataSource(
             id = id,
             avatarId = (data["avatarId"] as Long).toInt(),
             name = data["name"] as String,
-            createdAt = data["createdAt"] as Long
+            createdAt = data["createdAt"] as Long,
+            updatedAt = data["updatedAt"] as Long,
         )
     }
 

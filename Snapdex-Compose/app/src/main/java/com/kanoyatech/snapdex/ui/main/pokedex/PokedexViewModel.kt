@@ -49,11 +49,6 @@ class PokedexViewModel(
         val searchFlow = state.searchState.text.textAsFlow()
             .debounce(300L)
 
-        userFlow
-            .onEach {
-                state = state.copy(user = it)
-            }
-
         val pokemonsFlow_ = pokemonsFlow
             .onEach { pokemons ->
                 state = state.copy(allPokemons = pokemons)
@@ -73,6 +68,12 @@ class PokedexViewModel(
         }
             .onEach { filteredPokemons ->
                 state = state.copy(filteredPokemons = filteredPokemons)
+            }
+            .launchIn(viewModelScope)
+
+        userFlow
+            .onEach {
+                state = state.copy(user = it)
             }
             .launchIn(viewModelScope)
     }

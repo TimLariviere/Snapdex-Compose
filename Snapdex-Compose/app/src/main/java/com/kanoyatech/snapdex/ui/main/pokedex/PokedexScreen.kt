@@ -71,6 +71,7 @@ fun PokedexScreenRoot(
 
     LaunchedEffect(locale) {
         viewModel.locale = locale
+        viewModel.initialize(context)
     }
 
     ObserveAsEvents(viewModel.events) { event ->
