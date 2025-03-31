@@ -9,7 +9,7 @@ open System.Threading.Tasks
 open SQLite
 
 // Create a new SQLite database
-let dbFile = "snapdex.db"
+let dbFile: string = "snapdex.db"
 
 if File.Exists(dbFile) then
     File.Delete(dbFile)
@@ -168,7 +168,7 @@ let download (client: HttpClient) (link: string) (filename: string) =
             use! stream = client.GetStreamAsync(link)
             
             // Copy to Compose project
-            let path = Path.Combine("Snapdex-Compose/app/src/main/res/drawable", filename)
+            let path = Path.Combine("app/src/main/res/drawable", filename)
             use writer = new StreamWriter(path, false)
             stream.CopyTo(writer.BaseStream)
         with ex ->
@@ -176,7 +176,7 @@ let download (client: HttpClient) (link: string) (filename: string) =
     }
     
 let copyDatabase () =
-    let path = Path.Combine("Snapdex-Compose/app/src/main/assets", dbFile)
+    let path = Path.Combine("app/src/main/assets", dbFile)
     File.Copy(dbFile, path, true)
     File.Delete(dbFile)
     

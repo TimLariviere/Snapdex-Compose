@@ -3,8 +3,6 @@ name: Build & Distribute Snapdex (Compose)
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'Snapdex-Compose/**'
   workflow_dispatch:
 
 jobs:
@@ -29,7 +27,7 @@ jobs:
 
       - name: Decode google-services.json
         run: |
-          echo "${{ secrets.GOOGLE_SERVICES_BASE64 }}" | base64 -d > Snapdex-Compose/app/google-services.json
+          echo "${{ secrets.GOOGLE_SERVICES_BASE64 }}" | base64 -d > app/google-services.json
 
       - name: Decode Keystore
         run: |
@@ -37,39 +35,38 @@ jobs:
 
       - name: Create signing.properties
         run: |
-          echo "storeFile=../../keystore.jks" > Snapdex-Compose/signing.properties
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> Snapdex-Compose/signing.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> Snapdex-Compose/signing.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> Snapdex-Compose/signing.properties
+          echo "storeFile=../../keystore.jks" > signing.properties
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> signing.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> signing.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> signing.properties
 
       - name: Grant execute permission
-        run: chmod +x ./Snapdex-Compose/gradlew
+        run: chmod +x ./gradlew
 
       - name: Run init script
         run: dotnet fsi Init.fsx
 
       - name: Build Release AAB
-        working-directory: ./Snapdex-Compose
         run: ./gradlew buildAllRelease
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Snapdex-APK
-          path: Snapdex-Compose/app/build/outputs/apk/release/app-release.apk
+          name: APK
+          path: app/build/outputs/apk/release/com.kanoyatech.snapdex.apk
 
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Snapdex-AAB
-          path: Snapdex-Compose/app/build/outputs/bundle/release/app-release.aab
+          name: AAB
+          path: app/build/outputs/bundle/release/com.kanoyatech.snapdex.aab
 
       - name: Upload to Firebase App Distribution
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
         run: |
           curl -sL https://firebase.tools | bash
-          firebase appdistribution:distribute Snapdex-Compose/app/build/outputs/apk/release/app-release.apk \
+          firebase appdistribution:distribute app/build/outputs/apk/release/com.kanoyatech.snapdex.apk \
             --app ${{ secrets.FIREBASE_APP_ID }} \
             --project ${{ secrets.FIREBASE_PROJECT_ID }} \
             --groups testers \
@@ -83,7 +80,7 @@ jobs:
       #  uses: r0adkll/upload-google-play@v1
       #  with:
       #    serviceAccountJson: service-account.json
-      #    packageName: com.yourcompany.snapdex
-      #    releaseFiles: Snapdex-Compose/app/build/outputs/bundle/release/app-release.aab
+      #    packageName: com.kanoyatech.snapdex
+      #    releaseFiles: app/build/outputs/bundle/release/com.kanoyatech.snapdex.aab
       #    track: production
       #    status: completed

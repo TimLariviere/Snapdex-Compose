@@ -1,79 +1,79 @@
-# Snapdex
+# Snapdex - Compose Edition
 
-Snapdex is a multi-framework mobile application that serves as a **Pokédex-style app**, allowing users to take pictures or record sounds of Pokémon in the wild, upload them to a server, and view 3D/AR visualizations. This project is designed to serve both as a **learning experience** and a **professional showcase** of mobile development skills.
+<p align="center">
+  <img src="images/hero.png" height="300">
+</p>
 
-<img src="images/screen1.png" height="500" /> <img src="images/screen2.png" height="500" />
+Snapdex is a production-quality **Pokédex-style app** built with Kotlin and Jetpack Compose. Users can snap pictures of Pokemon merch found in the wild (plushes, trading cards, etc) to complete their own Pokédex thanks to AI-powered recognition (TensorFlow Lite and OpenAI). This project is designed to serve both as a **learning experience** and a **professional showcase** of modern Android development skills.
 
-_Work in progress, not the final design_  
-_Based on the original Figma design by Junior Savaria: [Pokédex / Pokémon App](https://www.figma.com/community/file/1202971127473077147)_
+<p align="center">
+  <img src="images/screen1.png" height="500" />
+  <img src="images/screen2.png" height="500" />
+  <img src="images/screen3.png" height="500" />
+  <img src="images/screen4.png" height="500" />
+  <img src="images/screen5.png" height="500" />
+</p>
 
-## 🚀 Why Snapdex?
+*Design by [Rui Zhang](https://www.linkedin.com/in/ruizhang77); Pokemon detail page heavily inspired by Figma design by [Junior Savaria](https://www.figma.com/community/file/1202971127473077147)*
 
-### 🎯 Personal Goals
-- **Master Mobile Frameworks** – Develop a full-fledged app using **SwiftUI**, **Jetpack Compose / Compose Multiplatform**, and **Flutter** to deepen my understanding of mobile development.
-- **Improve Fabulous** – Analyze different architectures and design patterns to refine **Fabulous**.
+## 🚀 Features
 
-### 💼 Professional Goals
-- **Portfolio Showcase** – Demonstrate expertise in multiple frameworks despite lacking professional experience in them, making it easier for clients and recruiters to evaluate my skills.
-- **Industry Reflection & Promotion** – Use insights gained from the project to write blog posts, LinkedIn articles, and engage in discussions on mobile development trends and best practices.
-- **Store Deployment** – Ideally, launch the app on **Google Play Store** and **Apple App Store** to demonstrate end-to-end development mastery.
+- Capture photos of Pokemon merchandise with your device camera
+- AI-powered Pokemon recognition using TensorFlow Lite on-device and OpenAI API
+- Complete your personal Pokédex by finding Pokemon in the real world
+- Offline-first architecture with cloud synchronization
+- Material 3 design with custom theming
 
 ## 🛠️ Technical Highlights
-Snapdex is designed to **showcase advanced mobile development techniques** across different frameworks, covering:
 
-### 📱 UI/UX
-- Clean, **responsive** design with smooth animations
-- **Light/Dark mode** support
+### Core Technologies
+- Kotlin 2.0
+- Jetpack Compose
+- Gradle with Kotlin DSL
 
-### 🔍 Architecture & Performance
-- Implementation of **popular architectures** (MVVM, MVI, Redux, etc.)
-- **Optimized performance** and memory usage
-- **Image caching library** integration
+### Architecture & Design Patterns
+- MVI Architecture: Unidirectional data flow for predictable state management
+- Repository Pattern
+- DAO Pattern
+- Koin: Lightweight dependency injection framework for Kotlin
 
-### 📡 Data & Connectivity
-- **Offline-first** approach with **local database** & cloud syncing
-- API integration with **Pokédex data sources**
-- **No-code backend** exploration (Firebase/AWS)
-- **Error handling & retry mechanisms**
+### Networking & Data
+- Ktor: Kotlin-first HTTP client
+- Room: Local database with offline-first approach
+- Firebase Firestore: Cloud data synchronization
+- Kotlinx Serialization: Kotlin-native JSON parsing
+- DataStore: Modern replacement for SharedPreferences
 
-### 🔒 Security & Authentication
-- **Secure authentication** (OAuth, Firebase Auth, or custom tokens)
-- **Encrypted preferences** for user data protection
+### Authentication & Security
+- Firebase Authentication
+- Cryptography: Secure encrypted storage for OpenAI API keys
 
-### 🔥 Advanced Features
-- **AI integration** (e.g., Pokémon identification via ML models)
-- **Native device integration**: Camera, Microphone
-- **System notifications & deep linking**
-- **Share functionality** (social sharing, deep linking, etc.)
+### Image Processing
+- TensorFlow Lite: On-device Pokemon recognition
+- OpenAI API: Cloud-based recognition for improved accuracy
+- Coil: Kotlin-first image loading library with Compose support
 
-### 📊 DevOps & Quality Assurance
-- **Unit & UI testing** to ensure reliability
-- **CI/CD pipelines** for automated builds & deployment
-- **Analytics & crash reporting**
-- **Gradle, Swift Package Manager, Dart tools mastery**
+### Analytics & Monitoring
+- Firebase Analytics
+- Firebase Crashlytics
+- Firebase App Distribution: Beta testing and deployment
 
-## 🎨 Design & Assets
-- **Images:** [Pokemon Database](https://pokemondb.net/sprites)
-- **Sprites:** [3D Pokémon Models](https://projectpokemon.org/home/docs/spriteindex_148/3d-models-generation-1-pok%C3%A9mon-r90/)
-- **Data:** [PokeApi.co](https://pokeapi.co/)
-- **Pokemon Tensorflow Lite Model:** [the-dagger/Pokidex on GitHub](https://github.com/the-dagger/Pokidex/blob/master/app/src/main/assets/pokedex_91.tflite)
+## 📱 How to Build
 
-## 🏗️ Frameworks Used
-Snapdex will be implemented using the following frameworks:
-- **SwiftUI** (iOS)
-- **Jetpack Compose** (Android)
-- **Flutter** (Cross-platform)
+1. Run `dotnet fsi Init.fsx` to seed the database and download the Pokemon assets used by the app
+2. Generate a keystore file to sign the app
+3. Create `signing.properties` with the following properties:
+   ```
+   storeFile=<Relative path to the generated keystore file>
+   storePassword=<Password of the keystore file>
+   keyAlias=<Alias of the key>
+   keyPassword=<Password of the key>
+   ```
+4. Create a Firebase project on the [Firebase Console](https://console.firebase.google.com/)
+5. Configure the Firebase project for Android (Auth, Firestore, Analytics, Crashlytics)
+6. Download `google-services.json` from Firebase and paste it to `app/google-services.json`
+7. Run `./gradlew bundleAllRelease` to generate the APK/AAB
 
-## 📌 Roadmap
-1. **Framework Study & Planning**
-2. **UI/UX Prototyping**
-3. **Core Features Development** (Authentication, Data Handling, API Integration)
-4. **Offline Mode & Syncing**
-5. **Native Features Integration** (Camera, Microphone, Notifications)
-6. **AI/ML Enhancements**
-7. **Testing & QA**
-8. **CI/CD Setup & Store Deployment**
-9. **Marketing & Promotion (Blogs, LinkedIn, etc.)**
+## 📄 License
 
-## 🤝 Contributing
-As this project is primarily for **learning and portfolio purposes**, external contributions are not expected at the moment. However, feedback, suggestions, and discussions are always welcome!
+This project is licensed under the Apache 2.0 License - see the LICENSE file for details.

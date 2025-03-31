@@ -2,9 +2,19 @@
 .DS_Store
 
 *.db
-Snapdex-Compose/app/src/main/assets/*.db
-Snapdex-Compose/app/src/main/res/drawable/pokemon*.*
-Snapdex-Compose/app/google-services.json
+app/src/main/assets/*.db
+app/src/main/res/drawable/pokemon*.*
+app/google-services.json
 keystore.jks
 cert.txt
 *.aab
+
+*.iml
+.gradle
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+signing.properties
