@@ -137,7 +137,7 @@ private fun ProfileScreen(
                         style = SnapdexTheme.typography.heading3
                     )
                     Text(
-                        text = "maximilian@snapdex.com",//state.user.email,
+                        text = state.user.email,
                         style = SnapdexTheme.typography.largeLabel
                     )
                 }
