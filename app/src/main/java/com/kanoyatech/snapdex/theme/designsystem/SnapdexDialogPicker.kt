@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
@@ -39,14 +40,14 @@ fun <T> SnapdexDialogPicker(
 
     Dialog(onDismissRequest) {
         CompositionLocalProvider(
-            LocalContentColor provides SnapdexTheme.colorScheme.onSurface
+            LocalContentColor provides SnapdexTheme.colorScheme.onBackground
         ) {
             Column(
                 modifier = Modifier
-                    .clip(SnapdexTheme.shapes.regular)
-                    .background(SnapdexTheme.colorScheme.surface)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .clip(SnapdexTheme.shapes.small)
+                    .background(SnapdexTheme.colorScheme.surfaceVariant)
+                    .padding(horizontal = 16.dp, vertical = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     text = title,
@@ -56,30 +57,37 @@ fun <T> SnapdexDialogPicker(
                         .fillMaxWidth()
                 )
 
-                items.forEachIndexed { index, item ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(SnapdexTheme.shapes.small)
-                            .background(Color.White)
-                            .border(
-                                width = if (index == selected.intValue) 4.dp else 1.dp,
-                                color = if (index == selected.intValue) {
-                                    SnapdexTheme.colorScheme.primary
-                                } else {
-                                    SnapdexTheme.colorScheme.outline
-                                },
-                                shape = SnapdexTheme.shapes.small
-                            )
-                            .clickable {
-                                selected.intValue = index
-                            }
-                    ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items.forEachIndexed { index, item ->
+                        val isSelected = index == selected.intValue
+
                         Box(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .weight(1f)
+                                .clip(SnapdexTheme.shapes.regular)
+                                .background(Color.White)
+                                .border(
+                                    width = if (isSelected) 1.dp else 0.dp,
+                                    color = if (isSelected) {
+                                        SnapdexTheme.colorScheme.primary
+                                    } else {
+                                        SnapdexTheme.colorScheme.outline
+                                    },
+                                    shape = SnapdexTheme.shapes.regular
+                                )
+                                .clickable {
+                                    selected.intValue = index
+                                }
                         ) {
-                            itemContent(item)
+                            Box(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .fillMaxWidth(),
+                            ) {
+                                itemContent(item)
+                            }
                         }
                     }
                 }
@@ -109,7 +117,12 @@ private fun SnapdexDialogPickerPreview() {
                 onItemSelect = {},
                 onDismissRequest = {}
             ) { locale ->
-                Text(locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() })
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() },
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }

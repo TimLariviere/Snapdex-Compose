@@ -34,7 +34,7 @@
     <string name="login_error">Erreur lors de la connexion</string>
     <string name="login">Se connecter</string>
     <string name="logout">Se déconnecter</string>
-    <string name="search_hint">Rechercher un Pokémon...</string>
+    <string name="search_hint">Rechercher un Pokémon…</string>
     <string name="next">Suivant</string>
     <string name="gotta_snapem_all">Snappez les tous!</string>
     <string name="intro_description_1">Capturez des Pokémon dans la vraie vie en les prenant en photo avec Snapdex.</string>
@@ -104,7 +104,7 @@
     <string name="choose_ai_model">Choisir modèle IA</string>
     <string name="openai_api_key">Clé API</string>
     <string name="save">Sauvegarder</string>
-    <string name="you_missed_it">Ah, il n\'y rien ici...</string>
+    <string name="you_missed_it">Ah, il n\'y rien ici…</string>
     <string name="could_not_find_pokemon">Il n\'y a aucun pokémon dans cette image.\nTu as dû le manquer!</string>
     <string name="try_again">Essayes encore</string>
     <string name="recognizing">Capture de Pokémon en cours…</string>
@@ -120,4 +120,5 @@
     <string name="change_password_invalid_new_password">Nouveau mot de passe trop faible</string>
     <string name="change_password_failed">Echec du changement de mot de passe</string>
     <string name="catch_failed">Echec de la capture du pokémon</string>
+    <string name="loading_pokedex">Chargement de votre Pokédex…</string>
 </resources>

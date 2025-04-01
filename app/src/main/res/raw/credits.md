@@ -1,4 +1,4 @@
-**Snapdex** is an open-source app built with Jetpack Compose, available on [GitHub](https://github.com/TimLariviere/Snapdex/tree/main/Snapdex-Compose)
+**Snapdex** is an open-source app built with Jetpack Compose, available on [GitHub](https://github.com/TimLariviere/Snapdex-Compose)
 
 This project is provided freely as a demonstration of mobile development skills and for educational purposes.  
 It is **not affiliated with, endorsed, sponsored, or specifically approved by Nintendo, The Pokémon Company, or Game Freak**.

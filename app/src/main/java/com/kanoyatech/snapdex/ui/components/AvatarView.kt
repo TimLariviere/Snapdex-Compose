@@ -26,8 +26,8 @@ fun AvatarView(
 ) {
     Box(
         modifier = modifier
-            .clip(CircleShape)
             .aspectRatio(1f)
+            .clip(CircleShape)
             .border(
                 width = if (isSelected) 1.dp else 0.dp,
                 color = if (isSelected) {

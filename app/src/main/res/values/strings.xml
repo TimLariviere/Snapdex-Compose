@@ -127,4 +127,5 @@
     <string name="change_password_invalid_new_password">New password is too weak</string>
     <string name="change_password_failed">Failed to change password</string>
     <string name="catch_failed">Failed to catch the pokemon</string>
+    <string name="loading_pokedex">Loading your Pokédex…</string>
 </resources>

@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -245,6 +246,10 @@ private fun AppSettings(
     onAction: (ProfileAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val localeName = remember(state.language) {
+        state.language.getDisplayLanguage(state.language).replaceFirstChar { it.uppercase() }
+    }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
@@ -272,7 +277,7 @@ private fun AppSettings(
 
             SettingsPickerButton(
                 text = stringResource(id = R.string.language),
-                value = state.language.getDisplayLanguage(state.language),
+                value = localeName,
                 onClick = { onAction(ProfileAction.OnChangeLanguageClick) }
             )
 
@@ -399,8 +404,15 @@ private fun LanguageDialog(
         onItemSelect = { locale -> onAction(ProfileAction.OnLanguageChange(locale)) },
         onDismissRequest = { onAction(ProfileAction.OnLanguageDialogDismiss) },
     ) { locale ->
+        val localeName = remember {
+            locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() }
+        }
+
         Text(
-            text = locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() }
+            text = localeName,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
         )
     }
 }
@@ -419,7 +431,8 @@ private fun ProfileScreenPreview() {
                         name = "Roger",
                         email = "roger@snapdex.com"
                     ),
-                    language = Locale.FRENCH
+                    language = Locale.FRENCH,
+                    showLanguageDialog = true
                 ),
                 onAction = {}
             )

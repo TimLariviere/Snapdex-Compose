@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,16 +34,16 @@ import com.kanoyatech.snapdex.theme.SnapdexTheme
 @Composable
 fun SnapdexNavBar(
     tabs: Array<TabItem>,
-    shouldShowNavBar: () -> Boolean,
+    shouldShowNavBar: Boolean,
+    selectedTab: Int,
     modifier: Modifier = Modifier
 ) {
-    val selectedTab = remember { mutableIntStateOf(0) }
-    val startWeight: Float by animateFloatAsState(selectedTab.intValue.toFloat(), label = "startWeight")
-    val endWeight: Float by animateFloatAsState((tabs.size - 1).toFloat() - selectedTab.intValue, label = "startWeight")
+    val startWeight: Float by animateFloatAsState(selectedTab.toFloat(), label = "startWeight")
+    val endWeight: Float by animateFloatAsState((tabs.size - 1).toFloat() - selectedTab, label = "startWeight")
 
     AnimatedVisibility(
         modifier = modifier,
-        visible = shouldShowNavBar(),
+        visible = shouldShowNavBar,
         enter = slideInVertically(initialOffsetY = { it * 2 }),
         exit = slideOutVertically(targetOffsetY = { it * 2 })
     ) {
@@ -84,14 +83,12 @@ fun SnapdexNavBar(
                 horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
                 tabs.forEachIndexed { index, tab ->
-                    val isSelected = index == selectedTab.intValue
+                    val isSelected = index == selectedTab
                     SnapdexTabItem(
                         imageVector = if (isSelected) tab.selectedImage else tab.unselectedImage,
-                        selected = isSelected
-                    ) {
-                        selectedTab.intValue = index
-                        tab.onClick()
-                    }
+                        selected = isSelected,
+                        onClick = { tab.onClick() }
+                    )
                 }
             }
         }
@@ -148,7 +145,8 @@ private fun SnapdexNavBarPreview() {
                         onClick = {}
                     )
                 ),
-                shouldShowNavBar = { true },
+                shouldShowNavBar = true,
+                selectedTab = 1,
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(16.dp)

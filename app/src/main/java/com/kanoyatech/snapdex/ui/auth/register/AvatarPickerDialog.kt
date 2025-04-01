@@ -2,14 +2,15 @@ package com.kanoyatech.snapdex.ui.auth.register
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.ui.components.AvatarView
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AvatarPickerDialog(
     selected: Int,
@@ -46,7 +48,6 @@ fun AvatarPickerDialog(
         ) {
             Column(
                 modifier = Modifier
-                    .height(420.dp)
                     .clip(SnapdexTheme.shapes.small)
                     .background(SnapdexTheme.colorScheme.surfaceVariant)
                     .padding(16.dp),
@@ -60,27 +61,28 @@ fun AvatarPickerDialog(
                     textAlign = TextAlign.Center
                 )
 
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(bottom = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                FlowRow(
+                    maxItemsInEachRow = 3,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(10) { index ->
+                    repeat(10) { index ->
                         val isSelected = index == selectedIndex.intValue
 
                         AvatarView(
                             avatarId = index,
                             isSelected = isSelected,
                             modifier = Modifier
-                                .clip(CircleShape)
-                                .clickable {
-                                    selectedIndex.intValue = index
-                                }
+                                .size(90.dp)
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null,
+                                    onClick = { selectedIndex.intValue = index }
+                                )
                         )
                     }
+
+                    Spacer(modifier = Modifier.weight(2f))
                 }
 
                 SnapdexPrimaryButton(
