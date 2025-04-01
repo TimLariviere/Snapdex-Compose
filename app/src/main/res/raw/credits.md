@@ -10,8 +10,11 @@ We are grateful to the developers and maintainers of the open data sources, libr
 
 ### Assets & Data
 
-**Images**  
+**Pokemon Images**  
 Sourced from [Pokémon Database](https://pokemondb.net/)
+
+**Trainer Images**
+Sourced from [Pokémon Showdown](https://play.pokemonshowdown.com/sprites/trainers/), all images by artist Beliot419
 
 **Sprites**  
 3D models sourced from the Pokémon fan community  
