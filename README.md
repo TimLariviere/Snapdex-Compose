@@ -72,7 +72,7 @@ Snapdex is a production-quality **Pokédex-style app** built with Kotlin and Jet
 4. Create a Firebase project on the [Firebase Console](https://console.firebase.google.com/)
 5. Configure the Firebase project for Android (Auth, Firestore, Analytics, Crashlytics)
 6. Download `google-services.json` from Firebase and paste it to `app/google-services.json`
-7. Run `./gradlew bundleAllRelease` to generate the APK/AAB
+7. Run `./gradlew buildAllRelease` to generate the APK/AAB
 
 ## 📄 License
 
