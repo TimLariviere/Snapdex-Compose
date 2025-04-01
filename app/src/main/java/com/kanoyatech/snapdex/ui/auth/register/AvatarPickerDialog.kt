@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -27,9 +26,9 @@ import androidx.compose.ui.window.Dialog
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.ui.components.AvatarView
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
+import com.kanoyatech.snapdex.ui.components.AvatarView
 
 @Composable
 fun AvatarPickerDialog(
@@ -43,18 +42,18 @@ fun AvatarPickerDialog(
         onDismissRequest = onDismissRequest
     ) {
         CompositionLocalProvider(
-            LocalContentColor provides SnapdexTheme.colorScheme.onSurface
+            LocalContentColor provides SnapdexTheme.colorScheme.onBackground
         ) {
             Column(
                 modifier = Modifier
                     .height(420.dp)
-                    .clip(SnapdexTheme.shapes.regular)
-                    .background(SnapdexTheme.colorScheme.surface)
+                    .clip(SnapdexTheme.shapes.small)
+                    .background(SnapdexTheme.colorScheme.surfaceVariant)
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.pick_an_avatar),
+                    text = stringResource(id = R.string.pick_your_avatar),
                     style = SnapdexTheme.typography.heading3,
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -83,13 +82,6 @@ fun AvatarPickerDialog(
                         )
                     }
                 }
-
-                Text(
-                    text = stringResource(id = R.string.author_credit),
-                    style = SnapdexTheme.typography.smallLabel,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                )
 
                 SnapdexPrimaryButton(
                     text = stringResource(id = R.string.use_avatar),

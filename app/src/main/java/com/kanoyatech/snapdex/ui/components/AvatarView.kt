@@ -29,7 +29,7 @@ fun AvatarView(
             .clip(CircleShape)
             .aspectRatio(1f)
             .border(
-                width = if (isSelected) 4.dp else 1.dp,
+                width = if (isSelected) 1.dp else 0.dp,
                 color = if (isSelected) {
                     SnapdexTheme.colorScheme.primary
                 } else {
@@ -44,7 +44,7 @@ fun AvatarView(
             painter = painterResource(id = AvatarUi.getFor(avatarId)),
             contentDescription = null,
             modifier = Modifier
-                .padding(8.dp)
+                .padding(horizontal = 14.dp, vertical = 10.dp)
                 .fillMaxSize()
         )
     }
