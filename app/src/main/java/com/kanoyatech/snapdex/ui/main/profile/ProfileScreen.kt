@@ -334,7 +334,7 @@ private fun CallToAction(modifier: Modifier = Modifier) {
     Text(
         text = buildAnnotatedString {
             append(stringResource(id = R.string.built_in_the_open))
-            withLink(LinkAnnotation.Url("https://github.com/timlariviere/snapdex", styles)) {
+            withLink(LinkAnnotation.Url("https://github.com/TimLariviere/Snapdex-Compose", styles)) {
                 append(stringResource(id = R.string.snapdex_on_github))
             }
             append(stringResource(id = R.string.get_in_touch))
