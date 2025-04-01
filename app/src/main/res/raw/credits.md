@@ -13,7 +13,7 @@ We are grateful to the developers and maintainers of the open data sources, libr
 **Pokemon Images**  
 Sourced from [Pokémon Database](https://pokemondb.net/)
 
-**Trainer Images**
+**Trainer Images**  
 Sourced from [Pokémon Showdown](https://play.pokemonshowdown.com/sprites/trainers/), all images by artist Beliot419
 
 **Sprites**  
