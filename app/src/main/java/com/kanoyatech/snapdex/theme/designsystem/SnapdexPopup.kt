@@ -6,15 +6,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 data class PopupButton(
     val text: String,
@@ -28,69 +29,58 @@ fun SnapdexPopup(
     title: String,
     description: String,
     primaryButton: PopupButton,
-    isDestructive: Boolean = false,
     secondaryButton: PopupButton? = null,
     onDismissRequest: () -> Unit
 ) {
     Dialog(onDismissRequest) {
-        Column(
-            modifier = Modifier
-                .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center,
+        CompositionLocalProvider(LocalContentColor provides SnapdexTheme.colorScheme.onBackground) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-            )
-
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
+                    .clip(SnapdexTheme.shapes.small)
+                    .background(SnapdexTheme.colorScheme.surfaceVariant)
+                    .padding(horizontal = 16.dp, vertical = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                if (!isDestructive) {
-                    SnapdexPrimaryButton(
-                        text = primaryButton.text,
-                        enabled = primaryButton.enabled,
-                        isBusy = primaryButton.isBusy,
-                        onClick = primaryButton.onClick,
-                        modifier = Modifier
-                            .weight(1f)
-                    )
-                } else {
+                Text(
+                    text = title,
+                    style = SnapdexTheme.typography.heading3,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+
+                Text(
+                    text = description,
+                    style = SnapdexTheme.typography.paragraph,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
                     SnapdexPrimaryButton(
                         text = primaryButton.text,
                         enabled = primaryButton.enabled,
                         //isBusy = primaryButton.isBusy,
-                        isDestructive = true,
                         onClick = primaryButton.onClick,
                         modifier = Modifier
                             .weight(1f)
                     )
-                }
 
-                if (secondaryButton != null) {
-                    SecondaryButton(
-                        text = secondaryButton.text,
-                        enabled = secondaryButton.enabled,
-                        //isBusy = secondaryButton.isBusy,
-                        onClick = secondaryButton.onClick,
-                        modifier = Modifier
-                            .weight(1f),
-                    )
+                    if (secondaryButton != null) {
+                        SnapdexSecondaryButton(
+                            text = secondaryButton.text,
+                            enabled = secondaryButton.enabled,
+                            //isBusy = secondaryButton.isBusy,
+                            onClick = secondaryButton.onClick,
+                            modifier = Modifier
+                                .weight(1f),
+                        )
+                    }
                 }
             }
         }

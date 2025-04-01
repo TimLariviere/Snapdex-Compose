@@ -69,11 +69,11 @@
     <string name="congratulations">Congratulations!</string>
     <string name="you_caught">You\'ve just caught</string>
     <string name="account_deletion">Account deletion</string>
-    <string name="account_deletion_description">You are about to permanently delete your account with all associated data.\nAre you sure you want to continue?</string>
+    <string name="account_deletion_description">You are about to permanently delete your account with all associated data. Are you sure you want to continue?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="progress_reset">Progress reset</string>
-    <string name="progress_reset_description">This will reset your progression by deleting all the pokemons you caught, and all your sighting pictures.\nAre you sure you want to continue?</string>
+    <string name="progress_reset_description">This will reset your progression by deleting all the pokemons you caught, and all your sighting pictures. Are you sure you want to continue?</string>
     <string name="reset">Reset</string>
     <string name="delete_account">Delete account</string>
     <string name="reset_progress">Reset progress</string>

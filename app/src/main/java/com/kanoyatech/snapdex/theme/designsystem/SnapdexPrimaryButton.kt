@@ -16,22 +16,14 @@ import com.kanoyatech.snapdex.theme.SnapdexTheme
 fun SnapdexPrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
-    isDestructive: Boolean = false,
     enabled: Boolean = true,
     isBusy: Boolean = false,
     onClick: () -> Unit
 ) {
-    val colors = if (!isDestructive) {
-        ButtonDefaults.buttonColors().copy(
-            containerColor = SnapdexTheme.colorScheme.primary,
-            contentColor = SnapdexTheme.colorScheme.onPrimary
-        )
-    } else {
-        ButtonDefaults.buttonColors().copy(
-            containerColor = SnapdexTheme.colorScheme.error,
-            contentColor = SnapdexTheme.colorScheme.onError
-        )
-    }
+    val colors = ButtonDefaults.buttonColors().copy(
+        containerColor = SnapdexTheme.colorScheme.primary,
+        contentColor = SnapdexTheme.colorScheme.onPrimary
+    )
 
     Button(
         onClick = onClick,
@@ -83,18 +75,6 @@ private fun SnapdexPrimaryButtonBusyPreview() {
         SnapdexPrimaryButton(
             text = "Click me",
             isBusy = true,
-            onClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SnapdexPrimaryButtonDestructivePreview() {
-    AppTheme {
-        SnapdexPrimaryButton(
-            text = "Click me",
-            isDestructive = true,
             onClick = {}
         )
     }

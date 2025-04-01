@@ -354,15 +354,14 @@ private fun ProgressResetConfirmationDialog(onAction: (ProfileAction) -> Unit) {
     SnapdexPopup(
         title = stringResource(id = R.string.progress_reset),
         description = stringResource(id = R.string.progress_reset_description),
-        isDestructive = true,
         onDismissRequest = { onAction(ProfileAction.OnProgressResetCancel) },
         primaryButton = PopupButton(
-            text = stringResource(id = R.string.reset),
-            onClick = { onAction(ProfileAction.OnProgressResetConfirm) }
-        ),
-        secondaryButton = PopupButton(
             text = stringResource(id = R.string.cancel),
             onClick = { onAction(ProfileAction.OnProgressResetCancel) }
+        ),
+        secondaryButton = PopupButton(
+            text = stringResource(id = R.string.reset),
+            onClick = { onAction(ProfileAction.OnProgressResetConfirm) }
         )
     )
 }
@@ -372,15 +371,14 @@ private fun AccountDeletionConfirmationDialog(onAction: (ProfileAction) -> Unit)
     SnapdexPopup(
         title = stringResource(id = R.string.account_deletion),
         description = stringResource(id = R.string.account_deletion_description),
-        isDestructive = true,
         onDismissRequest = { onAction(ProfileAction.OnAccountDeletionCancel) },
         primaryButton = PopupButton(
-            text = stringResource(id = R.string.delete),
-            onClick = { onAction(ProfileAction.OnAccountDeletionConfirm) }
-        ),
-        secondaryButton = PopupButton(
             text = stringResource(id = R.string.cancel),
             onClick = { onAction(ProfileAction.OnAccountDeletionCancel) }
+        ),
+        secondaryButton = PopupButton(
+            text = stringResource(id = R.string.delete),
+            onClick = { onAction(ProfileAction.OnAccountDeletionConfirm) }
         )
     )
 }

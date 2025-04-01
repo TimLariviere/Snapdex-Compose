@@ -54,9 +54,9 @@ val SnapdexTypography = Typography(
     ),
     heading3 = TextStyle(
         fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        lineHeight = 44.sp
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+        lineHeight = 20.sp
     ),
     paragraph = TextStyle(
         fontFamily = Poppins,
