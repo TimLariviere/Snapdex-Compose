@@ -19,6 +19,7 @@ import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.AIModel
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexRadioButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
@@ -75,17 +76,17 @@ private fun ChooseAIModelScreen(
                 .pagePadding(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 options.forEach { model ->
                     Row(
                         modifier = Modifier
                             .clickable { onAction(ChooseAIModelAction.OnAIModelSelect(model)) },
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         SnapdexRadioButton(
                             selected = model == state.selected
@@ -127,7 +128,9 @@ private fun ChooseAIModelScreen(
 private fun ChooseAIModelScreenPreview() {
     AppTheme {
        ChooseAIModelScreen(
-           state = ChooseAIModelState(),
+           state = ChooseAIModelState(
+               selected = AIModel.OPENAI
+           ),
            onAction = {}
        )
    }

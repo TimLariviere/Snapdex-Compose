@@ -19,7 +19,8 @@ fun SnapdexScaffold(
 ) {
     Scaffold(
         modifier = modifier,
-        topBar = topBar
+        topBar = topBar,
+        contentColor = SnapdexTheme.colorScheme.onBackground
     ) { paddingValues ->
         SnapdexBackground {
             content(paddingValues)
