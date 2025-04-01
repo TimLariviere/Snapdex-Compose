@@ -15,14 +15,9 @@ import com.kanoyatech.snapdex.R
 object Icons {
     val ArrowBack = Icons.AutoMirrored.Default.ArrowBack
     val Search = Icons.Filled.Search
-    val Profile = Icons.Filled.AccountCircle
     val Close = Icons.Filled.Close
     val Add = Icons.Filled.Add
     val Check = Icons.Filled.Check
-
-    val Apps: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_apps)
 
     val ArrowDown: ImageVector
         @Composable
@@ -32,9 +27,25 @@ object Icons {
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.icon_category)
 
-    val EvolutionArrow: ImageVector
+    val Eye: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_evolution_arrow)
+        get() = ImageVector.vectorResource(id = R.drawable.icon_eye)
+
+    val EyeClosed: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_eye_closed)
+
+    val Filter: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_filter)
+
+    val GridUnselected: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_grid_unselected)
+
+    val GridSelected: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_grid_selected)
 
     val Height: ImageVector
         @Composable
@@ -44,23 +55,23 @@ object Icons {
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.icon_pokeball)
 
-    val Statistics: ImageVector
+    val ProfileUnselected: ImageVector
         @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_statistics)
+        get() = ImageVector.vectorResource(id = R.drawable.icon_profile_unselected)
+
+    val ProfileSelected: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_profile_selected)
+
+    val StatsUnselected: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_stats_unselected)
+
+    val StatsSelected: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_stats_selected)
 
     val Weight: ImageVector
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.icon_weight)
-
-    val Filter: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_filter)
-
-    val Eye: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_eye)
-
-    val EyeClosed: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_eye_closed)
 }

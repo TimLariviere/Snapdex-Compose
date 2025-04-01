@@ -92,7 +92,8 @@ fun MainScreen(
                 SnapdexNavBar(
                     tabs = arrayOf(
                         TabItem(
-                            imageVector = Icons.Apps,
+                            selectedImage = Icons.GridSelected,
+                            unselectedImage = Icons.GridUnselected,
                             onClick = {
                                 navController.navigate(PokedexTabRoute) {
                                     popUpTo(PokedexTabRoute) {
@@ -102,7 +103,8 @@ fun MainScreen(
                             }
                         ),
                         TabItem(
-                            imageVector = Icons.Statistics,
+                            selectedImage = Icons.StatsSelected,
+                            unselectedImage = Icons.StatsUnselected,
                             onClick = {
                                 navController.navigate(StatsTabRoute) {
                                     popUpTo(PokedexTabRoute) {
@@ -112,7 +114,8 @@ fun MainScreen(
                             }
                         ),
                         TabItem(
-                            imageVector = Icons.Profile,
+                            selectedImage = Icons.ProfileSelected,
+                            unselectedImage = Icons.ProfileUnselected,
                             onClick = {
                                 navController.navigate(ProfileTabRoute) {
                                     popUpTo(PokedexTabRoute) {

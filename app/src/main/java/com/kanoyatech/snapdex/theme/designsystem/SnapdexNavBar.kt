@@ -5,8 +5,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -45,24 +45,21 @@ fun SnapdexNavBar(
     AnimatedVisibility(
         modifier = modifier,
         visible = shouldShowNavBar(),
-        enter = slideInVertically(initialOffsetY = { it }),
-        exit = slideOutVertically(targetOffsetY = { it })
+        enter = slideInVertically(initialOffsetY = { it * 2 }),
+        exit = slideOutVertically(targetOffsetY = { it * 2 })
     ) {
         Box(
             modifier = Modifier
                 .height(IntrinsicSize.Min)
                 .width(IntrinsicSize.Min)
-                .clip(SnapdexTheme.shapes.regular)
-                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.9f))
-                .border(
-                    width = 1.dp,
-                    color = SnapdexTheme.colorScheme.outline
-                )
+                .clip(SnapdexTheme.shapes.navBar)
+                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.85f))
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(horizontal = 4.dp, vertical = 4.dp)
+                    .padding(horizontal = 36.dp),
+                verticalAlignment = Alignment.Bottom
             ) {
                 if (startWeight > 0.0f) {
                     Spacer(modifier = Modifier.weight(startWeight))
@@ -70,9 +67,9 @@ fun SnapdexNavBar(
 
                 Box(
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f)
-                        .clip(SnapdexTheme.shapes.regular)
+                        .height(4.dp)
+                        .width(40.dp)
+                        .clip(SnapdexTheme.shapes.navBarIndicator)
                         .background(SnapdexTheme.colorScheme.primary)
                 )
 
@@ -83,13 +80,14 @@ fun SnapdexNavBar(
 
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(24.dp)
+                    .padding(horizontal = 40.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
                 tabs.forEachIndexed { index, tab ->
+                    val isSelected = index == selectedTab.intValue
                     SnapdexTabItem(
-                        imageVector = tab.imageVector,
-                        selected = index == selectedTab.intValue
+                        imageVector = if (isSelected) tab.selectedImage else tab.unselectedImage,
+                        selected = isSelected
                     ) {
                         selectedTab.intValue = index
                         tab.onClick()
@@ -110,17 +108,20 @@ private fun SnapdexTabItem(
     Icon(
         imageVector = imageVector,
         contentDescription = null,
-        tint = if (selected) SnapdexTheme.colorScheme.onPrimary else SnapdexTheme.colorScheme.onSurface,
+        tint = if (selected) SnapdexTheme.colorScheme.primary else SnapdexTheme.colorScheme.onBackground,
         modifier = modifier
             .size(32.dp)
-            .clickable {
-                onClick()
-            }
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
+            )
     )
 }
 
 data class TabItem(
-    val imageVector: ImageVector,
+    val selectedImage: ImageVector,
+    val unselectedImage: ImageVector,
     val onClick: () -> Unit
 )
 
@@ -132,15 +133,18 @@ private fun SnapdexNavBarPreview() {
             SnapdexNavBar(
                 tabs = arrayOf(
                     TabItem(
-                        imageVector = Icons.Pokeball,
+                        selectedImage = Icons.GridSelected,
+                        unselectedImage = Icons.GridUnselected,
                         onClick = {}
                     ),
                     TabItem(
-                        imageVector = Icons.Statistics,
+                        selectedImage = Icons.StatsSelected,
+                        unselectedImage = Icons.StatsUnselected,
                         onClick = {}
                     ),
                     TabItem(
-                        imageVector = Icons.Profile,
+                        selectedImage = Icons.ProfileSelected,
+                        unselectedImage = Icons.ProfileUnselected,
                         onClick = {}
                     )
                 ),
