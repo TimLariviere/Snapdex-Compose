@@ -1,5 +1,7 @@
 # Snapdex - Compose Edition
 
+_Check out [Snapdex – SwiftUI Edition](https://github.com/TimLariviere/Snapdex-SwiftUI) to see my SwiftUI development in action._
+
 <p align="center">
   <img src="images/hero.png" height="300">
 </p>
