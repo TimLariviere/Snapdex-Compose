@@ -1,6 +1,7 @@
 package com.kanoyatech.snapdex.ui.main.profile.choose_aimodel
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,15 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.AIModel
-import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexRadioButton
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
@@ -84,7 +84,11 @@ private fun ChooseAIModelScreen(
                 options.forEach { model ->
                     Row(
                         modifier = Modifier
-                            .clickable { onAction(ChooseAIModelAction.OnAIModelSelect(model)) },
+                            .clickable(
+                                interactionSource = MutableInteractionSource(),
+                                indication = null,
+                                onClick = { onAction(ChooseAIModelAction.OnAIModelSelect(model)) }
+                            ),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
