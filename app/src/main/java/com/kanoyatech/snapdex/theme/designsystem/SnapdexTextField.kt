@@ -1,22 +1,18 @@
 package com.kanoyatech.snapdex.theme.designsystem
 
-import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
-import com.kanoyatech.snapdex.theme.AppTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,10 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 @Composable
@@ -40,8 +36,6 @@ fun SnapdexTextField(
     state: TextFieldState,
     modifier: Modifier = Modifier,
     hint: String = "",
-    startIcon: ImageVector? = null,
-    endIcon: ImageVector? = null,
     keyboardType: KeyboardType = KeyboardType.Text
 ) {
     var isFocused by remember {
@@ -81,16 +75,6 @@ fun SnapdexTextField(
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (startIcon != null) {
-                    Icon(
-                        imageVector = startIcon,
-                        contentDescription = null,
-                        tint = SnapdexTheme.colorScheme.onSurfaceVariant
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-                }
-
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -106,18 +90,6 @@ fun SnapdexTextField(
 
                     innerBox()
                 }
-
-                if (endIcon != null) {
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Icon(
-                        imageVector = endIcon,
-                        contentDescription = null,
-                        tint = SnapdexTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                    )
-                }
             }
         }
     )
@@ -130,8 +102,6 @@ private fun SnapdexTextFieldPreview() {
         SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
             SnapdexTextField(
                 state = rememberTextFieldState(),
-                startIcon = null,
-                endIcon = null,
                 hint = "Email",
                 modifier = Modifier
                     .fillMaxWidth()

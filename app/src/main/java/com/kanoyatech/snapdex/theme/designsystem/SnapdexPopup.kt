@@ -51,7 +51,6 @@ fun SnapdexPopup(
 
                 Text(
                     text = description,
-                    style = SnapdexTheme.typography.paragraph,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()

@@ -25,8 +25,8 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.GifImage
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircularProgressIndicator
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.ui.utils.PokemonResourceProvider
 import com.kanoyatech.snapdex.ui.utils.translated
 import java.util.Locale
@@ -118,7 +118,7 @@ private fun PokemonCaught(
             )
         }
         SnapdexPrimaryButton(
-            text = "Awesome!",
+            text = stringResource(id = R.string.awesome),
             onClick = onDismissRequest
         )
     }

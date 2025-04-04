@@ -39,7 +39,6 @@ data class ColorScheme(
     val surfaceVariant: Color,
     val onSurface: Color,
     val onSurfaceVariant: Color,
-    val surfaceContainer: Color, // Tab bar
     val outline: Color,
     val inOutline: Color,
     val success: Color,
@@ -58,7 +57,6 @@ val LightColors = ColorScheme(
     surfaceVariant = Color(0xFFFFE9CF),
     onSurface = Color(0xFF68635E),
     onSurfaceVariant = Color(0x8068635E),
-    surfaceContainer = Color(0xFF0000FF),
     outline = Color(0xFFFFD9C3),
     inOutline = Color(0xFFFFFFFF),
     success = Color(0xFF059F30),
@@ -68,21 +66,20 @@ val LightColors = ColorScheme(
 
 val DarkColors = ColorScheme(
     primary = Color(0xFFFF6999),
-    onPrimary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF2C73FF),
-    background = Color(0xFFFFF0A2),
-    backgroundVariant = Color(0xFFFFCCD8),
-    onBackground = Color(0xFF68635E),
-    surface = Color(0x4DFFFFFF),
-    surfaceVariant = Color(0xFFFFE9CF),
-    onSurface = Color(0xFF68635E),
-    onSurfaceVariant = Color(0xFF68635E),
-    surfaceContainer = Color(0xFF0000FF),
-    outline = Color(0xFFFFD9C3),
-    inOutline = Color(0xFFFFFFFF),
-    success = Color(0xFF00FF00),
-    error = Color(0xFFFF0000),
-    onError = Color(0xFFFFFFFF)
+    onPrimary = Color(0xFF000000),
+    secondary = Color(0xFF80AFFF),
+    background = Color(0xFF1E1E1E),
+    backgroundVariant = Color(0xFF2B2B2B),
+    onBackground = Color(0xFFE0E0E0),
+    surface = Color(0x33FFFFFF),
+    surfaceVariant = Color(0xFF333333),
+    onSurface = Color(0xFF3B3B3B),
+    onSurfaceVariant = Color(0x80E0E0E0),
+    outline = Color(0xFF555555),
+    inOutline = Color(0xFF1E1E1E),
+    success = Color(0xFF00C853),
+    error = Color(0xFFFF5252),
+    onError = Color(0xFF000000)
 )
 
 val LocalColors = staticCompositionLocalOf { LightColors }

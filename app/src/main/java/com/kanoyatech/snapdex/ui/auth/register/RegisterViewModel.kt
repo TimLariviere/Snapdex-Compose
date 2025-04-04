@@ -7,14 +7,15 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.domain.repositories.RegisterError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
-import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.utils.TypedResult
 import com.kanoyatech.snapdex.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -31,43 +32,29 @@ class RegisterViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
-        snapshotFlow { state.avatar }
-            .onEach {
-                val isAvatarValid = it > -1
-                state = state.copy(
-                    isAvatarValid = isAvatarValid,
-                    canRegister = isAvatarValid && state.isNameValid && state.isEmailValid && state.passwordValidationState.isValid
-                )
-            }
-            .launchIn(viewModelScope)
-
-        state.name.textAsFlow()
-            .onEach {
-                val isNameValid = userDataValidator.validateName(it.toString())
-                state = state.copy(
-                    isNameValid = isNameValid,
-                    canRegister = state.isAvatarValid && isNameValid && state.isEmailValid && state.passwordValidationState.isValid
-                )
-            }
-            .launchIn(viewModelScope)
-
-        state.email.textAsFlow()
-            .onEach {
-                val isEmailValid = userDataValidator.validateEmail(it.toString())
-                state = state.copy(
-                    isEmailValid = isEmailValid,
-                    canRegister = state.isAvatarValid && state.isNameValid && isEmailValid && state.passwordValidationState.isValid
-                )
-            }
-            .launchIn(viewModelScope)
+        val avatarFlow = snapshotFlow { state.avatar }
+        val passwordValidationStateFlow = snapshotFlow { state.passwordValidationState }
+        val isRegisteringFlow = snapshotFlow { state.isRegistering }
 
         state.password.textAsFlow()
             .onEach {
                 val passwordValidationState = userDataValidator.validatePassword(it.toString())
-                state = state.copy(
-                    passwordValidationState = passwordValidationState,
-                    canRegister = state.isAvatarValid && state.isNameValid && state.isEmailValid && passwordValidationState.isValid
-                )
+                state = state.copy(passwordValidationState = passwordValidationState)
+            }
+            .launchIn(viewModelScope)
+
+        combine(avatarFlow, state.name.textAsFlow(), state.email.textAsFlow(), passwordValidationStateFlow, isRegisteringFlow) { avatar, name, email, passwordValidationState, isRegistering ->
+            if (isRegistering) {
+                false
+            } else {
+                val isAvatarValid = avatar > -1
+                val isNameValid = userDataValidator.validateName(name.toString())
+                val isEmailValid = userDataValidator.validateEmail(email.toString())
+                isAvatarValid && isNameValid && isEmailValid && passwordValidationState.isValid
+            }
+        }
+            .onEach { canRegister ->
+                state = state.copy(canRegister = canRegister)
             }
             .launchIn(viewModelScope)
     }

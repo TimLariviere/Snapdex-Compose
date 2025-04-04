@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,14 +35,14 @@ import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
 import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.ui.components.PasswordRequirements
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
 import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.AvatarUi
+import com.kanoyatech.snapdex.ui.components.PasswordRequirements
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
@@ -123,7 +122,7 @@ private fun RegisterScreen(
                 ) {
                     Text(
                         text = stringResource(id = R.string.name_hint),
-                        style = MaterialTheme.typography.bodySmall
+                        style = SnapdexTheme.typography.smallLabel
                     )
 
                     SnapdexTextField(
@@ -136,7 +135,7 @@ private fun RegisterScreen(
                 ) {
                     Text(
                         text = stringResource(id = R.string.email_hint),
-                        style = MaterialTheme.typography.bodySmall
+                        style = SnapdexTheme.typography.smallLabel
                     )
 
                     SnapdexTextField(
@@ -150,7 +149,7 @@ private fun RegisterScreen(
                 ) {
                     Text(
                         text = stringResource(id = R.string.password_hint),
-                        style = MaterialTheme.typography.bodySmall
+                        style = SnapdexTheme.typography.smallLabel
                     )
 
                     SnapdexPasswordField(

@@ -105,7 +105,7 @@ private fun SnapdexTabItem(
     Icon(
         imageVector = imageVector,
         contentDescription = null,
-        tint = if (selected) SnapdexTheme.colorScheme.primary else SnapdexTheme.colorScheme.onBackground,
+        tint = if (selected) SnapdexTheme.colorScheme.primary else SnapdexTheme.colorScheme.onSurface,
         modifier = modifier
             .size(32.dp)
             .clickable(

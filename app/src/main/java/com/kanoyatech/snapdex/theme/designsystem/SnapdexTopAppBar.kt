@@ -23,7 +23,8 @@ fun SnapdexTopAppBar(
     TopAppBar(
         title = {
             Text(
-                text = title
+                text = title,
+                style = SnapdexTheme.typography.heading2
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(

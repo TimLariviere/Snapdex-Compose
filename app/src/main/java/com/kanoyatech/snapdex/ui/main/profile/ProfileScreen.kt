@@ -38,12 +38,12 @@ import com.kanoyatech.snapdex.domain.AIModel
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.ui.components.AvatarView
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
 import com.kanoyatech.snapdex.theme.designsystem.PopupButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexDialogPicker
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexHorizontalDivider
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPopup
+import com.kanoyatech.snapdex.ui.components.AvatarView
 import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsPickerButton
@@ -134,11 +134,11 @@ private fun ProfileScreen(
 
                 Column {
                     Text(
-                        text = state.user.name,
+                        text = "Maximilian", //state.user.name,
                         style = SnapdexTheme.typography.heading3
                     )
                     Text(
-                        text = state.user.email,
+                        text = "maximilian@snapdex.com", //state.user.email,
                         style = SnapdexTheme.typography.largeLabel
                     )
                 }

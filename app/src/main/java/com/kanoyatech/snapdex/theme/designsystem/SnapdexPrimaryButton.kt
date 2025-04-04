@@ -3,7 +3,7 @@ package com.kanoyatech.snapdex.theme.designsystem
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,9 +20,11 @@ fun SnapdexPrimaryButton(
     isBusy: Boolean = false,
     onClick: () -> Unit
 ) {
-    val colors = ButtonDefaults.buttonColors().copy(
+    val colors = ButtonColors(
         containerColor = SnapdexTheme.colorScheme.primary,
-        contentColor = SnapdexTheme.colorScheme.onPrimary
+        contentColor = SnapdexTheme.colorScheme.onPrimary,
+        disabledContainerColor = SnapdexTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+        disabledContentColor = SnapdexTheme.colorScheme.onSurface.copy(alpha = 0.38f)
     )
 
     Button(

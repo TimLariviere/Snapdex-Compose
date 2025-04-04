@@ -121,4 +121,5 @@
     <string name="change_password_failed">Echec du changement de mot de passe</string>
     <string name="catch_failed">Echec de la capture du pokémon</string>
     <string name="loading_pokedex">Chargement de votre Pokédex…</string>
+    <string name="awesome">Génial !</string>
 </resources>
