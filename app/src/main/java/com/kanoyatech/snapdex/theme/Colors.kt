@@ -66,20 +66,20 @@ val LightColors = ColorScheme(
 
 val DarkColors = ColorScheme(
     primary = Color(0xFFFF6999),
-    onPrimary = Color(0xFF000000),
+    onPrimary = Color(0xFFFFFFFF),
     secondary = Color(0xFF80AFFF),
     background = Color(0xFF1E1E1E),
     backgroundVariant = Color(0xFF2B2B2B),
     onBackground = Color(0xFFE0E0E0),
     surface = Color(0x33FFFFFF),
     surfaceVariant = Color(0xFF333333),
-    onSurface = Color(0xFF3B3B3B),
+    onSurface = Color(0xFFD7D7D7),
     onSurfaceVariant = Color(0x80E0E0E0),
     outline = Color(0xFF555555),
     inOutline = Color(0xFF1E1E1E),
     success = Color(0xFF00C853),
     error = Color(0xFFFF5252),
-    onError = Color(0xFF000000)
+    onError = Color(0xFFFFFFFF)
 )
 
 val LocalColors = staticCompositionLocalOf { LightColors }
