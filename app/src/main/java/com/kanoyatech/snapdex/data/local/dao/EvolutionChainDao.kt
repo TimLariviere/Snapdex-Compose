@@ -6,7 +6,6 @@ import androidx.room.Relation
 import androidx.room.Transaction
 import com.kanoyatech.snapdex.data.local.entities.EvolutionChainLinkEntity
 import com.kanoyatech.snapdex.data.local.entities.PokemonEntity
-import com.kanoyatech.snapdex.domain.models.PokemonId
 
 @Dao
 interface EvolutionChainDao {
@@ -17,7 +16,7 @@ interface EvolutionChainDao {
         LEFT OUTER JOIN EvolutionChainLinks ecl ON ecl.evolutionChainId = ec.id
         WHERE ec.startingPokemonId = :pokemonId OR ecl.pokemonId = :pokemonId
     """)
-    suspend fun getFor(pokemonId: PokemonId): EvolutionChainWithRelations?
+    suspend fun getFor(pokemonId: Int): EvolutionChainWithRelations?
 }
 
 class EvolutionChainWithRelations {

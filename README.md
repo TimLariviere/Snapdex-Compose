@@ -1,10 +1,8 @@
 # Snapdex - Compose Edition
 
-_Check out [Snapdex – SwiftUI Edition](https://github.com/TimLariviere/Snapdex-SwiftUI) to see my SwiftUI development in action._
+<a href="https://play.google.com/store/apps/details?id=com.kanoyatech.snapdex"><img src="images/Google_Play_Store_badge_EN.svg"></a>
 
-<p align="center">
-  <img src="images/hero.png" height="300">
-</p>
+_Check out [Snapdex – SwiftUI Edition](https://github.com/TimLariviere/Snapdex-SwiftUI) to see my SwiftUI development in action._
 
 Snapdex is a production-quality **Pokédex-style app** built with Kotlin and Jetpack Compose. Users can snap pictures of Pokemon merch found in the wild (plushes, trading cards, etc) to complete their own Pokédex thanks to AI-powered recognition (TensorFlow Lite and OpenAI). This project is designed to serve both as a **learning experience** and a **professional showcase** of modern Android development skills.
 
