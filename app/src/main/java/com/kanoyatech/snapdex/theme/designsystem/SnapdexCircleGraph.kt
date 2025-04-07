@@ -9,7 +9,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.theme.AppTheme
@@ -28,7 +28,7 @@ fun SnapdexCircleGraph(
     val borderPx = with(LocalDensity.current) { borderWidth.toPx() }
 
     val fillColor = SnapdexTheme.colorScheme.primary
-    val outlineColor = SnapdexTheme.colorScheme.outline
+    val outlineColor = SnapdexTheme.colorScheme.statsFill
 
     Canvas(modifier = modifier) {
         val diameter = size.minDimension
@@ -72,15 +72,17 @@ fun SnapdexCircleGraph(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SnapdexArcGraphPreview() {
     AppTheme {
-        SnapdexCircleGraph(
-            progress = 0.35f,
-            modifier = Modifier
-                .height(360.dp)
-                .width(240.dp)
-        )
+        SnapdexBackground {
+            SnapdexCircleGraph(
+                progress = 0.35f,
+                modifier = Modifier
+                    .height(360.dp)
+                    .width(240.dp)
+            )
+        }
     }
 }

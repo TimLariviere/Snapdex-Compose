@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.kanoyatech.snapdex.theme.AppTheme
+import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 @Composable
 fun SnapdexLinkButton(
@@ -18,6 +19,7 @@ fun SnapdexLinkButton(
     Text(
         text = text,
         textDecoration = TextDecoration.Underline,
+        color = SnapdexTheme.colorScheme.primary,
         modifier = modifier
             .clickable(enabled = enabled, onClick = onClick)
     )

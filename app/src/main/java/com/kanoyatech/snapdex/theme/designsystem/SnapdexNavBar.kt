@@ -25,7 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
@@ -52,7 +52,7 @@ fun SnapdexNavBar(
                 .height(IntrinsicSize.Min)
                 .width(IntrinsicSize.Min)
                 .clip(SnapdexTheme.shapes.navBar)
-                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.85f))
+                .background(SnapdexTheme.colorScheme.navBarBackground)
         ) {
             Row(
                 modifier = Modifier
@@ -105,7 +105,7 @@ private fun SnapdexTabItem(
     Icon(
         imageVector = imageVector,
         contentDescription = null,
-        tint = if (selected) SnapdexTheme.colorScheme.primary else SnapdexTheme.colorScheme.onSurface,
+        tint = if (selected) SnapdexTheme.colorScheme.primary else SnapdexTheme.colorScheme.navBarOnBackground,
         modifier = modifier
             .size(32.dp)
             .clickable(
@@ -122,7 +122,7 @@ data class TabItem(
     val onClick: () -> Unit
 )
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SnapdexNavBarPreview() {
     AppTheme {

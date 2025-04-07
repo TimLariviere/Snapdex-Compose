@@ -25,8 +25,8 @@ import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexLinkButton
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
+import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
 import com.kanoyatech.snapdex.theme.pagePadding
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
@@ -100,6 +100,7 @@ private fun LoginScreen(
                 Text(
                     text = stringResource(id = R.string.snapdex).uppercase(),
                     style = SnapdexTheme.typography.heading1,
+                    color = SnapdexTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()

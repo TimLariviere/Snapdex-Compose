@@ -43,7 +43,10 @@ data class ColorScheme(
     val inOutline: Color,
     val success: Color,
     val error: Color,
-    val onError: Color
+    val onError: Color,
+    val navBarBackground: Color,
+    val navBarOnBackground: Color,
+    val statsFill: Color
 )
 
 val LightColors = ColorScheme(
@@ -61,7 +64,10 @@ val LightColors = ColorScheme(
     inOutline = Color(0xFFFFFFFF),
     success = Color(0xFF059F30),
     error = Color(0xFFD10303),
-    onError = Color(0xFFFFFFFF)
+    onError = Color(0xFFFFFFFF),
+    navBarBackground = Color(0xD9FFFFFF),
+    navBarOnBackground = Color(0xFF68635E),
+    statsFill = Color(0xFFFFD9C3)
 )
 
 val DarkColors = ColorScheme(
@@ -73,13 +79,16 @@ val DarkColors = ColorScheme(
     onBackground = Color(0xFFE0E0E0),
     surface = Color(0x33FFFFFF),
     surfaceVariant = Color(0xFF333333),
-    onSurface = Color(0xFFD7D7D7),
-    onSurfaceVariant = Color(0x80E0E0E0),
-    outline = Color(0xFF986C7C),
-    inOutline = Color(0xFF1E1E1E),
+    onSurface = Color(0xFFD9D3D8),
+    onSurfaceVariant = Color(0xC1FADDE9),
+    outline = Color(0xFF98717F),
+    inOutline = Color(0xFFE0E0E0),
     success = Color(0xFF00C853),
-    error = Color(0xFFFF5252),
-    onError = Color(0xFFFFFFFF)
+    error = Color(0xFFF63535),
+    onError = Color(0xFFFFFFFF),
+    navBarBackground = Color(0xD9FFFFFF),
+    navBarOnBackground = Color(0xFF68635E),
+    statsFill = Color(0xFF464444)
 )
 
 val LocalColors = staticCompositionLocalOf { LightColors }

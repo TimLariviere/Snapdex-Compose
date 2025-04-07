@@ -25,7 +25,7 @@ fun SnapdexLinearGraph(
     Row(
         modifier = modifier
             .clip(SnapdexTheme.shapes.small)
-            .background(SnapdexTheme.colorScheme.surface)
+            .background(SnapdexTheme.colorScheme.statsFill)
             .border(
                 width = 1.dp,
                 color = SnapdexTheme.colorScheme.outline,

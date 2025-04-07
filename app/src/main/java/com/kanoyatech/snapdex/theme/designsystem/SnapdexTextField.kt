@@ -26,7 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
@@ -95,7 +95,7 @@ fun SnapdexTextField(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SnapdexTextFieldPreview() {
     AppTheme {

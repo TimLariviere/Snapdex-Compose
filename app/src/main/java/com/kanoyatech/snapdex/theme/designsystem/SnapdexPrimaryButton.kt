@@ -41,7 +41,9 @@ fun SnapdexPrimaryButton(
                     .size(24.dp)
             )
         } else {
-            Text(text)
+            Text(
+                text,
+                style = SnapdexTheme.typography.paragraph)
         }
     }
 }

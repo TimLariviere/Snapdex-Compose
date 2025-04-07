@@ -31,7 +31,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.AIModel
@@ -161,7 +161,7 @@ private fun ProfileScreen(
                     Column(
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))
-                            .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.3f))
+                            .background(SnapdexTheme.colorScheme.surface)
                     ) {
                         DestructiveSettingsButton(stringResource(id = R.string.logout)) {
                             onAction(ProfileAction.OnLogoutClick)
@@ -208,7 +208,7 @@ private fun AccountSettings(
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
-                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.3f))
+                .background(SnapdexTheme.colorScheme.surface)
         ) {
             SettingsButton(
                 text = stringResource(id = R.string.change_name),
@@ -262,7 +262,7 @@ private fun AppSettings(
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
-                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.3f))
+                .background(SnapdexTheme.colorScheme.surface)
         ) {
             SettingsPickerButton(
                 text = stringResource(id = R.string.ai_model),
@@ -309,7 +309,7 @@ private fun About(
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
-                .background(SnapdexTheme.colorScheme.surface.copy(alpha = 0.3f))
+                .background(SnapdexTheme.colorScheme.surface)
         ) {
             SettingsButton(
                 text = stringResource(id = R.string.licenses_and_credits),
@@ -411,13 +411,14 @@ private fun LanguageDialog(
         Text(
             text = localeName,
             textAlign = TextAlign.Center,
+            color = SnapdexTheme.colorScheme.onSurface,
             modifier = Modifier
                 .fillMaxWidth()
         )
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun ProfileScreenPreview() {
     AppTheme {

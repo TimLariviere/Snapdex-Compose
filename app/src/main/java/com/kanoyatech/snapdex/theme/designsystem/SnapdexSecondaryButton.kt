@@ -48,7 +48,8 @@ fun SnapdexSecondaryButton(
             .height(48.dp)
     ) {
         Text(
-            text = text
+            text = text,
+            style = SnapdexTheme.typography.paragraph
         )
     }
 }

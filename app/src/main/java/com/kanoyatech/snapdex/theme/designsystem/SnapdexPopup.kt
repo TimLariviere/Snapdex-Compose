@@ -6,15 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 
 data class PopupButton(
@@ -33,13 +32,13 @@ fun SnapdexPopup(
     onDismissRequest: () -> Unit
 ) {
     Dialog(onDismissRequest) {
-        CompositionLocalProvider(LocalContentColor provides SnapdexTheme.colorScheme.onBackground) {
+        AppTheme {
             Column(
                 modifier = Modifier
                     .clip(SnapdexTheme.shapes.small)
                     .background(SnapdexTheme.colorScheme.surfaceVariant)
                     .padding(horizontal = 16.dp, vertical = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 Text(
                     text = title,

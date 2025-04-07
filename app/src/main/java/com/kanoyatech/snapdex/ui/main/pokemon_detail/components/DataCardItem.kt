@@ -15,19 +15,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Composition
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.theme.LocalColors
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
@@ -86,7 +85,7 @@ fun DataCardItem(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun DataCardItemPreview() {
     AppTheme {

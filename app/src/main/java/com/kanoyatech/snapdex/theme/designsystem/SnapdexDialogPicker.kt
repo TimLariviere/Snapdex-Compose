@@ -17,9 +17,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.kanoyatech.snapdex.theme.AppTheme
@@ -67,7 +66,7 @@ fun <T> SnapdexDialogPicker(
                             modifier = Modifier
                                 .weight(1f)
                                 .clip(SnapdexTheme.shapes.regular)
-                                .background(Color.White)
+                                .background(SnapdexTheme.colorScheme.surface)
                                 .border(
                                     width = if (isSelected) 1.dp else 0.dp,
                                     color = if (isSelected) {
@@ -104,7 +103,7 @@ fun <T> SnapdexDialogPicker(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SnapdexDialogPickerPreview() {
     AppTheme {

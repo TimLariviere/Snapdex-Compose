@@ -38,7 +38,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
@@ -312,7 +312,7 @@ fun TakePictureButton(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark()
 @Composable
 private fun PokedexScreenPreview() {
     AppTheme {

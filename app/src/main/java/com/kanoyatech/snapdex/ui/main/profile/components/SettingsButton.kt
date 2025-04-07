@@ -39,7 +39,7 @@ fun SettingsPickerButton(
         Text(
             text = value,
             style = SnapdexTheme.typography.smallLabel,
-            color = SnapdexTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+            color = SnapdexTheme.colorScheme.onBackground,
             modifier = Modifier
                 .padding(end = 20.dp)
         )

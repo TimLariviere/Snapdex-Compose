@@ -30,14 +30,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.domain.models.Statistic
-import com.kanoyatech.snapdex.domain.units.Percentage
-import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.theme.AppTheme
 import com.kanoyatech.snapdex.theme.SnapdexTheme
 import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
@@ -200,7 +198,7 @@ private fun TypeProgress(type: PokemonType, statistic: Statistic, modifier: Modi
                 Text(
                     text = stringResource(id = R.string.percentage, completionRateInt),
                     style = SnapdexTheme.typography.heading3.copy(
-                        fontSize = 28.sp
+                        fontSize = 20.sp
                     )
                 )
             }
@@ -213,14 +211,34 @@ private fun TypeProgress(type: PokemonType, statistic: Statistic, modifier: Modi
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun StatsScreenPreview() {
      AppTheme {
          SnapdexBackground {
              StatsScreen(
                  paddingValues = PaddingValues(0.dp),
-                 state = StatsState(),
+                 state = StatsState(
+                     completionByType = mapOf(
+                         PokemonType.BUG to Statistic(totalPokemonCount = 151, caughtPokemonCount = 24),
+                         PokemonType.DRAGON to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.ELECTRIC to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.FAIRY to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.FIGHTING to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.FIRE to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.FLYING to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.GHOST to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.GRASS to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.GROUND to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.ICE to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.NORMAL to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.POISON to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.PSYCHIC to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.ROCK to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.STEEL to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                         PokemonType.WATER to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                     )
+                 ),
                  onAction = {}
              )
          }
