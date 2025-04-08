@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set versionCode from GitHub run number
+        run: |
+          sed -i "s/versionCode = [0-9]\+/versionCode = ${{ github.run_number }}/" "app/build.gradle.kts"
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
