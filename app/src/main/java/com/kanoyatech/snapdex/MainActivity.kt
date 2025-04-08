@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -22,12 +22,13 @@ import org.koin.compose.koinInject
 fun SetStatusBarColor() {
     val view = LocalView.current
     val context = LocalContext.current
+    val isDarkTheme = isSystemInDarkTheme()
 
     if (!view.isInEditMode) {
-        SideEffect {
+        LaunchedEffect(isDarkTheme) {
             val window = (context as Activity).window
             val wic = WindowInsetsControllerCompat(window, view)
-            wic.isAppearanceLightStatusBars = true
+            wic.isAppearanceLightStatusBars = !isDarkTheme
         }
     }
 }

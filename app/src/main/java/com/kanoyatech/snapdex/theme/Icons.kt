@@ -2,7 +2,6 @@ package com.kanoyatech.snapdex.theme
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -22,6 +21,10 @@ object Icons {
     val ArrowDown: ImageVector
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.icon_arrow_down)
+
+    val App: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.icon_app)
 
     val Category: ImageVector
         @Composable
