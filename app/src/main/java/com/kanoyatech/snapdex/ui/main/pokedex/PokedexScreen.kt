@@ -54,7 +54,7 @@ import com.kanoyatech.snapdex.ui.main.pokedex.components.RecognitionOverlay
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SearchView
 import com.kanoyatech.snapdex.ui.main.pokedex.components.SmallTypeBadge
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
-import com.kanoyatech.snapdex.ui.utils.getLocale
+import com.kanoyatech.snapdex.ui.utils.getGlobalLocale
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.utils.translated
 import org.koin.androidx.compose.koinViewModel
@@ -67,7 +67,7 @@ fun PokedexScreenRoot(
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
-    val locale = configuration.getLocale()
+    val locale = configuration.getGlobalLocale()
 
     LaunchedEffect(locale) {
         viewModel.locale = locale

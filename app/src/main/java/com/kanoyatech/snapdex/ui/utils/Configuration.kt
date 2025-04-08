@@ -10,13 +10,13 @@ import java.util.Locale
 
 @Composable
 @ReadOnlyComposable
-fun Configuration.getLocale(): Locale {
-    return ConfigurationCompat.getLocales(this).get(0) ?: LocaleListCompat.getDefault()[0]!!
+fun Configuration.getGlobalLocale(): Locale {
+    var locale = ConfigurationCompat.getLocales(this).get(0) ?: LocaleListCompat.getDefault()[0]!!
+    return Locale.forLanguageTag(locale.language)
 }
 
 @Composable
 fun Map<Locale, String>.translated(): String {
-    val locale = LocalConfiguration.current.getLocale()
-    val globalLocale = Locale.forLanguageTag(locale.language)
-    return this.getOrElse(globalLocale, { "TRANSLATION MISSING" })
+    val locale = LocalConfiguration.current.getGlobalLocale()
+    return this.getOrElse(locale, { "TRANSLATION MISSING" })
 }

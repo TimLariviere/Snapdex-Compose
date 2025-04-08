@@ -48,7 +48,7 @@ import com.kanoyatech.snapdex.ui.main.profile.components.DestructiveSettingsButt
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsButton
 import com.kanoyatech.snapdex.ui.main.profile.components.SettingsPickerButton
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
-import com.kanoyatech.snapdex.ui.utils.getLocale
+import com.kanoyatech.snapdex.ui.utils.getGlobalLocale
 import org.koin.androidx.compose.koinViewModel
 import java.util.Locale
 
@@ -65,7 +65,7 @@ fun ProfileScreenRoot(
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
-    val locale = configuration.getLocale()
+    val locale = configuration.getGlobalLocale()
 
     LaunchedEffect(locale) {
         viewModel.onAction(ProfileAction.OnLanguageChange(locale))
