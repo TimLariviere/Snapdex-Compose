@@ -9,8 +9,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.data.classifiers.Classifier
+import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.CatchPokemonError
@@ -49,14 +49,14 @@ class PokedexViewModel(
         val searchFlow = state.searchState.text.textAsFlow()
             .debounce(300L)
 
-        val pokemonsFlow_ = pokemonsFlow
+        val pokemonsFlow = pokemonsFlow
             .onEach { pokemons ->
                 state = state.copy(allPokemons = pokemons)
             }
 
         val localeFlow = snapshotFlow { locale }
 
-        combine(searchFlow, pokemonsFlow_, localeFlow) { searchText, allPokemons, locale ->
+        combine(searchFlow, pokemonsFlow, localeFlow) { searchText, allPokemons, locale ->
             if (searchText.isBlank()) {
                 null
             } else {
