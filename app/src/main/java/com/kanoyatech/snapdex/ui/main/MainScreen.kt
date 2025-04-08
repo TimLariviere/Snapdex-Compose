@@ -81,6 +81,9 @@ fun MainScreen(
         ) {
             if (state.value.user == null) {
                 Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
                 ) {
                     SnapdexCircularProgressIndicator(
