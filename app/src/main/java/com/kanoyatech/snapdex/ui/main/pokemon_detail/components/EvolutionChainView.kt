@@ -45,11 +45,11 @@ import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexOutlinedText
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.Icons
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
+import com.kanoyatech.snapdex.designsystem.components.SnapdexOutlinedText
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.utils.translated
 import kotlinx.coroutines.delay

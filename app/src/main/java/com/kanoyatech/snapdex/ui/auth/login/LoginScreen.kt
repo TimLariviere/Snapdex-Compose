@@ -20,15 +20,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexLinkButton
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPasswordField
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
-import com.kanoyatech.snapdex.theme.pagePadding
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.pagePadding
+import com.kanoyatech.snapdex.designsystem.Icons
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
+import com.kanoyatech.snapdex.designsystem.components.SnapdexLinkButton
+import com.kanoyatech.snapdex.designsystem.components.SnapdexPasswordField
+import com.kanoyatech.snapdex.designsystem.components.SnapdexPrimaryButton
+import com.kanoyatech.snapdex.designsystem.components.SnapdexTextField
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 

@@ -14,9 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.PasswordValidationState
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.Icons
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 
 @Composable
 fun PasswordRequirements(

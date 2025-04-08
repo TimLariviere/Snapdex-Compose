@@ -13,10 +13,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
-import com.kanoyatech.snapdex.theme.pagePadding
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.components.SnapdexScaffold
+import com.kanoyatech.snapdex.designsystem.components.SnapdexTopAppBar
+import com.kanoyatech.snapdex.designsystem.pagePadding
 import dev.jeziellago.compose.markdowntext.MarkdownText
 
 @Composable

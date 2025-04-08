@@ -14,7 +14,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.kanoyatech.snapdex.theme.AppTheme
+import com.kanoyatech.snapdex.designsystem.AppTheme
 import org.koin.android.ext.android.inject
 import org.koin.compose.koinInject
 

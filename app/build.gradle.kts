@@ -27,9 +27,9 @@ android {
 
     defaultConfig {
         applicationId = projectApplicationId
-        minSdk = 26 // Android Oreo required for variable font
+        minSdk = 24
         targetSdk = 35
-        versionCode = 4
+        versionCode = 5
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -144,4 +144,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.bundles.compose.debug)
+
+    implementation(projects.snapdex.domain)
+    implementation(projects.snapdex.data)
+    implementation(projects.snapdex.designsystem)
 }

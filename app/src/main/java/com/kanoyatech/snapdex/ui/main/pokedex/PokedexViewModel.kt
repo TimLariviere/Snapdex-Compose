@@ -9,14 +9,14 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.domain.Classifier
+import com.kanoyatech.snapdex.domain.TypedResult
+import com.kanoyatech.snapdex.data.classifiers.Classifier
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.CatchPokemonError
 import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.main.pokedex.components.PokemonCaught
-import com.kanoyatech.snapdex.utils.TypedResult
 import com.kanoyatech.snapdex.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview

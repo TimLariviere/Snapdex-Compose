@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.models.PokemonType
-import com.kanoyatech.snapdex.theme.TypeColor
+import com.kanoyatech.snapdex.designsystem.TypeColor
 
 data class TypeUi(
     @StringRes val name: Int,

@@ -22,11 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.GifImage
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircularProgressIndicator
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.components.GifImage
+import com.kanoyatech.snapdex.designsystem.components.SnapdexCircularProgressIndicator
+import com.kanoyatech.snapdex.designsystem.components.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.ui.utils.PokemonResourceProvider
 import com.kanoyatech.snapdex.ui.utils.translated
 import java.util.Locale

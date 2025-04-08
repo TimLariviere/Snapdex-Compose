@@ -6,11 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.R
+import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.domain.repositories.ChangePasswordError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.UiText
-import com.kanoyatech.snapdex.utils.TypedResult
 import com.kanoyatech.snapdex.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel

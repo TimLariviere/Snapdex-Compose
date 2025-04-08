@@ -17,7 +17,7 @@ ksp = "2.1.10-1.0.31"
 koin = "3.5.3"
 googleServices = "4.4.2"
 firebaseBom = "33.11.0"
-kotlinxCoroutinesPlayServices = "1.7.3"
+kotlinxCoroutines = "1.7.3"
 tensorflowLite = "2.13.0"
 tensorflowLiteSupport = "0.4.4"
 datastorePreferences = "1.1.3"
@@ -25,6 +25,10 @@ coreSplashscreen = "1.0.1"
 composeMarkdown = "0.5.7"
 ktor = "2.3.6"
 crashlyticsPlugin = "3.0.3"
+jetbrainsKotlinJvm = "2.1.10"
+appcompat = "1.7.0"
+material = "1.12.0"
+uiTooling = "1.7.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,7 +51,8 @@ coil = { module="io.coil-kt:coil", version.ref="coil" }
 coil-compose = { module="io.coil-kt:coil-compose", version.ref="coil" }
 coil-gif = { module="io.coil-kt:coil-gif", version.ref="coil" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref= "kotlinxCoroutinesPlayServices" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines" }
 tensorflow-lite = { module = "org.tensorflow:tensorflow-lite", version.ref= "tensorflowLite" }
 tensorflow-lite-support = { module = "org.tensorflow:tensorflow-lite-support", version.ref = "tensorflowLiteSupport" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
@@ -82,6 +87,9 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 # Gradle
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -92,6 +100,8 @@ room = { id = "androidx.room", version.ref = "room" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlyticsPlugin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]
 compose = [

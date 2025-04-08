@@ -25,11 +25,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.units.kg
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.LocalColors
-import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.Icons
+import com.kanoyatech.snapdex.designsystem.LocalColors
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 @Composable

@@ -36,12 +36,12 @@ import androidx.compose.ui.unit.sp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.domain.models.Statistic
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircleGraph
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexLinearGraph
-import com.kanoyatech.snapdex.theme.pagePadding
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
+import com.kanoyatech.snapdex.designsystem.components.SnapdexCircleGraph
+import com.kanoyatech.snapdex.designsystem.components.SnapdexLinearGraph
+import com.kanoyatech.snapdex.designsystem.pagePadding
 import com.kanoyatech.snapdex.ui.TypeUi
 import org.koin.androidx.compose.koinViewModel
 

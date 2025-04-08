@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.theme.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 
 @Composable
 fun SettingsPickerButton(

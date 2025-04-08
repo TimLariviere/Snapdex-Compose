@@ -22,11 +22,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.SnapdexTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexBackground
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexIndicator
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
+import com.kanoyatech.snapdex.designsystem.components.SnapdexIndicator
+import com.kanoyatech.snapdex.designsystem.components.SnapdexPrimaryButton
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel

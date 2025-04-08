@@ -12,7 +12,7 @@ import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.ChangeNameError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.UiText
-import com.kanoyatech.snapdex.utils.TypedResult
+import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel

@@ -27,11 +27,11 @@ import com.kanoyatech.snapdex.ProfileTabRoute
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.StatsTabRoute
 import com.kanoyatech.snapdex.TabsNavigation
-import com.kanoyatech.snapdex.theme.Icons
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexCircularProgressIndicator
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexNavBar
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
-import com.kanoyatech.snapdex.theme.designsystem.TabItem
+import com.kanoyatech.snapdex.designsystem.Icons
+import com.kanoyatech.snapdex.designsystem.components.SnapdexCircularProgressIndicator
+import com.kanoyatech.snapdex.designsystem.components.SnapdexNavBar
+import com.kanoyatech.snapdex.designsystem.components.SnapdexScaffold
+import com.kanoyatech.snapdex.designsystem.components.TabItem
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject

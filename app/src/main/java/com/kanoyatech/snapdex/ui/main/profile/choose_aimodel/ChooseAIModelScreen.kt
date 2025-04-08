@@ -17,13 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.R
 import com.kanoyatech.snapdex.domain.AIModel
-import com.kanoyatech.snapdex.theme.AppTheme
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexPrimaryButton
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexRadioButton
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexScaffold
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexTextField
-import com.kanoyatech.snapdex.theme.designsystem.SnapdexTopAppBar
-import com.kanoyatech.snapdex.theme.pagePadding
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.components.SnapdexPrimaryButton
+import com.kanoyatech.snapdex.designsystem.components.SnapdexRadioButton
+import com.kanoyatech.snapdex.designsystem.components.SnapdexScaffold
+import com.kanoyatech.snapdex.designsystem.components.SnapdexTextField
+import com.kanoyatech.snapdex.designsystem.components.SnapdexTopAppBar
+import com.kanoyatech.snapdex.designsystem.pagePadding
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
