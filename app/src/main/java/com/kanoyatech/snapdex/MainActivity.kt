@@ -1,6 +1,7 @@
 package com.kanoyatech.snapdex
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,14 +20,17 @@ import org.koin.android.ext.android.inject
 import org.koin.compose.koinInject
 
 @Composable
-fun SetStatusBarColor() {
+fun ConfigureWindow() {
     val view = LocalView.current
     val context = LocalContext.current
     val isDarkTheme = isSystemInDarkTheme()
 
     if (!view.isInEditMode) {
         LaunchedEffect(isDarkTheme) {
-            val window = (context as Activity).window
+            val activity = context as Activity
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+            val window = activity.window
             val wic = WindowInsetsControllerCompat(window, view)
             wic.isAppearanceLightStatusBars = !isDarkTheme
         }
@@ -48,7 +52,7 @@ class MainActivity: ComponentActivity() {
         }
 
         setContent {
-            SetStatusBarColor()
+            ConfigureWindow()
 
             AppTheme {
                 if (!viewModel.state.isLoading) {
