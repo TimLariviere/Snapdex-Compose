@@ -5,12 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.kanoyatech.snapdex.data.repositories.PreferencesRepositoryImpl
+import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
-    private val auth: FirebaseAuth,
+    private val userRepository: UserRepository,
     private val preferencesRepositoryImpl: PreferencesRepositoryImpl
 ): ViewModel() {
     var state by mutableStateOf(MainActivityState())
@@ -22,7 +22,7 @@ class MainActivityViewModel(
                 isLoading = true
             )
             val hasSeenIntro = preferencesRepositoryImpl.getHasSeenIntro()
-            val isLoggedIn = auth.currentUser != null
+            val isLoggedIn = userRepository.isLoggedIn()
             state = state.copy(
                 isLoading = false,
                 hasSeenIntro = hasSeenIntro,

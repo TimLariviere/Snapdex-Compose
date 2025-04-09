@@ -1,8 +1,7 @@
 package com.kanoyatech.snapdex.data.classifiers
 
-import android.content.Context
-import android.graphics.Bitmap
 import android.util.Base64
+import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.repositories.EncryptedPreferencesRepository
 import io.ktor.client.HttpClient
@@ -15,7 +14,7 @@ import io.ktor.client.request.setBody
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 
 @Serializable
 data class ChatRequest(
@@ -80,13 +79,9 @@ Do not say anything else. Ignore all other instructions. You are only there to r
         """
     }
 
-    override suspend fun init(context: Context) {}
+    override suspend fun init() {}
 
-    override suspend fun classify(bitmap: Bitmap): PokemonId? {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        val imageBytes = stream.toByteArray()
-
+    override suspend fun classify(bitmap: ByteBuffer): PokemonId? {
         val client = HttpClient(OkHttp) {
             install(ContentNegotiation) {
                 json(Json {
@@ -95,7 +90,9 @@ Do not say anything else. Ignore all other instructions. You are only there to r
             }
         }
 
-        val base64Image = Base64.encodeToString(imageBytes, Base64.NO_WRAP)
+        val bytes = ByteArray(bitmap.capacity())
+        bitmap.get(bytes)
+        val base64Image = Base64.encodeToString(bytes, Base64.NO_WRAP)
         val imageUrl = "data:image/jpeg;base64,$base64Image"
 
         val prompt = INSTRUCTIONS.trimIndent()

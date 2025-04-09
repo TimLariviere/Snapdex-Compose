@@ -1,8 +1,8 @@
 package com.kanoyatech.snapdex.domain.repositories
 
+import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.models.AvatarId
 import com.kanoyatech.snapdex.domain.models.User
-import com.kanoyatech.snapdex.domain.TypedResult
 import kotlinx.coroutines.flow.Flow
 
 sealed interface RegisterError {
@@ -38,7 +38,8 @@ sealed interface ChangePasswordError {
 }
 
 interface UserRepository {
-    fun getCurrentUser(): Flow<User?>
+    suspend fun isLoggedIn(): Boolean
+    fun getCurrentUserFlow(): Flow<User?>
     suspend fun register(avatarId: AvatarId, name: String, email: String, password: String): TypedResult<Unit, RegisterError>
     suspend fun login(email: String, password: String): TypedResult<Unit, LoginError>
     suspend fun sendPasswordResetEmail(email: String): TypedResult<Unit, SendPasswordResetEmailError>

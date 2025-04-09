@@ -10,16 +10,18 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.kanoyatech.snapdex.data.Retry
+import com.kanoyatech.snapdex.data.currentUserAsFlow
 import com.kanoyatech.snapdex.data.local.dao.UserDao
 import com.kanoyatech.snapdex.data.local.dao.UserPokemonDao
 import com.kanoyatech.snapdex.data.local.entities.UserEntity
 import com.kanoyatech.snapdex.data.local.entities.UserPokemonEntity
+import com.kanoyatech.snapdex.data.recordExceptionWithKeys
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserDataSource
 import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserPokemonDataSource
 import com.kanoyatech.snapdex.data.remote.entities.UserRemoteEntity
+import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.models.AvatarId
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
-import com.kanoyatech.snapdex.data.Retry
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.ChangeNameError
 import com.kanoyatech.snapdex.domain.repositories.ChangePasswordError
@@ -27,9 +29,7 @@ import com.kanoyatech.snapdex.domain.repositories.DeleteCurrentUserError
 import com.kanoyatech.snapdex.domain.repositories.LoginError
 import com.kanoyatech.snapdex.domain.repositories.RegisterError
 import com.kanoyatech.snapdex.domain.repositories.SendPasswordResetEmailError
-import com.kanoyatech.snapdex.domain.TypedResult
-import com.kanoyatech.snapdex.data.currentUserAsFlow
-import com.kanoyatech.snapdex.data.recordExceptionWithKeys
+import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -46,8 +46,12 @@ class UserRepositoryImpl(
     private val remoteUsers: RemoteUserDataSource,
     private val remoteUserPokemons: RemoteUserPokemonDataSource,
 ): UserRepository {
+    override suspend fun isLoggedIn(): Boolean {
+        return auth.currentUser != null
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getCurrentUser(): Flow<User?> {
+    override fun getCurrentUserFlow(): Flow<User?> {
         return auth.currentUserAsFlow()
             .flatMapLatest { firebaseUser ->
                 if (firebaseUser == null) {
