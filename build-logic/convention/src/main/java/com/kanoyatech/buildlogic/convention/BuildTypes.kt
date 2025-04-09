@@ -52,7 +52,7 @@ private fun BuildType.configureDebugBuildType() {
 private fun BuildType.configureReleaseBuildType(
     commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
-    isMinifyEnabled = true
+    isMinifyEnabled = false
 
     proguardFiles(
         commonExtension.getDefaultProguardFile("proguard-android-optimize.txt"),
