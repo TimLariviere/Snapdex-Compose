@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,11 +35,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -46,6 +50,7 @@ import com.kanoyatech.snapdex.designsystem.Icons
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
 import com.kanoyatech.snapdex.designsystem.components.SnapdexFloatingActionButton
+import com.kanoyatech.snapdex.designsystem.components.SnapdexOutlinedText
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.ui.R
@@ -114,7 +119,7 @@ private fun PokedexScreen(
                     top = paddingValues.calculateTopPadding(),
                     end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
                 )
-                .padding(top = 20.dp)
+                .padding(top = 28.dp)
         ) {
             SearchView(
                 state = state.searchState,
@@ -129,8 +134,8 @@ private fun PokedexScreen(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 88.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
                     .weight(1f)
             ) {
@@ -191,8 +196,8 @@ fun PokemonItem(
 
     Box(
         modifier = modifier
-            .fillMaxSize()
-            .height(120.dp)
+            .fillMaxWidth()
+            .aspectRatio(4f/5f)
             .clip(SnapdexTheme.shapes.regular)
             .background(SnapdexTheme.colorScheme.surface)
             .border(
@@ -202,8 +207,10 @@ fun PokemonItem(
             )
             .padding(8.dp)
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.End)
         ) {
             types.forEach { type ->
                 SmallTypeBadge(type)
@@ -233,10 +240,10 @@ fun UnknownItem(
     id: PokemonId,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .aspectRatio(4f/5f)
             .clip(SnapdexTheme.shapes.regular)
             .background(SnapdexTheme.colorScheme.surface)
             .border(
@@ -245,8 +252,24 @@ fun UnknownItem(
                 shape = SnapdexTheme.shapes.regular
             )
             .padding(8.dp),
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Box(
+            modifier = Modifier
+                .weight(1f),
+            contentAlignment = Alignment.Center
+        ) {
+            SnapdexOutlinedText(
+                text = "?",
+                textAlign = TextAlign.Center,
+                style = SnapdexTheme.typography.heading1,
+                //outlineColor = SnapdexTheme.colorScheme.onSurfaceVariant,
+                color = Color.Transparent,
+                outlineWidth = 4f
+            )
+        }
+
         Text(
             text = stringResource(id = R.string.pokemon_number_alt, id)
         )

@@ -71,7 +71,7 @@ private fun StatsScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .pagePadding(),
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             OverallProgress(state.overallCompletion)
             ProgressByType(state.completionByType)
@@ -111,7 +111,7 @@ private fun OverallProgress(
                 progress = completionRate,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(32.dp)
+                    .height(16.dp)
             )
             Text(
                 text = stringResource(id = R.string.pokemons_captured, statistic.caughtPokemonCount, statistic.totalPokemonCount),
@@ -191,14 +191,14 @@ private fun TypeProgress(type: PokemonType, statistic: Statistic, modifier: Modi
             ) {
                 SnapdexCircleGraph(
                     progress = completionRate,
-                    width = 24.dp,
+                    width = 16.dp,
                     modifier = Modifier
                         .fillMaxSize()
                 )
                 Text(
                     text = stringResource(id = R.string.percentage, completionRateInt),
-                    style = SnapdexTheme.typography.heading3.copy(
-                        fontSize = 20.sp
+                    style = SnapdexTheme.typography.largeLabel.copy(
+                        fontSize = 16.sp
                     )
                 )
             }

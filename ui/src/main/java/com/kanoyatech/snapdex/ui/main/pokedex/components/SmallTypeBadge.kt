@@ -27,10 +27,10 @@ fun SmallTypeBadge(
 ) {
     Box(
         modifier = modifier
-            .size(24.dp)
+            .size(16.dp)
             .clip(CircleShape)
             .background(typeUi.color)
-            .padding(4.dp)
+            .padding(2.dp)
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(id = typeUi.image),

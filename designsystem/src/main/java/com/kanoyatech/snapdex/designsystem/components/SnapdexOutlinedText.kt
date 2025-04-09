@@ -25,7 +25,8 @@ fun SnapdexOutlinedText(
     color: Color = LocalColors.current.inOutline,
     outlineColor: Color = LocalColors.current.outline,
     textAlign: TextAlign? = null,
-    style: TextStyle = LocalTextStyle.current
+    style: TextStyle = LocalTextStyle.current,
+    outlineWidth: Float = 1f
 ) {
     Box {
         Text(
@@ -41,7 +42,7 @@ fun SnapdexOutlinedText(
             textAlign = textAlign,
             style = style.copy(
                 drawStyle = Stroke(
-                    width = 1f
+                    width = outlineWidth
                 )
             ),
             modifier = modifier
