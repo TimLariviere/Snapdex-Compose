@@ -88,7 +88,9 @@ private fun LoginScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
 
-            Column {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 Image(
                     imageVector = Icons.App,
                     contentDescription = stringResource(id = R.string.app_name),
