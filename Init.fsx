@@ -168,7 +168,7 @@ let download (client: HttpClient) (link: string) (filename: string) =
             use! stream = client.GetStreamAsync(link)
             
             // Copy to Compose project
-            let path = Path.Combine("app/src/main/res/drawable", filename)
+            let path = Path.Combine("ui/src/main/res/drawable", filename)
             use writer = new StreamWriter(path, false)
             stream.CopyTo(writer.BaseStream)
         with ex ->

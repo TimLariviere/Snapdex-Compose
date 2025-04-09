@@ -3,7 +3,7 @@
 
 *.db
 app/src/main/assets/*.db
-app/src/main/res/drawable/pokemon*.*
+ui/src/main/res/drawable/pokemon*.*
 app/google-services.json
 keystore.jks
 cert.txt
