@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 class UserDataValidator {
     companion object {
         val EMAIL_ADDRESS_PATTERN = Pattern.compile(
-            "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,64}\$"
+            "^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+\$"
         )!!
     }
 
