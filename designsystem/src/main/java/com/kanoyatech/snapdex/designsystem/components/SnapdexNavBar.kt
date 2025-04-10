@@ -53,6 +53,11 @@ fun SnapdexNavBar(
                 .width(IntrinsicSize.Min)
                 .clip(SnapdexTheme.shapes.navBar)
                 .background(SnapdexTheme.colorScheme.navBarBackground)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = {}
+                )
         ) {
             Row(
                 modifier = Modifier

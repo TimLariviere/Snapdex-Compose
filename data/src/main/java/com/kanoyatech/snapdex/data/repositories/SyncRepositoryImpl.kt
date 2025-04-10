@@ -10,6 +10,7 @@ import com.kanoyatech.snapdex.data.remote.entities.UserPokemonRemoteEntity
 import com.kanoyatech.snapdex.data.remote.entities.UserRemoteEntity
 import com.kanoyatech.snapdex.domain.repositories.SyncRepository
 import com.kanoyatech.snapdex.data.Retry
+import com.kanoyatech.snapdex.data.local.entities.UserPokemonEntity
 
 class SyncRepositoryImpl(
     private val auth: FirebaseAuth,
@@ -77,10 +78,14 @@ class SyncRepositoryImpl(
         allPokemons.forEach { (localPokemon, remotePokemon) ->
             when {
                 localPokemon == null && remotePokemon != null -> {
-                    Retry.execute(
-                        body = { remoteUserPokemons.delete(remotePokemon) },
-                        retryIf = { it is FirebaseNetworkException }
+                    val entity = UserPokemonEntity(
+                        userId = remotePokemon.userId,
+                        pokemonId = remotePokemon.pokemonId,
+                        createdAt = remotePokemon.createdAt,
+                        updatedAt = remotePokemon.updatedAt
                     )
+
+                    localUserPokemons.upsert(entity)
                 }
                 localPokemon != null && remotePokemon == null -> {
                     val entity = UserPokemonRemoteEntity(
