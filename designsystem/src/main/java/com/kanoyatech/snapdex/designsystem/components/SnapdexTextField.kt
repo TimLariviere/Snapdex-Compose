@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -48,6 +49,7 @@ fun SnapdexTextField(
         cursorBrush = SolidColor(SnapdexTheme.colorScheme.primary),
         modifier =
             modifier
+                .widthIn(max = 460.dp)
                 .height(44.dp)
                 .clip(SnapdexTheme.shapes.regular)
                 .background(SnapdexTheme.colorScheme.surfaceVariant)

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -17,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -26,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -109,22 +109,14 @@ private fun OverallProgress(statistic: Statistic) {
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 private fun ProgressByType(statistics: Map<PokemonType, Statistic>) {
-    BoxWithConstraints {
-        val maxWidth = with(LocalDensity.current) { constraints.maxWidth.toDp() }
-        val itemWidth = (maxWidth - 16.dp) / 2
-
-        FlowRow(
-            maxItemsInEachRow = 2,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            PokemonType.entries.forEach { type ->
-                TypeProgress(
-                    type = type,
-                    statistic = statistics[type]!!,
-                    modifier = Modifier.width(itemWidth).aspectRatio(1f),
-                )
-            }
+    FlowRow(
+        maxItemsInEachRow = Int.MAX_VALUE,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.fillMaxWidth().wrapContentWidth(),
+    ) {
+        PokemonType.entries.forEach { type ->
+            TypeProgress(type = type, statistic = statistics[type]!!)
         }
     }
 }
@@ -137,7 +129,11 @@ private fun TypeProgress(type: PokemonType, statistic: Statistic, modifier: Modi
 
     Box(
         modifier =
-            modifier.clip(SnapdexTheme.shapes.regular).background(SnapdexTheme.colorScheme.surface)
+            modifier
+                .widthIn(max = 160.dp)
+                .aspectRatio(1f)
+                .clip(SnapdexTheme.shapes.regular)
+                .background(SnapdexTheme.colorScheme.surface)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

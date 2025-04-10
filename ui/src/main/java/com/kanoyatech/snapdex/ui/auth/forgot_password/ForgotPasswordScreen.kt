@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -74,7 +75,11 @@ private fun ForgotPasswordScreen(
         }
     ) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize().padding(paddingValues).pagePadding(top = 84.dp)) {
-            Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
                 Text(
                     text = stringResource(id = R.string.password_reset_link),
                     modifier = Modifier.fillMaxWidth(),
@@ -93,7 +98,6 @@ private fun ForgotPasswordScreen(
                     text = stringResource(id = R.string.send_password_reset_link),
                     enabled = state.canSendEmail && !state.isSendingEmail,
                     isBusy = state.isSendingEmail,
-                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     onAction(ForgotPasswordAction.OnSendEmailClick)
                 }

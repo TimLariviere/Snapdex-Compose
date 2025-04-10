@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
@@ -59,6 +60,7 @@ fun SnapdexPasswordField(
         cursorBrush = SolidColor(SnapdexTheme.colorScheme.primary),
         modifier =
             modifier
+                .widthIn(max = 460.dp)
                 .height(44.dp)
                 .clip(SnapdexTheme.shapes.regular)
                 .background(SnapdexTheme.colorScheme.surfaceVariant)

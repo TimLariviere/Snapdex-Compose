@@ -92,7 +92,11 @@ private fun RegisterScreen(state: RegisterState, onAction: (RegisterAction) -> U
         }
     ) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize().padding(paddingValues).pagePadding()) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
                 PickPictureButton(
                     state = state,
                     modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -141,7 +145,6 @@ private fun RegisterScreen(state: RegisterState, onAction: (RegisterAction) -> U
                     text = stringResource(id = R.string.create_account),
                     enabled = state.canRegister,
                     isBusy = state.isRegistering,
-                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     onAction(RegisterAction.OnRegisterClick)
                 }

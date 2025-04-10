@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -48,6 +49,7 @@ fun AvatarPickerDialog(
                         .background(SnapdexTheme.colorScheme.surfaceVariant)
                         .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = stringResource(id = R.string.pick_your_avatar),
@@ -57,7 +59,6 @@ fun AvatarPickerDialog(
                 )
 
                 FlowRow(
-                    maxItemsInEachRow = 3,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
@@ -83,7 +84,6 @@ fun AvatarPickerDialog(
                 SnapdexPrimaryButton(
                     text = stringResource(id = R.string.use_avatar),
                     enabled = selectedIndex.intValue > -1,
-                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     onSelectionChange(selectedIndex.intValue)
                 }

@@ -2,12 +2,12 @@ package com.kanoyatech.snapdex.ui.main.profile_tab.new_name
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -67,36 +67,34 @@ fun NewNameScreen(state: NewNameState, onAction: (NewNameAction) -> Unit) {
             )
         }
     ) { paddingValues ->
-        Box {
-            Column(
-                modifier = Modifier.padding(paddingValues).pagePadding(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                SnapdexTextField(state = state.name, hint = stringResource(id = R.string.new_name))
+        Column(
+            modifier = Modifier.padding(paddingValues).pagePadding().fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            SnapdexTextField(state = state.name, hint = stringResource(id = R.string.new_name))
 
-                Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
 
-                SnapdexPrimaryButton(
-                    text = stringResource(R.string.set_new_name),
-                    onClick = { onAction(NewNameAction.OnSetNameClick) },
-                    enabled = state.canChangeName,
-                    isBusy = state.isChangingName,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
+            SnapdexPrimaryButton(
+                text = stringResource(R.string.set_new_name),
+                onClick = { onAction(NewNameAction.OnSetNameClick) },
+                enabled = state.canChangeName,
+                isBusy = state.isChangingName,
+            )
+        }
 
-            if (state.showNameChangedPopup) {
-                SnapdexPopup(
-                    title = stringResource(id = R.string.name_changed),
-                    description = stringResource(id = R.string.name_changed_description),
-                    primaryButton =
-                        PopupButton(
-                            text = stringResource(id = R.string.ok),
-                            onClick = { onAction(NewNameAction.OnNameChangedPopupDismiss) },
-                        ),
-                    onDismissRequest = { onAction(NewNameAction.OnNameChangedPopupDismiss) },
-                )
-            }
+        if (state.showNameChangedPopup) {
+            SnapdexPopup(
+                title = stringResource(id = R.string.name_changed),
+                description = stringResource(id = R.string.name_changed_description),
+                primaryButton =
+                    PopupButton(
+                        text = stringResource(id = R.string.ok),
+                        onClick = { onAction(NewNameAction.OnNameChangedPopupDismiss) },
+                    ),
+                onDismissRequest = { onAction(NewNameAction.OnNameChangedPopupDismiss) },
+            )
         }
     }
 }

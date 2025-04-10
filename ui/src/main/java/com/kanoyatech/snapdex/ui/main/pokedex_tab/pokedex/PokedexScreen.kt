@@ -40,7 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.kanoyatech.snapdex.designsystem.AppTheme
@@ -123,7 +123,7 @@ private fun PokedexScreen(
             )
 
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
+                columns = GridCells.Adaptive(minSize = 90.dp),
                 contentPadding =
                     PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 88.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -313,7 +313,7 @@ fun TakePictureButton(
     }
 }
 
-@PreviewLightDark()
+@Preview
 @Composable
 private fun PokedexScreenPreview() {
     AppTheme {

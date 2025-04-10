@@ -94,7 +94,11 @@ private fun LoginScreen(state: LoginState, onAction: (LoginAction) -> Unit) {
                 )
             }
 
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
                 SnapdexTextField(
                     state = state.email,
                     hint = stringResource(id = R.string.email_hint),
@@ -119,12 +123,15 @@ private fun LoginScreen(state: LoginState, onAction: (LoginAction) -> Unit) {
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
                 SnapdexPrimaryButton(
                     text = stringResource(id = R.string.login),
                     enabled = state.canLogin,
                     isBusy = state.isLoginIn,
-                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     onAction(LoginAction.OnLoginClick)
                 }

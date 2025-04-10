@@ -1,7 +1,6 @@
 package com.kanoyatech.snapdex
 
 import android.app.Activity
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,8 +27,6 @@ fun ConfigureWindow() {
     if (!view.isInEditMode) {
         LaunchedEffect(isDarkTheme) {
             val activity = context as Activity
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
             val window = activity.window
             val wic = WindowInsetsControllerCompat(window, view)
             wic.isAppearanceLightStatusBars = !isDarkTheme
