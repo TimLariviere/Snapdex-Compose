@@ -3,7 +3,6 @@ package com.kanoyatech.snapdex.data
 import com.google.firebase.crashlytics.CustomKeysAndValues
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
-
 fun FirebaseCrashlytics.recordExceptionWithKeys(
     throwable: Throwable,
     keys: Map<String, String>

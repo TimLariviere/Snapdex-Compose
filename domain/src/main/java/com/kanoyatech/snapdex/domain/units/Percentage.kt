@@ -6,10 +6,6 @@ value class Percentage(private val value: Double) {
         return Percentage(this.value - other.value)
     }
 
-    fun toDouble(): Double {
-        return this.value
-    }
-
     fun toFloat(): Float {
         return this.value.toFloat()
     }

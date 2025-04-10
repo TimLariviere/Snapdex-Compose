@@ -6,8 +6,8 @@ import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.PokemonAbility
 import com.kanoyatech.snapdex.domain.models.PokemonCategory
 import com.kanoyatech.snapdex.domain.models.PokemonType
-import com.kanoyatech.snapdex.domain.units.kg
-import com.kanoyatech.snapdex.domain.units.m
+import com.kanoyatech.snapdex.domain.units.Length
+import com.kanoyatech.snapdex.domain.units.Weight
 import com.kanoyatech.snapdex.domain.units.percent
 import java.util.Locale
 
@@ -19,8 +19,8 @@ fun PokemonWithRelations.toPokemon(): Pokemon {
         description = translations.associate { Locale.forLanguageTag(it.language) to it.description },
         types = types,
         weaknesses = PokemonWeaknessCalculator.calculateWeaknesses(types),
-        weight = (pokemon.weight / 10f).kg,
-        height = (pokemon.height / 10f).m,
+        weight = Weight.fromHectogram(pokemon.weight),
+        height = Length.fromDecimeter(pokemon.height),
         category = PokemonCategory(
             id = category.category.id,
             name = category.translations.associate { Locale.forLanguageTag(it.language) to it.name }
