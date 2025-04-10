@@ -38,7 +38,7 @@ projectMinSdkVersion = "24"
 
 projectApplicationId = "com.kanoyatech.snapdex"
 projectVersionCode = "6"
-projectVersionName = "1.0.1"
+projectVersionName = "1.1"
 
 
 [libraries]

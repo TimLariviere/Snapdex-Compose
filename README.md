@@ -14,6 +14,12 @@ Snapdex is a production-quality **Pokédex-style app** built with Kotlin and Jet
   <img src="images/screen5.png" height="500" />
 </p>
 
+<p align="center">
+  <img src="images/screen6.png" height="500" />
+  <img src="images/screen7.png" height="500" />
+  <img src="images/screen8.png" height="500" />
+</p>
+
 *Design by [Rui Zhang](https://www.linkedin.com/in/ruizhang77); Pokemon detail page heavily inspired by Figma design by [Junior Savaria](https://www.figma.com/community/file/1202971127473077147)*
 
 ## 🚀 Features
