@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StatisticDao {
-    @Query("""
+    @Query(
+        """
         SELECT
             (SELECT COUNT(*) FROM Pokemons) AS totalPokemonCount,
             COUNT(DISTINCT up.pokemonId) AS caughtPokemonCount
@@ -14,10 +15,12 @@ interface StatisticDao {
             UserPokemons up
         WHERE
             up.userId = :userId
-    """)
+    """
+    )
     fun getCompletionRate(userId: String): Flow<CompletionRate>
 
-    @Query("""
+    @Query(
+        """
         WITH TypeCounts AS (
             SELECT 
                 pt.type,
@@ -39,7 +42,8 @@ interface StatisticDao {
             COALESCE(caughtPokemonCount, 0) AS caughtPokemonCount
         FROM 
             TypeCounts
-    """)
+    """
+    )
     fun getCompletionRateByType(userId: String): Flow<List<CompletionRateByType>>
 }
 

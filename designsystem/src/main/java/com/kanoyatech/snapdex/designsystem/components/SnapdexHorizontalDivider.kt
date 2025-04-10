@@ -7,8 +7,5 @@ import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 
 @Composable
 fun SnapdexHorizontalDivider(modifier: Modifier = Modifier) {
-    HorizontalDivider(
-        modifier = modifier,
-        color = SnapdexTheme.colorScheme.outline
-    )
+    HorizontalDivider(modifier = modifier, color = SnapdexTheme.colorScheme.outline)
 }

@@ -19,20 +19,13 @@ fun SettingsPickerButton(
     text: String,
     value: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(44.dp)
-            .clickable(onClick = onClick),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier.fillMaxWidth().height(44.dp).clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = text,
-            modifier = Modifier
-                .padding(start = 20.dp)
-        )
+        Text(text = text, modifier = Modifier.padding(start = 20.dp))
 
         Spacer(modifier = modifier.weight(1f))
 
@@ -40,30 +33,18 @@ fun SettingsPickerButton(
             text = value,
             style = SnapdexTheme.typography.smallLabel,
             color = SnapdexTheme.colorScheme.onBackground,
-            modifier = Modifier
-                .padding(end = 20.dp)
+            modifier = Modifier.padding(end = 20.dp),
         )
     }
 }
 
 @Composable
-fun SettingsButton(
-    text: String,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
+fun SettingsButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(44.dp)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.CenterStart
+        modifier = modifier.fillMaxWidth().height(44.dp).clickable(onClick = onClick),
+        contentAlignment = Alignment.CenterStart,
     ) {
-        Text(
-            text = text,
-            modifier = Modifier
-                .padding(start = 20.dp)
-        )
+        Text(text = text, modifier = Modifier.padding(start = 20.dp))
     }
 }
 
@@ -72,20 +53,17 @@ fun DestructiveSettingsButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(44.dp)
-            .clickable(enabled = enabled, onClick = onClick),
-        contentAlignment = Alignment.CenterStart
+        modifier =
+            modifier.fillMaxWidth().height(44.dp).clickable(enabled = enabled, onClick = onClick),
+        contentAlignment = Alignment.CenterStart,
     ) {
         Text(
             text = text,
             color = SnapdexTheme.colorScheme.error,
-            modifier = Modifier
-                .padding(start = 20.dp)
+            modifier = Modifier.padding(start = 20.dp),
         )
     }
 }

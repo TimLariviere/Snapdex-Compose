@@ -10,9 +10,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class IntroViewModel(
-    private val preferencesRepository: PreferencesRepository
-): ViewModel() {
+class IntroViewModel(private val preferencesRepository: PreferencesRepository) : ViewModel() {
     var state by mutableStateOf(IntroState())
         private set
 

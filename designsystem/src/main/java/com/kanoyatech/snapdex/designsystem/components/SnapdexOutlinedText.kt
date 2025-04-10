@@ -26,26 +26,16 @@ fun SnapdexOutlinedText(
     outlineColor: Color = LocalColors.current.outline,
     textAlign: TextAlign? = null,
     style: TextStyle = LocalTextStyle.current,
-    outlineWidth: Float = 1f
+    outlineWidth: Float = 1f,
 ) {
     Box {
-        Text(
-            text = text,
-            color = color,
-            textAlign = textAlign,
-            style = style,
-            modifier = modifier
-        )
+        Text(text = text, color = color, textAlign = textAlign, style = style, modifier = modifier)
         Text(
             text = text,
             color = outlineColor,
             textAlign = textAlign,
-            style = style.copy(
-                drawStyle = Stroke(
-                    width = outlineWidth
-                )
-            ),
-            modifier = modifier
+            style = style.copy(drawStyle = Stroke(width = outlineWidth)),
+            modifier = modifier,
         )
     }
 }
@@ -55,11 +45,7 @@ fun SnapdexOutlinedText(
 private fun SnapdexOutlinedTextPreview() {
     AppTheme {
         SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Max).width(IntrinsicSize.Max)) {
-            SnapdexOutlinedText(
-                text = "Hello, world!",
-                modifier = Modifier
-                    .padding(8.dp)
-            )
+            SnapdexOutlinedText(text = "Hello, world!", modifier = Modifier.padding(8.dp))
         }
     }
 }

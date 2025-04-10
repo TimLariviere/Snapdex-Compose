@@ -36,143 +36,120 @@ import org.koin.androidx.compose.koinViewModel
 enum class ActiveTab {
     POKEDEX,
     STATS,
-    PROFILE
+    PROFILE,
 }
 
 @Composable
-fun MainScreenRoot(
-    viewModel: MainViewModel = koinViewModel(),
-    onLoggedOut: () -> Unit
-) {
+fun MainScreenRoot(viewModel: MainViewModel = koinViewModel(), onLoggedOut: () -> Unit) {
     MainScreen(
         stateFlow = viewModel.state,
         onAction = { action ->
             when (action) {
                 MainAction.OnLoggedOut -> onLoggedOut()
             }
-        }
+        },
     )
 }
 
 @Composable
-fun MainScreen(
-    stateFlow: StateFlow<MainState>,
-    onAction: (MainAction) -> Unit
-) {
+fun MainScreen(stateFlow: StateFlow<MainState>, onAction: (MainAction) -> Unit) {
     val state = stateFlow.collectAsState()
     val activeTab = remember { mutableStateOf(ActiveTab.POKEDEX) }
     val shouldShowNavBar = remember { mutableStateOf(true) }
 
     SnapdexScaffold { paddingValues ->
-        val adjustedPaddingValues = remember(paddingValues) {
-            PaddingValues(
-                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                top = (paddingValues.calculateTopPadding() - 16.dp).coerceAtLeast(0.dp), // Not sure why Scaffold has a top padding that is too large
-                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-                bottom = paddingValues.calculateBottomPadding() + 48.dp
-            )
-        }
+        val adjustedPaddingValues =
+            remember(paddingValues) {
+                PaddingValues(
+                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    top =
+                        (paddingValues.calculateTopPadding() - 16.dp).coerceAtLeast(
+                            0.dp
+                        ), // Not sure why Scaffold has a top padding that is too large
+                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                    bottom = paddingValues.calculateBottomPadding() + 48.dp,
+                )
+            }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             if (state.value.user == null) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                 ) {
-                    SnapdexCircularProgressIndicator(
-                        modifier = Modifier
-                            .size(48.dp)
-                    )
+                    SnapdexCircularProgressIndicator(modifier = Modifier.size(48.dp))
 
-                    Text(
-                        text = stringResource(id = R.string.loading_pokedex)
-                    )
+                    Text(text = stringResource(id = R.string.loading_pokedex))
                 }
             } else {
                 Box(
-                    modifier = Modifier
-                        .alpha(if (activeTab.value == ActiveTab.POKEDEX) 1f else 0f)
-                        .zIndex(if (activeTab.value == ActiveTab.POKEDEX) 1f else 0f)
+                    modifier =
+                        Modifier.alpha(if (activeTab.value == ActiveTab.POKEDEX) 1f else 0f)
+                            .zIndex(if (activeTab.value == ActiveTab.POKEDEX) 1f else 0f)
                 ) {
                     PokedexTabNavigation(
                         paddingValues = adjustedPaddingValues,
                         mainState = stateFlow,
-                        shouldShowNavBar = {
-                            shouldShowNavBar.value = it
-                        }
+                        shouldShowNavBar = { shouldShowNavBar.value = it },
                     )
                 }
 
                 Box(
-                    modifier = Modifier
-                        .alpha(if (activeTab.value == ActiveTab.STATS) 1f else 0f)
-                        .zIndex(if (activeTab.value == ActiveTab.STATS) 1f else 0f)
+                    modifier =
+                        Modifier.alpha(if (activeTab.value == ActiveTab.STATS) 1f else 0f)
+                            .zIndex(if (activeTab.value == ActiveTab.STATS) 1f else 0f)
                 ) {
                     StatsTabNavigation(
                         paddingValues = adjustedPaddingValues,
                         mainState = stateFlow,
-                        shouldShowNavBar = {
-                            shouldShowNavBar.value = it
-                        }
+                        shouldShowNavBar = { shouldShowNavBar.value = it },
                     )
                 }
 
                 Box(
-                    modifier = Modifier
-                        .alpha(if (activeTab.value == ActiveTab.PROFILE) 1f else 0f)
-                        .zIndex(if (activeTab.value == ActiveTab.PROFILE) 1f else 0f)
+                    modifier =
+                        Modifier.alpha(if (activeTab.value == ActiveTab.PROFILE) 1f else 0f)
+                            .zIndex(if (activeTab.value == ActiveTab.PROFILE) 1f else 0f)
                 ) {
                     ProfileTabNavigation(
                         paddingValues = adjustedPaddingValues,
                         mainState = stateFlow,
-                        onLoggedOut = {
-                            onAction(MainAction.OnLoggedOut)
-                        },
-                        shouldShowNavBar = {
-                            shouldShowNavBar.value = it
-                        }
+                        onLoggedOut = { onAction(MainAction.OnLoggedOut) },
+                        shouldShowNavBar = { shouldShowNavBar.value = it },
                     )
                 }
 
                 SnapdexNavBar(
-                    tabs = arrayOf(
-                        TabItem(
-                            selectedImage = Icons.GridSelected,
-                            unselectedImage = Icons.GridUnselected,
-                            onClick = {
-                                activeTab.value = ActiveTab.POKEDEX
-                            }
+                    tabs =
+                        arrayOf(
+                            TabItem(
+                                selectedImage = Icons.GridSelected,
+                                unselectedImage = Icons.GridUnselected,
+                                onClick = { activeTab.value = ActiveTab.POKEDEX },
+                            ),
+                            TabItem(
+                                selectedImage = Icons.StatsSelected,
+                                unselectedImage = Icons.StatsUnselected,
+                                onClick = { activeTab.value = ActiveTab.STATS },
+                            ),
+                            TabItem(
+                                selectedImage = Icons.ProfileSelected,
+                                unselectedImage = Icons.ProfileUnselected,
+                                onClick = { activeTab.value = ActiveTab.PROFILE },
+                            ),
                         ),
-                        TabItem(
-                            selectedImage = Icons.StatsSelected,
-                            unselectedImage = Icons.StatsUnselected,
-                            onClick = {
-                                activeTab.value = ActiveTab.STATS
-                            }
-                        ),
-                        TabItem(
-                            selectedImage = Icons.ProfileSelected,
-                            unselectedImage = Icons.ProfileUnselected,
-                            onClick = {
-                                activeTab.value = ActiveTab.PROFILE
-                            }
-                        )
-                    ),
-                    selectedTab = when (activeTab.value) {
-                        ActiveTab.POKEDEX -> 0
-                        ActiveTab.STATS -> 1
-                        ActiveTab.PROFILE -> 2
-                    },
+                    selectedTab =
+                        when (activeTab.value) {
+                            ActiveTab.POKEDEX -> 0
+                            ActiveTab.STATS -> 1
+                            ActiveTab.PROFILE -> 2
+                        },
                     shouldShowNavBar = shouldShowNavBar.value,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = paddingValues.calculateBottomPadding() + 8.dp)
-                        .zIndex(2f)
+                    modifier =
+                        Modifier.align(Alignment.BottomCenter)
+                            .padding(bottom = paddingValues.calculateBottomPadding() + 8.dp)
+                            .zIndex(2f),
                 )
             }
         }

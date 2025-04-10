@@ -12,47 +12,31 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.components.SnapdexScaffold
 import com.kanoyatech.snapdex.designsystem.components.SnapdexTopAppBar
 import com.kanoyatech.snapdex.designsystem.pagePadding
+import com.kanoyatech.snapdex.ui.R
 import dev.jeziellago.compose.markdowntext.MarkdownText
 
 @Composable
-fun CreditsScreen(
-    onBackClick: () -> Unit
-) {
+fun CreditsScreen(onBackClick: () -> Unit) {
     val context = LocalContext.current
     val markdown = remember {
-        context.resources.openRawResource(R.raw.credits)
-            .bufferedReader()
-            .use { it.readText() }
+        context.resources.openRawResource(R.raw.credits).bufferedReader().use { it.readText() }
     }
 
     SnapdexScaffold(
         topBar = {
             SnapdexTopAppBar(
                 title = stringResource(id = R.string.licenses_and_credits),
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
             )
         }
     ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            Box(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .clipToBounds()
-            ) {
-                MarkdownText(
-                    markdown = markdown,
-                    modifier = Modifier.Companion
-                        .pagePadding()
-                )
+        Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+            Box(modifier = Modifier.verticalScroll(rememberScrollState()).clipToBounds()) {
+                MarkdownText(markdown = markdown, modifier = Modifier.Companion.pagePadding())
             }
         }
     }
@@ -61,9 +45,5 @@ fun CreditsScreen(
 @Preview
 @Composable
 private fun CreditsScreenPreview() {
-    AppTheme {
-        CreditsScreen(
-            onBackClick = {}
-        )
-    }
+    AppTheme { CreditsScreen(onBackClick = {}) }
 }

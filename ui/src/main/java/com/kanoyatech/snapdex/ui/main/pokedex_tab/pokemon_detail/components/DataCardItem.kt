@@ -23,63 +23,49 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.ui.R
-import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.Icons
 import com.kanoyatech.snapdex.designsystem.LocalColors
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
+import com.kanoyatech.snapdex.domain.units.kg
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.utils.formatted
 
 @Composable
-fun DataCardItem(
-    icon: ImageVector,
-    name: String,
-    value: String,
-    modifier: Modifier = Modifier
-) {
+fun DataCardItem(icon: ImageVector, name: String, value: String, modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier
-            .clip(SnapdexTheme.shapes.regular)
-            .background(SnapdexTheme.colorScheme.surface)
-            .border(
-                width = 1.dp,
-                color = SnapdexTheme.colorScheme.outline,
-                shape = SnapdexTheme.shapes.regular
-            ),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .clip(SnapdexTheme.shapes.regular)
+                .background(SnapdexTheme.colorScheme.surface)
+                .border(
+                    width = 1.dp,
+                    color = SnapdexTheme.colorScheme.outline,
+                    shape = SnapdexTheme.shapes.regular,
+                ),
+        contentAlignment = Alignment.Center,
     ) {
-        CompositionLocalProvider(
-            LocalContentColor provides LocalColors.current.onSurface
-        ) {
+        CompositionLocalProvider(LocalContentColor provides LocalColors.current.onSurface) {
             Column(
-                modifier = modifier
-                    .padding(8.dp),
+                modifier = modifier.padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        modifier = Modifier
-                            .size(16.dp)
+                        modifier = Modifier.size(16.dp),
                     )
 
-                    Text(
-                        text = name.uppercase(),
-                        style = SnapdexTheme.typography.smallLabel
-                    )
+                    Text(text = name.uppercase(), style = SnapdexTheme.typography.smallLabel)
                 }
 
-                Text(
-                    text = value,
-                    style = SnapdexTheme.typography.largeLabel
-                )
+                Text(text = value, style = SnapdexTheme.typography.largeLabel)
             }
         }
     }
@@ -89,15 +75,12 @@ fun DataCardItem(
 @Composable
 private fun DataCardItemPreview() {
     AppTheme {
-        SnapdexBackground(modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .width(IntrinsicSize.Max)) {
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min).width(IntrinsicSize.Max)) {
             DataCardItem(
                 icon = Icons.Weight,
                 name = stringResource(id = R.string.weight),
                 value = 100.0.kg.formatted(),
-                modifier = Modifier
-                    .padding(10.dp)
+                modifier = Modifier.padding(10.dp),
             )
         }
     }

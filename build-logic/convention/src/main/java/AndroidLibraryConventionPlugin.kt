@@ -14,6 +14,7 @@ class AndroidLibraryConventionPlugin: Plugin<Project> {
             pluginManager.run {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
+                apply("com.kanoyatech.ktfmt")
             }
 
             extensions.configure<LibraryExtension> {

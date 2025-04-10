@@ -34,7 +34,11 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.ui.R
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.Icons
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
+import com.kanoyatech.snapdex.designsystem.components.SnapdexOutlinedText
 import com.kanoyatech.snapdex.domain.models.EvolutionChain
 import com.kanoyatech.snapdex.domain.models.Level
 import com.kanoyatech.snapdex.domain.models.Pokemon
@@ -45,21 +49,17 @@ import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
-import com.kanoyatech.snapdex.designsystem.AppTheme
-import com.kanoyatech.snapdex.designsystem.Icons
-import com.kanoyatech.snapdex.designsystem.SnapdexTheme
-import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
-import com.kanoyatech.snapdex.designsystem.components.SnapdexOutlinedText
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.utils.mediumImageId
 import com.kanoyatech.snapdex.ui.utils.translated
-import kotlinx.coroutines.delay
 import java.util.Locale
+import kotlinx.coroutines.delay
 
 @Composable
 fun EvolutionChainView(
     evolutionChain: EvolutionChain,
     onPokemonClick: (PokemonId) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var animationStep by remember { mutableIntStateOf(0) }
 
@@ -70,22 +70,16 @@ fun EvolutionChainView(
         }
     }
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         PokemonRow(
             pokemon = evolutionChain.startingPokemon,
-            modifier = Modifier
-                .clickable {
-                    onPokemonClick(evolutionChain.startingPokemon.id)
-                }
+            modifier = Modifier.clickable { onPokemonClick(evolutionChain.startingPokemon.id) },
         )
 
         evolutionChain.evolutions.entries.forEachIndexed { index, (level, pokemon) ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy((-24).dp)
+                verticalArrangement = Arrangement.spacedBy((-24).dp),
             ) {
                 val animateCurrentRow = animationStep / 2 == index
                 val animateArrow1 = animateCurrentRow && (animationStep % 2 == 0)
@@ -94,14 +88,11 @@ fun EvolutionChainView(
                 LevelRow(
                     level = level,
                     animateArrow1 = animateArrow1,
-                    animateArrow2 = animateArrow2
+                    animateArrow2 = animateArrow2,
                 )
                 PokemonRow(
                     pokemon = pokemon,
-                    modifier = Modifier
-                        .clickable {
-                            onPokemonClick(pokemon.id)
-                        }
+                    modifier = Modifier.clickable { onPokemonClick(pokemon.id) },
                 )
             }
         }
@@ -109,45 +100,35 @@ fun EvolutionChainView(
 }
 
 @Composable
-fun PokemonRow(
-    pokemon: Pokemon,
-    modifier: Modifier = Modifier
-) {
+fun PokemonRow(pokemon: Pokemon, modifier: Modifier = Modifier) {
     Box {
         Box(
-            modifier = modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .clip(SnapdexTheme.shapes.regular)
-                .background(SnapdexTheme.colorScheme.surface)
-                .border(
-                    width = 1.dp,
-                    color = SnapdexTheme.colorScheme.outline,
-                    shape = SnapdexTheme.shapes.regular
-                )
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .clip(SnapdexTheme.shapes.regular)
+                    .background(SnapdexTheme.colorScheme.surface)
+                    .border(
+                        width = 1.dp,
+                        color = SnapdexTheme.colorScheme.outline,
+                        shape = SnapdexTheme.shapes.regular,
+                    )
         ) {
             Row(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.Start),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Spacer(
-                    modifier = Modifier
-                        .height(76.dp)
-                        .width(108.dp)
-                )
+                Spacer(modifier = Modifier.height(76.dp).width(108.dp))
 
                 Column {
                     Text(
                         text = stringResource(R.string.pokemon_number, pokemon.id),
-                        style = SnapdexTheme.typography.smallLabel
+                        style = SnapdexTheme.typography.smallLabel,
                     )
 
-                    Text(
-                        text = pokemon.name.translated(),
-                        style = SnapdexTheme.typography.heading2
-                    )
+                    Text(text = pokemon.name.translated(), style = SnapdexTheme.typography.heading2)
                 }
             }
         }
@@ -155,9 +136,7 @@ fun PokemonRow(
         Image(
             bitmap = ImageBitmap.imageResource(pokemon.mediumImageId),
             contentDescription = null,
-            modifier = Modifier
-                .size(124.dp)
-                .align(Alignment.BottomStart)
+            modifier = Modifier.size(124.dp).align(Alignment.BottomStart),
         )
     }
 }
@@ -167,42 +146,38 @@ fun LevelRow(
     level: Level,
     animateArrow1: Boolean,
     animateArrow2: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val arrow1Tint by animateColorAsState(
-        targetValue = if (animateArrow1) SnapdexTheme.colorScheme.primary.copy(alpha = 0.4f) else SnapdexTheme.colorScheme.surface,
-        animationSpec = tween(durationMillis = 250, easing = EaseInOut),
-        label = "Arrow1Tint"
-    )
-    val arrow2Tint by animateColorAsState(
-        targetValue = if (animateArrow2) SnapdexTheme.colorScheme.primary.copy(alpha = 0.8f) else SnapdexTheme.colorScheme.surface,
-        animationSpec = tween(durationMillis = 250, easing = EaseInOut),
-        label = "Arrow2Tint"
-    )
+    val arrow1Tint by
+        animateColorAsState(
+            targetValue =
+                if (animateArrow1) SnapdexTheme.colorScheme.primary.copy(alpha = 0.4f)
+                else SnapdexTheme.colorScheme.surface,
+            animationSpec = tween(durationMillis = 250, easing = EaseInOut),
+            label = "Arrow1Tint",
+        )
+    val arrow2Tint by
+        animateColorAsState(
+            targetValue =
+                if (animateArrow2) SnapdexTheme.colorScheme.primary.copy(alpha = 0.8f)
+                else SnapdexTheme.colorScheme.surface,
+            animationSpec = tween(durationMillis = 250, easing = EaseInOut),
+            label = "Arrow2Tint",
+        )
 
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy((-4).dp)
-        ) {
-            Icon(
-                imageVector = Icons.ArrowDown,
-                contentDescription = null,
-                tint = arrow1Tint
-            )
-            Icon(
-                imageVector = Icons.ArrowDown,
-                contentDescription = null,
-                tint = arrow2Tint
-            )
+        Column(verticalArrangement = Arrangement.spacedBy((-4).dp)) {
+            Icon(imageVector = Icons.ArrowDown, contentDescription = null, tint = arrow1Tint)
+            Icon(imageVector = Icons.ArrowDown, contentDescription = null, tint = arrow2Tint)
         }
 
         SnapdexOutlinedText(
             text = stringResource(R.string.level_x, level),
-            style = SnapdexTheme.typography.largeLabel
+            style = SnapdexTheme.typography.largeLabel,
         )
     }
 }
@@ -210,69 +185,75 @@ fun LevelRow(
 @Preview
 @Composable
 private fun EvolutionChainViewPreview() {
-    val evolutionChain = EvolutionChain(
-        startingPokemon = Pokemon(
-            id = 6,
-            name = mapOf(Locale.ENGLISH to "Charizard"),
-            description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
-            types = listOf(
-                PokemonType.FIRE,
-                PokemonType.FLYING
-            ),
-            weaknesses = listOf(
-                PokemonType.BUG
-            ),
-            weight = 120.0.kg,
-            height = 1.70.m,
-            category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
-            ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
-            maleToFemaleRatio = 87.5.percent
-        ),
-        evolutions = mapOf(
-            Pair(16, Pokemon(
-                id = 6,
-                name = mapOf(Locale.ENGLISH to "Charizard"),
-                description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
-                types = listOf(
-                    PokemonType.FIRE,
-                    PokemonType.FLYING
+    val evolutionChain =
+        EvolutionChain(
+            startingPokemon =
+                Pokemon(
+                    id = 6,
+                    name = mapOf(Locale.ENGLISH to "Charizard"),
+                    description =
+                        mapOf(
+                            Locale.ENGLISH to
+                                "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."
+                        ),
+                    types = listOf(PokemonType.FIRE, PokemonType.FLYING),
+                    weaknesses = listOf(PokemonType.BUG),
+                    weight = 120.0.kg,
+                    height = 1.70.m,
+                    category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+                    ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
+                    maleToFemaleRatio = 87.5.percent,
                 ),
-                weaknesses = listOf(
-                    PokemonType.BUG
+            evolutions =
+                mapOf(
+                    Pair(
+                        16,
+                        Pokemon(
+                            id = 6,
+                            name = mapOf(Locale.ENGLISH to "Charizard"),
+                            description =
+                                mapOf(
+                                    Locale.ENGLISH to
+                                        "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."
+                                ),
+                            types = listOf(PokemonType.FIRE, PokemonType.FLYING),
+                            weaknesses = listOf(PokemonType.BUG),
+                            weight = 120.0.kg,
+                            height = 1.70.m,
+                            category =
+                                PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+                            ability =
+                                PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
+                            maleToFemaleRatio = 87.5.percent,
+                        ),
+                    ),
+                    Pair(
+                        32,
+                        Pokemon(
+                            id = 6,
+                            name = mapOf(Locale.ENGLISH to "Charizard"),
+                            description =
+                                mapOf(
+                                    Locale.ENGLISH to
+                                        "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."
+                                ),
+                            types = listOf(PokemonType.FIRE, PokemonType.FLYING),
+                            weaknesses = listOf(PokemonType.BUG),
+                            weight = 120.0.kg,
+                            height = 1.70.m,
+                            category =
+                                PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+                            ability =
+                                PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
+                            maleToFemaleRatio = 87.5.percent,
+                        ),
+                    ),
                 ),
-                weight = 120.0.kg,
-                height = 1.70.m,
-                category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
-                ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
-                maleToFemaleRatio = 87.5.percent
-            )),
-            Pair(32, Pokemon(
-                id = 6,
-                name = mapOf(Locale.ENGLISH to "Charizard"),
-                description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
-                types = listOf(
-                    PokemonType.FIRE,
-                    PokemonType.FLYING
-                ),
-                weaknesses = listOf(
-                    PokemonType.BUG
-                ),
-                weight = 120.0.kg,
-                height = 1.70.m,
-                category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
-                ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
-                maleToFemaleRatio = 87.5.percent
-            ))
         )
-    )
 
     AppTheme {
-        SnapdexBackground(modifier = Modifier
-            .height(IntrinsicSize.Min)) {
-            EvolutionChainView(
-                evolutionChain = evolutionChain,
-                onPokemonClick = {}
-            )
+        SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
+            EvolutionChainView(evolutionChain = evolutionChain, onPokemonClick = {})
         }
     }
 }

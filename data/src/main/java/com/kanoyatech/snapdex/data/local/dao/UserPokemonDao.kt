@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserPokemonDao {
-    @Upsert
-    suspend fun upsert(entity: UserPokemonEntity)
+    @Upsert suspend fun upsert(entity: UserPokemonEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(entities: List<UserPokemonEntity>)
@@ -22,13 +21,15 @@ interface UserPokemonDao {
     @Query("DELETE FROM UserPokemons WHERE userId = :userId")
     suspend fun deleteAllForUser(userId: String)
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM Pokemons
         WHERE id IN (
             SELECT pokemonId FROM UserPokemons
             WHERE userId = :userId
         )
-    """)
+    """
+    )
     fun observeUserPokemons(userId: String): Flow<List<PokemonWithRelations>>
 
     @Query("SELECT * FROM UserPokemons WHERE userId = :userId")

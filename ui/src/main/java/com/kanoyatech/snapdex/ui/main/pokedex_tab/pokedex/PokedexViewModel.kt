@@ -1,6 +1,5 @@
 package com.kanoyatech.snapdex.ui.main.pokedex_tab.pokedex
 
-import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +18,7 @@ import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.main.pokedex_tab.components.PokemonCaught
 import com.kanoyatech.snapdex.ui.utils.BitmapResizer
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -29,15 +29,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @OptIn(FlowPreview::class)
 class PokedexViewModel(
     userFlow: Flow<User>,
     pokemonsFlow: Flow<List<Pokemon>>,
     private val classifier: Classifier,
-    private val pokemonRepository: PokemonRepository
-): ViewModel() {
+    private val pokemonRepository: PokemonRepository,
+) : ViewModel() {
     var state by mutableStateOf(PokedexState())
         private set
 
@@ -47,53 +46,44 @@ class PokedexViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
-        val searchFlow = state.searchState.text.textAsFlow()
-            .debounce(300L)
+        val searchFlow = state.searchState.text.textAsFlow().debounce(300L)
 
-        val pokemonsFlow = pokemonsFlow
-            .onEach { pokemons ->
-                state = state.copy(allPokemons = pokemons)
-            }
+        val pokemonsFlow =
+            pokemonsFlow.onEach { pokemons -> state = state.copy(allPokemons = pokemons) }
 
         val localeFlow = snapshotFlow { locale }
 
         combine(searchFlow, pokemonsFlow, localeFlow) { searchText, allPokemons, locale ->
-            if (searchText.isBlank()) {
-                null
-            } else {
-                allPokemons.filter {
-                    val name = it.name.getOrElse(locale) { "" }
-                    name.contains(searchText, ignoreCase = true)
+                if (searchText.isBlank()) {
+                    null
+                } else {
+                    allPokemons.filter {
+                        val name = it.name.getOrElse(locale) { "" }
+                        name.contains(searchText, ignoreCase = true)
+                    }
                 }
             }
-        }
-            .onEach { filteredPokemons ->
-                state = state.copy(filteredPokemons = filteredPokemons)
-            }
+            .onEach { filteredPokemons -> state = state.copy(filteredPokemons = filteredPokemons) }
             .launchIn(viewModelScope)
 
-        userFlow
-            .onEach {
-                state = state.copy(user = it)
-            }
-            .launchIn(viewModelScope)
+        userFlow.onEach { state = state.copy(user = it) }.launchIn(viewModelScope)
     }
 
     fun initialize() {
-        viewModelScope.launch(Dispatchers.IO) {
-            classifier.init()
-        }
+        viewModelScope.launch(Dispatchers.IO) { classifier.init() }
     }
 
     fun onAction(action: PokedexAction) {
         when (action) {
             is PokedexAction.OnPhotoTake -> recognizePokemon(action.bitmap)
             is PokedexAction.RemoveFilterClick -> {
-                state = state.copy(
-                    searchState = state.searchState.copy(
-                        filter = state.searchState.filter.filter { it != action.type }
+                state =
+                    state.copy(
+                        searchState =
+                            state.searchState.copy(
+                                filter = state.searchState.filter.filter { it != action.type }
+                            )
                     )
-                )
             }
             PokedexAction.OnRecognitionOverlayDismiss -> {
                 state = state.copy(lastCaught = null, showRecognitionOverlay = false)
@@ -106,11 +96,8 @@ class PokedexViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val userId = state.user?.id ?: return@launch
 
-            state = state.copy(
-                showRecognitionOverlay = true,
-                isRecognizing = true,
-                lastCaught = null
-            )
+            state =
+                state.copy(showRecognitionOverlay = true, isRecognizing = true, lastCaught = null)
 
             var lastCaught: PokemonCaught? = null
             val pokemonId = classifier.classify(BitmapResizer.resize(bitmap))
@@ -121,24 +108,19 @@ class PokedexViewModel(
                     is TypedResult.Error -> {
                         val message =
                             when (result.error) {
-                                is CatchPokemonError.CatchFailed -> UiText.StringResource(id = R.string.catch_failed)
+                                is CatchPokemonError.CatchFailed ->
+                                    UiText.StringResource(id = R.string.catch_failed)
                             }
                         eventChannel.send(PokedexEvent.Error(message))
                     }
                     is TypedResult.Success -> {
                         val pokemon = pokemonRepository.getPokemonById(pokemonId)!!
-                        lastCaught = PokemonCaught(
-                            id = pokemon.id,
-                            name = pokemon.name
-                        )
+                        lastCaught = PokemonCaught(id = pokemon.id, name = pokemon.name)
                     }
                 }
             }
 
-            state = state.copy(
-                isRecognizing = false,
-                lastCaught = lastCaught
-            )
+            state = state.copy(isRecognizing = false, lastCaught = lastCaught)
         }
     }
 }

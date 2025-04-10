@@ -21,35 +21,24 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     userRepository: UserRepository,
     private val pokemonRepository: PokemonRepository,
-    private val syncRepository: SyncRepository
-): ViewModel() {
+    private val syncRepository: SyncRepository,
+) : ViewModel() {
     private var _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
 
     init {
-        userRepository.getCurrentUserFlow()
+        userRepository
+            .getCurrentUserFlow()
             .flatMapLatest { user ->
                 if (user == null) {
                     flowOf(Pair(null, emptyList()))
                 } else {
-                    pokemonRepository.getPokemonsCaughtByUser(user.id!!)
-                        .map {
-                            Pair(user, it)
-                        }
+                    pokemonRepository.getPokemonsCaughtByUser(user.id!!).map { Pair(user, it) }
                 }
             }
-            .onEach { pair ->
-                _state.update {
-                    it.copy(
-                        user = pair.first,
-                        pokemons = pair.second
-                    )
-                }
-            }
+            .onEach { pair -> _state.update { it.copy(user = pair.first, pokemons = pair.second) } }
             .launchIn(viewModelScope)
 
-        viewModelScope.launch(Dispatchers.IO) {
-            syncRepository.syncData()
-        }
+        viewModelScope.launch(Dispatchers.IO) { syncRepository.syncData() }
     }
 }

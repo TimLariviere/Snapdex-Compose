@@ -18,70 +18,53 @@ object Icons {
     val Check = Icons.Filled.Check
 
     val ArrowDown: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_arrow_down)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_arrow_down)
 
     val App: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_app)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_app)
 
     val Category: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_category)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_category)
 
     val Eye: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_eye)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_eye)
 
     val EyeClosed: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_eye_closed)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_eye_closed)
 
     val Filter: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_filter)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_filter)
 
     val GridUnselected: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_grid_unselected)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_grid_unselected)
 
     val GridSelected: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_grid_selected)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_grid_selected)
 
     val Height: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_height)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_height)
 
     val Pokeball: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_pokeball)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_pokeball)
 
     val ProfileUnselected: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_profile_unselected)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_profile_unselected)
 
     val ProfileSelected: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_profile_selected)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_profile_selected)
 
     val StatsUnselected: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_stats_unselected)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_stats_unselected)
 
     val StatsSelected: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_stats_selected)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_stats_selected)
 
     val Weight: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_weight)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_weight)
 
     val Male: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_male)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_male)
 
     val Female: ImageVector
-        @Composable
-        get() = ImageVector.vectorResource(id = R.drawable.icon_female)
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.icon_female)
 }

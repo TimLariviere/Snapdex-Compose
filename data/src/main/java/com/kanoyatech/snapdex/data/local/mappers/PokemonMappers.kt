@@ -16,19 +16,26 @@ fun PokemonWithRelations.toPokemon(): Pokemon {
     return Pokemon(
         id = pokemon.id,
         name = translations.associate { Locale.forLanguageTag(it.language) to it.name },
-        description = translations.associate { Locale.forLanguageTag(it.language) to it.description },
+        description =
+            translations.associate { Locale.forLanguageTag(it.language) to it.description },
         types = types,
         weaknesses = PokemonWeaknessCalculator.calculateWeaknesses(types),
         weight = Weight.fromHectogram(pokemon.weight),
         height = Length.fromDecimeter(pokemon.height),
-        category = PokemonCategory(
-            id = category.category.id,
-            name = category.translations.associate { Locale.forLanguageTag(it.language) to it.name }
-        ),
-        ability = PokemonAbility(
-            id = ability.ability.id,
-            name = ability.translations.associate { Locale.forLanguageTag(it.language) to it.name }
-        ),
-        maleToFemaleRatio = (pokemon.maleToFemaleRatio * 100.0).percent
+        category =
+            PokemonCategory(
+                id = category.category.id,
+                name =
+                    category.translations.associate {
+                        Locale.forLanguageTag(it.language) to it.name
+                    },
+            ),
+        ability =
+            PokemonAbility(
+                id = ability.ability.id,
+                name =
+                    ability.translations.associate { Locale.forLanguageTag(it.language) to it.name },
+            ),
+        maleToFemaleRatio = (pokemon.maleToFemaleRatio * 100.0).percent,
     )
 }

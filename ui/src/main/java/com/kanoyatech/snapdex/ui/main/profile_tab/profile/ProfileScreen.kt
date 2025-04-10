@@ -33,7 +33,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 import com.kanoyatech.snapdex.designsystem.components.PopupButton
@@ -43,14 +42,15 @@ import com.kanoyatech.snapdex.designsystem.components.SnapdexHorizontalDivider
 import com.kanoyatech.snapdex.designsystem.components.SnapdexPopup
 import com.kanoyatech.snapdex.domain.AIModel
 import com.kanoyatech.snapdex.domain.models.User
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.components.AvatarView
 import com.kanoyatech.snapdex.ui.main.profile_tab.components.DestructiveSettingsButton
 import com.kanoyatech.snapdex.ui.main.profile_tab.components.SettingsButton
 import com.kanoyatech.snapdex.ui.main.profile_tab.components.SettingsPickerButton
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import com.kanoyatech.snapdex.ui.utils.getGlobalLocale
-import org.koin.androidx.compose.koinViewModel
 import java.util.Locale
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreenRoot(
@@ -61,24 +61,18 @@ fun ProfileScreenRoot(
     onChangePasswordClick: () -> Unit,
     onChangeAIModelClick: () -> Unit,
     onCreditsClick: () -> Unit,
-    onPrivacyPolicyClick: () -> Unit
+    onPrivacyPolicyClick: () -> Unit,
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val locale = configuration.getGlobalLocale()
 
-    LaunchedEffect(locale) {
-        viewModel.onAction(ProfileAction.OnLanguageChange(locale))
-    }
+    LaunchedEffect(locale) { viewModel.onAction(ProfileAction.OnLanguageChange(locale)) }
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             is ProfileEvent.Error -> {
-                Toast.makeText(
-                    context,
-                    event.error.asString(context),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(context, event.error.asString(context), Toast.LENGTH_LONG).show()
             }
             ProfileEvent.LoggedOut -> onLoggedOut()
         }
@@ -98,7 +92,7 @@ fun ProfileScreenRoot(
             }
 
             viewModel.onAction(action)
-        }
+        },
     )
 }
 
@@ -106,62 +100,43 @@ fun ProfileScreenRoot(
 private fun ProfileScreen(
     paddingValues: PaddingValues,
     state: ProfileState,
-    onAction: (ProfileAction) -> Unit
+    onAction: (ProfileAction) -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.fillMaxSize().padding(paddingValues).padding(vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
+                modifier = Modifier.align(Alignment.CenterHorizontally),
             ) {
                 AvatarView(
                     avatarId = state.user.avatarId,
                     isSelected = false,
-                    modifier = Modifier
-                        .height(64.dp)
+                    modifier = Modifier.height(64.dp),
                 )
 
                 Column {
-                    Text(
-                        text = state.user.name,
-                        style = SnapdexTheme.typography.heading3
-                    )
-                    Text(
-                        text = state.user.email,
-                        style = SnapdexTheme.typography.largeLabel
-                    )
+                    Text(text = state.user.name, style = SnapdexTheme.typography.heading3)
+                    Text(text = state.user.email, style = SnapdexTheme.typography.largeLabel)
                 }
             }
 
-            Box(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .weight(1f)
-            ) {
+            Box(modifier = Modifier.verticalScroll(rememberScrollState()).weight(1f)) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp),
                 ) {
                     AccountSettings(state, onAction)
                     AppSettings(state, onAction)
                     About(onAction)
                     Column(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(SnapdexTheme.colorScheme.surface)
+                        modifier =
+                            Modifier.clip(RoundedCornerShape(16.dp))
+                                .background(SnapdexTheme.colorScheme.surface)
                     ) {
                         DestructiveSettingsButton(stringResource(id = R.string.logout)) {
                             onAction(ProfileAction.OnLogoutClick)
@@ -170,10 +145,7 @@ private fun ProfileScreen(
                 }
             }
 
-            CallToAction(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-            )
+            CallToAction(modifier = Modifier.padding(horizontal = 16.dp))
         }
 
         if (state.showProgressResetDialog) {
@@ -194,39 +166,36 @@ private fun ProfileScreen(
 private fun AccountSettings(
     state: ProfileState,
     onAction: (ProfileAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
         Text(
             text = stringResource(id = R.string.account_settings),
-            style = SnapdexTheme.typography.largeLabel
+            style = SnapdexTheme.typography.largeLabel,
         )
 
         Column(
-            modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(SnapdexTheme.colorScheme.surface)
+            modifier =
+                Modifier.clip(RoundedCornerShape(16.dp))
+                    .background(SnapdexTheme.colorScheme.surface)
         ) {
             SettingsButton(
                 text = stringResource(id = R.string.change_name),
-                onClick = { onAction(ProfileAction.OnChangeNameClick) }
+                onClick = { onAction(ProfileAction.OnChangeNameClick) },
             )
 
             SnapdexHorizontalDivider()
 
             SettingsButton(
                 text = stringResource(id = R.string.change_password),
-                onClick = { onAction(ProfileAction.OnChangePasswordClick) }
+                onClick = { onAction(ProfileAction.OnChangePasswordClick) },
             )
 
             SnapdexHorizontalDivider()
 
             SettingsButton(
                 text = stringResource(id = R.string.reset_progress),
-                onClick = { onAction(ProfileAction.OnResetProgressClick) }
+                onClick = { onAction(ProfileAction.OnResetProgressClick) },
             )
 
             SnapdexHorizontalDivider()
@@ -234,7 +203,7 @@ private fun AccountSettings(
             DestructiveSettingsButton(
                 text = stringResource(id = R.string.delete_account),
                 enabled = !state.isDeletingAccount,
-                onClick = { onAction(ProfileAction.OnDeleteAccountClick) }
+                onClick = { onAction(ProfileAction.OnDeleteAccountClick) },
             )
         }
     }
@@ -244,33 +213,32 @@ private fun AccountSettings(
 private fun AppSettings(
     state: ProfileState,
     onAction: (ProfileAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val localeName = remember(state.language) {
-        state.language.getDisplayLanguage(state.language).replaceFirstChar { it.uppercase() }
-    }
+    val localeName =
+        remember(state.language) {
+            state.language.getDisplayLanguage(state.language).replaceFirstChar { it.uppercase() }
+        }
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
         Text(
             text = stringResource(id = R.string.app_settings),
-            style = SnapdexTheme.typography.largeLabel
+            style = SnapdexTheme.typography.largeLabel,
         )
 
         Column(
-            modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(SnapdexTheme.colorScheme.surface)
+            modifier =
+                Modifier.clip(RoundedCornerShape(16.dp))
+                    .background(SnapdexTheme.colorScheme.surface)
         ) {
             SettingsPickerButton(
                 text = stringResource(id = R.string.ai_model),
-                value = when (state.aiModel) {
-                    AIModel.EMBEDDED -> stringResource(id = R.string.on_device)
-                    AIModel.OPENAI -> stringResource(id = R.string.openai)
-                },
-                onClick = { onAction(ProfileAction.OnChangeAIModelClick) }
+                value =
+                    when (state.aiModel) {
+                        AIModel.EMBEDDED -> stringResource(id = R.string.on_device)
+                        AIModel.OPENAI -> stringResource(id = R.string.openai)
+                    },
+                onClick = { onAction(ProfileAction.OnChangeAIModelClick) },
             )
 
             SnapdexHorizontalDivider()
@@ -278,7 +246,7 @@ private fun AppSettings(
             SettingsPickerButton(
                 text = stringResource(id = R.string.language),
                 value = localeName,
-                onClick = { onAction(ProfileAction.OnChangeLanguageClick) }
+                onClick = { onAction(ProfileAction.OnChangeLanguageClick) },
             )
 
             SnapdexHorizontalDivider()
@@ -286,41 +254,32 @@ private fun AppSettings(
             SettingsPickerButton(
                 text = stringResource(id = R.string.notifications),
                 value = "Disabled",
-                onClick = { onAction(ProfileAction.OnChangeNotificationsClick) }
+                onClick = { onAction(ProfileAction.OnChangeNotificationsClick) },
             )
         }
     }
 }
 
 @Composable
-private fun About(
-    onAction: (ProfileAction) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier
-    ) {
-        Text(
-            text = stringResource(id = R.string.about),
-            style = SnapdexTheme.typography.largeLabel
-        )
+private fun About(onAction: (ProfileAction) -> Unit, modifier: Modifier = Modifier) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
+        Text(text = stringResource(id = R.string.about), style = SnapdexTheme.typography.largeLabel)
 
         Column(
-            modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(SnapdexTheme.colorScheme.surface)
+            modifier =
+                Modifier.clip(RoundedCornerShape(16.dp))
+                    .background(SnapdexTheme.colorScheme.surface)
         ) {
             SettingsButton(
                 text = stringResource(id = R.string.licenses_and_credits),
-                onClick = { onAction(ProfileAction.OnCreditsClick) }
+                onClick = { onAction(ProfileAction.OnCreditsClick) },
             )
 
             SnapdexHorizontalDivider()
 
             SettingsButton(
                 text = stringResource(id = R.string.privacy_policy),
-                onClick = { onAction(ProfileAction.OnPrivacyPolicyClick) }
+                onClick = { onAction(ProfileAction.OnPrivacyPolicyClick) },
             )
         }
     }
@@ -330,27 +289,30 @@ private fun About(
 private fun CallToAction(modifier: Modifier = Modifier) {
     val styles =
         TextLinkStyles(
-            style = SpanStyle(
-                color = SnapdexTheme.colorScheme.primary,
-                textDecoration = TextDecoration.Underline
-            )
+            style =
+                SpanStyle(
+                    color = SnapdexTheme.colorScheme.primary,
+                    textDecoration = TextDecoration.Underline,
+                )
         )
 
     Text(
-        text = buildAnnotatedString {
-            append(stringResource(id = R.string.built_in_the_open))
-            withLink(LinkAnnotation.Url("https://github.com/TimLariviere/Snapdex-Compose", styles)) {
-                append(stringResource(id = R.string.snapdex_on_github))
-            }
-            append(stringResource(id = R.string.get_in_touch))
-            withLink(LinkAnnotation.Url("https://timothelariviere.com", styles)) {
-                append(stringResource(id = R.string.website_link))
-            }
-        },
+        text =
+            buildAnnotatedString {
+                append(stringResource(id = R.string.built_in_the_open))
+                withLink(
+                    LinkAnnotation.Url("https://github.com/TimLariviere/Snapdex-Compose", styles)
+                ) {
+                    append(stringResource(id = R.string.snapdex_on_github))
+                }
+                append(stringResource(id = R.string.get_in_touch))
+                withLink(LinkAnnotation.Url("https://timothelariviere.com", styles)) {
+                    append(stringResource(id = R.string.website_link))
+                }
+            },
         style = SnapdexTheme.typography.smallLabel,
         textAlign = TextAlign.Center,
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     )
 }
 
@@ -360,14 +322,16 @@ private fun ProgressResetConfirmationDialog(onAction: (ProfileAction) -> Unit) {
         title = stringResource(id = R.string.progress_reset),
         description = stringResource(id = R.string.progress_reset_description),
         onDismissRequest = { onAction(ProfileAction.OnProgressResetCancel) },
-        primaryButton = PopupButton(
-            text = stringResource(id = R.string.cancel),
-            onClick = { onAction(ProfileAction.OnProgressResetCancel) }
-        ),
-        secondaryButton = PopupButton(
-            text = stringResource(id = R.string.reset),
-            onClick = { onAction(ProfileAction.OnProgressResetConfirm) }
-        )
+        primaryButton =
+            PopupButton(
+                text = stringResource(id = R.string.cancel),
+                onClick = { onAction(ProfileAction.OnProgressResetCancel) },
+            ),
+        secondaryButton =
+            PopupButton(
+                text = stringResource(id = R.string.reset),
+                onClick = { onAction(ProfileAction.OnProgressResetConfirm) },
+            ),
     )
 }
 
@@ -377,29 +341,25 @@ private fun AccountDeletionConfirmationDialog(onAction: (ProfileAction) -> Unit)
         title = stringResource(id = R.string.account_deletion),
         description = stringResource(id = R.string.account_deletion_description),
         onDismissRequest = { onAction(ProfileAction.OnAccountDeletionCancel) },
-        primaryButton = PopupButton(
-            text = stringResource(id = R.string.cancel),
-            onClick = { onAction(ProfileAction.OnAccountDeletionCancel) }
-        ),
-        secondaryButton = PopupButton(
-            text = stringResource(id = R.string.delete),
-            onClick = { onAction(ProfileAction.OnAccountDeletionConfirm) }
-        )
+        primaryButton =
+            PopupButton(
+                text = stringResource(id = R.string.cancel),
+                onClick = { onAction(ProfileAction.OnAccountDeletionCancel) },
+            ),
+        secondaryButton =
+            PopupButton(
+                text = stringResource(id = R.string.delete),
+                onClick = { onAction(ProfileAction.OnAccountDeletionConfirm) },
+            ),
     )
 }
 
 @Composable
-private fun LanguageDialog(
-    locale: Locale,
-    onAction: (ProfileAction) -> Unit
-) {
+private fun LanguageDialog(locale: Locale, onAction: (ProfileAction) -> Unit) {
     SnapdexDialogPicker(
         title = stringResource(id = R.string.set_language),
         buttonText = stringResource(id = R.string.choose),
-        items = listOf(
-            Locale.ENGLISH,
-            Locale.FRENCH
-        ),
+        items = listOf(Locale.ENGLISH, Locale.FRENCH),
         initialItemSelected = locale,
         onItemSelect = { locale -> onAction(ProfileAction.OnLanguageChange(locale)) },
         onDismissRequest = { onAction(ProfileAction.OnLanguageDialogDismiss) },
@@ -412,8 +372,7 @@ private fun LanguageDialog(
             text = localeName,
             textAlign = TextAlign.Center,
             color = SnapdexTheme.colorScheme.onSurface,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -425,17 +384,19 @@ private fun ProfileScreenPreview() {
         SnapdexBackground {
             ProfileScreen(
                 paddingValues = PaddingValues(0.dp),
-                state = ProfileState(
-                    user = User(
-                        id = "",
-                        avatarId = 4,
-                        name = "Roger",
-                        email = "roger@snapdex.com"
+                state =
+                    ProfileState(
+                        user =
+                            User(
+                                id = "",
+                                avatarId = 4,
+                                name = "Roger",
+                                email = "roger@snapdex.com",
+                            ),
+                        language = Locale.FRENCH,
+                        showLanguageDialog = true,
                     ),
-                    language = Locale.FRENCH,
-                    showLanguageDialog = true
-                ),
-                onAction = {}
+                onAction = {},
             )
         }
     }

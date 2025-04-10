@@ -8,10 +8,10 @@ import com.kanoyatech.snapdex.ui.intro.IntroViewModel
 import com.kanoyatech.snapdex.ui.main.MainViewModel
 import com.kanoyatech.snapdex.ui.main.pokedex_tab.pokedex.PokedexViewModel
 import com.kanoyatech.snapdex.ui.main.pokedex_tab.pokemon_detail.PokemonDetailViewModel
-import com.kanoyatech.snapdex.ui.main.profile_tab.profile.ProfileViewModel
 import com.kanoyatech.snapdex.ui.main.profile_tab.choose_aimodel.ChooseAIModelViewModel
 import com.kanoyatech.snapdex.ui.main.profile_tab.new_name.NewNameViewModel
 import com.kanoyatech.snapdex.ui.main.profile_tab.new_password.NewPasswordViewModel
+import com.kanoyatech.snapdex.ui.main.profile_tab.profile.ProfileViewModel
 import com.kanoyatech.snapdex.ui.main.stats_tab.stats.StatsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -26,7 +26,9 @@ val uiModule = module {
     viewModelOf(::ForgotPasswordViewModel)
     viewModelOf(::MainViewModel)
     viewModel { parameters -> PokedexViewModel(parameters.get(), get(), get(), get()) }
-    viewModel { parameters -> ProfileViewModel(parameters.get(), get(), get(), androidApplication(), get(), get()) }
+    viewModel { parameters ->
+        ProfileViewModel(parameters.get(), get(), get(), androidApplication(), get(), get())
+    }
     viewModelOf(::StatsViewModel)
     viewModel { parameters -> PokemonDetailViewModel(parameters.get(), get(), get()) }
     viewModel { parameters -> NewNameViewModel(parameters.get(), get(), get()) }

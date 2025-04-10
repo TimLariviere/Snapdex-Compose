@@ -9,8 +9,8 @@ import java.nio.ByteBuffer
 class ClassifierFactory(
     private val preferencesRepository: PreferencesRepository,
     private val openAIClassifier: OpenAIClassifier,
-    private val tensorflowClassifier: TensorflowClassifier
-): Classifier {
+    private val tensorflowClassifier: TensorflowClassifier,
+) : Classifier {
     private var model: AIModel? = null
 
     override suspend fun init() {

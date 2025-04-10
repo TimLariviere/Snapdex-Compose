@@ -46,49 +46,51 @@ data class ColorScheme(
     val onError: Color,
     val navBarBackground: Color,
     val navBarOnBackground: Color,
-    val statsFill: Color
+    val statsFill: Color,
 )
 
-val LightColors = ColorScheme(
-    primary = Color(0xFFFF6999),
-    onPrimary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF2C73FF),
-    background = Color(0xFFFFF0A2),
-    backgroundVariant = Color(0xFFFFCCD8),
-    onBackground = Color(0xFF68635E),
-    surface = Color(0x4DFFFFFF),
-    surfaceVariant = Color(0xFFFFE9CF),
-    onSurface = Color(0xFF68635E),
-    onSurfaceVariant = Color(0x8068635E),
-    outline = Color(0xFFFFD9C3),
-    inOutline = Color(0xFFFFFFFF),
-    success = Color(0xFF059F30),
-    error = Color(0xFFD10303),
-    onError = Color(0xFFFFFFFF),
-    navBarBackground = Color(0xD9FFFFFF),
-    navBarOnBackground = Color(0xFF68635E),
-    statsFill = Color(0xFFFFD9C3)
-)
+val LightColors =
+    ColorScheme(
+        primary = Color(0xFFFF6999),
+        onPrimary = Color(0xFFFFFFFF),
+        secondary = Color(0xFF2C73FF),
+        background = Color(0xFFFFF0A2),
+        backgroundVariant = Color(0xFFFFCCD8),
+        onBackground = Color(0xFF68635E),
+        surface = Color(0x4DFFFFFF),
+        surfaceVariant = Color(0xFFFFE9CF),
+        onSurface = Color(0xFF68635E),
+        onSurfaceVariant = Color(0x8068635E),
+        outline = Color(0xFFFFD9C3),
+        inOutline = Color(0xFFFFFFFF),
+        success = Color(0xFF059F30),
+        error = Color(0xFFD10303),
+        onError = Color(0xFFFFFFFF),
+        navBarBackground = Color(0xD9FFFFFF),
+        navBarOnBackground = Color(0xFF68635E),
+        statsFill = Color(0xFFFFD9C3),
+    )
 
-val DarkColors = ColorScheme(
-    primary = Color(0xFFFF6999),
-    onPrimary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF5688EC),
-    background = Color(0xFF1E1E1E),
-    backgroundVariant = Color(0xFF1E1E1E),
-    onBackground = Color(0xFFE0E0E0),
-    surface = Color(0x33777676),
-    surfaceVariant = Color(0xFF333333),
-    onSurface = Color(0xFFD9D3D8),
-    onSurfaceVariant = Color(0xC1FADDE9),
-    outline = Color(0xFF98717F),
-    inOutline = Color(0xFFE0E0E0),
-    success = Color(0xFF00C853),
-    error = Color(0xFFF63535),
-    onError = Color(0xFFFFFFFF),
-    navBarBackground = Color(0xD9FFFFFF),
-    navBarOnBackground = Color(0xFF68635E),
-    statsFill = Color(0xFF464444)
-)
+val DarkColors =
+    ColorScheme(
+        primary = Color(0xFFFF6999),
+        onPrimary = Color(0xFFFFFFFF),
+        secondary = Color(0xFF5688EC),
+        background = Color(0xFF1E1E1E),
+        backgroundVariant = Color(0xFF1E1E1E),
+        onBackground = Color(0xFFE0E0E0),
+        surface = Color(0x33777676),
+        surfaceVariant = Color(0xFF333333),
+        onSurface = Color(0xFFD9D3D8),
+        onSurfaceVariant = Color(0xC1FADDE9),
+        outline = Color(0xFF98717F),
+        inOutline = Color(0xFFE0E0E0),
+        success = Color(0xFF00C853),
+        error = Color(0xFFF63535),
+        onError = Color(0xFFFFFFFF),
+        navBarBackground = Color(0xD9FFFFFF),
+        navBarOnBackground = Color(0xFF68635E),
+        statsFill = Color(0xFF464444),
+    )
 
 val LocalColors = staticCompositionLocalOf { LightColors }

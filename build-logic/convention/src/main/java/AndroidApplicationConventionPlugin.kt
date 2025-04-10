@@ -14,6 +14,7 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
             pluginManager.run {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
+                apply("com.kanoyatech.ktfmt")
             }
 
             extensions.configure<ApplicationExtension> {

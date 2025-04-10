@@ -7,5 +7,5 @@ data class NewNameState(
     val isNameValid: Boolean = false,
     val showNameChangedPopup: Boolean = false,
     val canChangeName: Boolean = false,
-    val isChangingName: Boolean = false
+    val isChangingName: Boolean = false,
 )

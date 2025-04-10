@@ -10,12 +10,14 @@ import com.kanoyatech.snapdex.data.local.entities.PokemonEntity
 @Dao
 interface EvolutionChainDao {
     @Transaction
-    @Query("""
+    @Query(
+        """
         SELECT ec.* 
         FROM EvolutionChains ec
         LEFT OUTER JOIN EvolutionChainLinks ecl ON ecl.evolutionChainId = ec.id
         WHERE ec.startingPokemonId = :pokemonId OR ecl.pokemonId = :pokemonId
-    """)
+    """
+    )
     suspend fun getFor(pokemonId: Int): EvolutionChainWithRelations?
 }
 
@@ -26,14 +28,14 @@ class EvolutionChainWithRelations {
     @Relation(
         parentColumn = "startingPokemonId",
         entityColumn = "id",
-        entity = PokemonEntity::class
+        entity = PokemonEntity::class,
     )
     lateinit var startingPokemon: PokemonWithRelations
 
     @Relation(
         parentColumn = "id",
         entityColumn = "evolutionChainId",
-        entity = EvolutionChainLinkEntity::class
+        entity = EvolutionChainLinkEntity::class,
     )
     lateinit var evolvesTo: List<EvolutionChainLinkWithRelations>
 }
@@ -41,11 +43,7 @@ class EvolutionChainWithRelations {
 class EvolutionChainLinkWithRelations {
     var pokemonId: Int = 0
 
-    @Relation(
-        parentColumn = "pokemonId",
-        entityColumn = "id",
-        entity = PokemonEntity::class
-    )
+    @Relation(parentColumn = "pokemonId", entityColumn = "id", entity = PokemonEntity::class)
     lateinit var pokemon: PokemonWithRelations
     var minLevel: Int = 0
 }

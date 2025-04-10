@@ -9,27 +9,19 @@ import com.kanoyatech.snapdex.domain.repositories.StatisticsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class StatisticsRepositoryImpl(
-    private val statisticDao: StatisticDao
-): StatisticsRepository {
+class StatisticsRepositoryImpl(private val statisticDao: StatisticDao) : StatisticsRepository {
     override fun getCompletionRate(userId: UserId): Flow<Statistic> {
         return statisticDao.getCompletionRate(userId).map {
-            Statistic(
-                it.totalPokemonCount,
-                it.caughtPokemonCount
-            )
+            Statistic(it.totalPokemonCount, it.caughtPokemonCount)
         }
     }
 
     override fun getCompletionRateByType(userId: UserId): Flow<List<StatisticByType>> {
-        return statisticDao.getCompletionRateByType(userId).map { types  ->
+        return statisticDao.getCompletionRateByType(userId).map { types ->
             types.map {
                 StatisticByType(
                     type = PokemonType.fromInt(it.type),
-                    statistic = Statistic(
-                        it.totalPokemonCount,
-                        it.caughtPokemonCount
-                    )
+                    statistic = Statistic(it.totalPokemonCount, it.caughtPokemonCount),
                 )
             }
         }

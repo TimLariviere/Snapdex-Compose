@@ -14,24 +14,18 @@ fun SnapdexLinkButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Text(
         text = text,
         textDecoration = TextDecoration.Underline,
         color = SnapdexTheme.colorScheme.primary,
-        modifier = modifier
-            .clickable(enabled = enabled, onClick = onClick)
+        modifier = modifier.clickable(enabled = enabled, onClick = onClick),
     )
 }
 
 @Preview
 @Composable
 private fun SnapdexLinkButtonPreview() {
-    AppTheme {
-        SnapdexLinkButton(
-            text = "Create an account",
-            onClick = {}
-        )
-    }
+    AppTheme { SnapdexLinkButton(text = "Create an account", onClick = {}) }
 }

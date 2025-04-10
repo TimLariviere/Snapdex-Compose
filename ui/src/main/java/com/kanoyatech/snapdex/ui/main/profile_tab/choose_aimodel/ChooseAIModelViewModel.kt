@@ -20,8 +20,8 @@ import kotlinx.coroutines.launch
 
 class ChooseAIModelViewModel(
     private val preferencesRepository: PreferencesRepository,
-    private val encryptedPreferencesRepository: EncryptedPreferencesRepository
-): ViewModel() {
+    private val encryptedPreferencesRepository: EncryptedPreferencesRepository,
+) : ViewModel() {
     var state by mutableStateOf(ChooseAIModelState())
         private set
 
@@ -31,24 +31,26 @@ class ChooseAIModelViewModel(
     init {
         viewModelScope.launch {
             val aiModel = preferencesRepository.getAIModel()
-            val apiKey = if (aiModel == AIModel.OPENAI) {
-                encryptedPreferencesRepository.getOpenAIApiKey()
-            } else {
-                ""
-            }
-            state = state.copy(
-                selected = aiModel,
-                openAIApiKey = TextFieldState(initialText = apiKey),
-                canSave = aiModel != AIModel.OPENAI || apiKey.isNotBlank()
-            )
+            val apiKey =
+                if (aiModel == AIModel.OPENAI) {
+                    encryptedPreferencesRepository.getOpenAIApiKey()
+                } else {
+                    ""
+                }
+            state =
+                state.copy(
+                    selected = aiModel,
+                    openAIApiKey = TextFieldState(initialText = apiKey),
+                    canSave = aiModel != AIModel.OPENAI || apiKey.isNotBlank(),
+                )
 
             val selectedFlow = snapshotFlow { state.selected }
 
             combine(selectedFlow, state.openAIApiKey.textAsFlow()) { model, apiKey ->
-                model != null && (model != AIModel.OPENAI || apiKey.isNotBlank())
-            }.onEach {
-                state = state.copy(canSave = it)
-            }.launchIn(viewModelScope)
+                    model != null && (model != AIModel.OPENAI || apiKey.isNotBlank())
+                }
+                .onEach { state = state.copy(canSave = it) }
+                .launchIn(viewModelScope)
         }
     }
 

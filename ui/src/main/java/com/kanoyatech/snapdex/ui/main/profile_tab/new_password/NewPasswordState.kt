@@ -12,5 +12,5 @@ data class NewPasswordState(
     val newPasswordValidationState: PasswordValidationState = PasswordValidationState(),
     val showPasswordChangedPopup: Boolean = false,
     val canChangePassword: Boolean = false,
-    val isChangingPassword: Boolean = false
+    val isChangingPassword: Boolean = false,
 )

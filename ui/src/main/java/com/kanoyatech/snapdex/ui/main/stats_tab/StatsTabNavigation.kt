@@ -21,23 +21,17 @@ import org.koin.core.parameter.parametersOf
 fun StatsTabNavigation(
     paddingValues: PaddingValues,
     mainState: StateFlow<MainState>,
-    shouldShowNavBar: (Boolean) -> Unit
+    shouldShowNavBar: (Boolean) -> Unit,
 ) {
     val navController = rememberNavController()
 
-    NavHost(
-        navController = navController,
-        startDestination = StatsRoute
-    ) {
+    NavHost(navController = navController, startDestination = StatsRoute) {
         composable<StatsRoute> {
             shouldShowNavBar(true)
 
             val userFlow = mainState.map { it.user }.filterNotNull()
             val viewModel: StatsViewModel = koinViewModel { parametersOf(userFlow) }
-            StatsScreenRoot(
-                paddingValues = paddingValues,
-                viewModel = viewModel
-            )
+            StatsScreenRoot(paddingValues = paddingValues, viewModel = viewModel)
         }
     }
 }

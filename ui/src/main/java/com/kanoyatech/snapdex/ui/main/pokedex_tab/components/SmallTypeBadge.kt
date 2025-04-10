@@ -15,27 +15,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.TypeColor
+import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
-fun SmallTypeBadge(
-    typeUi: TypeUi,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .size(16.dp)
-            .clip(CircleShape)
-            .background(typeUi.color)
-            .padding(2.dp)
-    ) {
+fun SmallTypeBadge(typeUi: TypeUi, modifier: Modifier = Modifier) {
+    Box(modifier = modifier.size(16.dp).clip(CircleShape).background(typeUi.color).padding(2.dp)) {
         Icon(
             imageVector = ImageVector.vectorResource(id = typeUi.image),
             contentDescription = null,
-            tint = TypeColor.OnType
+            tint = TypeColor.OnType,
         )
     }
 }
@@ -44,9 +35,7 @@ fun SmallTypeBadge(
 @Composable
 private fun SmallTypeBadgePreview() {
     AppTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             SmallTypeBadge(TypeUi.fromType(PokemonType.FIRE))
             SmallTypeBadge(TypeUi.fromType(PokemonType.WATER))
             SmallTypeBadge(TypeUi.fromType(PokemonType.ROCK))

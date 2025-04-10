@@ -14,32 +14,29 @@ import coil.request.ImageRequest
 import coil.size.Size
 
 @Composable
-fun GifImage(
-    @DrawableRes imageId: Int,
-    modifier: Modifier = Modifier
-) {
+fun GifImage(@DrawableRes imageId: Int, modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val imageLoader = ImageLoader.Builder(context)
-        .components {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                add(ImageDecoderDecoder.Factory())
-            } else {
-                add(GifDecoder.Factory())
+    val imageLoader =
+        ImageLoader.Builder(context)
+            .components {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    add(ImageDecoderDecoder.Factory())
+                } else {
+                    add(GifDecoder.Factory())
+                }
             }
-        }
-        .build()
+            .build()
 
     Image(
-        painter = rememberAsyncImagePainter(
-            ImageRequest.Builder(context)
-                .data(data = imageId)
-                .apply {
-                    size(Size.ORIGINAL)
-                }
-                .build(),
-            imageLoader = imageLoader
-        ),
+        painter =
+            rememberAsyncImagePainter(
+                ImageRequest.Builder(context)
+                    .data(data = imageId)
+                    .apply { size(Size.ORIGINAL) }
+                    .build(),
+                imageLoader = imageLoader,
+            ),
         contentDescription = null,
-        modifier = modifier
+        modifier = modifier,
     )
 }

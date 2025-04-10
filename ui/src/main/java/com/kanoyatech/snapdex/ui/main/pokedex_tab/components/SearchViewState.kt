@@ -5,5 +5,5 @@ import com.kanoyatech.snapdex.domain.models.PokemonType
 
 data class SearchViewState(
     val text: TextFieldState = TextFieldState(),
-    val filter: List<PokemonType> = emptyList()
+    val filter: List<PokemonType> = emptyList(),
 )

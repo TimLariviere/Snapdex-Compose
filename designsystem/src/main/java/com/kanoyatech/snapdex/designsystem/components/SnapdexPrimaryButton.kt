@@ -18,32 +18,27 @@ fun SnapdexPrimaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     isBusy: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
-    val colors = ButtonColors(
-        containerColor = SnapdexTheme.colorScheme.primary,
-        contentColor = SnapdexTheme.colorScheme.onPrimary,
-        disabledContainerColor = SnapdexTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-        disabledContentColor = SnapdexTheme.colorScheme.onSurface.copy(alpha = 0.38f)
-    )
+    val colors =
+        ButtonColors(
+            containerColor = SnapdexTheme.colorScheme.primary,
+            contentColor = SnapdexTheme.colorScheme.onPrimary,
+            disabledContainerColor = SnapdexTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+            disabledContentColor = SnapdexTheme.colorScheme.onSurface.copy(alpha = 0.38f),
+        )
 
     Button(
         onClick = onClick,
         enabled = enabled && !isBusy,
         shape = SnapdexTheme.shapes.regular,
-        modifier = modifier
-            .height(48.dp),
-        colors = colors
+        modifier = modifier.height(48.dp),
+        colors = colors,
     ) {
         if (isBusy) {
-            SnapdexCircularProgressIndicator(
-                modifier = Modifier
-                    .size(24.dp)
-            )
+            SnapdexCircularProgressIndicator(modifier = Modifier.size(24.dp))
         } else {
-            Text(
-                text,
-                style = SnapdexTheme.typography.paragraph)
+            Text(text, style = SnapdexTheme.typography.paragraph)
         }
     }
 }
@@ -51,35 +46,17 @@ fun SnapdexPrimaryButton(
 @Preview
 @Composable
 private fun SnapdexPrimaryButtonEnabledPreview() {
-    AppTheme {
-        SnapdexPrimaryButton(
-            text = "Click me",
-            enabled = true,
-            onClick = {}
-        )
-    }
+    AppTheme { SnapdexPrimaryButton(text = "Click me", enabled = true, onClick = {}) }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun SnapdexPrimaryButtonDisabledPreview() {
-    AppTheme {
-        SnapdexPrimaryButton(
-            text = "Click me",
-            enabled = false,
-            onClick = {}
-        )
-    }
+    AppTheme { SnapdexPrimaryButton(text = "Click me", enabled = false, onClick = {}) }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun SnapdexPrimaryButtonBusyPreview() {
-    AppTheme {
-        SnapdexPrimaryButton(
-            text = "Click me",
-            isBusy = true,
-            onClick = {}
-        )
-    }
+    AppTheme { SnapdexPrimaryButton(text = "Click me", isBusy = true, onClick = {}) }
 }

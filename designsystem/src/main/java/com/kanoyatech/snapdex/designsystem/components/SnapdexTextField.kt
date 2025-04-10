@@ -36,62 +36,51 @@ fun SnapdexTextField(
     state: TextFieldState,
     modifier: Modifier = Modifier,
     hint: String = "",
-    keyboardType: KeyboardType = KeyboardType.Text
+    keyboardType: KeyboardType = KeyboardType.Text,
 ) {
-    var isFocused by remember {
-        mutableStateOf(false)
-    }
+    var isFocused by remember { mutableStateOf(false) }
 
     BasicTextField(
         state = state,
-        textStyle = LocalTextStyle.current.copy(
-            color = SnapdexTheme.colorScheme.onSurface
-        ),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType
-        ),
+        textStyle = LocalTextStyle.current.copy(color = SnapdexTheme.colorScheme.onSurface),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         lineLimits = TextFieldLineLimits.SingleLine,
         cursorBrush = SolidColor(SnapdexTheme.colorScheme.primary),
-        modifier = modifier
-            .height(44.dp)
-            .clip(SnapdexTheme.shapes.regular)
-            .background(SnapdexTheme.colorScheme.surfaceVariant)
-            .border(
-                width = 1.dp,
-                color = if (isFocused) {
-                    SnapdexTheme.colorScheme.primary
-                } else {
-                    SnapdexTheme.colorScheme.outline
-                },
-                shape = SnapdexTheme.shapes.regular
-            )
-            .padding(horizontal = 16.dp, vertical = 12.dp)
-            .onFocusChanged {
-                isFocused = it.isFocused
-            },
+        modifier =
+            modifier
+                .height(44.dp)
+                .clip(SnapdexTheme.shapes.regular)
+                .background(SnapdexTheme.colorScheme.surfaceVariant)
+                .border(
+                    width = 1.dp,
+                    color =
+                        if (isFocused) {
+                            SnapdexTheme.colorScheme.primary
+                        } else {
+                            SnapdexTheme.colorScheme.outline
+                        },
+                    shape = SnapdexTheme.shapes.regular,
+                )
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .onFocusChanged { isFocused = it.isFocused },
         decorator = { innerBox ->
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                ) {
+                Box(modifier = Modifier.weight(1f)) {
                     if (state.text.isEmpty() && !isFocused) {
                         Text(
                             text = hint,
                             color = SnapdexTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
-                                .fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
 
                     innerBox()
                 }
             }
-        }
+        },
     )
 }
 
@@ -103,9 +92,7 @@ private fun SnapdexTextFieldPreview() {
             SnapdexTextField(
                 state = rememberTextFieldState(),
                 hint = "Email",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp)
+                modifier = Modifier.fillMaxWidth().padding(4.dp),
             )
         }
     }

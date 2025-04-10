@@ -20,7 +20,7 @@ fun SnapdexCircleGraph(
     progress: Float,
     modifier: Modifier = Modifier,
     width: Dp = 32.dp,
-    borderWidth: Dp = 4.dp
+    borderWidth: Dp = 4.dp,
 ) {
     val strokeWidth = width - borderWidth
 
@@ -35,12 +35,13 @@ fun SnapdexCircleGraph(
         val radius = diameter / 2f
 
         // Bounds
-        val rect = Rect(
-            left = ((size.width / 2f) - radius) + (strokePx + borderPx) / 2f,
-            top = ((size.height / 2f) - radius) + (strokePx + borderPx) / 2f,
-            right = ((size.width / 2f) + radius) - ((strokePx + borderPx) / 2f),
-            bottom = ((size.height / 2f) + radius) - ((strokePx + borderPx) / 2f),
-        )
+        val rect =
+            Rect(
+                left = ((size.width / 2f) - radius) + (strokePx + borderPx) / 2f,
+                top = ((size.height / 2f) - radius) + (strokePx + borderPx) / 2f,
+                right = ((size.width / 2f) + radius) - ((strokePx + borderPx) / 2f),
+                bottom = ((size.height / 2f) + radius) - ((strokePx + borderPx) / 2f),
+            )
 
         // Draw outline
         drawArc(
@@ -50,10 +51,7 @@ fun SnapdexCircleGraph(
             useCenter = false,
             topLeft = rect.topLeft,
             size = rect.size,
-            style = Stroke(
-                width = strokePx + borderPx,
-                cap = StrokeCap.Round
-            )
+            style = Stroke(width = strokePx + borderPx, cap = StrokeCap.Round),
         )
 
         // Draw fill
@@ -64,10 +62,7 @@ fun SnapdexCircleGraph(
             useCenter = false,
             topLeft = rect.topLeft,
             size = rect.size,
-            style = Stroke(
-                width = strokePx - borderPx,
-                cap = StrokeCap.Round
-            )
+            style = Stroke(width = strokePx - borderPx, cap = StrokeCap.Round),
         )
     }
 }
@@ -77,12 +72,7 @@ fun SnapdexCircleGraph(
 private fun SnapdexArcGraphPreview() {
     AppTheme {
         SnapdexBackground {
-            SnapdexCircleGraph(
-                progress = 0.35f,
-                modifier = Modifier
-                    .height(360.dp)
-                    .width(240.dp)
-            )
+            SnapdexCircleGraph(progress = 0.35f, modifier = Modifier.height(360.dp).width(240.dp))
         }
     }
 }

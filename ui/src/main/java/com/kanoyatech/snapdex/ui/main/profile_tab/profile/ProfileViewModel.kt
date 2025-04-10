@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.DeleteCurrentUserError
@@ -14,7 +13,9 @@ import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.AppLocaleManager
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class ProfileViewModel(
     userFlow: Flow<User>,
@@ -30,8 +30,8 @@ class ProfileViewModel(
     private val pokemonRepository: PokemonRepository,
     private val application: Application,
     private val appLocaleManager: AppLocaleManager,
-    private val preferencesRepository: PreferencesRepository
-): ViewModel() {
+    private val preferencesRepository: PreferencesRepository,
+) : ViewModel() {
     var state by mutableStateOf(ProfileState())
         private set
 
@@ -44,11 +44,7 @@ class ProfileViewModel(
             state = state.copy(aiModel = model)
         }
 
-        userFlow
-            .onEach {
-                state = state.copy(user = it)
-            }
-            .launchIn(viewModelScope)
+        userFlow.onEach { state = state.copy(user = it) }.launchIn(viewModelScope)
     }
 
     fun onAction(action: ProfileAction) {
@@ -99,9 +95,7 @@ class ProfileViewModel(
     }
 
     private fun resetProgress() {
-        viewModelScope.launch(Dispatchers.IO) {
-            pokemonRepository.resetForUser(state.user.id!!)
-        }
+        viewModelScope.launch(Dispatchers.IO) { pokemonRepository.resetForUser(state.user.id!!) }
     }
 
     private fun deleteAccount() {
@@ -116,7 +110,8 @@ class ProfileViewModel(
                 is TypedResult.Error -> {
                     val message =
                         when (result.error) {
-                            is DeleteCurrentUserError.DeleteFailed -> UiText.StringResource(id = R.string.delete_user_failed)
+                            is DeleteCurrentUserError.DeleteFailed ->
+                                UiText.StringResource(id = R.string.delete_user_failed)
                         }
 
                     eventChannel.send(ProfileEvent.Error(message))

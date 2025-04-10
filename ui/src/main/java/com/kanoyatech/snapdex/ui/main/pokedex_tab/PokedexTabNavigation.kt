@@ -2,7 +2,6 @@ package com.kanoyatech.snapdex.ui.main.pokedex_tab
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,20 +20,18 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Serializable data object PokedexRoute
+
 @Serializable data class PokemonDetailsRoute(val pokemonId: PokemonId)
 
 @Composable
 fun PokedexTabNavigation(
     paddingValues: PaddingValues,
     mainState: StateFlow<MainState>,
-    shouldShowNavBar: (Boolean) -> Unit
+    shouldShowNavBar: (Boolean) -> Unit,
 ) {
     val navController = rememberNavController()
 
-    NavHost(
-        navController = navController,
-        startDestination = PokedexRoute
-    ) {
+    NavHost(navController = navController, startDestination = PokedexRoute) {
         composable<PokedexRoute> {
             shouldShowNavBar(true)
 
@@ -46,7 +43,7 @@ fun PokedexTabNavigation(
                 paddingValues = paddingValues,
                 onPokemonClick = { pokemonId ->
                     navController.navigate(PokemonDetailsRoute(pokemonId = pokemonId))
-                }
+                },
             )
         }
 
@@ -57,12 +54,10 @@ fun PokedexTabNavigation(
             val viewModel: PokemonDetailViewModel = koinViewModel { parametersOf(route.pokemonId) }
             PokemonDetailScreenRoot(
                 viewModel = viewModel,
-                onBackClick = {
-                    navController.popBackStack()
-                },
+                onBackClick = { navController.popBackStack() },
                 onPokemonClick = { pokemonId ->
                     navController.navigate(PokemonDetailsRoute(pokemonId))
-                }
+                },
             )
         }
     }

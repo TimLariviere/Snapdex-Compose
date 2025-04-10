@@ -37,17 +37,13 @@ fun ConfigureWindow() {
     }
 }
 
-class MainActivity: ComponentActivity() {
+class MainActivity : ComponentActivity() {
     private val viewModel: MainActivityViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        installSplashScreen().apply {
-            setKeepOnScreenCondition {
-                viewModel.state.isLoading
-            }
-        }
+        installSplashScreen().apply { setKeepOnScreenCondition { viewModel.state.isLoading } }
 
         enableEdgeToEdge()
 
@@ -62,7 +58,7 @@ class MainActivity: ComponentActivity() {
                         analytics = analytics,
                         navController = navHostController,
                         hasSeenIntro = viewModel.state.hasSeenIntro,
-                        isLoggedIn = viewModel.state.isLoggedIn
+                        isLoggedIn = viewModel.state.isLoggedIn,
                     )
                 }
             }

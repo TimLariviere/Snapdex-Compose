@@ -27,10 +27,7 @@ import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun NewNameScreenRoot(
-    viewModel: NewNameViewModel = koinViewModel(),
-    onBackClick: () -> Unit
-) {
+fun NewNameScreenRoot(viewModel: NewNameViewModel = koinViewModel(), onBackClick: () -> Unit) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -38,11 +35,7 @@ fun NewNameScreenRoot(
         when (event) {
             is NewNameEvent.Error -> {
                 keyboardController?.hide()
-                Toast.makeText(
-                    context,
-                    event.error.asString(context),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(context, event.error.asString(context), Toast.LENGTH_LONG).show()
             }
             NewNameEvent.NameChanged -> {
                 keyboardController?.hide()
@@ -60,34 +53,26 @@ fun NewNameScreenRoot(
             }
 
             viewModel.onAction(action)
-        }
+        },
     )
 }
 
 @Composable
-fun NewNameScreen(
-    state: NewNameState,
-    onAction: (NewNameAction) -> Unit
-) {
+fun NewNameScreen(state: NewNameState, onAction: (NewNameAction) -> Unit) {
     SnapdexScaffold(
         topBar = {
             SnapdexTopAppBar(
                 title = stringResource(R.string.new_name),
-                onBackClick = { onAction(NewNameAction.OnBackClick) }
+                onBackClick = { onAction(NewNameAction.OnBackClick) },
             )
         }
     ) { paddingValues ->
         Box {
             Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .pagePadding(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(paddingValues).pagePadding(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                SnapdexTextField(
-                    state = state.name,
-                    hint = stringResource(id = R.string.new_name)
-                )
+                SnapdexTextField(state = state.name, hint = stringResource(id = R.string.new_name))
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -96,8 +81,7 @@ fun NewNameScreen(
                     onClick = { onAction(NewNameAction.OnSetNameClick) },
                     enabled = state.canChangeName,
                     isBusy = state.isChangingName,
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
 
@@ -105,11 +89,12 @@ fun NewNameScreen(
                 SnapdexPopup(
                     title = stringResource(id = R.string.name_changed),
                     description = stringResource(id = R.string.name_changed_description),
-                    primaryButton = PopupButton(
-                        text = stringResource(id = R.string.ok),
-                        onClick = { onAction(NewNameAction.OnNameChangedPopupDismiss) }
-                    ),
-                    onDismissRequest = { onAction(NewNameAction.OnNameChangedPopupDismiss) }
+                    primaryButton =
+                        PopupButton(
+                            text = stringResource(id = R.string.ok),
+                            onClick = { onAction(NewNameAction.OnNameChangedPopupDismiss) },
+                        ),
+                    onDismissRequest = { onAction(NewNameAction.OnNameChangedPopupDismiss) },
                 )
             }
         }
@@ -119,10 +104,5 @@ fun NewNameScreen(
 @Preview
 @Composable
 private fun NewNameScreenPreview() {
-    AppTheme {
-        NewNameScreen(
-            state = NewNameState(),
-            onAction = {}
-        )
-    }
+    AppTheme { NewNameScreen(state = NewNameState(), onAction = {}) }
 }

@@ -16,38 +16,36 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class StatsViewModel(
-    userFlow: Flow<User>,
-    private val statisticsRepository: StatisticsRepository
-): ViewModel() {
+class StatsViewModel(userFlow: Flow<User>, private val statisticsRepository: StatisticsRepository) :
+    ViewModel() {
     var state by mutableStateOf(StatsState())
         private set
 
     init {
-        userFlow.flatMapLatest { user ->
-            val userId = user.id!!
+        userFlow
+            .flatMapLatest { user ->
+                val userId = user.id!!
 
-            val completionRateFlow =
-                statisticsRepository.getCompletionRate(userId)
-                    .onEach {
+                val completionRateFlow =
+                    statisticsRepository.getCompletionRate(userId).onEach {
                         state = state.copy(overallCompletion = it)
                     }
 
-            val completionRateByTypeFlow =
-                statisticsRepository.getCompletionRateByType(userId)
-                    .onEach { statistics ->
-                        state = state.copy(completionByType = PokemonType.entries.associate { type ->
-                            val statistic = statistics.find{ it.type == type }!!.statistic
-                            type to statistic
-                        })
+                val completionRateByTypeFlow =
+                    statisticsRepository.getCompletionRateByType(userId).onEach { statistics ->
+                        state =
+                            state.copy(
+                                completionByType =
+                                    PokemonType.entries.associate { type ->
+                                        val statistic =
+                                            statistics.find { it.type == type }!!.statistic
+                                        type to statistic
+                                    }
+                            )
                     }
 
-            combine(completionRateFlow, completionRateByTypeFlow) { _, _ -> }
-        }
+                combine(completionRateFlow, completionRateByTypeFlow) { _, _ -> }
+            }
             .launchIn(viewModelScope)
-    }
-
-    fun onAction(action: StatsAction) {
-
     }
 }

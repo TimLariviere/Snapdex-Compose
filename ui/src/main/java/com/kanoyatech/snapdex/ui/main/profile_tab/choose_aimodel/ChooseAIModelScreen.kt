@@ -31,7 +31,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ChooseAIModelScreenRoot(
     viewModel: ChooseAIModelViewModel = koinViewModel(),
     onBackClick: () -> Unit,
-    onSaved: (AIModel) -> Unit
+    onSaved: (AIModel) -> Unit,
 ) {
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
@@ -48,59 +48,52 @@ fun ChooseAIModelScreenRoot(
             }
 
             viewModel.onAction(action)
-        }
+        },
     )
 }
 
 @Composable
 private fun ChooseAIModelScreen(
     state: ChooseAIModelState,
-    onAction: (ChooseAIModelAction) -> Unit
+    onAction: (ChooseAIModelAction) -> Unit,
 ) {
-    val options = listOf(
-        AIModel.EMBEDDED,
-        AIModel.OPENAI
-    )
+    val options = listOf(AIModel.EMBEDDED, AIModel.OPENAI)
 
     SnapdexScaffold(
         topBar = {
             SnapdexTopAppBar(
                 title = stringResource(id = R.string.choose_ai_model),
-                onBackClick = { onAction(ChooseAIModelAction.OnBackClick) }
+                onBackClick = { onAction(ChooseAIModelAction.OnBackClick) },
             )
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .pagePadding(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.padding(paddingValues).pagePadding(),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 options.forEach { model ->
                     Row(
-                        modifier = Modifier
-                            .clickable(
+                        modifier =
+                            Modifier.clickable(
                                 interactionSource = MutableInteractionSource(),
                                 indication = null,
-                                onClick = { onAction(ChooseAIModelAction.OnAIModelSelect(model)) }
+                                onClick = { onAction(ChooseAIModelAction.OnAIModelSelect(model)) },
                             ),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        SnapdexRadioButton(
-                            selected = model == state.selected
-                        )
+                        SnapdexRadioButton(selected = model == state.selected)
 
                         Text(
-                            text = when (model) {
-                                AIModel.EMBEDDED -> stringResource(id = R.string.on_device)
-                                AIModel.OPENAI -> stringResource(id = R.string.openai)
-                            }
+                            text =
+                                when (model) {
+                                    AIModel.EMBEDDED -> stringResource(id = R.string.on_device)
+                                    AIModel.OPENAI -> stringResource(id = R.string.openai)
+                                }
                         )
                     }
                 }
@@ -109,7 +102,7 @@ private fun ChooseAIModelScreen(
             if (state.selected == AIModel.OPENAI) {
                 SnapdexTextField(
                     state = state.openAIApiKey,
-                    hint = stringResource(id = R.string.openai_api_key)
+                    hint = stringResource(id = R.string.openai_api_key),
                 )
             }
 
@@ -120,8 +113,7 @@ private fun ChooseAIModelScreen(
                 onClick = { onAction(ChooseAIModelAction.OnSaveClick) },
                 enabled = state.canSave,
                 isBusy = state.isSaving,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
@@ -131,11 +123,6 @@ private fun ChooseAIModelScreen(
 @Composable
 private fun ChooseAIModelScreenPreview() {
     AppTheme {
-       ChooseAIModelScreen(
-           state = ChooseAIModelState(
-               selected = AIModel.OPENAI
-           ),
-           onAction = {}
-       )
-   }
+        ChooseAIModelScreen(state = ChooseAIModelState(selected = AIModel.OPENAI), onAction = {})
+    }
 }

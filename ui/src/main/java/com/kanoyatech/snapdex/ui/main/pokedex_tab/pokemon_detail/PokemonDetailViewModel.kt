@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 class PokemonDetailViewModel(
     private val pokemonId: PokemonId,
     private val pokemonRepository: PokemonRepository,
-    private val evolutionChainRepository: EvolutionChainRepository
-): ViewModel() {
+    private val evolutionChainRepository: EvolutionChainRepository,
+) : ViewModel() {
     var state by mutableStateOf(PokemonDetailState())
         private set
 

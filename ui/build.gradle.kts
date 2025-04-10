@@ -3,9 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-android {
-    namespace = "com.kanoyatech.snapdex.ui"
-}
+android { namespace = "com.kanoyatech.snapdex.ui" }
 
 dependencies {
     // Core
@@ -26,3 +24,5 @@ dependencies {
     implementation(projects.designsystem)
     implementation(projects.domain)
 }
+
+ktfmt { kotlinLangStyle() }

@@ -33,45 +33,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kanoyatech.snapdex.ui.R
-import com.kanoyatech.snapdex.domain.models.PokemonType
-import com.kanoyatech.snapdex.domain.models.Statistic
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
 import com.kanoyatech.snapdex.designsystem.components.SnapdexCircleGraph
 import com.kanoyatech.snapdex.designsystem.components.SnapdexLinearGraph
 import com.kanoyatech.snapdex.designsystem.pagePadding
+import com.kanoyatech.snapdex.domain.models.PokemonType
+import com.kanoyatech.snapdex.domain.models.Statistic
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.TypeUi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun StatsScreenRoot(
-    paddingValues: PaddingValues,
-    viewModel: StatsViewModel = koinViewModel()
-) {
-    StatsScreen(
-        paddingValues = paddingValues,
-        state = viewModel.state,
-        onAction = viewModel::onAction
-    )
+fun StatsScreenRoot(paddingValues: PaddingValues, viewModel: StatsViewModel = koinViewModel()) {
+    StatsScreen(paddingValues = paddingValues, state = viewModel.state)
 }
 
 @Composable
-private fun StatsScreen(
-    paddingValues: PaddingValues,
-    state: StatsState,
-    onAction: (StatsAction) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-    ) {
+private fun StatsScreen(paddingValues: PaddingValues, state: StatsState) {
+    Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
         Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .pagePadding(),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            modifier = Modifier.padding(paddingValues).pagePadding(),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             OverallProgress(state.overallCompletion)
             ProgressByType(state.completionByType)
@@ -80,43 +64,42 @@ private fun StatsScreen(
 }
 
 @Composable
-private fun OverallProgress(
-    statistic: Statistic
-) {
+private fun OverallProgress(statistic: Statistic) {
     val completionRate = statistic.caughtPokemonCount.toFloat() / statistic.totalPokemonCount
     val completionRateInt = (completionRate * 100).toInt()
 
     Box(
-        modifier = Modifier
-            .clip(SnapdexTheme.shapes.regular)
-            .background(SnapdexTheme.colorScheme.surface)
+        modifier =
+            Modifier.clip(SnapdexTheme.shapes.regular).background(SnapdexTheme.colorScheme.surface)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-                .padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.completion),
                 style = SnapdexTheme.typography.heading3,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             Text(
                 text = stringResource(id = R.string.percentage, completionRateInt),
                 style = SnapdexTheme.typography.heading1,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             SnapdexLinearGraph(
                 progress = completionRate,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(16.dp)
+                modifier = Modifier.fillMaxWidth().height(16.dp),
             )
             Text(
-                text = stringResource(id = R.string.pokemons_captured, statistic.caughtPokemonCount, statistic.totalPokemonCount),
+                text =
+                    stringResource(
+                        id = R.string.pokemons_captured,
+                        statistic.caughtPokemonCount,
+                        statistic.totalPokemonCount,
+                    ),
                 style = SnapdexTheme.typography.paragraph,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }
@@ -133,15 +116,13 @@ private fun ProgressByType(statistics: Map<PokemonType, Statistic>) {
         FlowRow(
             maxItemsInEachRow = 2,
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             PokemonType.entries.forEach { type ->
                 TypeProgress(
                     type = type,
                     statistic = statistics[type]!!,
-                    modifier = Modifier
-                        .width(itemWidth)
-                        .aspectRatio(1f)
+                    modifier = Modifier.width(itemWidth).aspectRatio(1f),
                 )
             }
         }
@@ -155,57 +136,51 @@ private fun TypeProgress(type: PokemonType, statistic: Statistic, modifier: Modi
     val completionRateInt = (completionRate * 100).toInt()
 
     Box(
-        modifier = modifier
-            .clip(SnapdexTheme.shapes.regular)
-            .background(SnapdexTheme.colorScheme.surface),
+        modifier =
+            modifier.clip(SnapdexTheme.shapes.regular).background(SnapdexTheme.colorScheme.surface)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
+            modifier = Modifier.fillMaxSize().padding(8.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = typeUi.image),
                     contentDescription = null,
                     tint = typeUi.color,
-                    modifier = Modifier
-                        .size(24.dp)
+                    modifier = Modifier.size(24.dp),
                 )
 
                 Text(
                     text = stringResource(id = typeUi.name),
-                    style = SnapdexTheme.typography.largeLabel
+                    style = SnapdexTheme.typography.largeLabel,
                 )
             }
 
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .weight(1f)
-            ) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.weight(1f)) {
                 SnapdexCircleGraph(
                     progress = completionRate,
                     width = 16.dp,
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
                 Text(
                     text = stringResource(id = R.string.percentage, completionRateInt),
-                    style = SnapdexTheme.typography.largeLabel.copy(
-                        fontSize = 16.sp
-                    )
+                    style = SnapdexTheme.typography.largeLabel.copy(fontSize = 16.sp),
                 )
             }
 
             Text(
-                text = stringResource(id = R.string.captured, statistic.caughtPokemonCount, statistic.totalPokemonCount),
-                style = SnapdexTheme.typography.smallLabel
+                text =
+                    stringResource(
+                        id = R.string.captured,
+                        statistic.caughtPokemonCount,
+                        statistic.totalPokemonCount,
+                    ),
+                style = SnapdexTheme.typography.smallLabel,
             )
         }
     }
@@ -214,33 +189,51 @@ private fun TypeProgress(type: PokemonType, statistic: Statistic, modifier: Modi
 @PreviewLightDark
 @Composable
 private fun StatsScreenPreview() {
-     AppTheme {
-         SnapdexBackground {
-             StatsScreen(
-                 paddingValues = PaddingValues(0.dp),
-                 state = StatsState(
-                     completionByType = mapOf(
-                         PokemonType.BUG to Statistic(totalPokemonCount = 151, caughtPokemonCount = 24),
-                         PokemonType.DRAGON to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.ELECTRIC to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.FAIRY to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.FIGHTING to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.FIRE to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.FLYING to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.GHOST to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.GRASS to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.GROUND to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.ICE to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.NORMAL to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.POISON to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.PSYCHIC to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.ROCK to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.STEEL to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                         PokemonType.WATER to Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
-                     )
-                 ),
-                 onAction = {}
-             )
-         }
+    AppTheme {
+        SnapdexBackground {
+            StatsScreen(
+                paddingValues = PaddingValues(0.dp),
+                state =
+                    StatsState(
+                        completionByType =
+                            mapOf(
+                                PokemonType.BUG to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 24),
+                                PokemonType.DRAGON to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.ELECTRIC to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.FAIRY to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.FIGHTING to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.FIRE to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.FLYING to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.GHOST to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.GRASS to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.GROUND to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.ICE to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.NORMAL to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.POISON to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.PSYCHIC to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.ROCK to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.STEEL to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                                PokemonType.WATER to
+                                    Statistic(totalPokemonCount = 151, caughtPokemonCount = 151),
+                            )
+                    ),
+            )
+        }
     }
 }

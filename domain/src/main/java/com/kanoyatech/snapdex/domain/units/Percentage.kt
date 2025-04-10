@@ -11,4 +11,5 @@ value class Percentage(private val value: Double) {
     }
 }
 
-inline val Double.percent: Percentage get() = Percentage(this / 100.0)
+inline val Double.percent: Percentage
+    get() = Percentage(this / 100.0)

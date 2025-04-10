@@ -26,16 +26,10 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("release")
-        }
-    }
+    buildTypes { release { signingConfig = signingConfigs.getByName("release") } }
 }
 
-tasks.register("buildAllRelease") {
-    dependsOn("assembleRelease", "bundleRelease")
-}
+tasks.register("buildAllRelease") { dependsOn("assembleRelease", "bundleRelease") }
 
 dependencies {
     // Core
@@ -57,3 +51,5 @@ dependencies {
     implementation(projects.snapdex.data)
     implementation(projects.snapdex.ui)
 }
+
+ktfmt { kotlinLangStyle() }

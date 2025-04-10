@@ -26,7 +26,8 @@ object BitmapResizer {
         // Scale the cropped bitmap to the required size
         val scaledBitmap = croppedBitmap.scale(modelInputSize, modelInputSize)
 
-        val byteBuffer = ByteBuffer.allocateDirect(4 * modelInputSize * modelInputSize * 3) // 3 for RGB
+        val byteBuffer =
+            ByteBuffer.allocateDirect(4 * modelInputSize * modelInputSize * 3) // 3 for RGB
         byteBuffer.order(ByteOrder.nativeOrder())
 
         val intValues = IntArray(modelInputSize * modelInputSize)

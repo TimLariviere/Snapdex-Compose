@@ -8,18 +8,14 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
-class SnapdexApp: Application() {
+class SnapdexApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
             androidLogger()
             androidContext(this@SnapdexApp)
-            modules(
-                dataModule,
-                uiModule,
-                appModule
-            )
+            modules(dataModule, uiModule, appModule)
         }
     }
 }

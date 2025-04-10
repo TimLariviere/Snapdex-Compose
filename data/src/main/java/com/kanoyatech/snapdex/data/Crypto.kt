@@ -16,28 +16,21 @@ object Crypto {
     private const val TRANSFORMATION = "$ALGORITHM/$BLOCK_MODE/$PADDING"
 
     private val cipher = Cipher.getInstance(TRANSFORMATION)
-    private val keyStore = KeyStore
-        .getInstance("AndroidKeyStore")
-        .apply {
-            load(null)
-        }
+    private val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
 
     private fun getKey(): SecretKey {
-        val existingKey = keyStore
-            .getEntry(KEY_ALIAS, null) as? KeyStore.SecretKeyEntry
+        val existingKey = keyStore.getEntry(KEY_ALIAS, null) as? KeyStore.SecretKeyEntry
         return existingKey?.secretKey ?: createKey()
     }
 
     private fun createKey(): SecretKey {
-        return KeyGenerator
-            .getInstance(ALGORITHM)
+        return KeyGenerator.getInstance(ALGORITHM)
             .apply {
                 init(
                     KeyGenParameterSpec.Builder(
-                        KEY_ALIAS,
-                        KeyProperties.PURPOSE_ENCRYPT or
-                                KeyProperties.PURPOSE_DECRYPT
-                    )
+                            KEY_ALIAS,
+                            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT,
+                        )
                         .setBlockModes(BLOCK_MODE)
                         .setEncryptionPaddings(PADDING)
                         .setRandomizedEncryptionRequired(true)

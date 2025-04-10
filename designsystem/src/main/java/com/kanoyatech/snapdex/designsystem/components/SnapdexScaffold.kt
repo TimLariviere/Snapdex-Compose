@@ -13,25 +13,19 @@ import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 fun SnapdexScaffold(
     modifier: Modifier = Modifier,
     topBar: @Composable () -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
         modifier = modifier,
         topBar = topBar,
-        contentColor = SnapdexTheme.colorScheme.onBackground
+        contentColor = SnapdexTheme.colorScheme.onBackground,
     ) { paddingValues ->
-        SnapdexBackground {
-            content(paddingValues)
-        }
+        SnapdexBackground { content(paddingValues) }
     }
 }
 
 @Preview
 @Composable
 private fun SnapdexScaffoldPreview() {
-    AppTheme {
-        SnapdexScaffold {
-            Text(text = "Hello")
-        }
-    }
+    AppTheme { SnapdexScaffold { Text(text = "Hello") } }
 }

@@ -45,11 +45,7 @@ val dataModule = module {
     single { Firebase.crashlytics }
 
     single {
-        Room.databaseBuilder(
-            androidApplication(),
-            SnapdexDatabase::class.java,
-            "snapdex.db"
-        )
+        Room.databaseBuilder(androidApplication(), SnapdexDatabase::class.java, "snapdex.db")
             .createFromAsset("snapdex.db")
             .build()
     }

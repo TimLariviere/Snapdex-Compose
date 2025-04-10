@@ -2,7 +2,6 @@ package com.kanoyatech.snapdex.ui.main.profile_tab
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,10 +23,15 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Serializable object ProfileRoute
+
 @Serializable object NewNameRoute
+
 @Serializable object NewPasswordRoute
+
 @Serializable object CreditsRoute
+
 @Serializable object PrivacyPolicyRoute
+
 @Serializable object ChooseAIModelRoute
 
 @Composable
@@ -35,14 +39,11 @@ fun ProfileTabNavigation(
     paddingValues: PaddingValues,
     mainState: StateFlow<MainState>,
     shouldShowNavBar: (Boolean) -> Unit,
-    onLoggedOut: () -> Unit
+    onLoggedOut: () -> Unit,
 ) {
     val navController = rememberNavController()
 
-    NavHost(
-        navController = navController,
-        startDestination = ProfileRoute
-    ) {
+    NavHost(navController = navController, startDestination = ProfileRoute) {
         composable<ProfileRoute> {
             shouldShowNavBar(true)
 
@@ -52,21 +53,11 @@ fun ProfileTabNavigation(
                 viewModel = viewModel,
                 paddingValues = paddingValues,
                 onLoggedOut = { onLoggedOut() },
-                onChangeNameClick = {
-                    navController.navigate(NewNameRoute)
-                },
-                onChangePasswordClick = {
-                    navController.navigate(NewPasswordRoute)
-                },
-                onChangeAIModelClick = {
-                    navController.navigate(ChooseAIModelRoute)
-                },
-                onCreditsClick = {
-                    navController.navigate(CreditsRoute)
-                },
-                onPrivacyPolicyClick = {
-                    navController.navigate(PrivacyPolicyRoute)
-                }
+                onChangeNameClick = { navController.navigate(NewNameRoute) },
+                onChangePasswordClick = { navController.navigate(NewPasswordRoute) },
+                onChangeAIModelClick = { navController.navigate(ChooseAIModelRoute) },
+                onCreditsClick = { navController.navigate(CreditsRoute) },
+                onPrivacyPolicyClick = { navController.navigate(PrivacyPolicyRoute) },
             )
         }
 
@@ -75,58 +66,40 @@ fun ProfileTabNavigation(
 
             val userFlow = mainState.map { it.user }.filterNotNull()
             val viewModel: NewNameViewModel = koinViewModel { parametersOf(userFlow) }
-            NewNameScreenRoot(
-                viewModel = viewModel,
-                onBackClick = {
-                    navController.popBackStack()
-                }
-            )
+            NewNameScreenRoot(viewModel = viewModel, onBackClick = { navController.popBackStack() })
         }
 
         composable<NewPasswordRoute> {
             shouldShowNavBar(false)
 
-            NewPasswordScreenRoot(
-                onBackClick = {
-                    navController.popBackStack()
-                }
-            )
+            NewPasswordScreenRoot(onBackClick = { navController.popBackStack() })
         }
 
         composable<ChooseAIModelRoute> { navBackStackEntry ->
             shouldShowNavBar(false)
 
             val userFlow = mainState.map { it.user }.filterNotNull()
-            val profileViewModel: ProfileViewModel = koinViewModel(viewModelStoreOwner = navBackStackEntry) { parametersOf(userFlow) }
+            val profileViewModel: ProfileViewModel =
+                koinViewModel(viewModelStoreOwner = navBackStackEntry) { parametersOf(userFlow) }
             ChooseAIModelScreenRoot(
-                onBackClick = {
-                    navController.popBackStack()
-                },
+                onBackClick = { navController.popBackStack() },
                 onSaved = { model ->
                     profileViewModel.onAction(ProfileAction.OnAIModelChange(model))
                     navController.popBackStack()
-                }
+                },
             )
         }
 
         composable<CreditsRoute> {
             shouldShowNavBar(false)
 
-            CreditsScreen(
-                onBackClick = {
-                    navController.popBackStack()
-                }
-            )
+            CreditsScreen(onBackClick = { navController.popBackStack() })
         }
 
         composable<PrivacyPolicyRoute> {
             shouldShowNavBar(false)
 
-            PrivacyPolicyScreen(
-                onBackClick = {
-                    navController.popBackStack()
-                }
-            )
+            PrivacyPolicyScreen(onBackClick = { navController.popBackStack() })
         }
     }
 }

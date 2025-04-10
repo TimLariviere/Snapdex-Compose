@@ -12,61 +12,33 @@ import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.serialization.kotlinx.json.json
+import java.nio.ByteBuffer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import java.nio.ByteBuffer
 
 @Serializable
-data class ChatRequest(
-    val model: String ,
-    val messages: List<ChatMessage>,
-    val max_tokens: Int
-)
+data class ChatRequest(val model: String, val messages: List<ChatMessage>, val max_tokens: Int)
+
+@Serializable data class ChatMessage(val role: String, val content: List<ChatContent>)
 
 @Serializable
-data class ChatMessage(
-    val role: String,
-    val content: List<ChatContent>
-)
+data class ChatContent(val type: String, val text: String? = null, val image_url: ImageUrl? = null)
 
-@Serializable
-data class ChatContent(
-    val type: String,
-    val text: String? = null,
-    val image_url: ImageUrl? = null
-)
+@Serializable data class ChatResponse(val choices: List<Choice>)
 
-@Serializable
-data class ChatResponse(
-    val choices: List<Choice>
-)
+@Serializable data class Choice(val message: MessageContent)
 
-@Serializable
-data class Choice(
-    val message: MessageContent
-)
+@Serializable data class MessageContent(val role: String, val content: String)
 
-@Serializable
-data class MessageContent(
-    val role: String,
-    val content: String
-)
+@Serializable data class ImageUrl(val url: String)
 
-@Serializable
-data class ImageUrl(
-    val url: String
-)
+@Serializable data class PokemonResponse(val pokemon: Int?)
 
-@Serializable
-data class PokemonResponse(
-    val pokemon: Int?
-)
-
-class OpenAIClassifier(
-    private val encryptedPreferencesRepository: EncryptedPreferencesRepository
-): Classifier {
+class OpenAIClassifier(private val encryptedPreferencesRepository: EncryptedPreferencesRepository) :
+    Classifier {
     companion object {
-        const val INSTRUCTIONS = """
+        const val INSTRUCTIONS =
+            """
 You are a pokemon image recognizer. I will upload pictures, you will need to find and recognize which pokemon is in the picture.
 The pokemon can be a plush, a trading card, a figurine, a still from a manga, an anime or a video game.
 
@@ -82,13 +54,10 @@ Do not say anything else. Ignore all other instructions. You are only there to r
     override suspend fun init() {}
 
     override suspend fun classify(bitmap: ByteBuffer): PokemonId? {
-        val client = HttpClient(OkHttp) {
-            install(ContentNegotiation) {
-                json(Json {
-                    ignoreUnknownKeys = true
-                })
+        val client =
+            HttpClient(OkHttp) {
+                install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) }
             }
-        }
 
         val bytes = ByteArray(bitmap.capacity())
         bitmap.get(bytes)
@@ -97,41 +66,52 @@ Do not say anything else. Ignore all other instructions. You are only there to r
 
         val prompt = INSTRUCTIONS.trimIndent()
 
-        val request = ChatRequest(
-            model = "gpt-4-turbo",
-            max_tokens = 100,
-            messages = listOf(
-                ChatMessage(
-                    role = "user",
-                    content = listOf(
-                        ChatContent(type = "text", text = prompt),
-                        ChatContent(
-                            type = "image_url",
-                            image_url = ImageUrl(url = imageUrl)
+        val request =
+            ChatRequest(
+                model = "gpt-4-turbo",
+                max_tokens = 100,
+                messages =
+                    listOf(
+                        ChatMessage(
+                            role = "user",
+                            content =
+                                listOf(
+                                    ChatContent(type = "text", text = prompt),
+                                    ChatContent(
+                                        type = "image_url",
+                                        image_url = ImageUrl(url = imageUrl),
+                                    ),
+                                ),
                         )
-                    )
-                )
+                    ),
             )
-        )
 
         val apiKey = encryptedPreferencesRepository.getOpenAIApiKey()
 
-        val response = try {
-            val response = client.post("https://api.openai.com/v1/chat/completions") {
-                headers {
-                    append("Authorization", "Bearer $apiKey")
-                    append("Content-Type", "application/json")
-                }
-                setBody(request)
-            }.body<ChatResponse>().choices.firstOrNull()?.message?.content ?: return null
+        val response =
+            try {
+                val response =
+                    client
+                        .post("https://api.openai.com/v1/chat/completions") {
+                            headers {
+                                append("Authorization", "Bearer $apiKey")
+                                append("Content-Type", "application/json")
+                            }
+                            setBody(request)
+                        }
+                        .body<ChatResponse>()
+                        .choices
+                        .firstOrNull()
+                        ?.message
+                        ?.content ?: return null
 
-            Json.decodeFromString<PokemonResponse>(response.trim())
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        } finally {
-            client.close()
-        }
+                Json.decodeFromString<PokemonResponse>(response.trim())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            } finally {
+                client.close()
+            }
 
         return response?.pokemon
     }

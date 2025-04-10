@@ -20,7 +20,7 @@ data class PopupButton(
     val text: String,
     val onClick: () -> Unit,
     val enabled: Boolean = true,
-    val isBusy: Boolean = false
+    val isBusy: Boolean = false,
 )
 
 @Composable
@@ -29,54 +29,49 @@ fun SnapdexPopup(
     description: String,
     primaryButton: PopupButton,
     secondaryButton: PopupButton? = null,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     Dialog(onDismissRequest) {
         AppTheme {
             Column(
-                modifier = Modifier
-                    .clip(SnapdexTheme.shapes.small)
-                    .background(SnapdexTheme.colorScheme.surfaceVariant)
-                    .padding(horizontal = 16.dp, vertical = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                modifier =
+                    Modifier.clip(SnapdexTheme.shapes.small)
+                        .background(SnapdexTheme.colorScheme.surfaceVariant)
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 Text(
                     text = title,
                     style = SnapdexTheme.typography.heading3,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Text(
                     text = description,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     SnapdexPrimaryButton(
                         text = primaryButton.text,
                         enabled = primaryButton.enabled,
-                        //isBusy = primaryButton.isBusy,
+                        // isBusy = primaryButton.isBusy,
                         onClick = primaryButton.onClick,
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
 
                     if (secondaryButton != null) {
                         SnapdexSecondaryButton(
                             text = secondaryButton.text,
                             enabled = secondaryButton.enabled,
-                            //isBusy = secondaryButton.isBusy,
+                            // isBusy = secondaryButton.isBusy,
                             onClick = secondaryButton.onClick,
-                            modifier = Modifier
-                                .weight(1f),
+                            modifier = Modifier.weight(1f),
                         )
                     }
                 }

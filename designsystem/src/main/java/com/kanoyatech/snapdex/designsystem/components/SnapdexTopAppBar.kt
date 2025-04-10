@@ -16,41 +16,26 @@ import com.kanoyatech.snapdex.designsystem.Icons
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 
 @Composable
-fun SnapdexTopAppBar(
-    title: String,
-    onBackClick: () -> Unit
-) {
+fun SnapdexTopAppBar(title: String, onBackClick: () -> Unit) {
     TopAppBar(
-        title = {
-            Text(
-                text = title,
-                style = SnapdexTheme.typography.heading2
-            )
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent,
-            navigationIconContentColor = SnapdexTheme.colorScheme.onBackground,
-            titleContentColor = SnapdexTheme.colorScheme.onBackground,
-            actionIconContentColor = SnapdexTheme.colorScheme.onBackground
-        ),
+        title = { Text(text = title, style = SnapdexTheme.typography.heading2) },
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = Color.Transparent,
+                navigationIconContentColor = SnapdexTheme.colorScheme.onBackground,
+                titleContentColor = SnapdexTheme.colorScheme.onBackground,
+                actionIconContentColor = SnapdexTheme.colorScheme.onBackground,
+            ),
         navigationIcon = {
             IconButton(onClick = onBackClick) {
-                Icon(
-                    imageVector = Icons.ArrowBack,
-                    contentDescription = "Back"
-                )
+                Icon(imageVector = Icons.ArrowBack, contentDescription = "Back")
             }
-        }
+        },
     )
 }
 
 @Preview
 @Composable
 private fun SnapdexTopAppBarPreview() {
-    AppTheme {
-        SnapdexTopAppBar(
-            title = "Create an account",
-            onBackClick = {}
-        )
-    }
+    AppTheme { SnapdexTopAppBar(title = "Create an account", onBackClick = {}) }
 }

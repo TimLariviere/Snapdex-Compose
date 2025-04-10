@@ -8,6 +8,7 @@ object PokemonResourceProvider {
     fun getPokemonNameResourceId(context: Context, id: PokemonId): Int {
         return getResourceId(context, "string", id, "name")
     }
+
     fun getPokemonDescriptionResourceId(context: Context, id: PokemonId): Int {
         return getResourceId(context, "string", id, "description")
     }
@@ -26,7 +27,7 @@ object PokemonResourceProvider {
         context: Context,
         resourceType: String,
         id: PokemonId,
-        suffix: String
+        suffix: String,
     ): Int {
         val paddedId = id.toString().padStart(4, '0')
         val resourceName = "pokemon_${paddedId}_$suffix"

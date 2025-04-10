@@ -6,13 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kanoyatech.snapdex.ui.R
+import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.domain.repositories.ChangeNameError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
-import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -25,8 +25,8 @@ import kotlinx.coroutines.launch
 class NewNameViewModel(
     userFlow: Flow<User>,
     private val userDataValidator: UserDataValidator,
-    private val userRepository: UserRepository
-): ViewModel() {
+    private val userRepository: UserRepository,
+) : ViewModel() {
     var state by mutableStateOf(NewNameState())
         private set
 
@@ -35,18 +35,14 @@ class NewNameViewModel(
 
     init {
         userFlow
-            .onEach {
-                state = state.copy(name = TextFieldState(it.name))
-            }
+            .onEach { state = state.copy(name = TextFieldState(it.name)) }
             .launchIn(viewModelScope)
 
-        state.name.textAsFlow()
+        state.name
+            .textAsFlow()
             .onEach {
                 val isNameValid = userDataValidator.validateName(it.toString())
-                state = state.copy(
-                    isNameValid = isNameValid,
-                    canChangeName = isNameValid
-                )
+                state = state.copy(isNameValid = isNameValid, canChangeName = isNameValid)
             }
             .launchIn(viewModelScope)
     }
@@ -73,7 +69,8 @@ class NewNameViewModel(
                 is TypedResult.Error -> {
                     val message =
                         when (result.error) {
-                            is ChangeNameError.ChangeFailed -> UiText.StringResource(R.string.could_not_change_name)
+                            is ChangeNameError.ChangeFailed ->
+                                UiText.StringResource(R.string.could_not_change_name)
                         }
 
                     eventChannel.send(NewNameEvent.Error(message))

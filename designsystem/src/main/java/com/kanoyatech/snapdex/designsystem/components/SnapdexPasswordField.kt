@@ -42,59 +42,48 @@ fun SnapdexPasswordField(
     isPasswordVisible: Boolean,
     onTogglePasswordVisibility: () -> Unit,
     modifier: Modifier = Modifier,
-    hint: String = ""
+    hint: String = "",
 ) {
-    var isFocused by remember {
-        mutableStateOf(false)
-    }
+    var isFocused by remember { mutableStateOf(false) }
 
     BasicSecureTextField(
         state = state,
-        textStyle = LocalTextStyle.current.copy(
-            color = SnapdexTheme.colorScheme.onSurface
-        ),
-        textObfuscationMode = if (isPasswordVisible) {
-            TextObfuscationMode.Visible
-        } else {
-            TextObfuscationMode.RevealLastTyped
-        },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Password
-        ),
-        cursorBrush = SolidColor(SnapdexTheme.colorScheme.primary),
-        modifier = modifier
-            .height(44.dp)
-            .clip(SnapdexTheme.shapes.regular)
-            .background(SnapdexTheme.colorScheme.surfaceVariant)
-            .border(
-                width = 1.dp,
-                color = if (isFocused) {
-                    SnapdexTheme.colorScheme.primary
-                } else {
-                    SnapdexTheme.colorScheme.outline
-                },
-                shape = SnapdexTheme.shapes.regular
-            )
-            .onFocusChanged {
-                isFocused = it.isFocused
+        textStyle = LocalTextStyle.current.copy(color = SnapdexTheme.colorScheme.onSurface),
+        textObfuscationMode =
+            if (isPasswordVisible) {
+                TextObfuscationMode.Visible
+            } else {
+                TextObfuscationMode.RevealLastTyped
             },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        cursorBrush = SolidColor(SnapdexTheme.colorScheme.primary),
+        modifier =
+            modifier
+                .height(44.dp)
+                .clip(SnapdexTheme.shapes.regular)
+                .background(SnapdexTheme.colorScheme.surfaceVariant)
+                .border(
+                    width = 1.dp,
+                    color =
+                        if (isFocused) {
+                            SnapdexTheme.colorScheme.primary
+                        } else {
+                            SnapdexTheme.colorScheme.outline
+                        },
+                    shape = SnapdexTheme.shapes.regular,
+                )
+                .onFocusChanged { isFocused = it.isFocused },
         decorator = { innerBox ->
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 16.dp)
-                ) {
+                Box(modifier = Modifier.weight(1f).padding(start = 16.dp)) {
                     if (state.text.isEmpty() && !isFocused) {
                         Text(
                             text = hint,
                             color = SnapdexTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
-                                .fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
 
@@ -103,17 +92,15 @@ fun SnapdexPasswordField(
 
                 Spacer(modifier = Modifier.width(16.dp))
 
-                IconButton(
-                    onClick = onTogglePasswordVisibility
-                ) {
+                IconButton(onClick = onTogglePasswordVisibility) {
                     Icon(
                         imageVector = if (isPasswordVisible) Icons.EyeClosed else Icons.Eye,
                         contentDescription = null,
-                        tint = SnapdexTheme.colorScheme.onSurfaceVariant
+                        tint = SnapdexTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
-        }
+        },
     )
 }
 
@@ -127,9 +114,7 @@ private fun SnapdexPasswordFieldPreview() {
                 isPasswordVisible = false,
                 onTogglePasswordVisibility = {},
                 hint = "Password",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp)
+                modifier = Modifier.fillMaxWidth().padding(4.dp),
             )
         }
     }

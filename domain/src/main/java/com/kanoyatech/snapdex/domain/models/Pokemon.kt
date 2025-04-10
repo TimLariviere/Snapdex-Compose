@@ -15,5 +15,5 @@ data class Pokemon(
     val height: Length,
     val category: PokemonCategory,
     val ability: PokemonAbility,
-    val maleToFemaleRatio: Percentage
+    val maleToFemaleRatio: Percentage,
 )

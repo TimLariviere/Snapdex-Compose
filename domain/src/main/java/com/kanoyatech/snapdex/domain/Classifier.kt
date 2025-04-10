@@ -5,5 +5,6 @@ import java.nio.ByteBuffer
 
 interface Classifier {
     suspend fun init()
+
     suspend fun classify(bitmap: ByteBuffer): PokemonId?
 }

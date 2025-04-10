@@ -24,11 +24,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
 import com.kanoyatech.snapdex.designsystem.components.SnapdexPrimaryButton
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.components.AvatarView
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -36,35 +36,30 @@ import com.kanoyatech.snapdex.ui.components.AvatarView
 fun AvatarPickerDialog(
     selected: Int,
     onSelectionChange: (Int) -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     val selectedIndex = remember { mutableIntStateOf(selected) }
 
-    Dialog(
-        onDismissRequest = onDismissRequest
-    ) {
-        CompositionLocalProvider(
-            LocalContentColor provides SnapdexTheme.colorScheme.onBackground
-        ) {
+    Dialog(onDismissRequest = onDismissRequest) {
+        CompositionLocalProvider(LocalContentColor provides SnapdexTheme.colorScheme.onBackground) {
             Column(
-                modifier = Modifier
-                    .clip(SnapdexTheme.shapes.small)
-                    .background(SnapdexTheme.colorScheme.surfaceVariant)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier =
+                    Modifier.clip(SnapdexTheme.shapes.small)
+                        .background(SnapdexTheme.colorScheme.surfaceVariant)
+                        .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
                     text = stringResource(id = R.string.pick_your_avatar),
                     style = SnapdexTheme.typography.heading3,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
                 )
 
                 FlowRow(
                     maxItemsInEachRow = 3,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     repeat(10) { index ->
                         val isSelected = index == selectedIndex.intValue
@@ -72,13 +67,13 @@ fun AvatarPickerDialog(
                         AvatarView(
                             avatarId = index,
                             isSelected = isSelected,
-                            modifier = Modifier
-                                .size(90.dp)
-                                .clickable(
-                                    interactionSource = remember { MutableInteractionSource() },
-                                    indication = null,
-                                    onClick = { selectedIndex.intValue = index }
-                                )
+                            modifier =
+                                Modifier.size(90.dp)
+                                    .clickable(
+                                        interactionSource = remember { MutableInteractionSource() },
+                                        indication = null,
+                                        onClick = { selectedIndex.intValue = index },
+                                    ),
                         )
                     }
 
@@ -88,8 +83,7 @@ fun AvatarPickerDialog(
                 SnapdexPrimaryButton(
                     text = stringResource(id = R.string.use_avatar),
                     enabled = selectedIndex.intValue > -1,
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     onSelectionChange(selectedIndex.intValue)
                 }
@@ -101,13 +95,9 @@ fun AvatarPickerDialog(
 @Preview
 @Composable
 private fun AvatarPickerDialogPreview() {
-     AppTheme {
-         SnapdexBackground {
-             AvatarPickerDialog(
-                 selected = -1,
-                 onSelectionChange = {},
-                 onDismissRequest = {}
-             )
-         }
+    AppTheme {
+        SnapdexBackground {
+            AvatarPickerDialog(selected = -1, onSelectionChange = {}, onDismissRequest = {})
+        }
     }
 }

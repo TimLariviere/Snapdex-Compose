@@ -1,7 +1,5 @@
-plugins {
-    alias(libs.plugins.kanoyatech.jvm.library)
-}
+plugins { alias(libs.plugins.kanoyatech.jvm.library) }
 
-dependencies {
-    implementation(libs.kotlinx.coroutines.core)
-}
+dependencies { implementation(libs.kotlinx.coroutines.core) }
+
+ktfmt { kotlinLangStyle() }

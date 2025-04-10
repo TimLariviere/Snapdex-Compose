@@ -31,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.Icons
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
@@ -42,6 +41,7 @@ import com.kanoyatech.snapdex.designsystem.components.SnapdexTextField
 import com.kanoyatech.snapdex.designsystem.components.SnapdexTopAppBar
 import com.kanoyatech.snapdex.designsystem.pagePadding
 import com.kanoyatech.snapdex.ui.AvatarUi
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.components.PasswordRequirements
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
@@ -50,7 +50,7 @@ import org.koin.androidx.compose.koinViewModel
 fun RegisterScreenRoot(
     viewModel: RegisterViewModel = koinViewModel(),
     onBackClick: () -> Unit,
-    onSuccessfulRegistration: () -> Unit
+    onSuccessfulRegistration: () -> Unit,
 ) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -59,11 +59,7 @@ fun RegisterScreenRoot(
         when (event) {
             is RegisterEvent.Error -> {
                 keyboardController?.hide()
-                Toast.makeText(
-                    context,
-                    event.error.asString(context),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(context, event.error.asString(context), Toast.LENGTH_LONG).show()
             }
             RegisterEvent.RegistrationSuccess -> {
                 keyboardController?.hide()
@@ -81,75 +77,51 @@ fun RegisterScreenRoot(
             }
 
             viewModel.onAction(action)
-        }
+        },
     )
 }
 
 @Composable
-private fun RegisterScreen(
-    state: RegisterState,
-    onAction: (RegisterAction) -> Unit
-) {
+private fun RegisterScreen(state: RegisterState, onAction: (RegisterAction) -> Unit) {
     SnapdexScaffold(
         topBar = {
             SnapdexTopAppBar(
                 title = stringResource(id = R.string.create_an_account),
-                onBackClick = {
-                    onAction(RegisterAction.OnBackClick)
-                }
+                onBackClick = { onAction(RegisterAction.OnBackClick) },
             )
         }
     ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .pagePadding()
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
+        Box(modifier = Modifier.fillMaxSize().padding(paddingValues).pagePadding()) {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 PickPictureButton(
                     state = state,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                 ) {
                     onAction(RegisterAction.OnOpenAvatarPicker)
                 }
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         text = stringResource(id = R.string.name_hint),
-                        style = SnapdexTheme.typography.smallLabel
+                        style = SnapdexTheme.typography.smallLabel,
                     )
 
-                    SnapdexTextField(
-                        state = state.name
-                    )
+                    SnapdexTextField(state = state.name)
                 }
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         text = stringResource(id = R.string.email_hint),
-                        style = SnapdexTheme.typography.smallLabel
+                        style = SnapdexTheme.typography.smallLabel,
                     )
 
-                    SnapdexTextField(
-                        state = state.email,
-                        keyboardType = KeyboardType.Email
-                    )
+                    SnapdexTextField(state = state.email, keyboardType = KeyboardType.Email)
                 }
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         text = stringResource(id = R.string.password_hint),
-                        style = SnapdexTheme.typography.smallLabel
+                        style = SnapdexTheme.typography.smallLabel,
                     )
 
                     SnapdexPasswordField(
@@ -157,12 +129,10 @@ private fun RegisterScreen(
                         isPasswordVisible = state.isPasswordVisible,
                         onTogglePasswordVisibility = {
                             onAction(RegisterAction.OnTogglePasswordVisibility)
-                        }
+                        },
                     )
 
-                    PasswordRequirements(
-                        state = state.passwordValidationState
-                    )
+                    PasswordRequirements(state = state.passwordValidationState)
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -171,8 +141,7 @@ private fun RegisterScreen(
                     text = stringResource(id = R.string.create_account),
                     enabled = state.canRegister,
                     isBusy = state.isRegistering,
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     onAction(RegisterAction.OnRegisterClick)
                 }
@@ -184,9 +153,7 @@ private fun RegisterScreen(
                     onSelectionChange = { avatar ->
                         onAction(RegisterAction.OnAvatarSelectionChange(avatar))
                     },
-                    onDismissRequest = {
-                        onAction(RegisterAction.OnCloseAvatarPicker)
-                    }
+                    onDismissRequest = { onAction(RegisterAction.OnCloseAvatarPicker) },
                 )
             }
         }
@@ -197,39 +164,31 @@ private fun RegisterScreen(
 private fun PickPictureButton(
     state: RegisterState,
     modifier: Modifier = Modifier,
-    onPickAvatarClick: () -> Unit
+    onPickAvatarClick: () -> Unit,
 ) {
     Box(
-        modifier = modifier
-            .clip(CircleShape)
-            .background(SnapdexTheme.colorScheme.surface)
-            .border(
-                width = 1.dp,
-                color = SnapdexTheme.colorScheme.outline,
-                shape = CircleShape
-            )
-            .size(88.dp)
-            .clickable(enabled = !state.isRegistering) {
-                onPickAvatarClick()
-            },
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .clip(CircleShape)
+                .background(SnapdexTheme.colorScheme.surface)
+                .border(width = 1.dp, color = SnapdexTheme.colorScheme.outline, shape = CircleShape)
+                .size(88.dp)
+                .clickable(enabled = !state.isRegistering) { onPickAvatarClick() },
+        contentAlignment = Alignment.Center,
     ) {
         if (state.avatar == -1) {
             Icon(
                 imageVector = Icons.Add,
                 contentDescription = null,
                 tint = SnapdexTheme.colorScheme.onSurface,
-                modifier = Modifier
-                    .size(48.dp)
+                modifier = Modifier.size(48.dp),
             )
         } else {
             Image(
                 painter = painterResource(id = AvatarUi.getFor(state.avatar)),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
+                modifier = Modifier.fillMaxSize().padding(16.dp),
             )
         }
     }
@@ -238,10 +197,5 @@ private fun PickPictureButton(
 @Preview
 @Composable
 private fun RegisterScreenPreview() {
-    AppTheme {
-        RegisterScreen(
-            state = RegisterState(avatar = 1),
-            onAction = {}
-        )
-    }
+    AppTheme { RegisterScreen(state = RegisterState(avatar = 1), onAction = {}) }
 }

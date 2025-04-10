@@ -24,34 +24,30 @@ fun SnapdexIndicator(
     pageCount: Int,
     currentPage: Int,
     onClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
-            .wrapContentHeight()
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+        modifier = modifier.wrapContentHeight().fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
     ) {
         repeat(pageCount) { iteration ->
             Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(
-                        if (currentPage == iteration) {
-                            SnapdexTheme.colorScheme.primary
-                        } else {
-                            SnapdexTheme.colorScheme.surface
-                        }
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = SnapdexTheme.colorScheme.outline,
-                        shape = CircleShape
-                    )
-                    .size(16.dp)
-                    .clickable {
-                        onClick(iteration)
-                    }
+                modifier =
+                    Modifier.clip(CircleShape)
+                        .background(
+                            if (currentPage == iteration) {
+                                SnapdexTheme.colorScheme.primary
+                            } else {
+                                SnapdexTheme.colorScheme.surface
+                            }
+                        )
+                        .border(
+                            width = 1.dp,
+                            color = SnapdexTheme.colorScheme.outline,
+                            shape = CircleShape,
+                        )
+                        .size(16.dp)
+                        .clickable { onClick(iteration) }
             )
         }
     }
@@ -60,11 +56,5 @@ fun SnapdexIndicator(
 @Preview
 @Composable
 private fun SnapdexIndicatorPreview() {
-    AppTheme {
-        SnapdexIndicator(
-            pageCount = 3,
-            currentPage = 0,
-            onClick = {}
-        )
-    }
+    AppTheme { SnapdexIndicator(pageCount = 3, currentPage = 0, onClick = {}) }
 }

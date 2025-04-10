@@ -10,4 +10,5 @@ plugins {
     alias(libs.plugins.crashlytics) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.ktfmt.gradle) apply false
 }

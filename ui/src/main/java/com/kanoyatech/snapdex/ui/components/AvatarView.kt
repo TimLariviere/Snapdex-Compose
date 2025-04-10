@@ -19,33 +19,28 @@ import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 import com.kanoyatech.snapdex.ui.AvatarUi
 
 @Composable
-fun AvatarView(
-    avatarId: Int,
-    isSelected: Boolean,
-    modifier: Modifier = Modifier
-) {
+fun AvatarView(avatarId: Int, isSelected: Boolean, modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier
-            .aspectRatio(1f)
-            .clip(CircleShape)
-            .border(
-                width = if (isSelected) 1.dp else 0.dp,
-                color = if (isSelected) {
-                    SnapdexTheme.colorScheme.primary
-                } else {
-                    SnapdexTheme.colorScheme.outline
-                },
-                shape = CircleShape
-            )
-            .background(SnapdexTheme.colorScheme.surface)
-
+        modifier =
+            modifier
+                .aspectRatio(1f)
+                .clip(CircleShape)
+                .border(
+                    width = if (isSelected) 1.dp else 0.dp,
+                    color =
+                        if (isSelected) {
+                            SnapdexTheme.colorScheme.primary
+                        } else {
+                            SnapdexTheme.colorScheme.outline
+                        },
+                    shape = CircleShape,
+                )
+                .background(SnapdexTheme.colorScheme.surface)
     ) {
         Image(
             painter = painterResource(id = AvatarUi.getFor(avatarId)),
             contentDescription = null,
-            modifier = Modifier
-                .padding(horizontal = 14.dp, vertical = 10.dp)
-                .fillMaxSize()
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp).fillMaxSize(),
         )
     }
 }
@@ -53,21 +48,11 @@ fun AvatarView(
 @Preview
 @Composable
 private fun AvatarViewPreview() {
-    AppTheme {
-        AvatarView(
-            avatarId = 1,
-            isSelected = false
-        )
-    }
+    AppTheme { AvatarView(avatarId = 1, isSelected = false) }
 }
 
 @Preview
 @Composable
 private fun AvatarViewSelectedPreview() {
-    AppTheme {
-        AvatarView(
-            avatarId = 1,
-            isSelected = true
-        )
-    }
+    AppTheme { AvatarView(avatarId = 1, isSelected = true) }
 }

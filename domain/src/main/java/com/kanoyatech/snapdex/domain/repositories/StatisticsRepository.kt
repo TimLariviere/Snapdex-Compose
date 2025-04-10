@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface StatisticsRepository {
     fun getCompletionRate(userId: UserId): Flow<Statistic>
+
     fun getCompletionRateByType(userId: UserId): Flow<List<StatisticByType>>
 }

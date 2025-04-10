@@ -12,29 +12,27 @@ import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 
 @Composable
-fun SnapdexBackground(
-    modifier: Modifier = Modifier,
-    content: @Composable (BoxScope.() -> Unit)
-) {
+fun SnapdexBackground(modifier: Modifier = Modifier, content: @Composable (BoxScope.() -> Unit)) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        SnapdexTheme.colorScheme.background,
-                        SnapdexTheme.colorScheme.backgroundVariant
-                    )
-                )
-            ),
-        content = content
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(
+                    brush =
+                        Brush.linearGradient(
+                            colors =
+                                listOf(
+                                    SnapdexTheme.colorScheme.background,
+                                    SnapdexTheme.colorScheme.backgroundVariant,
+                                )
+                        )
+                ),
+        content = content,
     )
 }
 
 @Preview
 @Composable
 private fun GradientBackgroundPreview() {
-    AppTheme {
-        SnapdexBackground {}
-    }
+    AppTheme { SnapdexBackground {} }
 }

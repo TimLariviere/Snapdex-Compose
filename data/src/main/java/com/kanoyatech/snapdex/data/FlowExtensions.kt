@@ -8,14 +8,10 @@ import kotlinx.coroutines.flow.callbackFlow
 
 fun FirebaseAuth.currentUserAsFlow(): Flow<FirebaseUser?> {
     return callbackFlow {
-        val listener = FirebaseAuth.AuthStateListener {
-            trySend(it.currentUser)
-        }
+        val listener = FirebaseAuth.AuthStateListener { trySend(it.currentUser) }
 
         this@currentUserAsFlow.addAuthStateListener(listener)
 
-        awaitClose {
-            this@currentUserAsFlow.removeAuthStateListener(listener)
-        }
+        awaitClose { this@currentUserAsFlow.removeAuthStateListener(listener) }
     }
 }

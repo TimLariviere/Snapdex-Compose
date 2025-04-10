@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.domain.repositories.ChangePasswordError
 import com.kanoyatech.snapdex.domain.repositories.UserRepository
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 
 class NewPasswordViewModel(
     private val userDataValidator: UserDataValidator,
-    private val userRepository: UserRepository
-): ViewModel() {
+    private val userRepository: UserRepository,
+) : ViewModel() {
     var state by mutableStateOf(NewPasswordState())
         private set
 
@@ -30,23 +30,29 @@ class NewPasswordViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
-        state.newPassword.textAsFlow()
+        state.newPassword
+            .textAsFlow()
             .onEach {
                 val isOldPasswordValid = it.isNotBlank()
-                state = state.copy(
-                    isOldPasswordValid = isOldPasswordValid,
-                    canChangePassword = isOldPasswordValid && state.newPasswordValidationState.isValid
-                )
+                state =
+                    state.copy(
+                        isOldPasswordValid = isOldPasswordValid,
+                        canChangePassword =
+                            isOldPasswordValid && state.newPasswordValidationState.isValid,
+                    )
             }
             .launchIn(viewModelScope)
 
-        state.newPassword.textAsFlow()
+        state.newPassword
+            .textAsFlow()
             .onEach {
                 val passwordValidationState = userDataValidator.validatePassword(it.toString())
-                state = state.copy(
-                    newPasswordValidationState = passwordValidationState,
-                    canChangePassword = state.isOldPasswordValid && passwordValidationState.isValid
-                )
+                state =
+                    state.copy(
+                        newPasswordValidationState = passwordValidationState,
+                        canChangePassword =
+                            state.isOldPasswordValid && passwordValidationState.isValid,
+                    )
             }
             .launchIn(viewModelScope)
     }
@@ -71,10 +77,11 @@ class NewPasswordViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             state = state.copy(isChangingPassword = true)
 
-            val result = userRepository.changePassword(
-                oldPassword = state.oldPassword.text.toString(),
-                newPassword = state.newPassword.text.toString()
-            )
+            val result =
+                userRepository.changePassword(
+                    oldPassword = state.oldPassword.text.toString(),
+                    newPassword = state.newPassword.text.toString(),
+                )
 
             state = state.copy(isChangingPassword = false)
 
@@ -82,9 +89,16 @@ class NewPasswordViewModel(
                 is TypedResult.Error -> {
                     val message =
                         when (result.error) {
-                            is ChangePasswordError.InvalidOldPassword -> UiText.StringResource(id = R.string.change_password_invalid_old_password)
-                            is ChangePasswordError.InvalidNewPassword -> UiText.StringResource(id = R.string.change_password_invalid_new_password)
-                            is ChangePasswordError.UpdatePasswordFailed -> UiText.StringResource(id = R.string.change_password_failed)
+                            is ChangePasswordError.InvalidOldPassword ->
+                                UiText.StringResource(
+                                    id = R.string.change_password_invalid_old_password
+                                )
+                            is ChangePasswordError.InvalidNewPassword ->
+                                UiText.StringResource(
+                                    id = R.string.change_password_invalid_new_password
+                                )
+                            is ChangePasswordError.UpdatePasswordFailed ->
+                                UiText.StringResource(id = R.string.change_password_failed)
                         }
 
                     eventChannel.send(NewPasswordEvent.Error(message))

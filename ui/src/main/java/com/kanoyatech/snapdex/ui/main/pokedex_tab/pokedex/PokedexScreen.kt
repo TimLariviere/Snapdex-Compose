@@ -66,7 +66,7 @@ import org.koin.androidx.compose.koinViewModel
 fun PokedexScreenRoot(
     paddingValues: PaddingValues,
     viewModel: PokedexViewModel = koinViewModel(),
-    onPokemonClick: (PokemonId) -> Unit
+    onPokemonClick: (PokemonId) -> Unit,
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -80,11 +80,7 @@ fun PokedexScreenRoot(
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             is PokedexEvent.Error -> {
-                Toast.makeText(
-                    context,
-                    event.error.asString(context),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(context, event.error.asString(context), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -99,7 +95,7 @@ fun PokedexScreenRoot(
             }
 
             viewModel.onAction(action)
-        }
+        },
     )
 }
 
@@ -107,44 +103,41 @@ fun PokedexScreenRoot(
 private fun PokedexScreen(
     paddingValues: PaddingValues,
     state: PokedexState,
-    onAction: (PokedexAction) -> Unit
+    onAction: (PokedexAction) -> Unit,
 ) {
     Box {
         Column(
-            modifier = Modifier
-                .padding(
-                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                    top = paddingValues.calculateTopPadding(),
-                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-                )
-                .padding(top = 28.dp)
+            modifier =
+                Modifier.padding(
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        top = paddingValues.calculateTopPadding(),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                    )
+                    .padding(top = 28.dp)
         ) {
             SearchView(
                 state = state.searchState,
                 hint = stringResource(id = R.string.search_hint),
-                onRemoveFilterClick = { type ->
-                    onAction(PokedexAction.RemoveFilterClick(type))
-                },
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                onRemoveFilterClick = { type -> onAction(PokedexAction.RemoveFilterClick(type)) },
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
-                contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 88.dp),
+                contentPadding =
+                    PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 88.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 if (state.filteredPokemons != null) {
                     items(state.filteredPokemons, key = { it.id }) { pokemon ->
                         PokemonItem(
                             pokemon = pokemon,
-                            modifier = Modifier
-                                .clickable {
+                            modifier =
+                                Modifier.clickable {
                                     onAction(PokedexAction.OnPokemonClick(pokemon.id))
-                                }
+                                },
                         )
                     }
                 } else {
@@ -156,10 +149,10 @@ private fun PokedexScreen(
                         } else {
                             PokemonItem(
                                 pokemon = pokemon,
-                                modifier = Modifier
-                                    .clickable {
+                                modifier =
+                                    Modifier.clickable {
                                         onAction(PokedexAction.OnPokemonClick(pokemon.id))
-                                    }
+                                    },
                             )
                         }
                     }
@@ -170,107 +163,88 @@ private fun PokedexScreen(
         TakePictureButton(
             state = state,
             onAction = onAction,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = paddingValues.calculateBottomPadding() + 16.dp)
+            modifier =
+                Modifier.align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = paddingValues.calculateBottomPadding() + 16.dp),
         )
 
         if (state.showRecognitionOverlay) {
             RecognitionOverlay(
                 isRecognizing = state.isRecognizing,
                 pokemon = state.lastCaught,
-                onDismissRequest = { onAction(PokedexAction.OnRecognitionOverlayDismiss) }
+                onDismissRequest = { onAction(PokedexAction.OnRecognitionOverlayDismiss) },
             )
         }
     }
 }
 
 @Composable
-fun PokemonItem(
-    pokemon: Pokemon,
-    modifier: Modifier = Modifier
-) {
+fun PokemonItem(pokemon: Pokemon, modifier: Modifier = Modifier) {
     val types = pokemon.types.map { TypeUi.fromType(it) }
 
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(4f/5f)
-            .clip(SnapdexTheme.shapes.regular)
-            .background(SnapdexTheme.colorScheme.surface)
-            .border(
-                width = 1.dp,
-                color = SnapdexTheme.colorScheme.outline,
-                shape = SnapdexTheme.shapes.regular
-            )
-            .padding(8.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .aspectRatio(4f / 5f)
+                .clip(SnapdexTheme.shapes.regular)
+                .background(SnapdexTheme.colorScheme.surface)
+                .border(
+                    width = 1.dp,
+                    color = SnapdexTheme.colorScheme.outline,
+                    shape = SnapdexTheme.shapes.regular,
+                )
+                .padding(8.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.End)
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.End),
         ) {
-            types.forEach { type ->
-                SmallTypeBadge(type)
-            }
+            types.forEach { type -> SmallTypeBadge(type) }
         }
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 bitmap = ImageBitmap.imageResource(id = pokemon.mediumImageId),
                 contentDescription = pokemon.name.translated(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
+                modifier = Modifier.fillMaxWidth().weight(1f),
             )
 
-            Text(
-                text = stringResource(id = R.string.pokemon_number_alt, pokemon.id)
-            )
+            Text(text = stringResource(id = R.string.pokemon_number_alt, pokemon.id))
         }
     }
 }
 
 @Composable
-fun UnknownItem(
-    id: PokemonId,
-    modifier: Modifier = Modifier
-) {
+fun UnknownItem(id: PokemonId, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(4f/5f)
-            .clip(SnapdexTheme.shapes.regular)
-            .background(SnapdexTheme.colorScheme.surface)
-            .border(
-                width = 1.dp,
-                color = SnapdexTheme.colorScheme.outline,
-                shape = SnapdexTheme.shapes.regular
-            )
-            .padding(8.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .aspectRatio(4f / 5f)
+                .clip(SnapdexTheme.shapes.regular)
+                .background(SnapdexTheme.colorScheme.surface)
+                .border(
+                    width = 1.dp,
+                    color = SnapdexTheme.colorScheme.outline,
+                    shape = SnapdexTheme.shapes.regular,
+                )
+                .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
-            modifier = Modifier
-                .weight(1f),
-            contentAlignment = Alignment.Center
-        ) {
+        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
             SnapdexOutlinedText(
                 text = "?",
                 textAlign = TextAlign.Center,
                 style = SnapdexTheme.typography.heading1,
-                //outlineColor = SnapdexTheme.colorScheme.onSurfaceVariant,
+                // outlineColor = SnapdexTheme.colorScheme.onSurfaceVariant,
                 color = Color.Transparent,
-                outlineWidth = 4f
+                outlineWidth = 4f,
             )
         }
 
-        Text(
-            text = stringResource(id = R.string.pokemon_number_alt, id)
-        )
+        Text(text = stringResource(id = R.string.pokemon_number_alt, id))
     }
 }
 
@@ -278,13 +252,15 @@ fun UnknownItem(
 fun TakePictureButton(
     state: PokedexState,
     onAction: (PokedexAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val activity = LocalActivity.current
 
     // On first composition, check if we already have the camera permission granted
     LaunchedEffect(true) {
-        val isGranted = activity?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        val isGranted =
+            activity?.checkSelfPermission(Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED
         onAction(PokedexAction.IsCameraGrantedChange(isGranted))
     }
 
@@ -296,7 +272,8 @@ fun TakePictureButton(
         }
 
     val permissionLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted
+            ->
             onAction(PokedexAction.IsCameraGrantedChange(isGranted))
 
             // If the user just gave us the permission, immediately take a picture
@@ -308,8 +285,12 @@ fun TakePictureButton(
     SnapdexFloatingActionButton(
         onClick = {
             when {
-                !(activity?.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) ?: false) -> {
-                    Log.i("TakePictureButton", "Camera permission is not granted yet. Asking permission")
+                !(activity?.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)
+                    ?: false) -> {
+                    Log.i(
+                        "TakePictureButton",
+                        "Camera permission is not granted yet. Asking permission",
+                    )
                     permissionLauncher.launch(Manifest.permission.CAMERA)
                 }
                 !state.isCameraGranted -> {
@@ -322,13 +303,12 @@ fun TakePictureButton(
                 }
             }
         },
-        modifier = modifier
+        modifier = modifier,
     ) {
         Icon(
             imageVector = Icons.Pokeball,
             contentDescription = null,
-            modifier = Modifier
-                .size(32.dp)
+            modifier = Modifier.size(32.dp),
         )
     }
 }
@@ -341,7 +321,7 @@ private fun PokedexScreenPreview() {
             PokedexScreen(
                 paddingValues = PaddingValues(0.dp),
                 state = PokedexState(),
-                onAction = {}
+                onAction = {},
             )
         }
     }

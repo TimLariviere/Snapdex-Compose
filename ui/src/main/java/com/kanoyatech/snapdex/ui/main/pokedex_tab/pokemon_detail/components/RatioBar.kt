@@ -24,31 +24,24 @@ import com.kanoyatech.snapdex.domain.units.Percentage
 import com.kanoyatech.snapdex.domain.units.percent
 import com.kanoyatech.snapdex.ui.utils.formatted
 
-
 @Composable
-fun RatioBar(
-    ratio: Percentage,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(6.dp)
-    ) {
+fun RatioBar(ratio: Percentage, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Row {
             Box(
-                modifier = Modifier
-                    .height(8.dp)
-                    .weight(ratio.toFloat())
-                    .clip(RoundedCornerShape(topStart = 49.dp, bottomStart = 49.dp))
-                    .background(SnapdexTheme.colorScheme.secondary)
+                modifier =
+                    Modifier.height(8.dp)
+                        .weight(ratio.toFloat())
+                        .clip(RoundedCornerShape(topStart = 49.dp, bottomStart = 49.dp))
+                        .background(SnapdexTheme.colorScheme.secondary)
             )
 
             Box(
-                modifier = Modifier
-                    .height(8.dp)
-                    .weight(1f - ratio.toFloat())
-                    .clip(RoundedCornerShape(topEnd = 49.dp, bottomEnd = 49.dp))
-                    .background(SnapdexTheme.colorScheme.primary)
+                modifier =
+                    Modifier.height(8.dp)
+                        .weight(1f - ratio.toFloat())
+                        .clip(RoundedCornerShape(topEnd = 49.dp, bottomEnd = 49.dp))
+                        .background(SnapdexTheme.colorScheme.primary)
             )
         }
 
@@ -61,32 +54,19 @@ fun RatioBar(
 }
 
 @Composable
-private fun Label(
-    imageVector: ImageVector,
-    value: Percentage
-) {
+private fun Label(imageVector: ImageVector, value: Percentage) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(
-            imageVector = imageVector,
-            contentDescription = null
-        )
+        Icon(imageVector = imageVector, contentDescription = null)
 
-        Text(
-            text = value.formatted(),
-            style = SnapdexTheme.typography.smallLabel
-        )
+        Text(text = value.formatted(), style = SnapdexTheme.typography.smallLabel)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun RatioBarPreview() {
-    AppTheme {
-        RatioBar(
-            ratio = 87.5.percent
-        )
-    }
+    AppTheme { RatioBar(ratio = 87.5.percent) }
 }

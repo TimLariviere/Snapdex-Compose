@@ -5,12 +5,10 @@ import android.util.Log
 import com.kanoyatech.snapdex.data.Assets
 import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.PokemonId
-import org.tensorflow.lite.Interpreter
 import java.nio.ByteBuffer
+import org.tensorflow.lite.Interpreter
 
-class TensorflowClassifier(
-    private val context: Context
-): Classifier {
+class TensorflowClassifier(private val context: Context) : Classifier {
     private lateinit var interpreter: Interpreter
 
     override suspend fun init() {

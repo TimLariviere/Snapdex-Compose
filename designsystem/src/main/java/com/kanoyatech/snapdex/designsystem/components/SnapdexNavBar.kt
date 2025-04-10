@@ -36,45 +36,44 @@ fun SnapdexNavBar(
     tabs: Array<TabItem>,
     shouldShowNavBar: Boolean,
     selectedTab: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val startWeight: Float by animateFloatAsState(selectedTab.toFloat(), label = "startWeight")
-    val endWeight: Float by animateFloatAsState((tabs.size - 1).toFloat() - selectedTab, label = "startWeight")
+    val endWeight: Float by
+        animateFloatAsState((tabs.size - 1).toFloat() - selectedTab, label = "startWeight")
 
     AnimatedVisibility(
         modifier = modifier,
         visible = shouldShowNavBar,
         enter = slideInVertically(initialOffsetY = { it * 2 }),
-        exit = slideOutVertically(targetOffsetY = { it * 2 })
+        exit = slideOutVertically(targetOffsetY = { it * 2 }),
     ) {
         Box(
-            modifier = Modifier
-                .height(IntrinsicSize.Min)
-                .width(IntrinsicSize.Min)
-                .clip(SnapdexTheme.shapes.navBar)
-                .background(SnapdexTheme.colorScheme.navBarBackground)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = {}
-                )
+            modifier =
+                Modifier.height(IntrinsicSize.Min)
+                    .width(IntrinsicSize.Min)
+                    .clip(SnapdexTheme.shapes.navBar)
+                    .background(SnapdexTheme.colorScheme.navBarBackground)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {},
+                    )
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(horizontal = 36.dp),
-                verticalAlignment = Alignment.Bottom
+                modifier = Modifier.fillMaxHeight().padding(horizontal = 36.dp),
+                verticalAlignment = Alignment.Bottom,
             ) {
                 if (startWeight > 0.0f) {
                     Spacer(modifier = Modifier.weight(startWeight))
                 }
 
                 Box(
-                    modifier = Modifier
-                        .height(4.dp)
-                        .width(40.dp)
-                        .clip(SnapdexTheme.shapes.navBarIndicator)
-                        .background(SnapdexTheme.colorScheme.primary)
+                    modifier =
+                        Modifier.height(4.dp)
+                            .width(40.dp)
+                            .clip(SnapdexTheme.shapes.navBarIndicator)
+                            .background(SnapdexTheme.colorScheme.primary)
                 )
 
                 if (endWeight > 0.0f) {
@@ -83,16 +82,15 @@ fun SnapdexNavBar(
             }
 
             Row(
-                modifier = Modifier
-                    .padding(horizontal = 40.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(32.dp)
+                modifier = Modifier.padding(horizontal = 40.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(32.dp),
             ) {
                 tabs.forEachIndexed { index, tab ->
                     val isSelected = index == selectedTab
                     SnapdexTabItem(
                         imageVector = if (isSelected) tab.selectedImage else tab.unselectedImage,
                         selected = isSelected,
-                        onClick = { tab.onClick() }
+                        onClick = { tab.onClick() },
                     )
                 }
             }
@@ -105,26 +103,29 @@ private fun SnapdexTabItem(
     imageVector: ImageVector,
     selected: Boolean,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Icon(
         imageVector = imageVector,
         contentDescription = null,
-        tint = if (selected) SnapdexTheme.colorScheme.primary else SnapdexTheme.colorScheme.navBarOnBackground,
-        modifier = modifier
-            .size(32.dp)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = onClick
-            )
+        tint =
+            if (selected) SnapdexTheme.colorScheme.primary
+            else SnapdexTheme.colorScheme.navBarOnBackground,
+        modifier =
+            modifier
+                .size(32.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClick,
+                ),
     )
 }
 
 data class TabItem(
     val selectedImage: ImageVector,
     val unselectedImage: ImageVector,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
 )
 
 @PreviewLightDark
@@ -133,28 +134,27 @@ private fun SnapdexNavBarPreview() {
     AppTheme {
         SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Min)) {
             SnapdexNavBar(
-                tabs = arrayOf(
-                    TabItem(
-                        selectedImage = Icons.GridSelected,
-                        unselectedImage = Icons.GridUnselected,
-                        onClick = {}
+                tabs =
+                    arrayOf(
+                        TabItem(
+                            selectedImage = Icons.GridSelected,
+                            unselectedImage = Icons.GridUnselected,
+                            onClick = {},
+                        ),
+                        TabItem(
+                            selectedImage = Icons.StatsSelected,
+                            unselectedImage = Icons.StatsUnselected,
+                            onClick = {},
+                        ),
+                        TabItem(
+                            selectedImage = Icons.ProfileSelected,
+                            unselectedImage = Icons.ProfileUnselected,
+                            onClick = {},
+                        ),
                     ),
-                    TabItem(
-                        selectedImage = Icons.StatsSelected,
-                        unselectedImage = Icons.StatsUnselected,
-                        onClick = {}
-                    ),
-                    TabItem(
-                        selectedImage = Icons.ProfileSelected,
-                        unselectedImage = Icons.ProfileUnselected,
-                        onClick = {}
-                    )
-                ),
                 shouldShowNavBar = true,
                 selectedTab = 1,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(16.dp)
+                modifier = Modifier.align(Alignment.Center).padding(16.dp),
             )
         }
     }

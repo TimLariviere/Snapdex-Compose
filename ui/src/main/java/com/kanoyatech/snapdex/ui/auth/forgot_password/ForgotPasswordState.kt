@@ -7,5 +7,5 @@ data class ForgotPasswordState(
     val isEmailValid: Boolean = false,
     val showEmailSent: Boolean = false,
     val isSendingEmail: Boolean = false,
-    val canSendEmail: Boolean = false
+    val canSendEmail: Boolean = false,
 )

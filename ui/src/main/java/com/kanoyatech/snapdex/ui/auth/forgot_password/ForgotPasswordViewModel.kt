@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 
 class ForgotPasswordViewModel(
     private val userRepository: UserRepository,
-    private val userDataValidator: UserDataValidator
-): ViewModel() {
+    private val userDataValidator: UserDataValidator,
+) : ViewModel() {
     var state by mutableStateOf(ForgotPasswordState())
         private set
 
@@ -30,13 +30,11 @@ class ForgotPasswordViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
-        state.email.textAsFlow()
+        state.email
+            .textAsFlow()
             .onEach {
                 val isEmailValid = userDataValidator.validateEmail(it.toString())
-                state = state.copy(
-                    isEmailValid = isEmailValid,
-                    canSendEmail = isEmailValid
-                )
+                state = state.copy(isEmailValid = isEmailValid, canSendEmail = isEmailValid)
             }
             .launchIn(viewModelScope)
     }
@@ -55,8 +53,7 @@ class ForgotPasswordViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             state = state.copy(isSendingEmail = true)
 
-            val result =
-                userRepository.sendPasswordResetEmail(state.email.text.toString())
+            val result = userRepository.sendPasswordResetEmail(state.email.text.toString())
 
             state = state.copy(isSendingEmail = false)
 
@@ -64,9 +61,16 @@ class ForgotPasswordViewModel(
                 is TypedResult.Error -> {
                     val message =
                         when (result.error) {
-                            is SendPasswordResetEmailError.NoSuchEmail -> UiText.StringResource(id = R.string.send_password_reset_no_such_email)
-                            is SendPasswordResetEmailError.InvalidEmail -> UiText.StringResource(id = R.string.send_password_reset_invalid_email)
-                            is SendPasswordResetEmailError.SendFailed -> UiText.StringResource(id = R.string.send_password_reset_failed)
+                            is SendPasswordResetEmailError.NoSuchEmail ->
+                                UiText.StringResource(
+                                    id = R.string.send_password_reset_no_such_email
+                                )
+                            is SendPasswordResetEmailError.InvalidEmail ->
+                                UiText.StringResource(
+                                    id = R.string.send_password_reset_invalid_email
+                                )
+                            is SendPasswordResetEmailError.SendFailed ->
+                                UiText.StringResource(id = R.string.send_password_reset_failed)
                         }
 
                     eventChannel.send(ForgotPasswordEvent.Error(message))

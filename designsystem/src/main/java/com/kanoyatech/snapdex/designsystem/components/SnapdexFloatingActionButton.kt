@@ -16,7 +16,7 @@ import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 fun SnapdexFloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     FloatingActionButton(
         onClick = onClick,
@@ -24,7 +24,7 @@ fun SnapdexFloatingActionButton(
         containerColor = SnapdexTheme.colorScheme.primary,
         contentColor = SnapdexTheme.colorScheme.onPrimary,
         modifier = modifier,
-        content = content
+        content = content,
     )
 }
 
@@ -33,14 +33,11 @@ fun SnapdexFloatingActionButton(
 private fun SnapdexFloatingActionButtonPreview() {
     AppTheme {
         SnapdexBackground {
-            SnapdexFloatingActionButton(
-                onClick = {}
-            ) {
+            SnapdexFloatingActionButton(onClick = {}) {
                 Icon(
                     imageVector = Icons.Pokeball,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(32.dp)
+                    modifier = Modifier.size(32.dp),
                 )
             }
         }

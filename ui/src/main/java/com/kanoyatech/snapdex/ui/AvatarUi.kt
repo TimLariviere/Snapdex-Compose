@@ -1,7 +1,5 @@
 package com.kanoyatech.snapdex.ui
 
-import com.kanoyatech.snapdex.ui.R
-
 object AvatarUi {
     fun getFor(index: Int): Int {
         val imageId =

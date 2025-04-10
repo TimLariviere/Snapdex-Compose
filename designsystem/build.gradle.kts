@@ -1,10 +1,6 @@
-plugins {
-    alias(libs.plugins.kanoyatech.android.library.compose)
-}
+plugins { alias(libs.plugins.kanoyatech.android.library.compose) }
 
-android {
-    namespace = "com.kanoyatech.snapdex.designsystem"
-}
+android { namespace = "com.kanoyatech.snapdex.designsystem" }
 
 dependencies {
     // Coil
@@ -12,3 +8,5 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
 }
+
+ktfmt { kotlinLangStyle() }

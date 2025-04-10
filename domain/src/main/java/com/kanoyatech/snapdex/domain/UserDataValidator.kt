@@ -4,9 +4,8 @@ import java.util.regex.Pattern
 
 class UserDataValidator {
     companion object {
-        val EMAIL_ADDRESS_PATTERN = Pattern.compile(
-            "^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+\$"
-        )!!
+        val EMAIL_ADDRESS_PATTERN =
+            Pattern.compile("^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+\$")!!
     }
 
     fun validateName(name: String): Boolean {
@@ -28,7 +27,7 @@ class UserDataValidator {
             hasMinLength = hasMinLength,
             hasDigit = hasDigit,
             hasLowercase = hasLowercase,
-            hasUppercase = hasUppercase
+            hasUppercase = hasUppercase,
         )
     }
 }

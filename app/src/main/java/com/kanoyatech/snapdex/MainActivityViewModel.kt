@@ -11,23 +11,18 @@ import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
     private val userRepository: UserRepository,
-    private val preferencesRepositoryImpl: PreferencesRepositoryImpl
-): ViewModel() {
+    private val preferencesRepositoryImpl: PreferencesRepositoryImpl,
+) : ViewModel() {
     var state by mutableStateOf(MainActivityState())
         private set
 
     init {
         viewModelScope.launch {
-            state = state.copy(
-                isLoading = true
-            )
+            state = state.copy(isLoading = true)
             val hasSeenIntro = preferencesRepositoryImpl.getHasSeenIntro()
             val isLoggedIn = userRepository.isLoggedIn()
-            state = state.copy(
-                isLoading = false,
-                hasSeenIntro = hasSeenIntro,
-                isLoggedIn = isLoggedIn
-            )
+            state =
+                state.copy(isLoading = false, hasSeenIntro = hasSeenIntro, isLoggedIn = isLoggedIn)
         }
     }
 }

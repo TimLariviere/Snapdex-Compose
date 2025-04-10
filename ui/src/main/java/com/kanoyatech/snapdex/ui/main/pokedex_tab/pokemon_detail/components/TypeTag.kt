@@ -20,42 +20,36 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
+import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
-fun TypeTag(
-    elementUi: TypeUi,
-    modifier: Modifier = Modifier
-) {
+fun TypeTag(elementUi: TypeUi, modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier
-            .clip(SnapdexTheme.shapes.small)
-            .background(SnapdexTheme.colorScheme.surface)
-            .border(
-                width = 1.dp,
-                color = SnapdexTheme.colorScheme.outline,
-                shape = SnapdexTheme.shapes.small
-            )
-            .padding(horizontal = 14.dp, vertical = 8.dp),
+        modifier =
+            modifier
+                .clip(SnapdexTheme.shapes.small)
+                .background(SnapdexTheme.colorScheme.surface)
+                .border(
+                    width = 1.dp,
+                    color = SnapdexTheme.colorScheme.outline,
+                    shape = SnapdexTheme.shapes.small,
+                )
+                .padding(horizontal = 14.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(id = elementUi.image),
             contentDescription = null,
             tint = elementUi.color,
-            modifier = Modifier
-                .height(20.dp)
-                .aspectRatio(1f)
+            modifier = Modifier.height(20.dp).aspectRatio(1f),
         )
 
-        Text(
-            text = stringResource(id = elementUi.name)
-        )
+        Text(text = stringResource(id = elementUi.name))
     }
 }
 
@@ -66,8 +60,7 @@ private fun TypeViewPreview() {
         SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Max).width(IntrinsicSize.Max)) {
             TypeTag(
                 elementUi = TypeUi.fromType(PokemonType.FIRE),
-                modifier = Modifier
-                    .padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             )
         }
     }

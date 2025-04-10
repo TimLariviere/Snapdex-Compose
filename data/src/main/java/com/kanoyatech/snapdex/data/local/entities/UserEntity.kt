@@ -11,28 +11,29 @@ data class UserEntity(
     val name: String,
     val email: String,
     val createdAt: Long,
-    val updatedAt: Long
+    val updatedAt: Long,
 )
 
 @Entity(
     tableName = "UserPokemons",
-    foreignKeys = [
-        ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["userId"]
-        ),
-        ForeignKey(
-            entity = PokemonEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["pokemonId"]
-        ),
-    ]
+    foreignKeys =
+        [
+            ForeignKey(
+                entity = UserEntity::class,
+                parentColumns = ["id"],
+                childColumns = ["userId"],
+            ),
+            ForeignKey(
+                entity = PokemonEntity::class,
+                parentColumns = ["id"],
+                childColumns = ["pokemonId"],
+            ),
+        ],
 )
 data class UserPokemonEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val userId: String,
     val pokemonId: Int,
     val createdAt: Long,
-    val updatedAt: Long
+    val updatedAt: Long,
 )

@@ -23,7 +23,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.ui.R
+import com.kanoyatech.snapdex.designsystem.AppTheme
+import com.kanoyatech.snapdex.designsystem.Icons
+import com.kanoyatech.snapdex.designsystem.SnapdexTheme
+import com.kanoyatech.snapdex.designsystem.components.GifImage
+import com.kanoyatech.snapdex.designsystem.components.SnapdexCircularProgressIndicator
+import com.kanoyatech.snapdex.designsystem.components.SnapdexScaffold
+import com.kanoyatech.snapdex.designsystem.components.SnapdexTopAppBar
 import com.kanoyatech.snapdex.domain.models.EvolutionChain
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.PokemonAbility
@@ -36,13 +42,7 @@ import com.kanoyatech.snapdex.domain.units.Weight
 import com.kanoyatech.snapdex.domain.units.kg
 import com.kanoyatech.snapdex.domain.units.m
 import com.kanoyatech.snapdex.domain.units.percent
-import com.kanoyatech.snapdex.designsystem.AppTheme
-import com.kanoyatech.snapdex.designsystem.Icons
-import com.kanoyatech.snapdex.designsystem.SnapdexTheme
-import com.kanoyatech.snapdex.designsystem.components.GifImage
-import com.kanoyatech.snapdex.designsystem.components.SnapdexCircularProgressIndicator
-import com.kanoyatech.snapdex.designsystem.components.SnapdexScaffold
-import com.kanoyatech.snapdex.designsystem.components.SnapdexTopAppBar
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.TypeUi
 import com.kanoyatech.snapdex.ui.main.pokedex_tab.pokemon_detail.components.DataCardItem
 import com.kanoyatech.snapdex.ui.main.pokedex_tab.pokemon_detail.components.EvolutionChainView
@@ -57,7 +57,7 @@ import java.util.Locale
 fun PokemonDetailScreenRoot(
     viewModel: PokemonDetailViewModel,
     onBackClick: () -> Unit,
-    onPokemonClick: (PokemonId) -> Unit
+    onPokemonClick: (PokemonId) -> Unit,
 ) {
     PokemonDetailScreen(
         state = viewModel.state,
@@ -69,59 +69,51 @@ fun PokemonDetailScreenRoot(
             }
 
             viewModel.onAction(action)
-        }
+        },
     )
 }
 
 @Composable
 private fun PokemonDetailScreen(
     state: PokemonDetailState,
-    onAction: (PokemonDetailAction) -> Unit
+    onAction: (PokemonDetailAction) -> Unit,
 ) {
     SnapdexScaffold(
         topBar = {
             SnapdexTopAppBar(
                 title = "",
-                onBackClick = { onAction(PokemonDetailAction.OnBackClick) }
+                onBackClick = { onAction(PokemonDetailAction.OnBackClick) },
             )
         }
     ) { paddingValues ->
         if (state.pokemon == null) {
             SnapdexCircularProgressIndicator()
-        }
-        else {
+        } else {
             val types = state.pokemon.types.map { TypeUi.fromType(it) }
             val weaknesses = state.pokemon.weaknesses.map { TypeUi.fromType(it) }
 
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 24.dp)
-                    .padding(paddingValues),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                modifier =
+                    Modifier.fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 24.dp)
+                        .padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 GifImage(
                     imageId = state.pokemon.largeImageId,
-                    modifier = Modifier
-                        .height(180.dp)
-                        .aspectRatio(1f)
-                        .align(Alignment.CenterHorizontally)
+                    modifier =
+                        Modifier.height(180.dp).aspectRatio(1f).align(Alignment.CenterHorizontally),
                 )
 
-                Header(
-                    id = state.pokemon.id,
-                    name = state.pokemon.name.translated()
-                )
+                Header(id = state.pokemon.id, name = state.pokemon.name.translated())
 
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    types.forEach { type ->
-                        TypeTag(type)
-                    }
+                    types.forEach { type -> TypeTag(type) }
                 }
 
                 Text(state.pokemon.description.translated())
@@ -131,19 +123,17 @@ private fun PokemonDetailScreen(
                     height = state.pokemon.height,
                     category = state.pokemon.category,
                     ability = state.pokemon.ability,
-                    maleToFemaleRatio = state.pokemon.maleToFemaleRatio
+                    maleToFemaleRatio = state.pokemon.maleToFemaleRatio,
                 )
 
-                WeaknessesSection(
-                    weaknesses = weaknesses
-                )
+                WeaknessesSection(weaknesses = weaknesses)
 
                 if (state.evolutionChain == null || state.evolutionChain.evolutions.isEmpty()) {
                     Box {}
                 } else {
                     EvolutionChainSection(
                         evolutionChain = state.evolutionChain,
-                        onAction = onAction
+                        onAction = onAction,
                     )
                 }
             }
@@ -152,19 +142,13 @@ private fun PokemonDetailScreen(
 }
 
 @Composable
-private fun Header(
-    id: PokemonId,
-    name: String
-) {
+private fun Header(id: PokemonId, name: String) {
     Column {
         Text(
             text = stringResource(R.string.pokemon_number, id),
-            style = SnapdexTheme.typography.smallLabel
+            style = SnapdexTheme.typography.smallLabel,
         )
-        Text(
-            text = name,
-            style = SnapdexTheme.typography.heading1
-        )
+        Text(text = name, style = SnapdexTheme.typography.heading1)
     }
 }
 
@@ -174,114 +158,87 @@ private fun DataCardsSection(
     height: Length,
     category: PokemonCategory,
     ability: PokemonAbility,
-    maleToFemaleRatio: Percentage
+    maleToFemaleRatio: Percentage,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             DataCardItem(
                 icon = Icons.Weight,
                 name = stringResource(id = R.string.weight),
                 value = weight.formatted(),
-                modifier = Modifier
-                    .weight(1f)
+                modifier = Modifier.weight(1f),
             )
 
             DataCardItem(
                 icon = Icons.Height,
                 name = stringResource(id = R.string.height),
                 value = height.formatted(),
-                modifier = Modifier
-                    .weight(1f)
+                modifier = Modifier.weight(1f),
             )
         }
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             DataCardItem(
                 icon = Icons.Category,
                 name = stringResource(id = R.string.category),
                 value = category.name.translated(),
-                modifier = Modifier
-                    .weight(1f)
+                modifier = Modifier.weight(1f),
             )
 
             DataCardItem(
                 icon = Icons.Pokeball,
                 name = stringResource(id = R.string.abilities),
                 value = ability.name.translated(),
-                modifier = Modifier
-                    .weight(1f)
+                modifier = Modifier.weight(1f),
             )
         }
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.gender).uppercase(),
                 style = SnapdexTheme.typography.largeLabel,
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
-            RatioBar(
-                ratio = maleToFemaleRatio
-            )
+            RatioBar(ratio = maleToFemaleRatio)
         }
     }
 }
 
 @Composable
-private fun WeaknessesSection(
-    weaknesses: List<TypeUi>
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
+private fun WeaknessesSection(weaknesses: List<TypeUi>) {
+    Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
             text = stringResource(id = R.string.weaknesses).uppercase(),
-            style = SnapdexTheme.typography.largeLabel
+            style = SnapdexTheme.typography.largeLabel,
         )
 
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            weaknesses.forEach { weakness ->
-                TypeTag(weakness)
-            }
+            weaknesses.forEach { weakness -> TypeTag(weakness) }
         }
     }
 }
 
 @Composable
-fun EvolutionChainSection(
-    evolutionChain: EvolutionChain,
-    onAction: (PokemonDetailAction) -> Unit
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy((-16).dp)
-    ) {
+fun EvolutionChainSection(evolutionChain: EvolutionChain, onAction: (PokemonDetailAction) -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy((-16).dp)) {
         Text(
             text = stringResource(id = R.string.evolutions).uppercase(),
-            style = SnapdexTheme.typography.largeLabel
+            style = SnapdexTheme.typography.largeLabel,
         )
 
         EvolutionChainView(
             evolutionChain = evolutionChain,
             onPokemonClick = { pokemonId ->
                 onAction(PokemonDetailAction.OnPokemonClick(pokemonId))
-            }
+            },
         )
     }
 }
@@ -289,87 +246,94 @@ fun EvolutionChainSection(
 @PreviewLightDark
 @Composable
 private fun PokemonDetailsScreenPreview() {
-    val pokemon = Pokemon(
-        id = 6,
-        name = mapOf(Locale.ENGLISH to "Charizard"),
-        description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
-        types = listOf(
-            PokemonType.FIRE,
-            PokemonType.FLYING
-        ),
-        weaknesses = listOf(
-            PokemonType.BUG
-        ),
-        weight = 120.0.kg,
-        height = 1.70.m,
-        category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
-        ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
-        maleToFemaleRatio = 87.5.percent
-    )
-
-    val evolutionChain = EvolutionChain(
-        startingPokemon = Pokemon(
+    val pokemon =
+        Pokemon(
             id = 6,
             name = mapOf(Locale.ENGLISH to "Charizard"),
-            description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
-            types = listOf(
-                PokemonType.FIRE,
-                PokemonType.FLYING
-            ),
-            weaknesses = listOf(
-                PokemonType.BUG
-            ),
+            description =
+                mapOf(
+                    Locale.ENGLISH to
+                        "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."
+                ),
+            types = listOf(PokemonType.FIRE, PokemonType.FLYING),
+            weaknesses = listOf(PokemonType.BUG),
             weight = 120.0.kg,
             height = 1.70.m,
             category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
             ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
-            maleToFemaleRatio = 87.5.percent
-        ),
-        evolutions = mapOf(
-            Pair(16, Pokemon(
-                id = 6,
-                name = mapOf(Locale.ENGLISH to "Charizard"),
-                description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
-                types = listOf(
-                    PokemonType.FIRE,
-                    PokemonType.FLYING
-                ),
-                weaknesses = listOf(
-                    PokemonType.BUG
-                ),
-                weight = 120.0.kg,
-                height = 1.70.m,
-                category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
-                ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
-                maleToFemaleRatio = 87.5.percent
-            )),
-            Pair(32, Pokemon(
-                id = 6,
-                name = mapOf(Locale.ENGLISH to "Charizard"),
-                description = mapOf(Locale.ENGLISH to "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."),
-                types = listOf(
-                    PokemonType.FIRE,
-                    PokemonType.FLYING
-                ),
-                weaknesses = listOf(
-                    PokemonType.BUG
-                ),
-                weight = 120.0.kg,
-                height = 1.70.m,
-                category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
-                ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
-                maleToFemaleRatio = 87.5.percent
-            ))
+            maleToFemaleRatio = 87.5.percent,
         )
-    )
+
+    val evolutionChain =
+        EvolutionChain(
+            startingPokemon =
+                Pokemon(
+                    id = 6,
+                    name = mapOf(Locale.ENGLISH to "Charizard"),
+                    description =
+                        mapOf(
+                            Locale.ENGLISH to
+                                "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."
+                        ),
+                    types = listOf(PokemonType.FIRE, PokemonType.FLYING),
+                    weaknesses = listOf(PokemonType.BUG),
+                    weight = 120.0.kg,
+                    height = 1.70.m,
+                    category = PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+                    ability = PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
+                    maleToFemaleRatio = 87.5.percent,
+                ),
+            evolutions =
+                mapOf(
+                    Pair(
+                        16,
+                        Pokemon(
+                            id = 6,
+                            name = mapOf(Locale.ENGLISH to "Charizard"),
+                            description =
+                                mapOf(
+                                    Locale.ENGLISH to
+                                        "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."
+                                ),
+                            types = listOf(PokemonType.FIRE, PokemonType.FLYING),
+                            weaknesses = listOf(PokemonType.BUG),
+                            weight = 120.0.kg,
+                            height = 1.70.m,
+                            category =
+                                PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+                            ability =
+                                PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
+                            maleToFemaleRatio = 87.5.percent,
+                        ),
+                    ),
+                    Pair(
+                        32,
+                        Pokemon(
+                            id = 6,
+                            name = mapOf(Locale.ENGLISH to "Charizard"),
+                            description =
+                                mapOf(
+                                    Locale.ENGLISH to
+                                        "If Charizard becomes truly angered, the flame at the tip of its tail burns in a light blue shade."
+                                ),
+                            types = listOf(PokemonType.FIRE, PokemonType.FLYING),
+                            weaknesses = listOf(PokemonType.BUG),
+                            weight = 120.0.kg,
+                            height = 1.70.m,
+                            category =
+                                PokemonCategory(id = 0, name = mapOf(Locale.ENGLISH to "Lizard")),
+                            ability =
+                                PokemonAbility(id = 0, name = mapOf(Locale.ENGLISH to "Blaze")),
+                            maleToFemaleRatio = 87.5.percent,
+                        ),
+                    ),
+                ),
+        )
 
     AppTheme {
         PokemonDetailScreen(
-            state = PokemonDetailState(
-                pokemon = pokemon,
-                evolutionChain = evolutionChain
-            ),
-            onAction = {}
+            state = PokemonDetailState(pokemon = pokemon, evolutionChain = evolutionChain),
+            onAction = {},
         )
     }
 }

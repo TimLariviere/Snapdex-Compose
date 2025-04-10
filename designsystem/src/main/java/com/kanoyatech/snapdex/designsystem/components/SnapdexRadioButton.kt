@@ -21,28 +21,28 @@ import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 
 @Composable
-fun SnapdexRadioButton(
-    selected: Boolean,
-    modifier: Modifier = Modifier
-) {
+fun SnapdexRadioButton(selected: Boolean, modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier
-            .size(28.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .border(
-                width = 1.dp,
-                color = if (selected) SnapdexTheme.colorScheme.primary else SnapdexTheme.colorScheme.outline,
-                shape = RoundedCornerShape(8.dp)
-            )
-            .background(SnapdexTheme.colorScheme.surface)
+        modifier =
+            modifier
+                .size(28.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .border(
+                    width = 1.dp,
+                    color =
+                        if (selected) SnapdexTheme.colorScheme.primary
+                        else SnapdexTheme.colorScheme.outline,
+                    shape = RoundedCornerShape(8.dp),
+                )
+                .background(SnapdexTheme.colorScheme.surface)
     ) {
         if (selected) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(4.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(SnapdexTheme.colorScheme.primary)
+                modifier =
+                    Modifier.fillMaxSize()
+                        .padding(4.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(SnapdexTheme.colorScheme.primary)
             )
         }
     }
@@ -54,9 +54,8 @@ private fun SnapdexRadioButtonPreview() {
     AppTheme {
         SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Max).width(IntrinsicSize.Max)) {
             Column(
-                modifier = Modifier
-                    .padding(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                modifier = Modifier.padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 SnapdexRadioButton(selected = true)
                 SnapdexRadioButton(selected = false)

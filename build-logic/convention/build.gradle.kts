@@ -54,5 +54,9 @@ gradlePlugin {
             id = "com.kanoyatech.jvm.ktor"
             implementationClass = "JvmKtorConventionPlugin"
         }
+        register("ktfmt") {
+            id = "com.kanoyatech.ktfmt"
+            implementationClass = "KtfmtConventionPlugin"
+        }
     }
 }

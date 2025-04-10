@@ -20,22 +20,23 @@ import com.kanoyatech.snapdex.data.local.entities.UserEntity
 import com.kanoyatech.snapdex.data.local.entities.UserPokemonEntity
 
 @Database(
-    entities = [
-        AbilityEntity::class,
-        AbilityTranslationEntity::class,
-        CategoryEntity::class,
-        CategoryTranslationEntity::class,
-        PokemonEntity::class,
-        PokemonTranslationEntity::class,
-        PokemonTypeEntity::class,
-        EvolutionChainEntity::class,
-        EvolutionChainLinkEntity::class,
-        UserEntity::class,
-        UserPokemonEntity::class
-    ],
-    version = 1
+    entities =
+        [
+            AbilityEntity::class,
+            AbilityTranslationEntity::class,
+            CategoryEntity::class,
+            CategoryTranslationEntity::class,
+            PokemonEntity::class,
+            PokemonTranslationEntity::class,
+            PokemonTypeEntity::class,
+            EvolutionChainEntity::class,
+            EvolutionChainLinkEntity::class,
+            UserEntity::class,
+            UserPokemonEntity::class,
+        ],
+    version = 1,
 )
-abstract class SnapdexDatabase: RoomDatabase() {
+abstract class SnapdexDatabase : RoomDatabase() {
     abstract val pokemonDao: PokemonDao
     abstract val evolutionChainDao: EvolutionChainDao
     abstract val userDao: UserDao

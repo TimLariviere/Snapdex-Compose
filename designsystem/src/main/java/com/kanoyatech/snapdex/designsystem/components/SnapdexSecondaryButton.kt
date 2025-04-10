@@ -18,62 +18,45 @@ fun SnapdexSecondaryButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val outlinedButtonColors = ButtonDefaults.outlinedButtonColors()
     val buttonColors = ButtonDefaults.buttonColors()
-    val colors = outlinedButtonColors.copy(
-        contentColor = SnapdexTheme.colorScheme.primary,
-        containerColor = SnapdexTheme.colorScheme.surface,
-        disabledContainerColor = buttonColors.disabledContainerColor,
-        disabledContentColor = buttonColors.disabledContentColor
-    )
+    val colors =
+        outlinedButtonColors.copy(
+            contentColor = SnapdexTheme.colorScheme.primary,
+            containerColor = SnapdexTheme.colorScheme.surface,
+            disabledContainerColor = buttonColors.disabledContainerColor,
+            disabledContentColor = buttonColors.disabledContentColor,
+        )
 
-    val borderColor = if (enabled) {
-        SnapdexTheme.colorScheme.primary
-    } else {
-        Color.Transparent
-    }
+    val borderColor =
+        if (enabled) {
+            SnapdexTheme.colorScheme.primary
+        } else {
+            Color.Transparent
+        }
 
     OutlinedButton(
         onClick = onClick,
         enabled = enabled,
         shape = SnapdexTheme.shapes.regular,
         colors = colors,
-        border = BorderStroke(
-            width = 1.dp,
-            color = borderColor
-        ),
-        modifier = modifier
-            .height(48.dp)
+        border = BorderStroke(width = 1.dp, color = borderColor),
+        modifier = modifier.height(48.dp),
     ) {
-        Text(
-            text = text,
-            style = SnapdexTheme.typography.paragraph
-        )
+        Text(text = text, style = SnapdexTheme.typography.paragraph)
     }
 }
 
 @Preview
 @Composable
 private fun SnapdexSecondaryButtonEnabledPreview() {
-    AppTheme {
-        SnapdexSecondaryButton(
-            text = "Click me",
-            enabled = true,
-            onClick = {}
-        )
-    }
+    AppTheme { SnapdexSecondaryButton(text = "Click me", enabled = true, onClick = {}) }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun SnapdexSecondaryButtonDisabledPreview() {
-    AppTheme {
-        SnapdexSecondaryButton(
-            text = "Click me",
-            enabled = false,
-            onClick = {}
-        )
-    }
+    AppTheme { SnapdexSecondaryButton(text = "Click me", enabled = false, onClick = {}) }
 }

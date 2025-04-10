@@ -21,65 +21,49 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.designsystem.AppTheme
 import com.kanoyatech.snapdex.designsystem.SnapdexTheme
 import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
 import com.kanoyatech.snapdex.designsystem.components.SnapdexIndicator
 import com.kanoyatech.snapdex.designsystem.components.SnapdexPrimaryButton
+import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun IntroScreenRoot(
-    viewModel: IntroViewModel = koinViewModel(),
-    onContinueClick: () -> Unit
-) {
+fun IntroScreenRoot(viewModel: IntroViewModel = koinViewModel(), onContinueClick: () -> Unit) {
     val animationScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState(initialPage = viewModel.state.currentPage) { IntroState.TOTAL_PAGE_COUNT }
+    val pagerState =
+        rememberPagerState(initialPage = viewModel.state.currentPage) {
+            IntroState.TOTAL_PAGE_COUNT
+        }
 
-    LaunchedEffect(pagerState.currentPage) {
-        viewModel.setCurrentPage(pagerState.currentPage)
-    }
+    LaunchedEffect(pagerState.currentPage) { viewModel.setCurrentPage(pagerState.currentPage) }
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             IntroEvent.PreferencesUpdated -> onContinueClick()
             is IntroEvent.PageChanged -> {
-                animationScope.launch {
-                    pagerState.animateScrollToPage(event.page)
-                }
+                animationScope.launch { pagerState.animateScrollToPage(event.page) }
             }
         }
     }
 
-    IntroScreen(
-        pagerState = pagerState,
-        state = viewModel.state,
-        onAction = viewModel::onAction
-    )
+    IntroScreen(pagerState = pagerState, state = viewModel.state, onAction = viewModel::onAction)
 }
 
 @Composable
-fun IntroScreen(
-    pagerState: PagerState,
-    state: IntroState,
-    onAction: (IntroAction) -> Unit,
-) {
+fun IntroScreen(pagerState: PagerState, state: IntroState, onAction: (IntroAction) -> Unit) {
     val isLastPage = state.currentPage == IntroState.TOTAL_PAGE_COUNT - 1
 
     SnapdexBackground {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(36.dp)
-        ) {
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) { index ->
-                CompositionLocalProvider(LocalContentColor provides SnapdexTheme.colorScheme.onBackground) {
+        Column(verticalArrangement = Arrangement.spacedBy(36.dp)) {
+            HorizontalPager(state = pagerState, modifier = Modifier.fillMaxWidth().weight(1f)) {
+                index ->
+                CompositionLocalProvider(
+                    LocalContentColor provides SnapdexTheme.colorScheme.onBackground
+                ) {
                     val image: Int
                     val description: Int
 
@@ -104,17 +88,13 @@ fun IntroScreen(
                         Image(
                             bitmap = ImageBitmap.imageResource(id = image),
                             contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
+                            modifier = Modifier.fillMaxWidth().weight(1f),
                         )
 
                         Text(
                             text = stringResource(id = description),
                             textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 20.dp)
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                         )
                     }
                 }
@@ -123,24 +103,19 @@ fun IntroScreen(
             SnapdexIndicator(
                 pageCount = IntroState.TOTAL_PAGE_COUNT,
                 currentPage = state.currentPage,
-                onClick = { page ->
-                    onAction(IntroAction.OnCurrentPageChange(page))
-                }
+                onClick = { page -> onAction(IntroAction.OnCurrentPageChange(page)) },
             )
 
             SnapdexPrimaryButton(
-                text = if (!isLastPage) {
-                    stringResource(id = R.string.next)
-                } else {
-                    stringResource(id = R.string.gotta_snapem_all)
-                },
-                onClick = {
-                    onAction(IntroAction.OnNextClick)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 40.dp)
+                text =
+                    if (!isLastPage) {
+                        stringResource(id = R.string.next)
+                    } else {
+                        stringResource(id = R.string.gotta_snapem_all)
+                    },
+                onClick = { onAction(IntroAction.OnNextClick) },
+                modifier =
+                    Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 40.dp),
             )
         }
     }
@@ -149,11 +124,5 @@ fun IntroScreen(
 @PreviewLightDark
 @Composable
 private fun IntroScreenPreview() {
-    AppTheme {
-        IntroScreen(
-            pagerState = PagerState { 3 },
-            state = IntroState(),
-            onAction = {}
-        )
-    }
+    AppTheme { IntroScreen(pagerState = PagerState { 3 }, state = IntroState(), onAction = {}) }
 }

@@ -45,14 +45,15 @@ class UserRepositoryImpl(
     private val localUserPokemons: UserPokemonDao,
     private val remoteUsers: RemoteUserDataSource,
     private val remoteUserPokemons: RemoteUserPokemonDataSource,
-): UserRepository {
+) : UserRepository {
     override suspend fun isLoggedIn(): Boolean {
         return auth.currentUser != null
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getCurrentUserFlow(): Flow<User?> {
-        return auth.currentUserAsFlow()
+        return auth
+            .currentUserAsFlow()
             .flatMapLatest { firebaseUser ->
                 if (firebaseUser == null) {
                     flowOf(null)
@@ -66,20 +67,26 @@ class UserRepositoryImpl(
                         id = userEntity.id,
                         avatarId = userEntity.avatarId,
                         name = userEntity.name,
-                        email = userEntity.email
+                        email = userEntity.email,
                     )
                 }
             }
     }
 
-    override suspend fun register(avatarId: AvatarId, name: String, email: String, password: String): TypedResult<Unit, RegisterError> {
+    override suspend fun register(
+        avatarId: AvatarId,
+        name: String,
+        email: String,
+        password: String,
+    ): TypedResult<Unit, RegisterError> {
         val timestamp = System.currentTimeMillis()
 
         // Register user in Firebase Auth
-        val authResult = Retry.execute(
-            body = { auth.createUserWithEmailAndPassword(email, password).await() },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val authResult =
+            Retry.execute(
+                body = { auth.createUserWithEmailAndPassword(email, password).await() },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         authResult.exceptionOrNull()?.let { exception ->
             return when (exception) {
@@ -98,36 +105,40 @@ class UserRepositoryImpl(
             }
         }
 
-        val userId = authResult.getOrNull()?.user?.uid
-            ?: return TypedResult.Error(RegisterError.AccountCreationFailed)
+        val userId =
+            authResult.getOrNull()?.user?.uid
+                ?: return TypedResult.Error(RegisterError.AccountCreationFailed)
 
         analytics.setUserId(userId)
 
         // Save to local DB
-        val userEntity = UserEntity(
-            id = userId,
-            avatarId = avatarId,
-            name = name,
-            email = email,
-            createdAt = timestamp,
-            updatedAt = timestamp
-        )
+        val userEntity =
+            UserEntity(
+                id = userId,
+                avatarId = avatarId,
+                name = name,
+                email = email,
+                createdAt = timestamp,
+                updatedAt = timestamp,
+            )
 
         localUsers.upsert(userEntity)
 
         // Try syncing to Firestore
-        val userRemoteEntity = UserRemoteEntity(
-            id = userId,
-            avatarId = avatarId,
-            name = name,
-            createdAt = timestamp,
-            updatedAt = timestamp
-        )
+        val userRemoteEntity =
+            UserRemoteEntity(
+                id = userId,
+                avatarId = avatarId,
+                name = name,
+                createdAt = timestamp,
+                updatedAt = timestamp,
+            )
 
-        val remoteResult = Retry.execute(
-            body = { remoteUsers.upsert(userRemoteEntity) },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val remoteResult =
+            Retry.execute(
+                body = { remoteUsers.upsert(userRemoteEntity) },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         remoteResult.exceptionOrNull()?.let { e ->
             if (e !is FirebaseNetworkException) {
@@ -139,14 +150,16 @@ class UserRepositoryImpl(
     }
 
     override suspend fun login(email: String, password: String): TypedResult<Unit, LoginError> {
-        val authResult = Retry.execute(
-            body = { auth.signInWithEmailAndPassword(email, password).await() },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val authResult =
+            Retry.execute(
+                body = { auth.signInWithEmailAndPassword(email, password).await() },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         authResult.exceptionOrNull()?.let { e ->
             return when (e) {
-                is FirebaseAuthInvalidUserException -> TypedResult.Error(LoginError.InvalidCredentials)
+                is FirebaseAuthInvalidUserException ->
+                    TypedResult.Error(LoginError.InvalidCredentials)
                 is FirebaseNetworkException -> TypedResult.Error(LoginError.LoginFailed)
                 else -> {
                     crashlytics.recordExceptionWithKeys(e, mapOf("email" to email))
@@ -155,20 +168,22 @@ class UserRepositoryImpl(
             }
         }
 
-        val userId = authResult.getOrNull()?.user?.uid
-            ?: return TypedResult.Error(LoginError.LoginFailed)
+        val userId =
+            authResult.getOrNull()?.user?.uid ?: return TypedResult.Error(LoginError.LoginFailed)
 
         analytics.setUserId(userId)
 
-        val remoteUserResult = Retry.execute(
-            body = { remoteUsers.get(userId) },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val remoteUserResult =
+            Retry.execute(
+                body = { remoteUsers.get(userId) },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
-        val remoteUserPokemonsResult = Retry.execute(
-            body = { remoteUserPokemons.getAllForUser(userId) },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val remoteUserPokemonsResult =
+            Retry.execute(
+                body = { remoteUserPokemons.getAllForUser(userId) },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         remoteUserResult.exceptionOrNull()?.let { e ->
             if (e !is FirebaseNetworkException) {
@@ -179,9 +194,10 @@ class UserRepositoryImpl(
 
         val remoteUser = remoteUserResult.getOrNull()
         if (remoteUser == null) {
-            analytics.logEvent("user_not_found_in_remote", Bundle().apply {
-                putString("email", email)
-            })
+            analytics.logEvent(
+                "user_not_found_in_remote",
+                Bundle().apply { putString("email", email) },
+            )
             return TypedResult.Error(LoginError.LoginFailed)
         }
 
@@ -192,7 +208,7 @@ class UserRepositoryImpl(
                 name = remoteUser.name,
                 email = email,
                 createdAt = remoteUser.createdAt,
-                updatedAt = remoteUser.updatedAt
+                updatedAt = remoteUser.updatedAt,
             )
         )
 
@@ -203,7 +219,7 @@ class UserRepositoryImpl(
                         userId = it.userId,
                         pokemonId = it.pokemonId,
                         createdAt = it.createdAt,
-                        updatedAt = it.updatedAt
+                        updatedAt = it.updatedAt,
                     )
                 }
             )
@@ -212,17 +228,23 @@ class UserRepositoryImpl(
         return TypedResult.Success(Unit)
     }
 
-    override suspend fun sendPasswordResetEmail(email: String): TypedResult<Unit, SendPasswordResetEmailError> {
-        val result = Retry.execute(
-            body = { auth.sendPasswordResetEmail(email).await() },
-            retryIf = { it is FirebaseNetworkException }
-        )
+    override suspend fun sendPasswordResetEmail(
+        email: String
+    ): TypedResult<Unit, SendPasswordResetEmailError> {
+        val result =
+            Retry.execute(
+                body = { auth.sendPasswordResetEmail(email).await() },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         result.exceptionOrNull()?.let { e ->
             return when (e) {
-                is FirebaseAuthInvalidUserException -> TypedResult.Error(SendPasswordResetEmailError.NoSuchEmail)
-                is FirebaseAuthInvalidCredentialsException -> TypedResult.Error(SendPasswordResetEmailError.InvalidEmail)
-                is FirebaseNetworkException -> TypedResult.Error(SendPasswordResetEmailError.SendFailed)
+                is FirebaseAuthInvalidUserException ->
+                    TypedResult.Error(SendPasswordResetEmailError.NoSuchEmail)
+                is FirebaseAuthInvalidCredentialsException ->
+                    TypedResult.Error(SendPasswordResetEmailError.InvalidEmail)
+                is FirebaseNetworkException ->
+                    TypedResult.Error(SendPasswordResetEmailError.SendFailed)
                 else -> {
                     crashlytics.recordExceptionWithKeys(e, mapOf("email" to email))
                     TypedResult.Error(SendPasswordResetEmailError.SendFailed)
@@ -247,14 +269,16 @@ class UserRepositoryImpl(
 
         val userId = user.uid
 
-        val deleteUserResult = Retry.execute(
-            body = { remoteUserPokemons.deleteAllForUser(userId) },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val deleteUserResult =
+            Retry.execute(
+                body = { remoteUserPokemons.deleteAllForUser(userId) },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         deleteUserResult.exceptionOrNull()?.let { e ->
             return when (e) {
-                is FirebaseNetworkException -> TypedResult.Error(DeleteCurrentUserError.DeleteFailed)
+                is FirebaseNetworkException ->
+                    TypedResult.Error(DeleteCurrentUserError.DeleteFailed)
                 else -> {
                     crashlytics.recordException(e)
                     TypedResult.Error(DeleteCurrentUserError.DeleteFailed)
@@ -262,14 +286,16 @@ class UserRepositoryImpl(
             }
         }
 
-        val deleteUserPokemonsResult = Retry.execute(
-            body = { remoteUsers.delete(userId) },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val deleteUserPokemonsResult =
+            Retry.execute(
+                body = { remoteUsers.delete(userId) },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         deleteUserPokemonsResult.exceptionOrNull()?.let { e ->
             return when (e) {
-                is FirebaseNetworkException -> TypedResult.Error(DeleteCurrentUserError.DeleteFailed)
+                is FirebaseNetworkException ->
+                    TypedResult.Error(DeleteCurrentUserError.DeleteFailed)
                 else -> {
                     crashlytics.recordException(e)
                     TypedResult.Error(DeleteCurrentUserError.DeleteFailed)
@@ -306,7 +332,10 @@ class UserRepositoryImpl(
         return TypedResult.Success(Unit)
     }
 
-    override suspend fun changePassword(oldPassword:String, newPassword: String): TypedResult<Unit, ChangePasswordError> {
+    override suspend fun changePassword(
+        oldPassword: String,
+        newPassword: String,
+    ): TypedResult<Unit, ChangePasswordError> {
         val user = auth.currentUser
         if (user == null) {
             analytics.logEvent("no_current_user", Bundle())
@@ -314,16 +343,20 @@ class UserRepositoryImpl(
         }
 
         val authCredential = EmailAuthProvider.getCredential(user.email.toString(), oldPassword)
-        val reauthenticationResult = Retry.execute(
-            body = { user.reauthenticate(authCredential).await() },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val reauthenticationResult =
+            Retry.execute(
+                body = { user.reauthenticate(authCredential).await() },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         reauthenticationResult.exceptionOrNull()?.let { e ->
-            return when(e) {
-                is FirebaseAuthInvalidCredentialsException -> TypedResult.Error(ChangePasswordError.InvalidOldPassword)
-                is FirebaseAuthInvalidUserException -> TypedResult.Error(ChangePasswordError.UpdatePasswordFailed)
-                is FirebaseNetworkException -> TypedResult.Error(ChangePasswordError.UpdatePasswordFailed)
+            return when (e) {
+                is FirebaseAuthInvalidCredentialsException ->
+                    TypedResult.Error(ChangePasswordError.InvalidOldPassword)
+                is FirebaseAuthInvalidUserException ->
+                    TypedResult.Error(ChangePasswordError.UpdatePasswordFailed)
+                is FirebaseNetworkException ->
+                    TypedResult.Error(ChangePasswordError.UpdatePasswordFailed)
                 else -> {
                     crashlytics.recordException(e)
                     TypedResult.Error(ChangePasswordError.UpdatePasswordFailed)
@@ -331,15 +364,18 @@ class UserRepositoryImpl(
             }
         }
 
-        val updatePasswordResult = Retry.execute(
-            body = { user.updatePassword(newPassword).await() },
-            retryIf = { it is FirebaseNetworkException }
-        )
+        val updatePasswordResult =
+            Retry.execute(
+                body = { user.updatePassword(newPassword).await() },
+                retryIf = { it is FirebaseNetworkException },
+            )
 
         updatePasswordResult.exceptionOrNull()?.let { e ->
-            return when(e) {
-                is FirebaseAuthWeakPasswordException -> TypedResult.Error(ChangePasswordError.InvalidNewPassword)
-                is FirebaseNetworkException -> TypedResult.Error(ChangePasswordError.UpdatePasswordFailed)
+            return when (e) {
+                is FirebaseAuthWeakPasswordException ->
+                    TypedResult.Error(ChangePasswordError.InvalidNewPassword)
+                is FirebaseNetworkException ->
+                    TypedResult.Error(ChangePasswordError.UpdatePasswordFailed)
                 else -> {
                     crashlytics.recordException(e)
                     TypedResult.Error(ChangePasswordError.UpdatePasswordFailed)
