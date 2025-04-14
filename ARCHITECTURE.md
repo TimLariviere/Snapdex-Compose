@@ -6,6 +6,8 @@
 
 This guide was written to demonstrate how I approach building mobile apps as a senior engineer, with a focus on clean structure, real-world trade-offs, and long-term maintainability. While Snapdex is a solo project, I’ve structured it as if I were contributing to a production app in a team setting.
 
+I also followed platform-level best practices when deciding which Android versions to target. Since Snapdex didn’t require any cutting-edge APIs, I chose to use the Google-recommended minimum SDK version, which at the time of development was API 24 (Android 7.0). This provides compatibility with over 97% of active devices, striking a good balance between feature support and broad device coverage.
+
 ## Architectural Principles
 
 When it comes to architecture, I strongly believe in **minimalism over over-engineering**.
@@ -189,12 +191,3 @@ Snapdex integrates modern tooling to support development, quality, and distribut
 
 - **Firebase App Distribution** for tester access
 - **Play Store** for production deployment
-
-## Why This Architecture?
-
-Snapdex is not just a sample — it’s designed for **real-world quality**:
-
-- Scales well for larger teams
-- Fully testable (unit + integration tests ready)
-- Highly maintainable due to clear separation of concerns
-- Extensible for future features like AI-based recognition or remote backup
