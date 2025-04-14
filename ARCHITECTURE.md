@@ -2,13 +2,17 @@
 
 **Snapdex** is a modern Android app built with Jetpack Compose. It serves as a production-quality showcase of scalable architecture, modular design, and practical offline-first strategies. This guide outlines the technical decisions and structural patterns used in the app.
 
-## 1. Architectural Principles
+## Context
+
+This guide was written to demonstrate how I approach building mobile apps as a senior engineer, with a focus on clean structure, real-world trade-offs, and long-term maintainability. While Snapdex is a solo project, I’ve structured it as if I were contributing to a production app in a team setting.
+
+## Architectural Principles
 
 When it comes to architecture, I strongly believe in **minimalism over over-engineering**.
 
 I don’t start with rigid layers or textbook abstractions — I let structure emerge naturally as the app grows. For me, architecture should serve the team and the product, not just theoretical purity.
 
-I often see Clean Architecture applied too dogmatically, where developers mistake the core intent behind the author's words as "there's only one way to have a clean architecture", or SRP == "one function per file, function should be extremely small". I couldn't agree less with that thinking. I prefer to understand the intent behind these principles and then adapt them pragmatically to my use case. 
+I often see design patterns and recommended architectures applied too dogmatically, where developers mistake the core intent behind the authors' words as "there's only one good implementation", or SRP == "one function per file, function should be extremely small". I couldn't agree less with that thinking. I prefer to understand the intent behind these principles and then adapt them pragmatically to my use case. 
 
 That said, Snapdex is a portfolio project, so I intentionally leaned into a more structured, scalable approach to demonstrate what I’d do on a production team. If this were just a small personal app, I would have kept things simple.
 
@@ -30,7 +34,7 @@ graph LR
     data --> domain
 ```
 
-## 2. UI Architecture
+## UI Architecture
 
 Snapdex is built using the **Model–View–Intent (MVI)** pattern to create a UI that’s both **predictable** and **testable**.
 
@@ -47,7 +51,7 @@ MVI encourages **explicitness** and **clear separation of concerns**:
 
 One important design decision I made in Snapdex is to **keep the ViewModel and State focused purely on business-related data**. Anything related to UI presentation — like animation states, opacity, or navigation — is handled inside the UI itself. In other words, **the UI is responsible for UI**. This separation avoids mixing concerns and keeps the logic layer clean and easier to maintain.
 
-Compared to MVVM, MVI can feel more demanding to scale — but I actually see that as a feature. It exposes when a screen is doing too much and nudges you toward better separation of concerns. That trade-off has worked really well in Snapdex, and I’d make the same choice again for apps with similar complexity.
+MVI can feel more demanding to scale — though I see that as a strength, not a drawback. It exposes when a screen is doing too much and nudges you toward better separation of concerns. That trade-off has worked really well in Snapdex, and I’d make the same choice again for apps with similar complexity.
 
 ### UI Structure in Snapdex
 
@@ -61,45 +65,64 @@ Compared to MVVM, MVI can feel more demanding to scale — but I actually see th
 
 ### Navigation
 
-Snapdex uses Jetpack Compose Navigation, with a clean separation between screens and logic:
+Snapdex uses **Jetpack Compose Navigation** with a strong emphasis on separation of concerns between screens and navigation logic.
 
-- The **intro screen** is shown only once (`hasSeenIntro`)
-- The **authentication flow** is skipped if the user is already logged in (`currentUser != null`)
-- The **main flow** is split into three persistent tabs: **Pokedex**, **Stats**, and **Profile**
-- Navigation is handled within each tab independently, keeping navigation scoped and easy to manage
+The navigation flow is structured as follows:
+
+- The **intro screen** is displayed only once on first launch (`hasSeenIntro`)
+- The **authentication flow** is skipped entirely if a user is already signed in (`currentUser != null`)
+- The **main interface** consists of three persistent tabs: **Pokedex**, **Stats**, and **Profile**
+- Each tab manages its own internal navigation independently, keeping things modular and easy to reason about
+
+Beyond the flow itself, I’ve taken care to **decouple navigation from the screens**. Instead of having screens directly perform navigation actions, the navigation layer passes down **callbacks** that the screen can invoke (e.g., `onPokemonClick(pokemonId)`). This allows the navigation host to handle:
+
+- Dependency injection
+- Parameter passing
+- Navigation type (e.g., push vs. replace)
+
+By keeping navigation logic **outside the screen**, screens remain focused solely on presenting data and handling user interactions. This separation improves readability, testability, and maintainability — especially as navigation flows become more complex.
 
 ```mermaid
 graph TD
-    Intro --> RootNavigation
-    RootNavigation --> Login
-    RootNavigation --> CreateAccount
-    RootNavigation --> ForgotPassword
-    RootNavigation --> Main
-    Main --> PokedexTab
-    Main --> StatsTab
-    Main --> ProfileTab
-    PokedexTab --> Pokedex
-    PokedexTab --> PokemonDetail
-    ProfileTab --> Profile
-    ProfileTab --> ChangeName
-    ProfileTab --> ChangePassword
-    ProfileTab --> ChooseAIModel
-    ProfileTab --> PrivacyPolicy
-    ProfileTab --> LicensesCredits
+    subgraph RootNavigation
+        intro["IntroScreen"]
+        login["LoginScreen"]
+        main["Main"]
+        pokedexTab["PokedexTab"]
+        statsTab["StatsTab"]
+        profileTab["ProfileTab"]
+        pokemonDetail["PokemonDetailScreen"]
+    end
+
+    intro -->|onContinueClick| login
+    login -->|onSuccessfulLogin| main
+    main --> pokedexTab
+    main --> statsTab
+    main --> profileTab
+    pokedexTab -->|onPokemonClick<.pokemonId>| pokemonDetail
+
 ```
 
-## 3. Design System
+## Design System
 
-The app includes a custom **Design System module**:
+One of the things I really appreciate about Jetpack Compose is its approach to theming through **`CompositionLocalProvider`**. It allows you to inject values like colors or typography deep into the UI tree and even override them in localized sections when needed. This flexibility makes it easy to customize the design while keeping the code clean and declarative.
 
-- Inspired by **Material 3**
-- Designed to match custom Figma designs
-- All components are **portable and reusable** in other Compose apps
-- Enforces consistent typography, colors, shapes, spacing, and interactions
+That said, integrating a custom Figma design into Jetpack Compose isn’t always straightforward — especially when the design doesn't strictly follow the **Material 3** structure. That was the case with Snapdex: the UI mockups were beautiful, but they didn’t align 1:1 with the Material Design system.
 
-This encourages UI consistency and accelerates development.
+Luckily, Compose makes it simple to **define a fully custom theme**. I reused the naming conventions from the designer’s Figma file and implemented a custom color palette, typography, and shape system using `CompositionLocalProvider` and `isSystemInDarkTheme()`. This made it easy to match the design closely, ensure pixel-perfect visuals, and speak a shared language with the designer during implementation.
 
-## 4. Data Management
+Once the theming layer was set, I created my own set of **custom components**, modeled after Material 3 components but tailored to Snapdex’s unique visual identity. These components consistently apply the correct values from the design system and can be easily reused across screens — or even in other projects.
+
+### Highlights of the Snapdex Design System
+
+- Inspired by **Material 3**, but adapted to a fully custom design
+- Themed using **Composition Locals** for colors, typography, and shapes
+- All components are **modular, portable**, and usable outside of this project
+- Encourages consistent spacing, alignment, color usage, and interaction patterns
+
+This setup improves UI consistency, accelerates development, and helps maintain a strong connection between design and implementation.
+
+## Data Management
 
 Snapdex is built around an **offline-first** philosophy. All core data is persisted locally and synced to the cloud as needed.
 
@@ -116,7 +139,7 @@ Snapdex is built around an **offline-first** philosophy. All core data is persis
 - **Just-in-time full sync** triggered on login or app open
 - **No WorkManager** used: sync logic is simple enough to avoid background schedulers
 
-## 5. Authentication & Security
+## Authentication & Security
 
 Snapdex uses:
 
@@ -125,34 +148,24 @@ Snapdex uses:
 
 Secrets are managed securely and excluded from version control.
 
-## 6. Modularization
+## Testing Strategy
 
-The app is split into Gradle modules to ensure clean boundaries and fast builds.
+While Snapdex is primarily focused on architectural demonstration, the design strongly supports testability:
 
-| Module         | Purpose                          | Convention Plugins                                                                 |
-|----------------|----------------------------------|-------------------------------------------------------------------------------------|
-| `app`          | App entry point                  | `AndroidApplicationCompose`                                                        |
-| `ui`           | Screens, ViewModels, navigation  | `AndroidLibraryComposeConventionPlugin`                                            |
-| `designsystem` | Reusable UI components           | `AndroidLibraryComposeConventionPlugin`                                            |
-| `data`         | Room, Firestore, repositories    | `AndroidLibrary`, `AndroidRoom`, `JvmKtor`                                         |
-| `domain`       | Business logic, models           | `JvmLibrary`                                                                       |
+- ViewModels are easy to unit test due to MVI’s predictable state transitions
+- Screens are pure functions, compatible with preview and screenshot testing
+- Business logic lives in the `domain` layer, isolated from Android dependencies
 
-### Convention Plugin Structure
+In a team setting, I would ensure:
+- Unit tests for all ViewModels and domain services
+- UI tests for critical flows using Jetpack Compose Testing APIs
+- Snapshot tests for visual regression
 
-```mermaid
-graph LR
-    AndroidLibrary --> Ktfmt
-    AndroidApplication --> AndroidLibrary
-    AndroidApplicationCompose --> AndroidApplication
-    AndroidLibraryCompose --> AndroidLibrary
-    AndroidRoom
-    JvmLibrary --> Ktfmt
-    JvmKtor
-```
+## Internationalization
 
-Each plugin standardizes dependencies, settings, and formatting per module type.
+Snapdex uses standard Android resource strings and supports localization out of the box. All user-facing strings are externalized for easy translation.
 
-## 7. Build & Tooling
+## Build & Tooling
 
 Snapdex integrates modern tooling to support development, quality, and distribution.
 
@@ -177,11 +190,7 @@ Snapdex integrates modern tooling to support development, quality, and distribut
 - **Firebase App Distribution** for tester access
 - **Play Store** for production deployment
 
-## 8. Internationalization
-
-Snapdex uses standard Android resource strings and supports localization out of the box. All user-facing strings are externalized for easy translation.
-
-## 9. Why This Architecture?
+## Why This Architecture?
 
 Snapdex is not just a sample — it’s designed for **real-world quality**:
 
