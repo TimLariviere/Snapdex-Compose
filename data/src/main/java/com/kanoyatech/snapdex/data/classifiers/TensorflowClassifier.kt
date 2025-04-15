@@ -2,7 +2,7 @@ package com.kanoyatech.snapdex.data.classifiers
 
 import android.content.Context
 import android.util.Log
-import com.kanoyatech.snapdex.data.Assets
+import com.kanoyatech.snapdex.data.utils.Assets
 import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import java.nio.ByteBuffer

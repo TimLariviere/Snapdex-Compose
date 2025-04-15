@@ -6,11 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.TypedResult
-import com.kanoyatech.snapdex.domain.repositories.LoginError
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
+import com.kanoyatech.snapdex.usecases.AuthService
+import com.kanoyatech.snapdex.usecases.LoginError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+class LoginViewModel(private val authService: AuthService) : ViewModel() {
     var state by mutableStateOf(LoginState())
         private set
 
@@ -49,7 +49,7 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
             state = state.copy(isLoginIn = true)
 
             val result =
-                userRepository.login(
+                authService.login(
                     email = state.email.text.toString(),
                     password = state.password.text.toString(),
                 )

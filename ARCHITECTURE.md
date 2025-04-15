@@ -23,6 +23,7 @@ Snapdex uses a modular take on Clean Architecture to enforce separation of conce
 
 - Domain Layer – Business logic and domain models
 - Data Layer – Local persistence with Room and remote access with Firestore
+- Use Cases Layer - Orchestrator between local and remote data to achieve tasks requested by user
 - UI Layer – Jetpack Compose screens and ViewModels built around the MVI pattern
 - App Layer – Entry point and dependency wiring
 
@@ -31,7 +32,8 @@ Each layer lives in its own Gradle module, and convention plugins help standardi
 ```mermaid
 graph LR
     app --> ui
-    ui --> data
+    ui --> usecases
+    usecases --> data
     ui --> designsystem
     data --> domain
 ```

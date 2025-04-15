@@ -13,24 +13,32 @@ import com.google.firebase.firestore.firestore
 import com.kanoyatech.snapdex.data.classifiers.ClassifierFactory
 import com.kanoyatech.snapdex.data.classifiers.OpenAIClassifier
 import com.kanoyatech.snapdex.data.classifiers.TensorflowClassifier
-import com.kanoyatech.snapdex.data.local.SnapdexDatabase
-import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserDataSource
-import com.kanoyatech.snapdex.data.remote.datasources.RemoteUserPokemonDataSource
-import com.kanoyatech.snapdex.data.repositories.EncryptedPreferencesRepositoryImpl
-import com.kanoyatech.snapdex.data.repositories.EvolutionChainRepositoryImpl
-import com.kanoyatech.snapdex.data.repositories.PokemonRepositoryImpl
-import com.kanoyatech.snapdex.data.repositories.PreferencesRepositoryImpl
-import com.kanoyatech.snapdex.data.repositories.StatisticsRepositoryImpl
-import com.kanoyatech.snapdex.data.repositories.SyncRepositoryImpl
-import com.kanoyatech.snapdex.data.repositories.UserRepositoryImpl
+import com.kanoyatech.snapdex.data.datasources.local.RoomLocalEvolutionChainDataSource
+import com.kanoyatech.snapdex.data.datasources.local.RoomLocalPokemonDataSource
+import com.kanoyatech.snapdex.data.datasources.local.RoomLocalStatisticsDataSource
+import com.kanoyatech.snapdex.data.datasources.local.RoomLocalUserDataSource
+import com.kanoyatech.snapdex.data.datasources.local.RoomLocalUserPokemonDataSource
+import com.kanoyatech.snapdex.data.datasources.local.SnapdexDatabase
+import com.kanoyatech.snapdex.data.datasources.remote.FirebaseRemoteUserDataSource
+import com.kanoyatech.snapdex.data.datasources.remote.FirebaseRemoteUserPokemonDataSource
+import com.kanoyatech.snapdex.data.datasources.remote.dao.RemoteUserDao
+import com.kanoyatech.snapdex.data.datasources.remote.dao.RemoteUserPokemonDao
+import com.kanoyatech.snapdex.data.preferences.DataPreferencesStore
+import com.kanoyatech.snapdex.data.providers.FirebaseAnalyticsTracker
+import com.kanoyatech.snapdex.data.providers.FirebaseAuthProvider
+import com.kanoyatech.snapdex.data.providers.FirebaseCrashReporter
 import com.kanoyatech.snapdex.domain.Classifier
-import com.kanoyatech.snapdex.domain.repositories.EncryptedPreferencesRepository
-import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
-import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
-import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
-import com.kanoyatech.snapdex.domain.repositories.StatisticsRepository
-import com.kanoyatech.snapdex.domain.repositories.SyncRepository
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
+import com.kanoyatech.snapdex.domain.datasources.LocalEvolutionChainDataSource
+import com.kanoyatech.snapdex.domain.datasources.LocalPokemonDataSource
+import com.kanoyatech.snapdex.domain.datasources.LocalStatisticsDataSource
+import com.kanoyatech.snapdex.domain.datasources.LocalUserDataSource
+import com.kanoyatech.snapdex.domain.datasources.LocalUserPokemonDataSource
+import com.kanoyatech.snapdex.domain.datasources.RemoteUserDataSource
+import com.kanoyatech.snapdex.domain.datasources.RemoteUserPokemonDataSource
+import com.kanoyatech.snapdex.domain.preferences.PreferencesStore
+import com.kanoyatech.snapdex.domain.providers.AnalyticsTracker
+import com.kanoyatech.snapdex.domain.providers.AuthProvider
+import com.kanoyatech.snapdex.domain.providers.CrashReporter
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
@@ -40,38 +48,46 @@ import org.koin.dsl.module
 private val Context.dataStore by preferencesDataStore("settings")
 
 val dataModule = module {
-    single { Firebase.auth }
-    single { Firebase.analytics }
-    single { Firebase.crashlytics }
+    // Classifier
+    singleOf(::ClassifierFactory).bind<Classifier>()
+    singleOf(::OpenAIClassifier)
+    singleOf(::TensorflowClassifier)
 
+    // Local data sources
     single {
         Room.databaseBuilder(androidApplication(), SnapdexDatabase::class.java, "snapdex.db")
             .createFromAsset("snapdex.db")
             .build()
     }
-
-    // DAO
     single { get<SnapdexDatabase>().pokemonDao }
     single { get<SnapdexDatabase>().evolutionChainDao }
     single { get<SnapdexDatabase>().userDao }
     single { get<SnapdexDatabase>().userPokemonDao }
     single { get<SnapdexDatabase>().statisticDao }
+    singleOf(::RoomLocalEvolutionChainDataSource).bind<LocalEvolutionChainDataSource>()
+    singleOf(::RoomLocalPokemonDataSource).bind<LocalPokemonDataSource>()
+    singleOf(::RoomLocalStatisticsDataSource).bind<LocalStatisticsDataSource>()
+    singleOf(::RoomLocalUserDataSource).bind<LocalUserDataSource>()
+    singleOf(::RoomLocalUserPokemonDataSource).bind<LocalUserPokemonDataSource>()
 
+    // Remote data sources
     single { Firebase.firestore }
+    singleOf(::RemoteUserDao)
+    singleOf(::RemoteUserPokemonDao)
+    singleOf(::FirebaseRemoteUserDataSource).bind<RemoteUserDataSource>()
+    singleOf(::FirebaseRemoteUserPokemonDataSource).bind<RemoteUserPokemonDataSource>()
 
-    // Data sources
-    singleOf(::RemoteUserDataSource)
-    singleOf(::RemoteUserPokemonDataSource)
-
+    // Preferences
     single<DataStore<Preferences>> { androidContext().dataStore }
-    singleOf(::OpenAIClassifier)
-    singleOf(::TensorflowClassifier)
-    singleOf(::PreferencesRepositoryImpl).bind<PreferencesRepository>()
-    singleOf(::EncryptedPreferencesRepositoryImpl).bind<EncryptedPreferencesRepository>()
-    singleOf(::UserRepositoryImpl).bind<UserRepository>()
-    singleOf(::PokemonRepositoryImpl).bind<PokemonRepository>()
-    singleOf(::EvolutionChainRepositoryImpl).bind<EvolutionChainRepository>()
-    singleOf(::StatisticsRepositoryImpl).bind<StatisticsRepository>()
-    singleOf(::SyncRepositoryImpl).bind<SyncRepository>()
-    singleOf(::ClassifierFactory).bind<Classifier>()
+    singleOf(::DataPreferencesStore).bind<PreferencesStore>()
+
+    // Providers
+    single { Firebase.analytics }
+    singleOf(::FirebaseAnalyticsTracker).bind<AnalyticsTracker>()
+
+    single { Firebase.auth }
+    singleOf(::FirebaseAuthProvider).bind<AuthProvider>()
+
+    single { Firebase.crashlytics }
+    singleOf(::FirebaseCrashReporter).bind<CrashReporter>()
 }

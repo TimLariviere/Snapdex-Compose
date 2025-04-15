@@ -11,13 +11,13 @@ import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.models.Pokemon
 import com.kanoyatech.snapdex.domain.models.User
-import com.kanoyatech.snapdex.domain.repositories.CatchPokemonError
-import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.main.pokedex_tab.components.PokemonCaught
 import com.kanoyatech.snapdex.ui.utils.BitmapResizer
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
+import com.kanoyatech.snapdex.usecases.CatchPokemonError
+import com.kanoyatech.snapdex.usecases.PokemonService
 import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -35,7 +35,7 @@ class PokedexViewModel(
     userFlow: Flow<User>,
     pokemonsFlow: Flow<List<Pokemon>>,
     private val classifier: Classifier,
-    private val pokemonRepository: PokemonRepository,
+    private val pokemonService: PokemonService,
 ) : ViewModel() {
     var state by mutableStateOf(PokedexState())
         private set
@@ -102,7 +102,7 @@ class PokedexViewModel(
             var lastCaught: PokemonCaught? = null
             val pokemonId = classifier.classify(BitmapResizer.resize(bitmap))
             if (pokemonId != null) {
-                val result = pokemonRepository.catchPokemon(userId, pokemonId)
+                val result = pokemonService.catchPokemon(userId, pokemonId)
 
                 when (result) {
                     is TypedResult.Error -> {
@@ -114,7 +114,7 @@ class PokedexViewModel(
                         eventChannel.send(PokedexEvent.Error(message))
                     }
                     is TypedResult.Success -> {
-                        val pokemon = pokemonRepository.getPokemonById(pokemonId)!!
+                        val pokemon = pokemonService.getById(pokemonId)!!
                         lastCaught = PokemonCaught(id = pokemon.id, name = pokemon.name)
                     }
                 }

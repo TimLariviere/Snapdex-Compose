@@ -1,7 +1,7 @@
 package com.kanoyatech.snapdex.ui.main.profile_tab.new_password
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.kanoyatech.snapdex.domain.PasswordValidationState
+import com.kanoyatech.snapdex.domain.models.PasswordValidationState
 
 data class NewPasswordState(
     val oldPassword: TextFieldState = TextFieldState(),

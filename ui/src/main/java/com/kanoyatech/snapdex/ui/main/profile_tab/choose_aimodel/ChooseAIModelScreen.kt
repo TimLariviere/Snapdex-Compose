@@ -23,7 +23,7 @@ import com.kanoyatech.snapdex.designsystem.components.SnapdexScaffold
 import com.kanoyatech.snapdex.designsystem.components.SnapdexTextField
 import com.kanoyatech.snapdex.designsystem.components.SnapdexTopAppBar
 import com.kanoyatech.snapdex.designsystem.pagePadding
-import com.kanoyatech.snapdex.domain.AIModel
+import com.kanoyatech.snapdex.domain.models.AIModel
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.utils.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel

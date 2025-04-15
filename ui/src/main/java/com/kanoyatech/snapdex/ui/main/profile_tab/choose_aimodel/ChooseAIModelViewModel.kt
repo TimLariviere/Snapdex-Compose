@@ -7,9 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kanoyatech.snapdex.domain.AIModel
-import com.kanoyatech.snapdex.domain.repositories.EncryptedPreferencesRepository
-import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
+import com.kanoyatech.snapdex.domain.models.AIModel
+import com.kanoyatech.snapdex.domain.preferences.PreferencesStore
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
@@ -18,10 +17,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class ChooseAIModelViewModel(
-    private val preferencesRepository: PreferencesRepository,
-    private val encryptedPreferencesRepository: EncryptedPreferencesRepository,
-) : ViewModel() {
+class ChooseAIModelViewModel(private val preferences: PreferencesStore) : ViewModel() {
     var state by mutableStateOf(ChooseAIModelState())
         private set
 
@@ -30,10 +26,10 @@ class ChooseAIModelViewModel(
 
     init {
         viewModelScope.launch {
-            val aiModel = preferencesRepository.getAIModel()
+            val aiModel = preferences.getAIModel()
             val apiKey =
                 if (aiModel == AIModel.OPENAI) {
-                    encryptedPreferencesRepository.getOpenAIApiKey()
+                    preferences.getOpenAIApiKey()
                 } else {
                     ""
                 }
@@ -65,7 +61,7 @@ class ChooseAIModelViewModel(
     private fun setAIModel(model: AIModel) {
         viewModelScope.launch {
             state = state.copy(selected = model)
-            preferencesRepository.setAIModel(model)
+            preferences.setAIModel(model)
         }
     }
 
@@ -74,12 +70,12 @@ class ChooseAIModelViewModel(
             state.copy(isSaving = true)
 
             val model = state.selected ?: AIModel.EMBEDDED
-            preferencesRepository.setAIModel(model)
+            preferences.setAIModel(model)
 
             if (model == AIModel.OPENAI) {
-                encryptedPreferencesRepository.setOpenAIApiKey(state.openAIApiKey.text.toString())
+                preferences.setOpenAIApiKey(state.openAIApiKey.text.toString())
             } else {
-                encryptedPreferencesRepository.setOpenAIApiKey("")
+                preferences.setOpenAIApiKey("")
             }
 
             state.copy(isSaving = false)

@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.UserDataValidator
-import com.kanoyatech.snapdex.domain.repositories.ChangePasswordError
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
+import com.kanoyatech.snapdex.usecases.ChangePasswordError
+import com.kanoyatech.snapdex.usecases.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class NewPasswordViewModel(
     private val userDataValidator: UserDataValidator,
-    private val userRepository: UserRepository,
+    private val userService: UserService,
 ) : ViewModel() {
     var state by mutableStateOf(NewPasswordState())
         private set
@@ -78,7 +78,7 @@ class NewPasswordViewModel(
             state = state.copy(isChangingPassword = true)
 
             val result =
-                userRepository.changePassword(
+                userService.changePassword(
                     oldPassword = state.oldPassword.text.toString(),
                     newPassword = state.newPassword.text.toString(),
                 )

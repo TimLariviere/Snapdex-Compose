@@ -1,6 +1,6 @@
 package com.kanoyatech.snapdex.ui.main.profile_tab.profile
 
-import com.kanoyatech.snapdex.domain.AIModel
+import com.kanoyatech.snapdex.domain.models.AIModel
 import com.kanoyatech.snapdex.domain.models.User
 import java.util.Locale
 

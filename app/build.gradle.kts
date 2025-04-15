@@ -49,6 +49,7 @@ dependencies {
     implementation(projects.snapdex.designsystem)
     implementation(projects.snapdex.domain)
     implementation(projects.snapdex.data)
+    implementation(projects.snapdex.usecases)
     implementation(projects.snapdex.ui)
 }
 

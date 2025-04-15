@@ -1,7 +1,7 @@
 package com.kanoyatech.snapdex.ui.auth.register
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.kanoyatech.snapdex.domain.PasswordValidationState
+import com.kanoyatech.snapdex.domain.models.PasswordValidationState
 
 data class RegisterState(
     val avatar: Int = -1,

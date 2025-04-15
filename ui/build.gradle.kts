@@ -23,6 +23,7 @@ dependencies {
 
     implementation(projects.designsystem)
     implementation(projects.domain)
+    implementation(projects.usecases)
 }
 
 ktfmt { kotlinLangStyle() }

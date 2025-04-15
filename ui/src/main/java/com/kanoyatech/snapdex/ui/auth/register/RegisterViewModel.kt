@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.UserDataValidator
-import com.kanoyatech.snapdex.domain.repositories.RegisterError
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
+import com.kanoyatech.snapdex.usecases.AuthService
+import com.kanoyatech.snapdex.usecases.RegisterError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
-    private val userRepository: UserRepository,
+    private val authService: AuthService,
     private val userDataValidator: UserDataValidator,
 ) : ViewModel() {
     var state by mutableStateOf(RegisterState())
@@ -88,7 +88,7 @@ class RegisterViewModel(
             state = state.copy(isRegistering = true)
 
             val result =
-                userRepository.register(
+                authService.register(
                     avatarId = state.avatar,
                     name = state.name.text.toString(),
                     email = state.email.text.toString(),

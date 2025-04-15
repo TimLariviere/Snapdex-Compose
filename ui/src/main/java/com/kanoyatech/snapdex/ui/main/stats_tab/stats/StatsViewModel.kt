@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kanoyatech.snapdex.domain.datasources.LocalStatisticsDataSource
 import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.domain.models.User
-import com.kanoyatech.snapdex.domain.repositories.StatisticsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class StatsViewModel(userFlow: Flow<User>, private val statisticsRepository: StatisticsRepository) :
+class StatsViewModel(userFlow: Flow<User>, private val localStatistics: LocalStatisticsDataSource) :
     ViewModel() {
     var state by mutableStateOf(StatsState())
         private set
@@ -27,12 +27,12 @@ class StatsViewModel(userFlow: Flow<User>, private val statisticsRepository: Sta
                 val userId = user.id!!
 
                 val completionRateFlow =
-                    statisticsRepository.getCompletionRate(userId).onEach {
+                    localStatistics.getCompletionRate(userId).onEach {
                         state = state.copy(overallCompletion = it)
                     }
 
                 val completionRateByTypeFlow =
-                    statisticsRepository.getCompletionRateByType(userId).onEach { statistics ->
+                    localStatistics.getCompletionRateByType(userId).onEach { statistics ->
                         state =
                             state.copy(
                                 completionByType =

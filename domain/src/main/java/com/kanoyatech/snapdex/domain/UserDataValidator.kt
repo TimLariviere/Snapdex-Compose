@@ -1,5 +1,6 @@
 package com.kanoyatech.snapdex.domain
 
+import com.kanoyatech.snapdex.domain.models.PasswordValidationState
 import java.util.regex.Pattern
 
 class UserDataValidator {

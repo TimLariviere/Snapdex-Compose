@@ -8,5 +8,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModelOf(::MainActivityViewModel)
+
+    // Services
     singleOf(::UserDataValidator)
 }

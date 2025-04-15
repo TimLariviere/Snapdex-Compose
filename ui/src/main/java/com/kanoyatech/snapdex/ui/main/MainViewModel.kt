@@ -2,9 +2,9 @@ package com.kanoyatech.snapdex.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
-import com.kanoyatech.snapdex.domain.repositories.SyncRepository
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
+import com.kanoyatech.snapdex.usecases.AuthService
+import com.kanoyatech.snapdex.usecases.PokemonService
+import com.kanoyatech.snapdex.usecases.SyncService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,26 +19,26 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModel(
-    userRepository: UserRepository,
-    private val pokemonRepository: PokemonRepository,
-    private val syncRepository: SyncRepository,
+    authService: AuthService,
+    private val pokemonService: PokemonService,
+    private val syncService: SyncService,
 ) : ViewModel() {
     private var _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
 
     init {
-        userRepository
-            .getCurrentUserFlow()
+        authService
+            .getCurrentUserAsFlow()
             .flatMapLatest { user ->
                 if (user == null) {
                     flowOf(Pair(null, emptyList()))
                 } else {
-                    pokemonRepository.getPokemonsCaughtByUser(user.id!!).map { Pair(user, it) }
+                    pokemonService.getPokemonsCaughtByUser(user.id!!).map { Pair(user, it) }
                 }
             }
             .onEach { pair -> _state.update { it.copy(user = pair.first, pokemons = pair.second) } }
             .launchIn(viewModelScope)
 
-        viewModelScope.launch(Dispatchers.IO) { syncRepository.syncData() }
+        viewModelScope.launch(Dispatchers.IO) { syncService.syncData() }
     }
 }

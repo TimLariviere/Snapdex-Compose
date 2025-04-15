@@ -9,11 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.UserDataValidator
 import com.kanoyatech.snapdex.domain.models.User
-import com.kanoyatech.snapdex.domain.repositories.ChangeNameError
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
+import com.kanoyatech.snapdex.usecases.ChangeNameError
+import com.kanoyatech.snapdex.usecases.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class NewNameViewModel(
     userFlow: Flow<User>,
     private val userDataValidator: UserDataValidator,
-    private val userRepository: UserRepository,
+    private val userService: UserService,
 ) : ViewModel() {
     var state by mutableStateOf(NewNameState())
         private set
@@ -61,7 +61,7 @@ class NewNameViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             state = state.copy(isChangingName = true)
 
-            val result = userRepository.changeName(state.name.text.toString())
+            val result = userService.changeName(state.name.text.toString())
 
             state = state.copy(isChangingName = false)
 

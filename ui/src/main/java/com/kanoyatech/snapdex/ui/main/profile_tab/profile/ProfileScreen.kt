@@ -40,7 +40,7 @@ import com.kanoyatech.snapdex.designsystem.components.SnapdexBackground
 import com.kanoyatech.snapdex.designsystem.components.SnapdexDialogPicker
 import com.kanoyatech.snapdex.designsystem.components.SnapdexHorizontalDivider
 import com.kanoyatech.snapdex.designsystem.components.SnapdexPopup
-import com.kanoyatech.snapdex.domain.AIModel
+import com.kanoyatech.snapdex.domain.models.AIModel
 import com.kanoyatech.snapdex.domain.models.User
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.components.AvatarView

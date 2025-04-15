@@ -8,13 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.models.User
-import com.kanoyatech.snapdex.domain.repositories.DeleteCurrentUserError
-import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
-import com.kanoyatech.snapdex.domain.repositories.PreferencesRepository
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
+import com.kanoyatech.snapdex.domain.preferences.PreferencesStore
 import com.kanoyatech.snapdex.ui.AppLocaleManager
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
+import com.kanoyatech.snapdex.usecases.AuthService
+import com.kanoyatech.snapdex.usecases.DeleteCurrentUserError
+import com.kanoyatech.snapdex.usecases.PokemonService
 import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -26,11 +26,11 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     userFlow: Flow<User>,
-    private val userRepository: UserRepository,
-    private val pokemonRepository: PokemonRepository,
+    private val authService: AuthService,
+    private val pokemonService: PokemonService,
     private val application: Application,
     private val appLocaleManager: AppLocaleManager,
-    private val preferencesRepository: PreferencesRepository,
+    private val preferences: PreferencesStore,
 ) : ViewModel() {
     var state by mutableStateOf(ProfileState())
         private set
@@ -40,7 +40,7 @@ class ProfileViewModel(
 
     init {
         viewModelScope.launch {
-            val model = preferencesRepository.getAIModel()
+            val model = preferences.getAIModel()
             state = state.copy(aiModel = model)
         }
 
@@ -89,20 +89,20 @@ class ProfileViewModel(
 
     private fun logout() {
         viewModelScope.launch(Dispatchers.IO) {
-            userRepository.logout()
+            authService.logout()
             eventChannel.send(ProfileEvent.LoggedOut)
         }
     }
 
     private fun resetProgress() {
-        viewModelScope.launch(Dispatchers.IO) { pokemonRepository.resetForUser(state.user.id!!) }
+        viewModelScope.launch(Dispatchers.IO) { pokemonService.resetForUser(state.user.id!!) }
     }
 
     private fun deleteAccount() {
         viewModelScope.launch(Dispatchers.IO) {
             state = state.copy(isDeletingAccount = true)
 
-            val result = userRepository.deleteCurrentUser()
+            val result = authService.deleteCurrentUser()
 
             state = state.copy(isDeletingAccount = false)
 

@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kanoyatech.snapdex.domain.TypedResult
 import com.kanoyatech.snapdex.domain.UserDataValidator
-import com.kanoyatech.snapdex.domain.repositories.SendPasswordResetEmailError
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
 import com.kanoyatech.snapdex.ui.R
 import com.kanoyatech.snapdex.ui.UiText
 import com.kanoyatech.snapdex.ui.utils.textAsFlow
+import com.kanoyatech.snapdex.usecases.AuthService
+import com.kanoyatech.snapdex.usecases.SendPasswordResetEmailError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ForgotPasswordViewModel(
-    private val userRepository: UserRepository,
+    private val authService: AuthService,
     private val userDataValidator: UserDataValidator,
 ) : ViewModel() {
     var state by mutableStateOf(ForgotPasswordState())
@@ -53,7 +53,7 @@ class ForgotPasswordViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             state = state.copy(isSendingEmail = true)
 
-            val result = userRepository.sendPasswordResetEmail(state.email.text.toString())
+            val result = authService.sendPasswordResetEmail(state.email.text.toString())
 
             state = state.copy(isSendingEmail = false)
 

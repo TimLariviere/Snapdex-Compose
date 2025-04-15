@@ -5,13 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kanoyatech.snapdex.data.repositories.PreferencesRepositoryImpl
-import com.kanoyatech.snapdex.domain.repositories.UserRepository
+import com.kanoyatech.snapdex.domain.preferences.PreferencesStore
+import com.kanoyatech.snapdex.usecases.AuthService
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
-    private val userRepository: UserRepository,
-    private val preferencesRepositoryImpl: PreferencesRepositoryImpl,
+    private val authService: AuthService,
+    private val preferences: PreferencesStore,
 ) : ViewModel() {
     var state by mutableStateOf(MainActivityState())
         private set
@@ -19,8 +19,8 @@ class MainActivityViewModel(
     init {
         viewModelScope.launch {
             state = state.copy(isLoading = true)
-            val hasSeenIntro = preferencesRepositoryImpl.getHasSeenIntro()
-            val isLoggedIn = userRepository.isLoggedIn()
+            val hasSeenIntro = preferences.getHasSeenIntro()
+            val isLoggedIn = authService.isLoggedIn()
             state =
                 state.copy(isLoading = false, hasSeenIntro = hasSeenIntro, isLoggedIn = isLoggedIn)
         }

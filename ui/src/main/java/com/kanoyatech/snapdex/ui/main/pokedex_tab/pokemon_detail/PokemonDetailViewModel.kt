@@ -5,24 +5,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kanoyatech.snapdex.domain.datasources.LocalEvolutionChainDataSource
 import com.kanoyatech.snapdex.domain.models.PokemonId
-import com.kanoyatech.snapdex.domain.repositories.EvolutionChainRepository
-import com.kanoyatech.snapdex.domain.repositories.PokemonRepository
+import com.kanoyatech.snapdex.usecases.PokemonService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PokemonDetailViewModel(
     private val pokemonId: PokemonId,
-    private val pokemonRepository: PokemonRepository,
-    private val evolutionChainRepository: EvolutionChainRepository,
+    private val pokemonService: PokemonService,
+    private val localEvolutionChains: LocalEvolutionChainDataSource,
 ) : ViewModel() {
     var state by mutableStateOf(PokemonDetailState())
         private set
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val pokemon = pokemonRepository.getPokemonById(pokemonId)!!
-            val evolutionChain = evolutionChainRepository.getEvolutionChainForPokemon(pokemonId)!!
+            val pokemon = pokemonService.getById(pokemonId)!!
+            val evolutionChain = localEvolutionChains.getForPokemon(pokemonId)!!
             state = state.copy(pokemon = pokemon, evolutionChain = evolutionChain)
         }
     }
