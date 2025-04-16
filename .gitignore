@@ -3,7 +3,7 @@
 
 *.db
 app/src/main/assets/*.db
-ui/src/main/res/drawable/pokemon*.*
+ui/src/main/res/drawable-mdpi/pokemon*.*
 app/google-services.json
 keystore.jks
 cert.txt
@@ -11,7 +11,6 @@ cert.txt
 
 *.iml
 .gradle
-.DS_Store
 /build
 /captures
 .externalNativeBuild

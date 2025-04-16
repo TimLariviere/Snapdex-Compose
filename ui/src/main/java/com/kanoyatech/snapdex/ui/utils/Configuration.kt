@@ -18,5 +18,5 @@ fun Configuration.getGlobalLocale(): Locale {
 @Composable
 fun Map<Locale, String>.translated(): String {
     val locale = LocalConfiguration.current.getGlobalLocale()
-    return this.getOrElse(locale, { "TRANSLATION MISSING" })
+    return this.getOrElse(locale) { "TRANSLATION MISSING" }
 }

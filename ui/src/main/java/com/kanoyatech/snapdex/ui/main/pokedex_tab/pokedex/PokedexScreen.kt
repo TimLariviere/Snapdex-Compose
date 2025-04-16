@@ -285,8 +285,7 @@ fun TakePictureButton(
     SnapdexFloatingActionButton(
         onClick = {
             when {
-                !(activity?.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)
-                    ?: false) -> {
+                activity?.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) != true -> {
                     Log.i(
                         "TakePictureButton",
                         "Camera permission is not granted yet. Asking permission",

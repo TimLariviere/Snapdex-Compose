@@ -1,6 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Snapdex</string>
-    <string name="go_back">Go back</string>
     <string name="pokemon_number" translatable="false">Nº%04d</string>
     <string name="pokemon_number_alt" translatable="false">%04d</string>
     <string name="type_normal">Normal</string>
@@ -28,12 +27,7 @@
     <string name="weaknesses">Weaknesses</string>
     <string name="evolutions">Evolutions</string>
     <string name="level_x">Level %d</string>
-    <string name="pokedex" translatable="false">Pokedex</string>
-    <string name="statistics">Stats</string>
-    <string name="profile">Profile</string>
-    <string name="register">Register</string>
     <string name="register_failed">Failed to register</string>
-    <string name="login_error">Error while login in</string>
     <string name="login">Log in</string>
     <string name="logout">Log out</string>
     <string name="search_hint">Search Pokémon…</string>
@@ -49,7 +43,6 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="name_hint">Name</string>
     <string name="create_account">Create account</string>
-    <string name="profile_picture">Profile picture</string>
     <string name="password_reset_link">We will email you a password reset link</string>
     <string name="send_password_reset_link">Send password reset link</string>
     <string name="forgotten_password">Forgotten Password</string>
@@ -94,7 +87,6 @@
     <string name="set_new_password">Set new password</string>
     <string name="password_changed">Password Changed</string>
     <string name="password_changed_description">Your password has been changed successfully.</string>
-    <string name="could_not_change_password">Could not change password</string>
     <string name="old_password">Old password</string>
     <string name="could_not_change_name">Could not change name</string>
     <string name="new_name">New name</string>
@@ -104,7 +96,6 @@
     <string name="licenses_and_credits"><![CDATA[Licenses & Credits]]></string>
     <string name="set_language">Set language</string>
     <string name="choose">Choose</string>
-    <string name="set_ai_model">Set AI model</string>
     <string name="on_device">On device</string>
     <string name="openai" translatable="false">OpenAI</string>
     <string name="choose_ai_model">Choose AI Model</string>
@@ -115,9 +106,12 @@
     <string name="try_again">Try again</string>
     <string name="recognizing">Capturing pokemon…</string>
     <string name="completion">Completion</string>
-    <string name="pokemons_captured">%1$d/%2$d pokemons captured</string>
+    <plurals name="pokemons_captured">
+        <item quantity="one">%1$d/%2$d pokemon captured</item>
+        <item quantity="other">%1$d/%2$d pokemons captured</item>
+    </plurals>
     <string name="percentage" translatable="false">%d%%</string>
-    <string name="captured">%1$d/%2$d captured</string>
+    <string name="captured" tools:ignore="PluralsCandidate">%1$d/%2$d captured</string>
     <string name="send_password_reset_no_such_email">No such email exists</string>
     <string name="send_password_reset_invalid_email">Invalid email format</string>
     <string name="register_invalid_email">Invalid email format</string>

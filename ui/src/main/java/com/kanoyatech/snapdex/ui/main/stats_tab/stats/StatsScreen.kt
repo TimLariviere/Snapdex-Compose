@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
@@ -27,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -93,8 +93,9 @@ private fun OverallProgress(statistic: Statistic) {
             )
             Text(
                 text =
-                    stringResource(
-                        id = R.string.pokemons_captured,
+                    pluralStringResource(
+                        id = R.plurals.pokemons_captured,
+                        statistic.caughtPokemonCount,
                         statistic.caughtPokemonCount,
                         statistic.totalPokemonCount,
                     ),
