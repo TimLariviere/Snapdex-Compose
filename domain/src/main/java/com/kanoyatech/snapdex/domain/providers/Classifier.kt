@@ -1,4 +1,4 @@
-package com.kanoyatech.snapdex.domain
+package com.kanoyatech.snapdex.domain.providers
 
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import java.nio.ByteBuffer

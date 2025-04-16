@@ -1,9 +1,9 @@
-package com.kanoyatech.snapdex.data.classifiers
+package com.kanoyatech.snapdex.data.providers
 
 import android.util.Base64
-import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.PokemonId
 import com.kanoyatech.snapdex.domain.preferences.PreferencesStore
+import com.kanoyatech.snapdex.domain.providers.Classifier
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp

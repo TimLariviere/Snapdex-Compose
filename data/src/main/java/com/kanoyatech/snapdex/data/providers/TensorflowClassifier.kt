@@ -1,10 +1,10 @@
-package com.kanoyatech.snapdex.data.classifiers
+package com.kanoyatech.snapdex.data.providers
 
 import android.content.Context
 import android.util.Log
 import com.kanoyatech.snapdex.data.utils.Assets
-import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.PokemonId
+import com.kanoyatech.snapdex.domain.providers.Classifier
 import java.nio.ByteBuffer
 import org.tensorflow.lite.Interpreter
 

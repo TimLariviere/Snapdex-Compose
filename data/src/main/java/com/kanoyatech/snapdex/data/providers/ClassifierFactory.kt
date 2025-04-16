@@ -1,9 +1,9 @@
-package com.kanoyatech.snapdex.data.classifiers
+package com.kanoyatech.snapdex.data.providers
 
 import com.kanoyatech.snapdex.data.preferences.DataPreferencesStore
-import com.kanoyatech.snapdex.domain.Classifier
 import com.kanoyatech.snapdex.domain.models.AIModel
 import com.kanoyatech.snapdex.domain.models.PokemonId
+import com.kanoyatech.snapdex.domain.providers.Classifier
 import java.nio.ByteBuffer
 
 class ClassifierFactory(

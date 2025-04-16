@@ -10,9 +10,6 @@ import com.google.firebase.analytics.analytics
 import com.google.firebase.auth.auth
 import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.firestore.firestore
-import com.kanoyatech.snapdex.data.classifiers.ClassifierFactory
-import com.kanoyatech.snapdex.data.classifiers.OpenAIClassifier
-import com.kanoyatech.snapdex.data.classifiers.TensorflowClassifier
 import com.kanoyatech.snapdex.data.datasources.local.RoomLocalEvolutionChainDataSource
 import com.kanoyatech.snapdex.data.datasources.local.RoomLocalPokemonDataSource
 import com.kanoyatech.snapdex.data.datasources.local.RoomLocalStatisticsDataSource
@@ -24,10 +21,12 @@ import com.kanoyatech.snapdex.data.datasources.remote.FirebaseRemoteUserPokemonD
 import com.kanoyatech.snapdex.data.datasources.remote.dao.RemoteUserDao
 import com.kanoyatech.snapdex.data.datasources.remote.dao.RemoteUserPokemonDao
 import com.kanoyatech.snapdex.data.preferences.DataPreferencesStore
+import com.kanoyatech.snapdex.data.providers.ClassifierFactory
 import com.kanoyatech.snapdex.data.providers.FirebaseAnalyticsTracker
 import com.kanoyatech.snapdex.data.providers.FirebaseAuthProvider
 import com.kanoyatech.snapdex.data.providers.FirebaseCrashReporter
-import com.kanoyatech.snapdex.domain.Classifier
+import com.kanoyatech.snapdex.data.providers.OpenAIClassifier
+import com.kanoyatech.snapdex.data.providers.TensorflowClassifier
 import com.kanoyatech.snapdex.domain.datasources.LocalEvolutionChainDataSource
 import com.kanoyatech.snapdex.domain.datasources.LocalPokemonDataSource
 import com.kanoyatech.snapdex.domain.datasources.LocalStatisticsDataSource
@@ -38,6 +37,7 @@ import com.kanoyatech.snapdex.domain.datasources.RemoteUserPokemonDataSource
 import com.kanoyatech.snapdex.domain.preferences.PreferencesStore
 import com.kanoyatech.snapdex.domain.providers.AnalyticsTracker
 import com.kanoyatech.snapdex.domain.providers.AuthProvider
+import com.kanoyatech.snapdex.domain.providers.Classifier
 import com.kanoyatech.snapdex.domain.providers.CrashReporter
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
