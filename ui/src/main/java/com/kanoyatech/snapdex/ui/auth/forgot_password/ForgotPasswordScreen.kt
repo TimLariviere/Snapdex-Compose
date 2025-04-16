@@ -2,7 +2,6 @@ package com.kanoyatech.snapdex.ui.auth.forgot_password
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,11 +42,16 @@ fun ForgotPasswordScreenRoot(
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    var showEmailSentDialog by remember { mutableStateOf(false) }
+
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             is ForgotPasswordEvent.Error -> {
                 keyboardController?.hide()
                 Toast.makeText(context, event.error.asString(context), Toast.LENGTH_LONG).show()
+            }
+            ForgotPasswordEvent.EmailSent -> {
+                showEmailSentDialog = true
             }
         }
     }
@@ -59,6 +67,16 @@ fun ForgotPasswordScreenRoot(
             viewModel.onAction(action)
         },
     )
+
+    if (showEmailSentDialog) {
+        EmailSentDialog(
+            onDismissRequest = { showEmailSentDialog = false },
+            onConfirmClick = {
+                showEmailSentDialog = false
+                onBackClick()
+            },
+        )
+    }
 }
 
 @Composable
@@ -74,40 +92,31 @@ private fun ForgotPasswordScreen(
             )
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize().padding(paddingValues).pagePadding(top = 84.dp)) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+        Column(
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize().padding(paddingValues).pagePadding(84.dp),
+        ) {
+            Text(
+                text = stringResource(id = R.string.password_reset_link),
                 modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+
+            SnapdexTextField(
+                state = state.email,
+                hint = stringResource(id = R.string.email_hint),
+                keyboardType = KeyboardType.Email,
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            SnapdexPrimaryButton(
+                text = stringResource(id = R.string.send_password_reset_link),
+                enabled = state.canSendEmail && !state.isSendingEmail,
+                isBusy = state.isSendingEmail,
             ) {
-                Text(
-                    text = stringResource(id = R.string.password_reset_link),
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                )
-
-                SnapdexTextField(
-                    state = state.email,
-                    hint = stringResource(id = R.string.email_hint),
-                    keyboardType = KeyboardType.Email,
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                SnapdexPrimaryButton(
-                    text = stringResource(id = R.string.send_password_reset_link),
-                    enabled = state.canSendEmail && !state.isSendingEmail,
-                    isBusy = state.isSendingEmail,
-                ) {
-                    onAction(ForgotPasswordAction.OnSendEmailClick)
-                }
-            }
-
-            if (state.showEmailSent) {
-                EmailSentDialog(
-                    onDismissRequest = { onAction(ForgotPasswordAction.OnPopupDismissClick) },
-                    onConfirmClick = { onAction(ForgotPasswordAction.OnBackClick) },
-                )
+                onAction(ForgotPasswordAction.OnSendEmailClick)
             }
         }
     }
@@ -127,7 +136,5 @@ private fun EmailSentDialog(onDismissRequest: () -> Unit, onConfirmClick: () -> 
 @Preview
 @Composable
 private fun ForgotPasswordScreenPreview() {
-    AppTheme {
-        ForgotPasswordScreen(state = ForgotPasswordState(showEmailSent = true), onAction = {})
-    }
+    AppTheme { ForgotPasswordScreen(state = ForgotPasswordState(), onAction = {}) }
 }

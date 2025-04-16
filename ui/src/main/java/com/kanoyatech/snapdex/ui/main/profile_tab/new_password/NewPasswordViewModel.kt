@@ -66,9 +66,6 @@ class NewPasswordViewModel(
                 state = state.copy(isNewPasswordVisible = !state.isNewPasswordVisible)
             }
             NewPasswordAction.OnSetPasswordClick -> setPassword()
-            NewPasswordAction.OnPasswordChangedPopupDismiss -> {
-                state = state.copy(showPasswordChangedPopup = false)
-            }
             else -> Unit
         }
     }
@@ -105,7 +102,6 @@ class NewPasswordViewModel(
                 }
                 is TypedResult.Success -> {
                     eventChannel.send(NewPasswordEvent.PasswordChanged)
-                    state = state.copy(showPasswordChangedPopup = true)
                 }
             }
         }

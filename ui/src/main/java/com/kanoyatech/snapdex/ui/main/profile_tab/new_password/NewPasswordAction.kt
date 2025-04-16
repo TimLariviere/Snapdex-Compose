@@ -8,6 +8,4 @@ sealed interface NewPasswordAction {
     object OnToggleNewPasswordVisibilityClick : NewPasswordAction
 
     object OnSetPasswordClick : NewPasswordAction
-
-    object OnPasswordChangedPopupDismiss : NewPasswordAction
 }

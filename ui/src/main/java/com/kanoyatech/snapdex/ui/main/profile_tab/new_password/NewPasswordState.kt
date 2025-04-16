@@ -10,7 +10,6 @@ data class NewPasswordState(
     val newPassword: TextFieldState = TextFieldState(),
     val isNewPasswordVisible: Boolean = false,
     val newPasswordValidationState: PasswordValidationState = PasswordValidationState(),
-    val showPasswordChangedPopup: Boolean = false,
     val canChangePassword: Boolean = false,
     val isChangingPassword: Boolean = false,
 )

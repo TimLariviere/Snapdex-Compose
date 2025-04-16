@@ -49,42 +49,34 @@ class ProfileViewModel(
 
     fun onAction(action: ProfileAction) {
         when (action) {
-            ProfileAction.OnResetProgressClick -> {
-                state = state.copy(showProgressResetDialog = true)
-            }
-            ProfileAction.OnProgressResetCancel -> {
-                state = state.copy(showProgressResetDialog = false)
-            }
-            ProfileAction.OnProgressResetConfirm -> {
-                state = state.copy(showProgressResetDialog = false)
-                resetProgress()
-            }
+            ProfileAction.OnResetProgressClick -> openResetProgressDialog()
+            ProfileAction.OnProgressResetConfirm -> resetProgress()
 
-            ProfileAction.OnDeleteAccountClick -> {
-                state = state.copy(showAccountDeletionDialog = true)
-            }
-            ProfileAction.OnAccountDeletionCancel -> {
-                state = state.copy(showAccountDeletionDialog = false)
-            }
-            ProfileAction.OnAccountDeletionConfirm -> {
-                state = state.copy(showAccountDeletionDialog = false)
-                deleteAccount()
-            }
+            ProfileAction.OnDeleteAccountClick -> openDeleteAccountDialog()
+            ProfileAction.OnAccountDeletionConfirm -> deleteAccount()
+
+            ProfileAction.OnChangeLanguageClick -> openLanguageDialog()
+            is ProfileAction.OnLanguageChange -> changeLanguage(action.language)
+
             is ProfileAction.OnAIModelChange -> {
                 state = state.copy(aiModel = action.aiModel)
-            }
-
-            ProfileAction.OnChangeLanguageClick -> {
-                state = state.copy(showLanguageDialog = true)
-            }
-            is ProfileAction.OnLanguageChange -> changeLanguage(action.language)
-            ProfileAction.OnLanguageDialogDismiss -> {
-                state = state.copy(showLanguageDialog = false)
             }
 
             ProfileAction.OnLogoutClick -> logout()
             else -> Unit
         }
+    }
+
+    private fun openResetProgressDialog() {
+        viewModelScope.launch { eventChannel.send(ProfileEvent.OpenResetProgressDialog) }
+    }
+
+    private fun openDeleteAccountDialog() {
+        viewModelScope.launch { eventChannel.send(ProfileEvent.OpenDeleteAccountDialog) }
+    }
+
+    private fun openLanguageDialog() {
+        viewModelScope.launch { eventChannel.send(ProfileEvent.OpenLanguageDialog) }
     }
 
     private fun logout() {
@@ -125,7 +117,7 @@ class ProfileViewModel(
 
     private fun changeLanguage(locale: Locale) {
         viewModelScope.launch {
-            state = state.copy(language = locale, showLanguageDialog = false)
+            state = state.copy(language = locale)
             appLocaleManager.changeLanguage(application, locale.language)
         }
     }

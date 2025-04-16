@@ -86,7 +86,7 @@ class PokedexViewModel(
                     )
             }
             PokedexAction.OnRecognitionOverlayDismiss -> {
-                state = state.copy(lastCaught = null, showRecognitionOverlay = false)
+                state = state.copy(lastCaught = null)
             }
             else -> Unit
         }
@@ -96,8 +96,7 @@ class PokedexViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val userId = state.user?.id ?: return@launch
 
-            state =
-                state.copy(showRecognitionOverlay = true, isRecognizing = true, lastCaught = null)
+            state = state.copy(isRecognizing = true, lastCaught = null)
 
             var lastCaught: PokemonCaught? = null
             val pokemonId = classifier.classify(BitmapResizer.resize(bitmap))

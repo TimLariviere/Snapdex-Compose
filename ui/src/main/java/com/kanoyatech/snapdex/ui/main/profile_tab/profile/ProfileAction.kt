@@ -12,13 +12,9 @@ sealed interface ProfileAction {
 
     object OnProgressResetConfirm : ProfileAction
 
-    object OnProgressResetCancel : ProfileAction
-
     object OnDeleteAccountClick : ProfileAction
 
     object OnAccountDeletionConfirm : ProfileAction
-
-    object OnAccountDeletionCancel : ProfileAction
 
     object OnChangeAIModelClick : ProfileAction
 
@@ -27,8 +23,6 @@ sealed interface ProfileAction {
     object OnChangeLanguageClick : ProfileAction
 
     data class OnLanguageChange(val language: Locale) : ProfileAction
-
-    object OnLanguageDialogDismiss : ProfileAction
 
     object OnChangeNotificationsClick : ProfileAction
 

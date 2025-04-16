@@ -42,9 +42,6 @@ class ForgotPasswordViewModel(
     fun onAction(action: ForgotPasswordAction) {
         when (action) {
             ForgotPasswordAction.OnSendEmailClick -> sendPasswordResetEmail()
-            ForgotPasswordAction.OnBackClick -> {
-                state = state.copy(showEmailSent = false)
-            }
             else -> Unit
         }
     }
@@ -76,7 +73,7 @@ class ForgotPasswordViewModel(
                     eventChannel.send(ForgotPasswordEvent.Error(message))
                 }
                 is TypedResult.Success -> {
-                    state = state.copy(showEmailSent = true)
+                    eventChannel.send(ForgotPasswordEvent.EmailSent)
                 }
             }
         }

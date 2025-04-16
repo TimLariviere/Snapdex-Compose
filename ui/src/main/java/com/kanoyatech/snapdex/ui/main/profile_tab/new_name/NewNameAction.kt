@@ -4,6 +4,4 @@ sealed interface NewNameAction {
     object OnBackClick : NewNameAction
 
     object OnSetNameClick : NewNameAction
-
-    object OnNameChangedPopupDismiss : NewNameAction
 }

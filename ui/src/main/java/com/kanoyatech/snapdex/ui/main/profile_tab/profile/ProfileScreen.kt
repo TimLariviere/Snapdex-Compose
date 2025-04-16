@@ -17,7 +17,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,10 +70,17 @@ fun ProfileScreenRoot(
     val configuration = LocalConfiguration.current
     val locale = configuration.getGlobalLocale()
 
+    var showResetProgressDialog by remember { mutableStateOf(false) }
+    var showDeleteAccountDialog by remember { mutableStateOf(false) }
+    var showLanguageDialog by remember { mutableStateOf(false) }
+
     LaunchedEffect(locale) { viewModel.onAction(ProfileAction.OnLanguageChange(locale)) }
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
+            ProfileEvent.OpenResetProgressDialog -> showResetProgressDialog = true
+            ProfileEvent.OpenDeleteAccountDialog -> showDeleteAccountDialog = true
+            ProfileEvent.OpenLanguageDialog -> showLanguageDialog = true
             is ProfileEvent.Error -> {
                 Toast.makeText(context, event.error.asString(context), Toast.LENGTH_LONG).show()
             }
@@ -94,6 +104,37 @@ fun ProfileScreenRoot(
             viewModel.onAction(action)
         },
     )
+
+    if (showResetProgressDialog) {
+        ResetProgressDialog(
+            onCancelClick = { showResetProgressDialog = false },
+            onResetClick = {
+                showResetProgressDialog = false
+                viewModel.onAction(ProfileAction.OnProgressResetConfirm)
+            },
+        )
+    }
+
+    if (showDeleteAccountDialog) {
+        AccountDeletionConfirmationDialog(
+            onCancelClick = { showDeleteAccountDialog = false },
+            onDeleteClick = {
+                showDeleteAccountDialog = false
+                viewModel.onAction(ProfileAction.OnAccountDeletionConfirm)
+            },
+        )
+    }
+
+    if (showLanguageDialog) {
+        LanguageDialog(
+            locale = viewModel.state.language,
+            onDismissed = { showLanguageDialog = false },
+            onLanguageSelected = {
+                showLanguageDialog = false
+                viewModel.onAction(ProfileAction.OnLanguageChange(locale))
+            },
+        )
+    }
 }
 
 @Composable
@@ -146,18 +187,6 @@ private fun ProfileScreen(
             }
 
             CallToAction(modifier = Modifier.padding(horizontal = 16.dp))
-        }
-
-        if (state.showProgressResetDialog) {
-            ProgressResetConfirmationDialog(onAction)
-        }
-
-        if (state.showAccountDeletionDialog) {
-            AccountDeletionConfirmationDialog(onAction)
-        }
-
-        if (state.showLanguageDialog) {
-            LanguageDialog(state.language, onAction)
         }
     }
 }
@@ -317,52 +346,47 @@ private fun CallToAction(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ProgressResetConfirmationDialog(onAction: (ProfileAction) -> Unit) {
+private fun ResetProgressDialog(onCancelClick: () -> Unit, onResetClick: () -> Unit) {
     SnapdexPopup(
         title = stringResource(id = R.string.progress_reset),
         description = stringResource(id = R.string.progress_reset_description),
-        onDismissRequest = { onAction(ProfileAction.OnProgressResetCancel) },
+        onDismissRequest = onCancelClick,
         primaryButton =
-            PopupButton(
-                text = stringResource(id = R.string.cancel),
-                onClick = { onAction(ProfileAction.OnProgressResetCancel) },
-            ),
+            PopupButton(text = stringResource(id = R.string.cancel), onClick = onCancelClick),
         secondaryButton =
-            PopupButton(
-                text = stringResource(id = R.string.reset),
-                onClick = { onAction(ProfileAction.OnProgressResetConfirm) },
-            ),
+            PopupButton(text = stringResource(id = R.string.reset), onClick = onResetClick),
     )
 }
 
 @Composable
-private fun AccountDeletionConfirmationDialog(onAction: (ProfileAction) -> Unit) {
+private fun AccountDeletionConfirmationDialog(
+    onCancelClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+) {
     SnapdexPopup(
         title = stringResource(id = R.string.account_deletion),
         description = stringResource(id = R.string.account_deletion_description),
-        onDismissRequest = { onAction(ProfileAction.OnAccountDeletionCancel) },
+        onDismissRequest = onCancelClick,
         primaryButton =
-            PopupButton(
-                text = stringResource(id = R.string.cancel),
-                onClick = { onAction(ProfileAction.OnAccountDeletionCancel) },
-            ),
+            PopupButton(text = stringResource(id = R.string.cancel), onClick = onCancelClick),
         secondaryButton =
-            PopupButton(
-                text = stringResource(id = R.string.delete),
-                onClick = { onAction(ProfileAction.OnAccountDeletionConfirm) },
-            ),
+            PopupButton(text = stringResource(id = R.string.delete), onClick = onDeleteClick),
     )
 }
 
 @Composable
-private fun LanguageDialog(locale: Locale, onAction: (ProfileAction) -> Unit) {
+private fun LanguageDialog(
+    locale: Locale,
+    onDismissed: () -> Unit,
+    onLanguageSelected: (Locale) -> Unit,
+) {
     SnapdexDialogPicker(
         title = stringResource(id = R.string.set_language),
         buttonText = stringResource(id = R.string.choose),
         items = listOf(Locale.ENGLISH, Locale.FRENCH),
         initialItemSelected = locale,
-        onItemSelect = { locale -> onAction(ProfileAction.OnLanguageChange(locale)) },
-        onDismissRequest = { onAction(ProfileAction.OnLanguageDialogDismiss) },
+        onItemSelect = onLanguageSelected,
+        onDismissRequest = onDismissed,
     ) { locale ->
         val localeName = remember {
             locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() }
@@ -394,7 +418,6 @@ private fun ProfileScreenPreview() {
                                 email = "roger@snapdex.com",
                             ),
                         language = Locale.FRENCH,
-                        showLanguageDialog = true,
                     ),
                 onAction = {},
             )

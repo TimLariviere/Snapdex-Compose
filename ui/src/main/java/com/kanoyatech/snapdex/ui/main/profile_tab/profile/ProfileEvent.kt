@@ -6,4 +6,10 @@ sealed interface ProfileEvent {
     data class Error(val error: UiText) : ProfileEvent
 
     object LoggedOut : ProfileEvent
+
+    object OpenResetProgressDialog : ProfileEvent
+
+    object OpenDeleteAccountDialog : ProfileEvent
+
+    object OpenLanguageDialog : ProfileEvent
 }

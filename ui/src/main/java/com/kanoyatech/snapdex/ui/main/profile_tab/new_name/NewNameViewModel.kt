@@ -50,9 +50,6 @@ class NewNameViewModel(
     fun onAction(action: NewNameAction) {
         when (action) {
             NewNameAction.OnSetNameClick -> setName()
-            NewNameAction.OnNameChangedPopupDismiss -> {
-                state = state.copy(showNameChangedPopup = false)
-            }
             else -> Unit
         }
     }
@@ -77,7 +74,6 @@ class NewNameViewModel(
                 }
                 is TypedResult.Success -> {
                     eventChannel.send(NewNameEvent.NameChanged)
-                    state = state.copy(showNameChangedPopup = true)
                 }
             }
         }

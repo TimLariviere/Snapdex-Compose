@@ -11,7 +11,6 @@ data class PokedexState(
     val searchState: SearchViewState = SearchViewState(),
     val allPokemons: List<Pokemon> = emptyList(),
     val filteredPokemons: List<Pokemon>? = emptyList(),
-    val showRecognitionOverlay: Boolean = false,
     val isRecognizing: Boolean = false,
     val lastCaught: PokemonCaught? = null,
 )

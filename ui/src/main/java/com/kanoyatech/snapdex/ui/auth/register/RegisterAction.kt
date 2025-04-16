@@ -5,8 +5,6 @@ sealed interface RegisterAction {
 
     object OnOpenAvatarPicker : RegisterAction
 
-    object OnCloseAvatarPicker : RegisterAction
-
     data class OnAvatarSelectionChange(val avatar: Int) : RegisterAction
 
     object OnRegisterClick : RegisterAction

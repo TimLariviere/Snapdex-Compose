@@ -67,13 +67,10 @@ class RegisterViewModel(
     fun onAction(action: RegisterAction) {
         when (action) {
             is RegisterAction.OnAvatarSelectionChange -> {
-                state = state.copy(avatar = action.avatar, showAvatarPicker = false)
+                state = state.copy(avatar = action.avatar)
             }
             RegisterAction.OnOpenAvatarPicker -> {
-                state = state.copy(showAvatarPicker = true)
-            }
-            RegisterAction.OnCloseAvatarPicker -> {
-                state = state.copy(showAvatarPicker = false)
+                openAvatarPicker()
             }
             RegisterAction.OnTogglePasswordVisibility -> {
                 state = state.copy(isPasswordVisible = !state.isPasswordVisible)
@@ -81,6 +78,10 @@ class RegisterViewModel(
             RegisterAction.OnRegisterClick -> register()
             else -> Unit
         }
+    }
+
+    private fun openAvatarPicker() {
+        viewModelScope.launch { eventChannel.send(RegisterEvent.OpenAvatarPickerDialog) }
     }
 
     private fun register() {

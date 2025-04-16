@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,6 +35,8 @@ fun NewNameScreenRoot(viewModel: NewNameViewModel = koinViewModel(), onBackClick
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    var showNameChangedPopup by remember { mutableStateOf(false) }
+
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             is NewNameEvent.Error -> {
@@ -39,6 +45,7 @@ fun NewNameScreenRoot(viewModel: NewNameViewModel = koinViewModel(), onBackClick
             }
             NewNameEvent.NameChanged -> {
                 keyboardController?.hide()
+                showNameChangedPopup = true
             }
         }
     }
@@ -48,13 +55,31 @@ fun NewNameScreenRoot(viewModel: NewNameViewModel = koinViewModel(), onBackClick
         onAction = { action ->
             when (action) {
                 NewNameAction.OnBackClick -> onBackClick()
-                NewNameAction.OnNameChangedPopupDismiss -> onBackClick()
                 else -> Unit
             }
 
             viewModel.onAction(action)
         },
     )
+
+    if (showNameChangedPopup) {
+        SnapdexPopup(
+            title = stringResource(id = R.string.name_changed),
+            description = stringResource(id = R.string.name_changed_description),
+            primaryButton =
+                PopupButton(
+                    text = stringResource(id = R.string.ok),
+                    onClick = {
+                        showNameChangedPopup = false
+                        onBackClick()
+                    },
+                ),
+            onDismissRequest = {
+                showNameChangedPopup = false
+                onBackClick()
+            },
+        )
+    }
 }
 
 @Composable
@@ -81,19 +106,6 @@ fun NewNameScreen(state: NewNameState, onAction: (NewNameAction) -> Unit) {
                 onClick = { onAction(NewNameAction.OnSetNameClick) },
                 enabled = state.canChangeName,
                 isBusy = state.isChangingName,
-            )
-        }
-
-        if (state.showNameChangedPopup) {
-            SnapdexPopup(
-                title = stringResource(id = R.string.name_changed),
-                description = stringResource(id = R.string.name_changed_description),
-                primaryButton =
-                    PopupButton(
-                        text = stringResource(id = R.string.ok),
-                        onClick = { onAction(NewNameAction.OnNameChangedPopupDismiss) },
-                    ),
-                onDismissRequest = { onAction(NewNameAction.OnNameChangedPopupDismiss) },
             )
         }
     }

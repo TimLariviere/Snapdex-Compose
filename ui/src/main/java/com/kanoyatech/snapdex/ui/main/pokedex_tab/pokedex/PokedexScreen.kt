@@ -105,16 +105,16 @@ private fun PokedexScreen(
     state: PokedexState,
     onAction: (PokedexAction) -> Unit,
 ) {
-    Box {
-        Column(
-            modifier =
-                Modifier.padding(
-                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                        top = paddingValues.calculateTopPadding(),
-                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-                    )
-                    .padding(top = 28.dp)
-        ) {
+    Box(
+        modifier =
+            Modifier.padding(
+                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    top = paddingValues.calculateTopPadding(),
+                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                )
+                .padding(top = 28.dp)
+    ) {
+        Column {
             SearchView(
                 state = state.searchState,
                 hint = stringResource(id = R.string.search_hint),
@@ -168,7 +168,7 @@ private fun PokedexScreen(
                     .padding(end = 16.dp, bottom = paddingValues.calculateBottomPadding() + 16.dp),
         )
 
-        if (state.showRecognitionOverlay) {
+        if (state.isRecognizing || state.lastCaught != null) {
             RecognitionOverlay(
                 isRecognizing = state.isRecognizing,
                 pokemon = state.lastCaught,

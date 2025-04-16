@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -20,6 +19,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,8 +58,11 @@ fun RegisterScreenRoot(
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    var showAvatarPickerDialog by remember { mutableStateOf(false) }
+
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
+            RegisterEvent.OpenAvatarPickerDialog -> showAvatarPickerDialog = true
             is RegisterEvent.Error -> {
                 keyboardController?.hide()
                 Toast.makeText(context, event.error.asString(context), Toast.LENGTH_LONG).show()
@@ -79,6 +85,17 @@ fun RegisterScreenRoot(
             viewModel.onAction(action)
         },
     )
+
+    if (showAvatarPickerDialog) {
+        AvatarPickerDialog(
+            selected = viewModel.state.avatar,
+            onSelectionChange = { avatar ->
+                showAvatarPickerDialog = false
+                viewModel.onAction(RegisterAction.OnAvatarSelectionChange(avatar))
+            },
+            onDismissRequest = { showAvatarPickerDialog = false },
+        )
+    }
 }
 
 @Composable
@@ -91,73 +108,61 @@ private fun RegisterScreen(state: RegisterState, onAction: (RegisterAction) -> U
             )
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize().padding(paddingValues).pagePadding()) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth(),
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize().padding(paddingValues).pagePadding(),
+        ) {
+            PickPictureButton(
+                state = state,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
             ) {
-                PickPictureButton(
-                    state = state,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                ) {
-                    onAction(RegisterAction.OnOpenAvatarPicker)
-                }
-
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.name_hint),
-                        style = SnapdexTheme.typography.smallLabel,
-                    )
-
-                    SnapdexTextField(state = state.name)
-                }
-
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.email_hint),
-                        style = SnapdexTheme.typography.smallLabel,
-                    )
-
-                    SnapdexTextField(state = state.email, keyboardType = KeyboardType.Email)
-                }
-
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.password_hint),
-                        style = SnapdexTheme.typography.smallLabel,
-                    )
-
-                    SnapdexPasswordField(
-                        state = state.password,
-                        isPasswordVisible = state.isPasswordVisible,
-                        onTogglePasswordVisibility = {
-                            onAction(RegisterAction.OnTogglePasswordVisibility)
-                        },
-                    )
-
-                    PasswordRequirements(state = state.passwordValidationState)
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                SnapdexPrimaryButton(
-                    text = stringResource(id = R.string.create_account),
-                    enabled = state.canRegister,
-                    isBusy = state.isRegistering,
-                ) {
-                    onAction(RegisterAction.OnRegisterClick)
-                }
+                onAction(RegisterAction.OnOpenAvatarPicker)
             }
 
-            if (state.showAvatarPicker) {
-                AvatarPickerDialog(
-                    selected = state.avatar,
-                    onSelectionChange = { avatar ->
-                        onAction(RegisterAction.OnAvatarSelectionChange(avatar))
-                    },
-                    onDismissRequest = { onAction(RegisterAction.OnCloseAvatarPicker) },
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(
+                    text = stringResource(id = R.string.name_hint),
+                    style = SnapdexTheme.typography.smallLabel,
                 )
+
+                SnapdexTextField(state = state.name)
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(
+                    text = stringResource(id = R.string.email_hint),
+                    style = SnapdexTheme.typography.smallLabel,
+                )
+
+                SnapdexTextField(state = state.email, keyboardType = KeyboardType.Email)
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(
+                    text = stringResource(id = R.string.password_hint),
+                    style = SnapdexTheme.typography.smallLabel,
+                )
+
+                SnapdexPasswordField(
+                    state = state.password,
+                    isPasswordVisible = state.isPasswordVisible,
+                    onTogglePasswordVisibility = {
+                        onAction(RegisterAction.OnTogglePasswordVisibility)
+                    },
+                )
+
+                PasswordRequirements(state = state.passwordValidationState)
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            SnapdexPrimaryButton(
+                text = stringResource(id = R.string.create_account),
+                enabled = state.canRegister,
+                isBusy = state.isRegistering,
+            ) {
+                onAction(RegisterAction.OnRegisterClick)
             }
         }
     }

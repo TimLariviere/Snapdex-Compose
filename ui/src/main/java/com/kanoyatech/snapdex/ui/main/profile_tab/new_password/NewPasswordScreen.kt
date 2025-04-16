@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,6 +39,8 @@ fun NewPasswordScreenRoot(
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    var showPasswordChangedPopup by remember { mutableStateOf(false) }
+
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             is NewPasswordEvent.Error -> {
@@ -43,6 +49,7 @@ fun NewPasswordScreenRoot(
             }
             NewPasswordEvent.PasswordChanged -> {
                 keyboardController?.hide()
+                showPasswordChangedPopup = true
             }
         }
     }
@@ -52,13 +59,31 @@ fun NewPasswordScreenRoot(
         onAction = { action ->
             when (action) {
                 NewPasswordAction.OnBackClick -> onBackClick()
-                NewPasswordAction.OnPasswordChangedPopupDismiss -> onBackClick()
                 else -> Unit
             }
 
             viewModel.onAction(action)
         },
     )
+
+    if (showPasswordChangedPopup) {
+        SnapdexPopup(
+            title = stringResource(id = R.string.password_changed),
+            description = stringResource(id = R.string.password_changed_description),
+            primaryButton =
+                PopupButton(
+                    text = stringResource(id = R.string.ok),
+                    onClick = {
+                        showPasswordChangedPopup = false
+                        onBackClick()
+                    },
+                ),
+            onDismissRequest = {
+                showPasswordChangedPopup = false
+                onBackClick()
+            },
+        )
+    }
 }
 
 @Composable
@@ -103,19 +128,6 @@ fun NewPasswordScreen(state: NewPasswordState, onAction: (NewPasswordAction) -> 
                 onClick = { onAction(NewPasswordAction.OnSetPasswordClick) },
                 enabled = state.canChangePassword,
                 isBusy = state.isChangingPassword,
-            )
-        }
-
-        if (state.showPasswordChangedPopup) {
-            SnapdexPopup(
-                title = stringResource(id = R.string.password_changed),
-                description = stringResource(id = R.string.password_changed_description),
-                primaryButton =
-                    PopupButton(
-                        text = stringResource(id = R.string.ok),
-                        onClick = { onAction(NewPasswordAction.OnPasswordChangedPopupDismiss) },
-                    ),
-                onDismissRequest = { onAction(NewPasswordAction.OnPasswordChangedPopupDismiss) },
             )
         }
     }

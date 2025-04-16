@@ -5,7 +5,6 @@ import androidx.compose.foundation.text.input.TextFieldState
 data class NewNameState(
     val name: TextFieldState = TextFieldState(),
     val isNameValid: Boolean = false,
-    val showNameChangedPopup: Boolean = false,
     val canChangeName: Boolean = false,
     val isChangingName: Boolean = false,
 )
