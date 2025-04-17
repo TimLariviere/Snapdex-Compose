@@ -25,6 +25,7 @@ internal fun Project.configureBuildTypes(
                         }
                         release {
                             isShrinkResources = true
+                            isMinifyEnabled = true
                             configureReleaseBuildType(commonExtension)
                         }
                     }
@@ -53,8 +54,6 @@ private fun BuildType.configureDebugBuildType() {
 private fun BuildType.configureReleaseBuildType(
     commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
-    isMinifyEnabled = true
-
     proguardFiles(
         commonExtension.getDefaultProguardFile("proguard-android-optimize.txt"),
         "proguard-rules.pro"
