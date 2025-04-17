@@ -175,6 +175,9 @@ class AuthService(
             return TypedResult.Error(LoginError.LoginFailed)
         }
 
+        // Remote doesn't provide email address, so we inject it here
+        val user = remoteUser.copy(value = remoteUser.value.copy(email = email))
+
         val remoteUserPokemons =
             Retry.execute(
                     body = { remoteUserPokemons.getAllForUser(userId) },
@@ -193,7 +196,7 @@ class AuthService(
                     }
                 } ?: emptyList()
 
-        localUsers.upsert(remoteUser)
+        localUsers.upsert(user)
         localUserPokemons.upsertAll(userId, remoteUserPokemons)
 
         return TypedResult.Success(Unit)
