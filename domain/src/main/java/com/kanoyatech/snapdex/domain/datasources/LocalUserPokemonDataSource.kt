@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface LocalUserPokemonDataSource {
     fun observeAllForUser(userId: UserId): Flow<List<Pokemon>>
 
-    suspend fun getAllForUser(userId: String): List<Synced<PokemonId>>
+    suspend fun getAllForUser(userId: UserId): List<Synced<PokemonId>>
 
     suspend fun upsert(userId: UserId, pokemon: Synced<PokemonId>)
 

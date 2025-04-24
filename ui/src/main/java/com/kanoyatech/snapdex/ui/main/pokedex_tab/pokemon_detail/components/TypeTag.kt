@@ -27,7 +27,7 @@ import com.kanoyatech.snapdex.domain.models.PokemonType
 import com.kanoyatech.snapdex.ui.TypeUi
 
 @Composable
-fun TypeTag(elementUi: TypeUi, modifier: Modifier = Modifier) {
+fun TypeTag(typeUi: TypeUi, modifier: Modifier = Modifier) {
     Row(
         modifier =
             modifier
@@ -43,13 +43,13 @@ fun TypeTag(elementUi: TypeUi, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
     ) {
         Icon(
-            imageVector = ImageVector.vectorResource(id = elementUi.image),
+            imageVector = ImageVector.vectorResource(id = typeUi.image),
             contentDescription = null,
-            tint = elementUi.color,
+            tint = typeUi.color,
             modifier = Modifier.height(20.dp).aspectRatio(1f),
         )
 
-        Text(text = stringResource(id = elementUi.name))
+        Text(text = stringResource(id = typeUi.name))
     }
 }
 
@@ -59,7 +59,7 @@ private fun TypeViewPreview() {
     AppTheme {
         SnapdexBackground(modifier = Modifier.height(IntrinsicSize.Max).width(IntrinsicSize.Max)) {
             TypeTag(
-                elementUi = TypeUi.fromType(PokemonType.FIRE),
+                typeUi = TypeUi.fromType(PokemonType.FIRE),
                 modifier = Modifier.padding(16.dp),
             )
         }

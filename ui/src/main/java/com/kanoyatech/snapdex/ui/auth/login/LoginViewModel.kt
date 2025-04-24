@@ -45,7 +45,7 @@ class LoginViewModel(private val authService: AuthService) : ViewModel() {
     }
 
     private fun login() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             state = state.copy(isLoginIn = true)
 
             val result =

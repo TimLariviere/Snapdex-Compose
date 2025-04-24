@@ -113,7 +113,7 @@ private fun ForgotPasswordScreen(
 
             SnapdexPrimaryButton(
                 text = stringResource(id = R.string.send_password_reset_link),
-                enabled = state.canSendEmail && !state.isSendingEmail,
+                enabled = state.canSendEmail,
                 isBusy = state.isSendingEmail,
             ) {
                 onAction(ForgotPasswordAction.OnSendEmailClick)

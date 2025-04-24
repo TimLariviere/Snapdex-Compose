@@ -238,7 +238,6 @@ fun UnknownItem(id: PokemonId, modifier: Modifier = Modifier) {
                 text = "?",
                 textAlign = TextAlign.Center,
                 style = SnapdexTheme.typography.heading1,
-                // outlineColor = SnapdexTheme.colorScheme.onSurfaceVariant,
                 color = Color.Transparent,
                 outlineWidth = 4f,
             )

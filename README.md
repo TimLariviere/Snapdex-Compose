@@ -73,6 +73,8 @@ Snapdex is structured using a modular, scalable architecture inspired by Clean A
 - **Kotlin 2.0**
 - **Jetpack Compose**
 - **Gradle (Kotlin DSL)**
+- **Kotlin Coroutines**
+- **Kotlin Flow**
 - **Koin** for dependency injection
 
 ### Data & Networking

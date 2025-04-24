@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -102,6 +103,7 @@ private fun LoginScreen(state: LoginState, onAction: (LoginAction) -> Unit) {
                 SnapdexTextField(
                     state = state.email,
                     hint = stringResource(id = R.string.email_hint),
+                    keyboardType = KeyboardType.Email
                 )
 
                 SnapdexPasswordField(
@@ -115,6 +117,7 @@ private fun LoginScreen(state: LoginState, onAction: (LoginAction) -> Unit) {
 
                 SnapdexLinkButton(
                     text = stringResource(id = R.string.forgot_password),
+                    enabled = !state.isLoginIn,
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                 ) {
                     onAction(LoginAction.OnForgotPasswordClick)
@@ -138,6 +141,7 @@ private fun LoginScreen(state: LoginState, onAction: (LoginAction) -> Unit) {
 
                 SnapdexLinkButton(
                     text = stringResource(id = R.string.create_an_account),
+                    enabled = !state.isLoginIn,
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                 ) {
                     onAction(LoginAction.OnRegisterClick)
